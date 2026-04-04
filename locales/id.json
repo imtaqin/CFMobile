@@ -39,7 +39,9 @@
     "token_required": "Token API wajib diisi.",
     "fields_required": "Semua kolom wajib diisi.",
     "token_info": "Token API direkomendasikan. Izin terbatas, dapat dibatasi untuk zona dan sumber daya tertentu.",
+    "token_steps": "Cara mendapatkan:\n1. Buka dash.cloudflare.com\n2. Profil Saya \u2192 Token API\n3. Buat Token \u2192 Pilih template\n4. Salin token",
     "global_key_info": "Kunci API Global memiliki akses ke SEMUA sumber daya. Tidak direkomendasikan untuk alasan keamanan.",
+    "global_key_steps": "Cara mendapatkan:\n1. Buka dash.cloudflare.com\n2. Profil Saya \u2192 Token API\n3. Scroll ke Kunci API Global\n4. Klik Lihat \u2192 Masukkan password\n5. Salin kunci",
     "rate_limit_notice": "Batas: 1.200 permintaan per 5 menit per pengguna"
   },
   "dashboard": {
@@ -53,7 +55,10 @@
     "workers": "Workers",
     "analytics": "Analitik",
     "recent_zones": "Zona Terbaru",
-    "no_zones": "Tidak ada zona ditemukan"
+    "firewall": "Firewall",
+    "see_all": "Lihat Semua",
+    "no_zones": "Tidak ada zona ditemukan",
+    "select_zone": "Pilih Zona"
   },
   "zones": {
     "title": "Zona",
@@ -205,6 +210,10 @@
     "rate_limit": "Batas Permintaan",
     "api_version": "Versi API",
     "switch_account": "Ganti Akun",
+    "appearance": "Tampilan",
+    "theme_light": "Terang",
+    "theme_dark": "Gelap",
+    "theme_system": "Sistem",
     "logout": "Keluar",
     "logout_confirm": "Apakah Anda yakin ingin keluar?"
   }

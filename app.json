@@ -2,7 +2,7 @@
   "expo": {
     "name": "CloudFlare Mobile",
     "slug": "cloudflare-mobile",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "cfmobile",
@@ -14,11 +14,13 @@
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#1B1B3A",
-        "foregroundImage": "./assets/images/android-icon-foreground.png"
+        "foregroundImage": "./assets/images/android-icon-foreground.png",
+        "backgroundImage": "./assets/images/android-icon-background.png",
+        "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.cfmobile.app"
+      "package": "id.imtaqin.cfmobile"
     },
     "web": {
       "output": "static",
@@ -42,6 +44,12 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "452dc507-4f36-46d7-891c-18c8dd9e6b7b"
+      }
     }
   }
 }

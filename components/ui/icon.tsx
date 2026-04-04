@@ -20,6 +20,8 @@ export type IconName =
   | 'database' | 'server' | 'monitor' | 'mail' | 'user' | 'users'
   | 'languages' | 'activity' | 'network' | 'lock-open' | 'lock-outline'
   | 'enhanced-encryption'
+  // Theme
+  | 'sun' | 'moon' | 'smartphone'
   // UI
   | 'menu' | 'logout' | 'close' | 'developer-mode' | 'delete-sweep'
   | 'pageview' | 'clock' | 'download' | 'https';
@@ -312,6 +314,21 @@ export function Icon({ name, size = 24, color, strokeWidth = 2 }: IconProps) {
         { x: 2, y: 16, w: 6, h: 6, rx: 1 },
         { x: 9, y: 2, w: 6, h: 6, rx: 1 },
       ]} />;
+
+    // ─── Theme ────────────────────────────────────────────
+    case 'sun':
+      return <LucideIcon size={size} color={c} sw={sw} paths={[
+        'M12 2v2', 'M12 20v2', 'm4.93 4.93 1.41 1.41', 'm17.66 17.66 1.41 1.41',
+        'M2 12h2', 'M20 12h2', 'm6.34 17.66-1.41 1.41', 'm19.07 4.93-1.41 1.41',
+      ]} circles={[{ cx: 12, cy: 12, r: 4 }]} />;
+    case 'moon':
+      return <LucideIcon size={size} color={c} sw={sw} paths={[
+        'M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z',
+      ]} />;
+    case 'smartphone':
+      return <LucideIcon size={size} color={c} sw={sw} paths={[
+        'M12 18h.01',
+      ]} rects={[{ x: 5, y: 2, w: 14, h: 20, rx: 2 }]} />;
 
     // ─── UI ───────────────────────────────────────────────
     case 'menu':

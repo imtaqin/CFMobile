@@ -48,10 +48,10 @@ function createClient(config: AuthConfig): AxiosInstance {
 
   instance.interceptors.request.use((req) => {
     if (config.method === 'token' && config.apiToken) {
-      req.headers.Authorization = `Bearer ${config.apiToken}`;
+      req.headers.Authorization = `Bearer ${config.apiToken.replace(/\s+/g, '')}`;
     } else if (config.method === 'global_key' && config.globalKey && config.email) {
-      req.headers['X-Auth-Email'] = config.email;
-      req.headers['X-Auth-Key'] = config.globalKey;
+      req.headers['X-Auth-Email'] = config.email.replace(/\s+/g, '');
+      req.headers['X-Auth-Key'] = config.globalKey.replace(/\s+/g, '');
     }
     return req;
   });

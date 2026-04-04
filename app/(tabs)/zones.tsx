@@ -14,6 +14,12 @@ import { Spacing, FontSize, Radius } from '@/constants/theme';
 import * as api from '@/services/cloudflare';
 import { Zone } from '@/services/types';
 
+const maskName = (name: string) => {
+  if (!name.includes('@')) return name;
+  const [local, domain] = name.split('@');
+  return local.slice(0, 2) + '\u2022\u2022\u2022\u2022@' + domain;
+};
+
 export default function ZonesScreen() {
   const { t } = useTranslation();
   const { colors } = useTheme();
@@ -67,7 +73,7 @@ export default function ZonesScreen() {
         <View style={{ flex: 1 }}>
           <Text style={[styles.zoneName, { color: colors.text }]}>{item.name}</Text>
           <Text style={[styles.zoneInfo, { color: colors.textSecondary }]}>
-            {item.plan.name} · {item.account.name}
+            {item.plan.name} · {maskName(item.account.name)}
           </Text>
         </View>
         <Badge

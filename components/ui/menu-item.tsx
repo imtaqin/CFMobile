@@ -8,7 +8,7 @@ interface MenuItemProps {
   iconColor?: string;
   title: string;
   subtitle?: string;
-  onPress: () => void;
+  onPress?: () => void;
   trailing?: React.ReactNode;
   danger?: boolean;
 }
@@ -16,10 +16,12 @@ interface MenuItemProps {
 export function MenuItem({ icon, iconColor, title, subtitle, onPress, trailing, danger }: MenuItemProps) {
   const { colors } = useTheme();
 
+  const showArrow = trailing === undefined && !!onPress;
+  const Wrapper = onPress ? TouchableOpacity : View;
+
   return (
-    <TouchableOpacity
-      onPress={onPress}
-      activeOpacity={0.6}
+    <Wrapper
+      {...(onPress ? { onPress, activeOpacity: 0.6 } : {})}
       style={[styles.container, { backgroundColor: colors.surface }]}
     >
       <View style={[styles.iconWrap, { backgroundColor: (iconColor ?? colors.primary) + '15' }]}>
@@ -37,10 +39,9 @@ export function MenuItem({ icon, iconColor, title, subtitle, onPress, trailing, 
           </Text>
         )}
       </View>
-      {trailing ?? (
-        <Icon name="chevron-right" size={20} color={colors.textTertiary} />
-      )}
-    </TouchableOpacity>
+      {trailing !== null && trailing !== undefined && trailing}
+      {showArrow && <Icon name="chevron-right" size={20} color={colors.textTertiary} />}
+    </Wrapper>
   );
 }
 

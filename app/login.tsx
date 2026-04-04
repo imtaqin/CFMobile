@@ -33,13 +33,13 @@ export default function LoginScreen() {
           Alert.alert(t('common.error'), t('auth.token_required'));
           return;
         }
-        await login({ method: 'token', apiToken: apiToken.trim() });
+        await login({ method: 'token', apiToken: apiToken.replace(/\s+/g, '') });
       } else {
         if (!email.trim() || !globalKey.trim()) {
           Alert.alert(t('common.error'), t('auth.fields_required'));
           return;
         }
-        await login({ method: 'global_key', globalKey: globalKey.trim(), email: email.trim() });
+        await login({ method: 'global_key', globalKey: globalKey.replace(/\s+/g, ''), email: email.trim() });
       }
       router.replace('/(tabs)');
     } catch (e: any) {
@@ -143,6 +143,12 @@ export default function LoginScreen() {
               {method === 'token' ? t('auth.token_info') : t('auth.global_key_info')}
             </Text>
           </View>
+
+          <View style={[styles.stepsBox, { backgroundColor: colors.surfaceSecondary }]}>
+            <Text style={[styles.stepsText, { color: colors.textSecondary }]}>
+              {method === 'token' ? t('auth.token_steps') : t('auth.global_key_steps')}
+            </Text>
+          </View>
         </View>
 
         <Text style={[styles.rateLimit, { color: colors.textTertiary }]}>
@@ -214,6 +220,14 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: FontSize.xs,
     lineHeight: 16,
+  },
+  stepsBox: {
+    borderRadius: Radius.md,
+    padding: Spacing.md,
+  },
+  stepsText: {
+    fontSize: FontSize.xs,
+    lineHeight: 18,
   },
   rateLimit: {
     textAlign: 'center',

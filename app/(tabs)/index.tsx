@@ -1,11 +1,11 @@
 import { useEffect, useState, useCallback } from 'react';
 import {
-  StyleSheet, View, Text, ScrollView, RefreshControl, TouchableOpacity, Alert,
+  StyleSheet, View, Text, ScrollView, RefreshControl, TouchableOpacity, Alert, Modal, FlatList,
 } from 'react-native';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/contexts/auth';
-import { Icon } from '@/components/ui/icon';
+import { Icon, IconName } from '@/components/ui/icon';
 import { useTheme } from '@/hooks/use-theme';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -14,14 +14,28 @@ import { Spacing, FontSize, Radius, CF } from '@/constants/theme';
 import * as api from '@/services/cloudflare';
 import { Zone } from '@/services/types';
 
+const maskAccount = (name: string) => {
+  if (!name.includes('@')) return name;
+  const [local, domain] = name.split('@');
+  return local.slice(0, 2) + '\u2022\u2022\u2022\u2022@' + domain;
+};
+
+interface QuickAction {
+  icon: IconName;
+  label: string;
+  color: string;
+  onPress: () => void;
+}
+
 export default function DashboardScreen() {
   const { t } = useTranslation();
-  const { colors } = useTheme();
+  const { colors, isDark } = useTheme();
   const { user } = useAuth();
 
   const [zones, setZones] = useState<Zone[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const [zonePicker, setZonePicker] = useState<{ visible: boolean; target: string | null }>({ visible: false, target: null });
 
   const fetchData = useCallback(async () => {
     try {
@@ -42,7 +56,37 @@ export default function DashboardScreen() {
   const activeZones = zones.filter((z) => z.status === 'active').length;
   const pendingZones = zones.filter((z) => z.status === 'pending').length;
 
+  const openWithZonePicker = (target: string) => {
+    if (zones.length === 0) {
+      Alert.alert(t('common.info'), t('dashboard.no_zones'));
+    } else if (zones.length === 1) {
+      router.push(`/zone/${zones[0].id}/${target}`);
+    } else {
+      setZonePicker({ visible: true, target });
+    }
+  };
+
+  const selectZone = (zoneId: string) => {
+    setZonePicker({ visible: false, target: null });
+    router.push(`/zone/${zoneId}/${zonePicker.target}`);
+  };
+
+  const actions: QuickAction[] = [
+    { icon: 'dns', label: t('dashboard.manage_dns'), color: colors.info, onPress: () => router.push('/(tabs)/zones') },
+    { icon: 'cached', label: t('dashboard.purge_cache'), color: colors.warning, onPress: () => openWithZonePicker('cache') },
+    { icon: 'code', label: t('dashboard.workers'), color: colors.success, onPress: () => router.push('/(tabs)/services') },
+    { icon: 'chart-line', label: t('dashboard.analytics'), color: colors.error, onPress: () => openWithZonePicker('analytics') },
+    { icon: 'shield', label: t('dashboard.firewall'), color: '#8B5CF6', onPress: () => openWithZonePicker('firewall') },
+    { icon: 'lock', label: 'SSL/TLS', color: '#06B6D4', onPress: () => openWithZonePicker('ssl') },
+  ];
+
   if (loading) return <Loading message={t('common.loading')} />;
+
+  const statusDot = (status: string) => (
+    <View style={[styles.statusDot, {
+      backgroundColor: status === 'active' ? colors.success : status === 'pending' ? colors.warning : colors.error,
+    }]} />
+  );
 
   return (
     <ScrollView
@@ -50,108 +94,98 @@ export default function DashboardScreen() {
       contentContainerStyle={styles.content}
       refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colors.primary} />}
     >
-      {/* Welcome Header */}
-      <View style={styles.welcomeRow}>
-        <View style={{ flex: 1 }}>
-          <Text style={[styles.greeting, { color: colors.textSecondary }]}>{t('dashboard.welcome')}</Text>
-          <Text style={[styles.userName, { color: colors.text }]} numberOfLines={1}>
-            {user?.first_name || user?.email?.split('@')[0] || 'User'}
-          </Text>
+      {/* Hero Card */}
+      <View style={[styles.heroCard, { backgroundColor: isDark ? '#1A1F2E' : CF.orange }]}>
+        <View style={styles.heroTop}>
+          <View style={{ flex: 1 }}>
+            <Text style={[styles.heroGreeting, { color: isDark ? colors.textSecondary : 'rgba(255,255,255,0.8)' }]}>
+              {t('dashboard.welcome')}
+            </Text>
+            <Text style={[styles.heroName, { color: isDark ? colors.text : '#FFF' }]} numberOfLines={1}>
+              {user?.first_name || 'User'}
+            </Text>
+          </View>
+          <View style={[styles.avatar, { backgroundColor: isDark ? CF.orange : 'rgba(255,255,255,0.25)' }]}>
+            <Text style={styles.avatarText}>
+              {(user?.first_name?.[0] || user?.email?.[0] || 'U').toUpperCase()}
+            </Text>
+          </View>
         </View>
-        <View style={[styles.avatar, { backgroundColor: CF.orange }]}>
-          <Text style={styles.avatarText}>
-            {(user?.first_name?.[0] || user?.email?.[0] || 'U').toUpperCase()}
-          </Text>
+
+        {/* Stats Row inside hero */}
+        <View style={styles.heroStats}>
+          <View style={styles.heroStatItem}>
+            <Text style={[styles.heroStatNum, { color: isDark ? colors.text : '#FFF' }]}>{zones.length}</Text>
+            <Text style={[styles.heroStatLabel, { color: isDark ? colors.textSecondary : 'rgba(255,255,255,0.75)' }]}>
+              {t('dashboard.total_zones')}
+            </Text>
+          </View>
+          <View style={[styles.heroStatDivider, { backgroundColor: isDark ? colors.border : 'rgba(255,255,255,0.2)' }]} />
+          <View style={styles.heroStatItem}>
+            <Text style={[styles.heroStatNum, { color: isDark ? colors.success : '#FFF' }]}>{activeZones}</Text>
+            <Text style={[styles.heroStatLabel, { color: isDark ? colors.textSecondary : 'rgba(255,255,255,0.75)' }]}>
+              {t('dashboard.active')}
+            </Text>
+          </View>
+          <View style={[styles.heroStatDivider, { backgroundColor: isDark ? colors.border : 'rgba(255,255,255,0.2)' }]} />
+          <View style={styles.heroStatItem}>
+            <Text style={[styles.heroStatNum, { color: isDark ? colors.warning : '#FFF' }]}>{pendingZones}</Text>
+            <Text style={[styles.heroStatLabel, { color: isDark ? colors.textSecondary : 'rgba(255,255,255,0.75)' }]}>
+              {t('dashboard.pending')}
+            </Text>
+          </View>
         </View>
       </View>
 
-      {/* Stats Cards */}
-      <View style={styles.statsRow}>
-        <Card style={styles.statCard}>
-          <Icon name="globe" size={24} color={colors.primary} />
-          <Text style={[styles.statNumber, { color: colors.text }]}>{zones.length}</Text>
-          <Text style={[styles.statLabel, { color: colors.textSecondary }]}>{t('dashboard.total_zones')}</Text>
-        </Card>
-        <Card style={styles.statCard}>
-          <Icon name="check-circle" size={24} color={colors.success} />
-          <Text style={[styles.statNumber, { color: colors.text }]}>{activeZones}</Text>
-          <Text style={[styles.statLabel, { color: colors.textSecondary }]}>{t('dashboard.active')}</Text>
-        </Card>
-        <Card style={styles.statCard}>
-          <Icon name="clock" size={24} color={colors.warning} />
-          <Text style={[styles.statNumber, { color: colors.text }]}>{pendingZones}</Text>
-          <Text style={[styles.statLabel, { color: colors.textSecondary }]}>{t('dashboard.pending')}</Text>
-        </Card>
-      </View>
-
-      {/* Quick Actions */}
-      <Text style={[styles.sectionTitle, { color: colors.text }]}>{t('dashboard.quick_actions')}</Text>
-      <View style={styles.actionsRow}>
-        <TouchableOpacity
-          style={[styles.actionBtn, { backgroundColor: colors.surface }]}
-          onPress={() => router.push('/(tabs)/zones')}
-        >
-          <View style={[styles.actionIcon, { backgroundColor: colors.info + '15' }]}>
-            <Icon name="dns" size={22} color={colors.info} />
-          </View>
-          <Text style={[styles.actionText, { color: colors.text }]}>{t('dashboard.manage_dns')}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.actionBtn, { backgroundColor: colors.surface }]}
-          onPress={() => {
-            if (zones[0]) router.push(`/zone/${zones[0].id}/cache`);
-            else Alert.alert(t('common.info'), t('dashboard.no_zones'));
-          }}
-        >
-          <View style={[styles.actionIcon, { backgroundColor: colors.warning + '15' }]}>
-            <Icon name="cached" size={22} color={colors.warning} />
-          </View>
-          <Text style={[styles.actionText, { color: colors.text }]}>{t('dashboard.purge_cache')}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.actionBtn, { backgroundColor: colors.surface }]}
-          onPress={() => router.push('/(tabs)/services')}
-        >
-          <View style={[styles.actionIcon, { backgroundColor: colors.success + '15' }]}>
-            <Icon name="code" size={22} color={colors.success} />
-          </View>
-          <Text style={[styles.actionText, { color: colors.text }]}>{t('dashboard.workers')}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.actionBtn, { backgroundColor: colors.surface }]}
-          onPress={() => {
-            if (zones[0]) router.push(`/zone/${zones[0].id}/analytics`);
-            else Alert.alert(t('common.info'), t('dashboard.no_zones'));
-          }}
-        >
-          <View style={[styles.actionIcon, { backgroundColor: colors.error + '15' }]}>
-            <Icon name="chart-line" size={22} color={colors.error} />
-          </View>
-          <Text style={[styles.actionText, { color: colors.text }]}>{t('dashboard.analytics')}</Text>
-        </TouchableOpacity>
-      </View>
+      {/* Quick Actions — horizontal scroll */}
+      <Text style={[styles.sectionTitle, { color: colors.text, paddingHorizontal: Spacing.lg }]}>{t('dashboard.quick_actions')}</Text>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.actionsScroll} contentContainerStyle={styles.actionsContent}>
+        {actions.map((action, i) => (
+          <TouchableOpacity
+            key={i}
+            style={[styles.actionChip, { backgroundColor: colors.surface }]}
+            onPress={action.onPress}
+            activeOpacity={0.7}
+          >
+            <View style={[styles.actionChipIcon, { backgroundColor: action.color + '15' }]}>
+              <Icon name={action.icon} size={18} color={action.color} />
+            </View>
+            <Text style={[styles.actionChipText, { color: colors.text }]} numberOfLines={1}>{action.label}</Text>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
 
       {/* Recent Zones */}
-      <Text style={[styles.sectionTitle, { color: colors.text }]}>{t('dashboard.recent_zones')}</Text>
-      {zones.slice(0, 5).map((zone) => (
-        <Card
+      <View style={styles.sectionHeader}>
+        <Text style={[styles.sectionTitle, { color: colors.text, marginBottom: 0 }]}>{t('dashboard.recent_zones')}</Text>
+        {zones.length > 5 && (
+          <TouchableOpacity onPress={() => router.push('/(tabs)/zones')}>
+            <Text style={[styles.seeAll, { color: colors.primary }]}>{t('dashboard.see_all')}</Text>
+          </TouchableOpacity>
+        )}
+      </View>
+
+      {zones.slice(0, 5).map((zone, idx) => (
+        <TouchableOpacity
           key={zone.id}
+          style={[styles.zoneItem, { backgroundColor: colors.surface, borderColor: colors.borderLight }]}
           onPress={() => router.push(`/zone/${zone.id}`)}
-          style={styles.zoneCard}
+          activeOpacity={0.7}
         >
-          <View style={styles.zoneRow}>
-            <View style={{ flex: 1 }}>
-              <Text style={[styles.zoneName, { color: colors.text }]}>{zone.name}</Text>
-              <Text style={[styles.zonePlan, { color: colors.textSecondary }]}>
-                {zone.plan.name} {zone.account.name ? `· ${zone.account.name}` : ''}
-              </Text>
-            </View>
-            <Badge
-              label={zone.status}
-              variant={zone.status === 'active' ? 'success' : zone.status === 'pending' ? 'warning' : 'default'}
-            />
+          <View style={[styles.zoneIconWrap, { backgroundColor: colors.primary + '12' }]}>
+            <Icon name="globe" size={20} color={colors.primary} />
           </View>
-        </Card>
+          <View style={styles.zoneInfo}>
+            <View style={styles.zoneNameRow}>
+              {statusDot(zone.status)}
+              <Text style={[styles.zoneName, { color: colors.text }]} numberOfLines={1}>{zone.name}</Text>
+            </View>
+            <Text style={[styles.zoneMeta, { color: colors.textTertiary }]} numberOfLines={1}>
+              {zone.plan.name}{zone.account.name ? ` \u00B7 ${maskAccount(zone.account.name)}` : ''}
+            </Text>
+          </View>
+          <Icon name="chevron-right" size={18} color={colors.textTertiary} />
+        </TouchableOpacity>
       ))}
 
       {zones.length === 0 && (
@@ -162,71 +196,175 @@ export default function DashboardScreen() {
           </Text>
         </Card>
       )}
+
+      {/* Zone Picker Modal */}
+      <Modal
+        visible={zonePicker.visible}
+        transparent
+        animationType="slide"
+        onRequestClose={() => setZonePicker({ visible: false, target: null })}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={[styles.modalContent, { backgroundColor: colors.surface }]}>
+            <View style={styles.modalHeader}>
+              <Text style={[styles.modalTitle, { color: colors.text }]}>{t('dashboard.select_zone')}</Text>
+              <TouchableOpacity onPress={() => setZonePicker({ visible: false, target: null })}>
+                <Icon name="close" size={24} color={colors.textSecondary} />
+              </TouchableOpacity>
+            </View>
+            <FlatList
+              data={zones}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  style={[styles.zonePickerItem, { borderBottomColor: colors.border }]}
+                  onPress={() => selectZone(item.id)}
+                >
+                  <View style={{ flex: 1 }}>
+                    <Text style={[styles.zoneName, { color: colors.text }]}>{item.name}</Text>
+                    <Text style={[styles.zoneMeta, { color: colors.textSecondary }]}>{item.plan.name}</Text>
+                  </View>
+                  <Badge
+                    label={item.status}
+                    variant={item.status === 'active' ? 'success' : item.status === 'pending' ? 'warning' : 'default'}
+                  />
+                </TouchableOpacity>
+              )}
+            />
+          </View>
+        </View>
+      </Modal>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  content: { padding: Spacing.lg, paddingBottom: Spacing.xxxl },
-  welcomeRow: {
+  content: { paddingBottom: Spacing.xxxl },
+
+  // Hero
+  heroCard: {
+    margin: Spacing.lg,
+    borderRadius: Radius.xl,
+    padding: Spacing.xl,
+  },
+  heroTop: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: Spacing.lg,
+    marginBottom: Spacing.xl,
   },
-  greeting: { fontSize: FontSize.md },
-  userName: { fontSize: FontSize.xxl, fontWeight: '700' },
+  heroGreeting: { fontSize: FontSize.sm },
+  heroName: { fontSize: FontSize.xxl, fontWeight: '700', marginTop: 2 },
   avatar: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
+    width: 48,
+    height: 48,
+    borderRadius: 24,
     alignItems: 'center',
     justifyContent: 'center',
   },
   avatarText: { color: '#FFF', fontSize: FontSize.lg, fontWeight: '700' },
-  statsRow: {
+  heroStats: {
     flexDirection: 'row',
-    gap: Spacing.sm,
-    marginBottom: Spacing.xxl,
+    alignItems: 'center',
   },
-  statCard: {
+  heroStatItem: {
     flex: 1,
-    alignItems: 'center' as const,
-    gap: Spacing.xs,
-    paddingVertical: Spacing.lg,
+    alignItems: 'center',
   },
-  statNumber: { fontSize: FontSize.xxl, fontWeight: '700' },
-  statLabel: { fontSize: FontSize.xs },
+  heroStatNum: { fontSize: FontSize.xxl, fontWeight: '800' },
+  heroStatLabel: { fontSize: FontSize.xs, marginTop: 2 },
+  heroStatDivider: { width: 1, height: 32 },
+
+  // Section
   sectionTitle: {
     fontSize: FontSize.lg,
     fontWeight: '700',
     marginBottom: Spacing.md,
   },
-  actionsRow: {
+  sectionHeader: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: Spacing.sm,
-    marginBottom: Spacing.xxl,
-  },
-  actionBtn: {
-    width: '48%' as any,
-    flexGrow: 1,
-    flexBasis: '45%',
-    borderRadius: Radius.lg,
-    padding: Spacing.md,
+    justifyContent: 'space-between',
     alignItems: 'center',
+    paddingHorizontal: Spacing.lg,
+    marginBottom: Spacing.md,
+  },
+  seeAll: { fontSize: FontSize.sm, fontWeight: '600' },
+
+  // Quick Actions
+  actionsScroll: { marginBottom: Spacing.xl },
+  actionsContent: { paddingHorizontal: Spacing.lg, gap: Spacing.sm },
+  actionChip: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: Spacing.sm,
+    paddingHorizontal: Spacing.md,
+    borderRadius: Radius.full,
     gap: Spacing.sm,
   },
-  actionIcon: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
+  actionChipIcon: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  actionText: { fontSize: FontSize.sm, fontWeight: '500', textAlign: 'center' },
-  zoneCard: { marginBottom: Spacing.sm },
-  zoneRow: { flexDirection: 'row', alignItems: 'center' },
+  actionChipText: { fontSize: FontSize.sm, fontWeight: '500' },
+
+  // Zone Items
+  zoneItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginHorizontal: Spacing.lg,
+    marginBottom: Spacing.sm,
+    padding: Spacing.md,
+    borderRadius: Radius.lg,
+    gap: Spacing.md,
+  },
+  zoneIconWrap: {
+    width: 40,
+    height: 40,
+    borderRadius: Radius.md,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  zoneInfo: { flex: 1 },
+  zoneNameRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing.sm,
+  },
+  statusDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+  },
   zoneName: { fontSize: FontSize.md, fontWeight: '600' },
-  zonePlan: { fontSize: FontSize.sm, marginTop: 2 },
+  zoneMeta: { fontSize: FontSize.xs, marginTop: 2, marginLeft: 16 },
+
+  // Modal
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'flex-end',
+  },
+  modalContent: {
+    borderTopLeftRadius: Radius.xl,
+    borderTopRightRadius: Radius.xl,
+    maxHeight: '60%',
+    paddingBottom: Spacing.xxxl,
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: Spacing.lg,
+  },
+  modalTitle: { fontSize: FontSize.lg, fontWeight: '700' },
+  zonePickerItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: Spacing.lg,
+    paddingVertical: Spacing.md,
+    borderBottomWidth: 1,
+  },
 });

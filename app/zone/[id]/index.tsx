@@ -15,6 +15,12 @@ import { Spacing, FontSize } from '@/constants/theme';
 import * as api from '@/services/cloudflare';
 import { Zone } from '@/services/types';
 
+const maskName = (name: string) => {
+  if (!name.includes('@')) return name;
+  const [local, domain] = name.split('@');
+  return local.slice(0, 2) + '\u2022\u2022\u2022\u2022@' + domain;
+};
+
 export default function ZoneDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { t } = useTranslation();
@@ -76,7 +82,7 @@ export default function ZoneDetailScreen() {
             </View>
             <View style={styles.metaItem}>
               <Text style={[styles.metaLabel, { color: colors.textTertiary }]}>{t('zone.account')}</Text>
-              <Text style={[styles.metaValue, { color: colors.text }]}>{zone.account.name}</Text>
+              <Text style={[styles.metaValue, { color: colors.text }]}>{maskName(zone.account.name)}</Text>
             </View>
             <View style={styles.metaItem}>
               <Text style={[styles.metaLabel, { color: colors.textTertiary }]}>{t('zone.type')}</Text>

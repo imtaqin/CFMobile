@@ -145,12 +145,12 @@ export default function ServicesScreen() {
       contentContainerStyle={styles.content}
       refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colors.primary} />}
     >
-      {/* Account ID Debug */}
+      {/* Account ID */}
       <Card compact style={{ marginBottom: Spacing.sm }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: Spacing.sm }}>
           <Icon name="user" size={18} color={colors.textTertiary} />
           <Text style={{ color: colors.textTertiary, fontSize: FontSize.xs, fontFamily: 'monospace', flex: 1 }} numberOfLines={1}>
-            Account: {accountId}
+            Account: {accountId ? accountId.slice(0, 4) + '\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022' : '-'}
           </Text>
         </View>
       </Card>

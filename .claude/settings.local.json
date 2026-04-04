@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__uiautomator2__connect_device",
+      "mcp__uiautomator2__screenshot",
+      "mcp__uiautomator2__shell_command",
+      "Bash(adb pull:*)",
+      "mcp__uiautomator2__click_element",
+      "mcp__uiautomator2__press_key",
+      "mcp__uiautomator2__click",
+      "Bash(rm -f 03_zone_detail.png 04_dns_records.png)",
+      "Bash(mv 05_services.png 03_services.png)",
+      "Bash(mv 06_settings.png 04_settings.png)",
+      "Bash(mv 07_settings_light.png 05_settings_light.png)",
+      "Bash(mv 08_dashboard_light.png 06_dashboard_light.png)",
+      "Bash(npx expo:*)",
+      "Bash(claude mcp:*)",
+      "mcp__image-gen__generate_image"
+    ]
+  }
+}

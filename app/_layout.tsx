@@ -1,11 +1,11 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { DarkTheme, DefaultTheme, ThemeProvider as NavThemeProvider } from '@react-navigation/native';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 import '@/i18n';
 
-import { useColorScheme } from '@/hooks/use-color-scheme';
 import { AuthProvider } from '@/contexts/auth';
+import { ThemeProvider, useThemeContext } from '@/contexts/theme';
 import { CF } from '@/constants/theme';
 
 const CFLightTheme = {
@@ -30,23 +30,31 @@ const CFDarkTheme = {
   },
 };
 
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
+function AppContent() {
+  const { resolved } = useThemeContext();
 
   return (
-    <AuthProvider>
-      <ThemeProvider value={colorScheme === 'dark' ? CFDarkTheme : CFLightTheme}>
-        <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="onboarding" options={{ animation: 'fade' }} />
-          <Stack.Screen name="login" options={{ animation: 'fade' }} />
-          <Stack.Screen name="(tabs)" />
-          <Stack.Screen
-            name="zone/[id]"
-            options={{ animation: 'slide_from_right' }}
-          />
-        </Stack>
-        <StatusBar style="auto" />
-      </ThemeProvider>
-    </AuthProvider>
+    <NavThemeProvider value={resolved === 'dark' ? CFDarkTheme : CFLightTheme}>
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="onboarding" options={{ animation: 'fade' }} />
+        <Stack.Screen name="login" options={{ animation: 'fade' }} />
+        <Stack.Screen name="(tabs)" />
+        <Stack.Screen
+          name="zone/[id]"
+          options={{ animation: 'slide_from_right' }}
+        />
+      </Stack>
+      <StatusBar style={resolved === 'dark' ? 'light' : 'dark'} />
+    </NavThemeProvider>
+  );
+}
+
+export default function RootLayout() {
+  return (
+    <ThemeProvider>
+      <AuthProvider>
+        <AppContent />
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
