@@ -134,7 +134,7 @@ Your credentials are stored locally on your device using **Android Keystore** (h
 ### Install
 
 ```bash
-git clone https://github.com/fdciabdul/CFMobile.git
+git clone https://github.com/imtaqin/CFMobile.git
 cd CFMobile
 npm install
 ```
