@@ -5,6 +5,9 @@ import {
 } from 'react-native';
 import { useLocalSearchParams, router, Stack } from 'expo-router';
 import { useTranslation } from 'react-i18next';
+import * as DocumentPicker from 'expo-document-picker';
+import * as Sharing from 'expo-sharing';
+import * as FileSystem from 'expo-file-system/legacy';
 import { Icon } from '@/components/ui/icon';
 import { useTheme } from '@/hooks/use-theme';
 import { Loading } from '@/components/ui/loading';
@@ -25,6 +28,7 @@ export default function DNSScreen() {
   const [refreshing, setRefreshing] = useState(false);
   const [filter, setFilter] = useState<string | undefined>();
   const [search, setSearch] = useState('');
+  const [porting, setPorting] = useState(false);
 
   const fetchRecords = useCallback(async () => {
     try {
@@ -57,6 +61,56 @@ export default function DNSScreen() {
               setRecords((prev) => prev.filter((r) => r.id !== record.id));
             } catch {
               Alert.alert(t('common.error'), t('dns.delete_error'));
+            }
+          },
+        },
+      ]
+    );
+  };
+
+  const handleExport = async () => {
+    if (porting) return;
+    setPorting(true);
+    try {
+      const bind = await api.exportDnsRecords(id);
+      const fileUri = `${FileSystem.cacheDirectory}dns-records-${Date.now()}.txt`;
+      await FileSystem.writeAsStringAsync(fileUri, bind);
+      if (await Sharing.isAvailableAsync()) {
+        await Sharing.shareAsync(fileUri, { mimeType: 'text/plain', dialogTitle: t('dns.export_title') });
+      }
+    } catch (e: any) {
+      Alert.alert(t('common.error'), e?.response?.data?.errors?.[0]?.message ?? e?.message ?? t('dns.export_error'));
+    } finally {
+      setPorting(false);
+    }
+  };
+
+  const handleImport = async () => {
+    if (porting) return;
+    const picked = await DocumentPicker.getDocumentAsync({ type: ['text/plain', 'application/octet-stream', '*/*'], copyToCacheDirectory: true });
+    if (picked.canceled || !picked.assets?.[0]) return;
+    const asset = picked.assets[0];
+    Alert.alert(
+      t('dns.import_title'),
+      t('dns.import_confirm', { file: asset.name }),
+      [
+        { text: t('common.cancel'), style: 'cancel' },
+        {
+          text: t('dns.import_action'),
+          onPress: async () => {
+            setPorting(true);
+            try {
+              const res = await api.importDnsRecords(id, asset.uri);
+              Alert.alert(
+                t('common.success'),
+                t('dns.import_result', { added: res.result?.recs_added ?? 0, parsed: res.result?.total_records_parsed ?? 0 })
+              );
+              setLoading(true);
+              fetchRecords();
+            } catch (e: any) {
+              Alert.alert(t('common.error'), e?.response?.data?.errors?.[0]?.message ?? e?.message ?? t('dns.import_error'));
+            } finally {
+              setPorting(false);
             }
           },
         },
@@ -241,6 +295,20 @@ export default function DNSScreen() {
             <Text style={[styles.actionBarText, { color: colors.primary }]}>{t('dns.templates')}</Text>
           </TouchableOpacity>
           <TouchableOpacity
+            style={[styles.actionBarIconBtn, { backgroundColor: colors.info + '15' }]}
+            onPress={handleImport}
+            activeOpacity={0.7}
+          >
+            <Icon name="cloud-upload" size={18} color={colors.info} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.actionBarIconBtn, { backgroundColor: colors.success + '15' }]}
+            onPress={handleExport}
+            activeOpacity={0.7}
+          >
+            <Icon name="download" size={18} color={colors.success} />
+          </TouchableOpacity>
+          <TouchableOpacity
             style={[styles.actionBarPrimary, { backgroundColor: colors.primary }]}
             onPress={() => router.push({ pathname: `/zone/[id]/dns-edit` as any, params: { id } })}
             activeOpacity={0.85}
@@ -379,6 +447,13 @@ const styles = StyleSheet.create({
     borderRadius: Radius.md,
   },
   actionBarText: { fontSize: FontSize.sm, fontWeight: '700' },
+  actionBarIconBtn: {
+    width: 48,
+    height: 48,
+    borderRadius: Radius.md,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   actionBarPrimary: {
     flex: 1,
     flexDirection: 'row',

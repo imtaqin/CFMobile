@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from 'react';
 import {
   StyleSheet, View, Text, ScrollView, RefreshControl, Alert, TouchableOpacity,
 } from 'react-native';
+import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/contexts/auth';
 import { Icon, IconName } from '@/components/ui/icon';
@@ -11,7 +12,6 @@ import { Badge } from '@/components/ui/badge';
 import { Loading } from '@/components/ui/loading';
 import { EmptyState } from '@/components/ui/empty-state';
 import { SectionHeader } from '@/components/ui/section-header';
-import { AdBanner } from '@/components/ui/ad-banner';
 import { Spacing, FontSize, Radius } from '@/constants/theme';
 import * as api from '@/services/cloudflare';
 import { WorkerScript, KVNamespace, R2Bucket, PagesProject } from '@/services/types';
@@ -147,8 +147,6 @@ export default function ServicesScreen() {
       contentContainerStyle={styles.content}
       refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colors.primary} />}
     >
-      <AdBanner />
-
       {/* Account chip */}
       <View style={[styles.accountChip, { backgroundColor: colors.surface, borderColor: colors.borderLight }]}>
         <View style={[styles.accountIcon, { backgroundColor: colors.primary + '15' }]}>
@@ -180,18 +178,25 @@ export default function ServicesScreen() {
             <EmptyState icon="code" title={t('services.no_workers')} />
           ) : (
             workers.map((w) => (
-              <Card key={w.id} style={styles.itemCard}>
-                <View style={styles.itemRow}>
-                  <Icon name="code" size={20} color={colors.info} />
-                  <View style={{ flex: 1 }}>
-                    <Text style={[styles.itemName, { color: colors.text }]}>{w.id}</Text>
-                    <Text style={[styles.itemMeta, { color: colors.textSecondary }]}>
-                      {t('services.modified')}: {new Date(w.modified_on).toLocaleDateString()}
-                    </Text>
+              <TouchableOpacity
+                key={w.id}
+                activeOpacity={0.7}
+                onPress={() => router.push({ pathname: '/worker-tail/[script]' as any, params: { script: w.id } })}
+              >
+                <Card style={styles.itemCard}>
+                  <View style={styles.itemRow}>
+                    <Icon name="code" size={20} color={colors.info} />
+                    <View style={{ flex: 1 }}>
+                      <Text style={[styles.itemName, { color: colors.text }]}>{w.id}</Text>
+                      <Text style={[styles.itemMeta, { color: colors.textSecondary }]}>
+                        {t('services.modified')}: {new Date(w.modified_on).toLocaleDateString()} · {t('services.tap_tail')}
+                      </Text>
+                    </View>
+                    <Badge label={w.usage_model || 'bundled'} />
+                    <Icon name="chevron-right" size={16} color={colors.textTertiary} />
                   </View>
-                  <Badge label={w.usage_model || 'bundled'} />
-                </View>
-              </Card>
+                </Card>
+              </TouchableOpacity>
             ))
           )}
         </>
@@ -231,18 +236,25 @@ export default function ServicesScreen() {
             <EmptyState icon="cloud-upload" title={t('services.no_r2')} />
           ) : (
             r2Buckets.map((b) => (
-              <Card key={b.name} style={styles.itemCard}>
-                <View style={styles.itemRow}>
-                  <Icon name="cloud-upload" size={20} color={colors.success} />
-                  <View style={{ flex: 1 }}>
-                    <Text style={[styles.itemName, { color: colors.text }]}>{b.name}</Text>
-                    <Text style={[styles.itemMeta, { color: colors.textSecondary }]}>
-                      {t('services.created')}: {new Date(b.creation_date).toLocaleDateString()}
-                    </Text>
+              <TouchableOpacity
+                key={b.name}
+                activeOpacity={0.7}
+                onPress={() => router.push({ pathname: '/r2/[bucket]' as any, params: { bucket: b.name } })}
+              >
+                <Card style={styles.itemCard}>
+                  <View style={styles.itemRow}>
+                    <Icon name="cloud-upload" size={20} color={colors.success} />
+                    <View style={{ flex: 1 }}>
+                      <Text style={[styles.itemName, { color: colors.text }]}>{b.name}</Text>
+                      <Text style={[styles.itemMeta, { color: colors.textSecondary }]}>
+                        {t('services.created')}: {new Date(b.creation_date).toLocaleDateString()} · {t('services.tap_browse')}
+                      </Text>
+                    </View>
+                    {b.location && <Badge label={b.location} />}
+                    <Icon name="chevron-right" size={16} color={colors.textTertiary} />
                   </View>
-                  {b.location && <Badge label={b.location} />}
-                </View>
-              </Card>
+                </Card>
+              </TouchableOpacity>
             ))
           )}
         </>

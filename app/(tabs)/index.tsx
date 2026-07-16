@@ -10,10 +10,7 @@ import { useTheme } from '@/hooks/use-theme';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Loading } from '@/components/ui/loading';
-import { AdBanner } from '@/components/ui/ad-banner';
-import { NativeAdCard } from '@/components/ui/native-ad';
 import { UpdateBanner } from '@/components/ui/update-banner';
-import { useInterstitial } from '@/hooks/use-interstitial';
 import { Spacing, FontSize, Radius, CF } from '@/constants/theme';
 import * as api from '@/services/cloudflare';
 import { Zone } from '@/services/types';
@@ -35,7 +32,6 @@ export default function DashboardScreen() {
   const { t } = useTranslation();
   const { colors, isDark } = useTheme();
   const { user, permissions } = useAuth();
-  const { maybeShow } = useInterstitial();
 
   const [zones, setZones] = useState<Zone[]>([]);
   const [loading, setLoading] = useState(true);
@@ -145,8 +141,6 @@ export default function DashboardScreen() {
         </View>
       </View>
 
-      <AdBanner />
-
       {/* Quick Actions — horizontal scroll */}
       <Text style={[styles.sectionTitle, { color: colors.text, paddingHorizontal: Spacing.lg }]}>{t('dashboard.quick_actions')}</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.actionsScroll} contentContainerStyle={styles.actionsContent}>
@@ -179,7 +173,7 @@ export default function DashboardScreen() {
         <View key={zone.id}>
           <TouchableOpacity
             style={[styles.zoneItem, { backgroundColor: colors.surface, borderColor: colors.borderLight }]}
-            onPress={() => { maybeShow(); router.push(`/zone/${zone.id}`); }}
+            onPress={() => router.push(`/zone/${zone.id}`)}
             activeOpacity={0.7}
           >
             <View style={[styles.zoneIconWrap, { backgroundColor: colors.primary + '12' }]}>
@@ -196,7 +190,6 @@ export default function DashboardScreen() {
             </View>
             <Icon name="chevron-right" size={18} color={colors.textTertiary} />
           </TouchableOpacity>
-          {idx === 2 && <NativeAdCard />}
         </View>
       ))}
 

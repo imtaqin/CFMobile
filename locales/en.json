@@ -57,7 +57,8 @@
     "feature_fast": "Lightning fast",
     "feature_private": "No tracking",
     "unofficial_notice": "CloudFlare Mobile is not affiliated with Cloudflare, Inc.",
-    "rate_limit_notice": "Rate limit: 1,200 requests per 5 minutes per user"
+    "rate_limit_notice": "Rate limit: 1,200 requests per 5 minutes per user",
+    "privacy_notice": "We never save your credentials — they stay encrypted on your device and are only sent to the Cloudflare API. This app is open source. Tap to view the code on GitHub."
   },
   "dashboard": {
     "welcome": "Welcome back,",
@@ -105,7 +106,13 @@
     "analytics": "Analytics",
     "analytics_desc": "Traffic, bandwidth, threats overview",
     "page_rules": "Page Rules",
-    "page_rules_desc": "URL-based settings and redirects"
+    "page_rules_desc": "URL-based settings and redirects",
+    "email_routing": "Email Routing",
+    "email_routing_desc": "Forward email for your domain",
+    "under_attack": "Under Attack Mode",
+    "under_attack_desc": "Maximum protection — challenge every visitor",
+    "under_attack_active": "ACTIVE — all visitors are being challenged",
+    "under_attack_error": "Failed to change security level."
   },
   "dns": {
     "title": "DNS Records",
@@ -132,7 +139,14 @@
     "proxied_desc": "Traffic routed through Cloudflare CDN & protection",
     "create": "Create Record",
     "update": "Update Record",
-    "templates": "Templates"
+    "templates": "Templates",
+    "export_title": "Export DNS records",
+    "export_error": "Failed to export records.",
+    "import_title": "Import DNS Records",
+    "import_confirm": "Import records from {{file}}? Records are added in BIND zone file format.",
+    "import_action": "Import",
+    "import_result": "{{added}} of {{parsed}} parsed records added.",
+    "import_error": "Failed to import records."
   },
   "ssl": {
     "title": "SSL/TLS",
@@ -194,7 +208,11 @@
     "pageviews": "Page Views",
     "unique_visitors": "Unique Visitors",
     "no_data": "No Analytics Data",
-    "no_data_message": "No traffic data available for this time period."
+    "no_data_message": "No traffic data available for this time period.",
+    "requests_over_time": "Requests Over Time",
+    "bandwidth_over_time": "Bandwidth Over Time",
+    "threats_over_time": "Threats Over Time",
+    "visitors_over_time": "Unique Visitors Over Time"
   },
   "pagerules": {
     "title": "Page Rules",
@@ -213,7 +231,62 @@
     "modified": "Modified",
     "created": "Created",
     "no_account": "No Account Found",
-    "no_account_message": "Could not retrieve your Cloudflare account. Check your API token permissions."
+    "no_account_message": "Could not retrieve your Cloudflare account. Check your API token permissions.",
+    "tap_tail": "Tap for live logs",
+    "tap_browse": "Tap to browse files"
+  },
+  "email": {
+    "title": "Email Routing",
+    "enabled": "Enabled",
+    "enable": "Enable Email Routing",
+    "not_enabled": "Email Routing is off",
+    "not_enabled_message": "Enable Email Routing to forward email sent to your domain to any inbox.",
+    "rules": "Routing Rules",
+    "no_rules": "No Routing Rules",
+    "no_rules_message": "Add a rule to forward a custom address.",
+    "add_rule": "Add Routing Rule",
+    "custom_address": "Custom address",
+    "forward_to": "Forward to",
+    "no_verified_hint": "No verified destination addresses. Add and verify one first.",
+    "delete_rule": "Delete Rule",
+    "delete_rule_confirm": "Delete the rule for {{name}}?",
+    "catch_all": "Catch-All",
+    "catch_all_desc": "All other addresses",
+    "no_destination": "No verified destination address available.",
+    "action_drop": "Drop",
+    "destinations": "Destination Addresses",
+    "no_destinations": "No Destination Addresses",
+    "no_destinations_message": "Add an email address to forward to.",
+    "add_destination": "Add Destination Address",
+    "destination_email": "Email address",
+    "verified": "Verified",
+    "pending": "Pending",
+    "verify_sent": "Verification email sent to {{email}}."
+  },
+  "audit": {
+    "title": "Audit Logs",
+    "no_logs": "No Audit Logs",
+    "no_logs_message": "No account activity found, or your token lacks audit log permission."
+  },
+  "r2": {
+    "delete_title": "Delete Object",
+    "delete_confirm": "Permanently delete {{key}}?",
+    "no_objects": "Empty Bucket",
+    "no_objects_message": "Upload a file with the + button."
+  },
+  "tail": {
+    "state_connecting": "Connecting...",
+    "state_live": "Live",
+    "state_error": "Error",
+    "state_closed": "Disconnected",
+    "waiting": "Waiting for events",
+    "waiting_message": "Requests to this Worker will appear here in real time."
+  },
+  "lock": {
+    "title": "CloudFlare Mobile locked",
+    "subtitle": "Authenticate to open the app",
+    "prompt": "Unlock CloudFlare Mobile",
+    "unlock": "Unlock"
   },
   "settings": {
     "title": "Settings",
@@ -230,6 +303,12 @@
     "theme_light": "Light",
     "theme_dark": "Dark",
     "theme_system": "System",
+    "security": "Security",
+    "biometric_lock": "Biometric Lock",
+    "biometric_lock_sub": "Require fingerprint/face to open the app",
+    "biometric_unavailable": "No biometrics enrolled on this device",
+    "audit_logs": "Audit Logs",
+    "audit_logs_sub": "Account activity history",
     "about_section": "About",
     "about_app": "About CloudFlare Mobile",
     "about_app_sub": "App info, developer, license",

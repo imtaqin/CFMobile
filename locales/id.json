@@ -57,7 +57,8 @@
     "feature_fast": "Sangat cepat",
     "feature_private": "Tanpa tracking",
     "unofficial_notice": "CloudFlare Mobile tidak berafiliasi dengan Cloudflare, Inc.",
-    "rate_limit_notice": "Batas: 1.200 permintaan per 5 menit per pengguna"
+    "rate_limit_notice": "Batas: 1.200 permintaan per 5 menit per pengguna",
+    "privacy_notice": "Kami tidak pernah menyimpan kredensial Anda — tersimpan terenkripsi di perangkat Anda dan hanya dikirim ke API Cloudflare. Aplikasi ini open source. Tap untuk lihat kode di GitHub."
   },
   "dashboard": {
     "welcome": "Selamat datang,",
@@ -105,7 +106,13 @@
     "analytics": "Analitik",
     "analytics_desc": "Lalu lintas, bandwidth, ikhtisar ancaman",
     "page_rules": "Aturan Halaman",
-    "page_rules_desc": "Pengaturan dan pengalihan berbasis URL"
+    "page_rules_desc": "Pengaturan dan pengalihan berbasis URL",
+    "email_routing": "Email Routing",
+    "email_routing_desc": "Teruskan email untuk domain Anda",
+    "under_attack": "Mode Under Attack",
+    "under_attack_desc": "Perlindungan maksimum — tantang setiap pengunjung",
+    "under_attack_active": "AKTIF — semua pengunjung sedang ditantang",
+    "under_attack_error": "Gagal mengubah tingkat keamanan."
   },
   "dns": {
     "title": "Catatan DNS",
@@ -132,7 +139,14 @@
     "proxied_desc": "Lalu lintas dialihkan melalui CDN & perlindungan Cloudflare",
     "create": "Buat Catatan",
     "update": "Perbarui Catatan",
-    "templates": "Template"
+    "templates": "Template",
+    "export_title": "Ekspor catatan DNS",
+    "export_error": "Gagal mengekspor catatan.",
+    "import_title": "Impor Catatan DNS",
+    "import_confirm": "Impor catatan dari {{file}}? Catatan ditambahkan dalam format file zona BIND.",
+    "import_action": "Impor",
+    "import_result": "{{added}} dari {{parsed}} catatan yang diproses berhasil ditambahkan.",
+    "import_error": "Gagal mengimpor catatan."
   },
   "ssl": {
     "title": "SSL/TLS",
@@ -194,7 +208,11 @@
     "pageviews": "Tampilan Halaman",
     "unique_visitors": "Pengunjung Unik",
     "no_data": "Tidak Ada Data Analitik",
-    "no_data_message": "Tidak ada data lalu lintas untuk periode waktu ini."
+    "no_data_message": "Tidak ada data lalu lintas untuk periode waktu ini.",
+    "requests_over_time": "Permintaan dari Waktu ke Waktu",
+    "bandwidth_over_time": "Bandwidth dari Waktu ke Waktu",
+    "threats_over_time": "Ancaman dari Waktu ke Waktu",
+    "visitors_over_time": "Pengunjung Unik dari Waktu ke Waktu"
   },
   "pagerules": {
     "title": "Aturan Halaman",
@@ -213,7 +231,62 @@
     "modified": "Diubah",
     "created": "Dibuat",
     "no_account": "Akun Tidak Ditemukan",
-    "no_account_message": "Tidak dapat mengambil akun Cloudflare Anda. Periksa izin token API Anda."
+    "no_account_message": "Tidak dapat mengambil akun Cloudflare Anda. Periksa izin token API Anda.",
+    "tap_tail": "Tap untuk log langsung",
+    "tap_browse": "Tap untuk jelajahi file"
+  },
+  "email": {
+    "title": "Email Routing",
+    "enabled": "Aktif",
+    "enable": "Aktifkan Email Routing",
+    "not_enabled": "Email Routing mati",
+    "not_enabled_message": "Aktifkan Email Routing untuk meneruskan email yang dikirim ke domain Anda ke kotak masuk mana pun.",
+    "rules": "Aturan Routing",
+    "no_rules": "Tidak Ada Aturan Routing",
+    "no_rules_message": "Tambahkan aturan untuk meneruskan alamat kustom.",
+    "add_rule": "Tambah Aturan Routing",
+    "custom_address": "Alamat kustom",
+    "forward_to": "Teruskan ke",
+    "no_verified_hint": "Tidak ada alamat tujuan terverifikasi. Tambahkan dan verifikasi terlebih dahulu.",
+    "delete_rule": "Hapus Aturan",
+    "delete_rule_confirm": "Hapus aturan untuk {{name}}?",
+    "catch_all": "Catch-All",
+    "catch_all_desc": "Semua alamat lainnya",
+    "no_destination": "Tidak ada alamat tujuan terverifikasi.",
+    "action_drop": "Buang",
+    "destinations": "Alamat Tujuan",
+    "no_destinations": "Tidak Ada Alamat Tujuan",
+    "no_destinations_message": "Tambahkan alamat email untuk penerusan.",
+    "add_destination": "Tambah Alamat Tujuan",
+    "destination_email": "Alamat email",
+    "verified": "Terverifikasi",
+    "pending": "Menunggu",
+    "verify_sent": "Email verifikasi dikirim ke {{email}}."
+  },
+  "audit": {
+    "title": "Log Audit",
+    "no_logs": "Tidak Ada Log Audit",
+    "no_logs_message": "Tidak ada aktivitas akun, atau token Anda tidak memiliki izin log audit."
+  },
+  "r2": {
+    "delete_title": "Hapus Objek",
+    "delete_confirm": "Hapus permanen {{key}}?",
+    "no_objects": "Bucket Kosong",
+    "no_objects_message": "Unggah file dengan tombol +."
+  },
+  "tail": {
+    "state_connecting": "Menghubungkan...",
+    "state_live": "Langsung",
+    "state_error": "Error",
+    "state_closed": "Terputus",
+    "waiting": "Menunggu event",
+    "waiting_message": "Permintaan ke Worker ini akan muncul di sini secara real time."
+  },
+  "lock": {
+    "title": "CloudFlare Mobile terkunci",
+    "subtitle": "Autentikasi untuk membuka aplikasi",
+    "prompt": "Buka kunci CloudFlare Mobile",
+    "unlock": "Buka Kunci"
   },
   "settings": {
     "title": "Pengaturan",
@@ -230,6 +303,12 @@
     "theme_light": "Terang",
     "theme_dark": "Gelap",
     "theme_system": "Sistem",
+    "security": "Keamanan",
+    "biometric_lock": "Kunci Biometrik",
+    "biometric_lock_sub": "Wajibkan sidik jari/wajah untuk membuka aplikasi",
+    "biometric_unavailable": "Tidak ada biometrik terdaftar di perangkat ini",
+    "audit_logs": "Log Audit",
+    "audit_logs_sub": "Riwayat aktivitas akun",
     "about_section": "Tentang",
     "about_app": "Tentang CloudFlare Mobile",
     "about_app_sub": "Info aplikasi, developer, lisensi",

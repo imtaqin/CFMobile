@@ -520,6 +520,198 @@ export async function updateDNSSEC(zoneId: string, status: 'active' | 'disabled'
   return patch(`/zones/${zoneId}/dnssec`, { status });
 }
 
+// ─── Security Level / Under Attack ──────────────────────────────────────────
+
+export async function getSecurityLevel(zoneId: string): Promise<CFResponse<ZoneSetting>> {
+  return get(`/zones/${zoneId}/settings/security_level`);
+}
+
+export async function updateSecurityLevel(zoneId: string, value: string): Promise<CFResponse<ZoneSetting>> {
+  return patch(`/zones/${zoneId}/settings/security_level`, { value });
+}
+
+// ─── DNS Import (BIND zone file) ─────────────────────────────────────────────
+
+export async function importDnsRecords(zoneId: string, fileUri: string, proxied = false): Promise<CFResponse<{ recs_added: number; total_records_parsed: number }>> {
+  const form = new FormData();
+  form.append('file', {
+    uri: fileUri,
+    name: 'records.txt',
+    type: 'text/plain',
+  } as any);
+  form.append('proxied', String(proxied));
+  const res = await getClient().post<CFResponse<{ recs_added: number; total_records_parsed: number }>>(
+    `/zones/${zoneId}/dns_records/import`,
+    form,
+    { headers: { 'Content-Type': 'multipart/form-data' } }
+  );
+  return res.data;
+}
+
+// ─── Email Routing ───────────────────────────────────────────────────────────
+
+export interface EmailRoutingSettings {
+  id: string;
+  enabled: boolean;
+  name: string;
+  status: string;
+}
+
+export interface EmailRoutingRule {
+  id: string;
+  name: string;
+  enabled: boolean;
+  priority: number;
+  matchers: { type: string; field?: string; value?: string }[];
+  actions: { type: string; value?: string[] }[];
+}
+
+export interface DestinationAddress {
+  id: string;
+  email: string;
+  verified: string | null;
+}
+
+export async function getEmailRoutingSettings(zoneId: string): Promise<CFResponse<EmailRoutingSettings>> {
+  return get(`/zones/${zoneId}/email/routing`);
+}
+
+export async function enableEmailRouting(zoneId: string): Promise<CFResponse<EmailRoutingSettings>> {
+  return post(`/zones/${zoneId}/email/routing/enable`);
+}
+
+export async function getEmailRoutingRules(zoneId: string, page = 1): Promise<CFResponse<EmailRoutingRule[]>> {
+  return get(`/zones/${zoneId}/email/routing/rules`, { page, per_page: 50 });
+}
+
+export async function createEmailRoutingRule(zoneId: string, rule: {
+  name: string;
+  enabled: boolean;
+  matchers: { type: string; field?: string; value?: string }[];
+  actions: { type: string; value?: string[] }[];
+}): Promise<CFResponse<EmailRoutingRule>> {
+  return post(`/zones/${zoneId}/email/routing/rules`, rule);
+}
+
+export async function updateEmailRoutingRule(zoneId: string, ruleId: string, rule: Partial<EmailRoutingRule>): Promise<CFResponse<EmailRoutingRule>> {
+  return put(`/zones/${zoneId}/email/routing/rules/${ruleId}`, rule);
+}
+
+export async function deleteEmailRoutingRule(zoneId: string, ruleId: string): Promise<CFResponse<{ id: string }>> {
+  return del(`/zones/${zoneId}/email/routing/rules/${ruleId}`);
+}
+
+export async function getEmailCatchAll(zoneId: string): Promise<CFResponse<EmailRoutingRule>> {
+  return get(`/zones/${zoneId}/email/routing/rules/catch_all`);
+}
+
+export async function updateEmailCatchAll(zoneId: string, rule: {
+  enabled: boolean;
+  matchers: { type: string }[];
+  actions: { type: string; value?: string[] }[];
+}): Promise<CFResponse<EmailRoutingRule>> {
+  return put(`/zones/${zoneId}/email/routing/rules/catch_all`, rule);
+}
+
+export async function getDestinationAddresses(accountId: string, page = 1): Promise<CFResponse<DestinationAddress[]>> {
+  return get(`/accounts/${accountId}/email/routing/addresses`, { page, per_page: 50 });
+}
+
+export async function createDestinationAddress(accountId: string, email: string): Promise<CFResponse<DestinationAddress>> {
+  return post(`/accounts/${accountId}/email/routing/addresses`, { email });
+}
+
+export async function deleteDestinationAddress(accountId: string, addressId: string): Promise<CFResponse<{ id: string }>> {
+  return del(`/accounts/${accountId}/email/routing/addresses/${addressId}`);
+}
+
+// ─── Audit Logs ──────────────────────────────────────────────────────────────
+
+export interface AuditLogEntry {
+  id: string;
+  action: { type: string; result: boolean };
+  actor: { email: string; type: string; ip: string };
+  resource: { type: string; id: string };
+  when: string;
+  newValue?: string;
+  oldValue?: string;
+  metadata?: Record<string, any>;
+}
+
+export async function getAuditLogs(accountId: string, page = 1): Promise<CFResponse<AuditLogEntry[]>> {
+  return get(`/accounts/${accountId}/audit_logs`, { page, per_page: 50, direction: 'desc' });
+}
+
+// ─── R2 Objects ──────────────────────────────────────────────────────────────
+
+export interface R2Object {
+  key: string;
+  size: number;
+  etag: string;
+  last_modified: string;
+  http_metadata?: { contentType?: string };
+}
+
+export async function getR2Objects(accountId: string, bucket: string, cursor?: string, prefix?: string): Promise<{
+  objects: R2Object[];
+  cursor?: string;
+  isTruncated: boolean;
+}> {
+  const params: Record<string, any> = { per_page: 100 };
+  if (cursor) params.cursor = cursor;
+  if (prefix) params.prefix = prefix;
+  const res = await getClient().get(`/accounts/${accountId}/r2/buckets/${bucket}/objects`, { params });
+  return {
+    objects: res.data?.result ?? [],
+    cursor: res.data?.result_info?.cursor,
+    isTruncated: res.data?.result_info?.is_truncated ?? false,
+  };
+}
+
+export async function deleteR2Object(accountId: string, bucket: string, key: string): Promise<void> {
+  await getClient().delete(`/accounts/${accountId}/r2/buckets/${bucket}/objects/${encodeURIComponent(key)}`);
+}
+
+export async function uploadR2Object(accountId: string, bucket: string, key: string, body: Blob | string, contentType: string): Promise<void> {
+  await getClient().put(`/accounts/${accountId}/r2/buckets/${bucket}/objects/${encodeURIComponent(key)}`, body, {
+    headers: { 'Content-Type': contentType },
+  });
+}
+
+export function getR2ObjectUrl(accountId: string, bucket: string, key: string): string {
+  return `${API_BASE}/accounts/${accountId}/r2/buckets/${bucket}/objects/${encodeURIComponent(key)}`;
+}
+
+export function getAuthHeaders(): Record<string, string> {
+  if (!authConfig) return {};
+  if (authConfig.method === 'token' && authConfig.apiToken) {
+    return { Authorization: `Bearer ${authConfig.apiToken.replace(/\s+/g, '')}` };
+  }
+  if (authConfig.method === 'global_key' && authConfig.globalKey && authConfig.email) {
+    return {
+      'X-Auth-Email': authConfig.email.replace(/\s+/g, ''),
+      'X-Auth-Key': authConfig.globalKey.replace(/\s+/g, ''),
+    };
+  }
+  return {};
+}
+
+// ─── Workers Tail (live logs) ────────────────────────────────────────────────
+
+export interface WorkerTail {
+  id: string;
+  url: string;
+  expires_at: string;
+}
+
+export async function createWorkerTail(accountId: string, scriptName: string): Promise<CFResponse<WorkerTail>> {
+  return post(`/accounts/${accountId}/workers/scripts/${scriptName}/tails`);
+}
+
+export async function deleteWorkerTail(accountId: string, scriptName: string, tailId: string): Promise<CFResponse<any>> {
+  return del(`/accounts/${accountId}/workers/scripts/${scriptName}/tails/${tailId}`);
+}
+
 // ─── Argo ────────────────────────────────────────────────────────────────────
 
 export async function getArgoSmartRouting(zoneId: string): Promise<CFResponse<ZoneSetting>> {

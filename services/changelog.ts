@@ -7,6 +7,22 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '1.3.0',
+    date: '2026-07-16',
+    highlights: [
+      'All ads removed — the app is now completely ad-free',
+      'Privacy notice on login: credentials never leave your device, app is open source',
+      'Analytics charts: requests, bandwidth, threats & visitors over time',
+      'Biometric app lock (fingerprint / face)',
+      'Under Attack Mode quick toggle in zone detail',
+      'DNS bulk import & export (BIND zone files)',
+      'Email Routing: rules, catch-all, destination addresses',
+      'Audit log viewer in settings',
+      'R2 file browser: list, upload, download, delete objects',
+      'Workers live logs (tail) — tap any worker',
+    ],
+  },
+  {
     version: '1.2.2',
     date: '2026-05-01',
     highlights: [

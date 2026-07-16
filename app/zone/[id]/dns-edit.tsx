@@ -16,7 +16,7 @@ import { DNSRecordType, DNSRecordInput } from '@/services/types';
 
 const RECORD_TYPES: DNSRecordType[] = ['A', 'AAAA', 'CNAME', 'MX', 'TXT', 'NS', 'SRV', 'CAA'];
 
-const TYPE_DESCRIPTIONS: Record<DNSRecordType, string> = {
+const TYPE_DESCRIPTIONS: Partial<Record<DNSRecordType, string>> = {
   A: 'IPv4 address',
   AAAA: 'IPv6 address',
   CNAME: 'Alias to another domain',
@@ -27,7 +27,7 @@ const TYPE_DESCRIPTIONS: Record<DNSRecordType, string> = {
   CAA: 'Certificate authority authorization',
 };
 
-const TYPE_COLORS: Record<DNSRecordType, string> = {
+const TYPE_COLORS: Partial<Record<DNSRecordType, string>> = {
   A: '#3B82F6', AAAA: '#6366F1', CNAME: '#8B5CF6', MX: '#EC4899',
   TXT: '#F59E0B', NS: '#10B981', SRV: '#EF4444', CAA: '#14B8A6',
 };

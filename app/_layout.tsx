@@ -6,6 +6,7 @@ import '@/i18n';
 
 import { AuthProvider } from '@/contexts/auth';
 import { ThemeProvider, useThemeContext } from '@/contexts/theme';
+import { LockGate } from '@/components/ui/lock-gate';
 import { CF } from '@/constants/theme';
 
 const CFLightTheme = {
@@ -35,17 +36,22 @@ function AppContent() {
 
   return (
     <NavThemeProvider value={resolved === 'dark' ? CFDarkTheme : CFLightTheme}>
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="onboarding" options={{ animation: 'fade' }} />
-        <Stack.Screen name="login" options={{ animation: 'fade' }} />
-        <Stack.Screen name="(tabs)" />
-        <Stack.Screen
-          name="zone/[id]"
-          options={{ animation: 'slide_from_right' }}
-        />
-        <Stack.Screen name="about" options={{ animation: 'slide_from_right' }} />
-        <Stack.Screen name="changelog" options={{ animation: 'slide_from_right' }} />
-      </Stack>
+      <LockGate>
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="onboarding" options={{ animation: 'fade' }} />
+          <Stack.Screen name="login" options={{ animation: 'fade' }} />
+          <Stack.Screen name="(tabs)" />
+          <Stack.Screen
+            name="zone/[id]"
+            options={{ animation: 'slide_from_right' }}
+          />
+          <Stack.Screen name="about" options={{ animation: 'slide_from_right' }} />
+          <Stack.Screen name="changelog" options={{ animation: 'slide_from_right' }} />
+          <Stack.Screen name="audit-logs" options={{ animation: 'slide_from_right', headerShown: true }} />
+          <Stack.Screen name="r2/[bucket]" options={{ animation: 'slide_from_right', headerShown: true }} />
+          <Stack.Screen name="worker-tail/[script]" options={{ animation: 'slide_from_right', headerShown: true }} />
+        </Stack>
+      </LockGate>
       <StatusBar style={resolved === 'dark' ? 'light' : 'dark'} />
     </NavThemeProvider>
   );

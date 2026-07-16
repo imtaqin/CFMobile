@@ -60,18 +60,7 @@ The app communicates with the official Cloudflare API for all account management
 https://api.cloudflare.com/client/v4
 ```
 
-### Google AdMob
-
-The app uses Google AdMob to display banner advertisements. AdMob may collect certain data as described in [Google's Privacy Policy](https://policies.google.com/privacy). This may include:
-
-- Advertising ID
-- Approximate location (IP-based)
-- Device information (model, OS version)
-- Ad interaction data
-
-You can opt out of personalized ads in your device settings under **Google > Ads > Opt out of Ads Personalization**.
-
-No other third-party services, analytics platforms, or tracking SDKs are used beyond the above.
+No other third-party services, advertising networks, analytics platforms, or tracking SDKs are used. The app is completely ad-free.
 
 ---
 

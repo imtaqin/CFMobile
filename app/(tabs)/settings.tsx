@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { StyleSheet, View, Text, ScrollView, Alert, TouchableOpacity, Linking } from 'react-native';
+import { useEffect, useState } from 'react';
+import { StyleSheet, View, Text, ScrollView, Alert, TouchableOpacity, Linking, Switch } from 'react-native';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/contexts/auth';
@@ -11,7 +11,7 @@ import { MenuItem } from '@/components/ui/menu-item';
 import { SectionHeader } from '@/components/ui/section-header';
 import { Badge } from '@/components/ui/badge';
 import { Spacing, FontSize, Radius, CF } from '@/constants/theme';
-import { AdBanner } from '@/components/ui/ad-banner';
+import * as appLock from '@/services/app-lock';
 import i18n from '@/i18n';
 
 const LANGUAGES = [
@@ -34,6 +34,25 @@ export default function SettingsScreen() {
   const currentLang = i18n.language;
   const [langOpen, setLangOpen] = useState(false);
   const [showSensitive, setShowSensitive] = useState(false);
+  const [lockAvailable, setLockAvailable] = useState(false);
+  const [lockEnabled, setLockEnabledState] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      setLockAvailable(await appLock.isLockAvailable());
+      setLockEnabledState(await appLock.isLockEnabled());
+    })();
+  }, []);
+
+  const toggleLock = async (value: boolean) => {
+    if (value) {
+      // Verify biometric works before enabling
+      const ok = await appLock.authenticate(t('lock.prompt'));
+      if (!ok) return;
+    }
+    setLockEnabledState(value);
+    await appLock.setLockEnabled(value);
+  };
 
   const dots = '\u2022\u2022\u2022\u2022';
   const maskEmail = (email: string) => {
@@ -75,8 +94,6 @@ export default function SettingsScreen() {
       style={[styles.container, { backgroundColor: colors.background }]}
       contentContainerStyle={styles.content}
     >
-      <AdBanner />
-
       {/* Account Card */}
       <Card style={styles.accountCard}>
         <View style={[styles.avatar, { backgroundColor: CF.orange }]}>
@@ -198,6 +215,34 @@ export default function SettingsScreen() {
         })}
       </Card>
 
+      {/* Security */}
+      <SectionHeader title={t('settings.security')} />
+      <Card style={{ padding: 0, overflow: 'hidden' as const }}>
+        <MenuItem
+          icon="enhanced-encryption"
+          iconColor={colors.success}
+          title={t('settings.biometric_lock')}
+          subtitle={lockAvailable ? t('settings.biometric_lock_sub') : t('settings.biometric_unavailable')}
+          trailing={
+            <Switch
+              value={lockEnabled}
+              onValueChange={toggleLock}
+              disabled={!lockAvailable}
+              trackColor={{ true: colors.success, false: colors.border }}
+              thumbColor="#FFF"
+            />
+          }
+        />
+        <View style={[styles.divider, { backgroundColor: colors.borderLight }]} />
+        <MenuItem
+          icon="activity"
+          iconColor={colors.info}
+          title={t('settings.audit_logs')}
+          subtitle={t('settings.audit_logs_sub')}
+          onPress={() => router.push('/audit-logs' as any)}
+        />
+      </Card>
+
       {/* Account Info */}
       <SectionHeader
         title={t('settings.account_info')}
@@ -286,8 +331,6 @@ export default function SettingsScreen() {
           trailing={null}
         />
       </Card>
-
-      <AdBanner />
 
       <Text style={[styles.version, { color: colors.textTertiary }]}>
         CloudFlare Mobile v{require('@/services/version-check').CURRENT_VERSION}

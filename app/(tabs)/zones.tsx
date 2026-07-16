@@ -10,9 +10,6 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Loading } from '@/components/ui/loading';
 import { EmptyState } from '@/components/ui/empty-state';
-import { AdBanner } from '@/components/ui/ad-banner';
-import { NativeAdCard } from '@/components/ui/native-ad';
-import { useInterstitial } from '@/hooks/use-interstitial';
 import { Spacing, FontSize, Radius } from '@/constants/theme';
 import * as api from '@/services/cloudflare';
 import { Zone } from '@/services/types';
@@ -25,7 +22,6 @@ const maskName = (name: string) => {
 
 export default function ZonesScreen() {
   const { t } = useTranslation();
-  const { maybeShow } = useInterstitial();
   const { colors } = useTheme();
 
   const [zones, setZones] = useState<Zone[]>([]);
@@ -71,11 +67,9 @@ export default function ZonesScreen() {
   const renderZone = ({ item, index }: { item: Zone; index: number }) => {
     const statusColor = item.status === 'active' ? colors.success : item.status === 'pending' ? colors.warning : colors.error;
     return (
-      <>
-      {index > 0 && index % 5 === 0 && <NativeAdCard />}
       <TouchableOpacity
         activeOpacity={0.7}
-        onPress={() => { maybeShow(); router.push(`/zone/${item.id}`); }}
+        onPress={() => router.push(`/zone/${item.id}`)}
       >
         <View style={[styles.zoneCard, { backgroundColor: colors.surface, borderColor: colors.borderLight }]}>
           <View style={[styles.zoneIconWrap, { backgroundColor: colors.primary + '15' }]}>
@@ -112,7 +106,6 @@ export default function ZonesScreen() {
           <Icon name="chevron-right" size={18} color={colors.textTertiary} />
         </View>
       </TouchableOpacity>
-      </>
     );
   };
 
@@ -151,7 +144,6 @@ export default function ZonesScreen() {
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colors.primary} />}
         onEndReached={loadMore}
         onEndReachedThreshold={0.3}
-        ListHeaderComponent={<AdBanner />}
         ListEmptyComponent={
           <EmptyState
             icon="cloud-off"

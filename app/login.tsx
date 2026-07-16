@@ -255,6 +255,18 @@ export default function LoginScreen() {
             </View>
           </View>
 
+          {/* Privacy / Open Source Notice */}
+          <TouchableOpacity
+            style={[styles.privacyNotice, { backgroundColor: colors.success + '10', borderColor: colors.success + '30' }]}
+            onPress={() => Linking.openURL('https://github.com/imtaqin/CFMobile')}
+            activeOpacity={0.7}
+          >
+            <Icon name="shield" size={16} color={colors.success} />
+            <Text style={[styles.privacyNoticeText, { color: colors.textSecondary }]}>
+              {t('auth.privacy_notice')}
+            </Text>
+          </TouchableOpacity>
+
           <Text style={[styles.footerText, { color: colors.textTertiary }]}>
             {t('auth.unofficial_notice')}
           </Text>
@@ -464,6 +476,21 @@ const styles = StyleSheet.create({
   helpCardSub: {
     fontSize: 11,
     lineHeight: 14,
+  },
+
+  privacyNotice: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing.sm,
+    marginHorizontal: Spacing.lg,
+    padding: Spacing.md,
+    borderRadius: Radius.md,
+    borderWidth: 1,
+  },
+  privacyNoticeText: {
+    flex: 1,
+    fontSize: FontSize.xs,
+    lineHeight: 16,
   },
 
   footerText: {

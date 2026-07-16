@@ -7,8 +7,6 @@ import { useTranslation } from 'react-i18next';
 import { Icon, IconName } from '@/components/ui/icon';
 import { useTheme } from '@/hooks/use-theme';
 import { Loading } from '@/components/ui/loading';
-import { AdBanner } from '@/components/ui/ad-banner';
-import { useInterstitial } from '@/hooks/use-interstitial';
 import { useAuth } from '@/contexts/auth';
 import { Spacing, FontSize, Radius } from '@/constants/theme';
 import * as api from '@/services/cloudflare';
@@ -24,7 +22,6 @@ export default function ZoneDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { t } = useTranslation();
   const { colors, isDark } = useTheme();
-  const { maybeShow } = useInterstitial();
   const { permissions } = useAuth();
   const perms = permissions ?? { dns: true, ssl: true, firewall: true, cache: true, analytics: true, pageRules: true } as any;
 
@@ -32,12 +29,22 @@ export default function ZoneDetailScreen() {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [devMode, setDevMode] = useState(false);
+  const [underAttack, setUnderAttack] = useState(false);
+  const [prevSecLevel, setPrevSecLevel] = useState('medium');
 
   const fetchZone = useCallback(async () => {
     try {
       const res = await api.getZone(id);
       setZone(res.result);
       setDevMode((res.result?.development_mode ?? 0) > 0);
+      try {
+        const sec = await api.getSecurityLevel(id);
+        const level = String(sec.result?.value ?? 'medium');
+        setUnderAttack(level === 'under_attack');
+        if (level !== 'under_attack') setPrevSecLevel(level);
+      } catch {
+        // token may lack settings read — hide toggle failure silently
+      }
     } catch {
       Alert.alert(t('common.error'), t('zone.fetch_error'));
     } finally {
@@ -58,6 +65,16 @@ export default function ZoneDetailScreen() {
     }
   };
 
+  const toggleUnderAttack = async (value: boolean) => {
+    setUnderAttack(value);
+    try {
+      await api.updateSecurityLevel(id, value ? 'under_attack' : prevSecLevel);
+    } catch {
+      setUnderAttack(!value);
+      Alert.alert(t('common.error'), t('zone.under_attack_error'));
+    }
+  };
+
   if (loading || !zone) return <Loading />;
 
   const statusColor = zone.status === 'active' ? colors.success : zone.status === 'pending' ? colors.warning : colors.error;
@@ -69,6 +86,7 @@ export default function ZoneDetailScreen() {
     perms.cache && { icon: 'cached' as const, color: colors.warning, title: t('zone.cache'), sub: t('zone.cache_desc'), path: 'cache' },
     perms.analytics && { icon: 'chart-line' as const, color: '#9333EA', title: t('zone.analytics'), sub: t('zone.analytics_desc'), path: 'analytics' },
     perms.pageRules && { icon: 'rule' as const, color: colors.primary, title: t('zone.page_rules'), sub: t('zone.page_rules_desc'), path: 'pagerules' },
+    { icon: 'mail' as const, color: '#EC4899', title: t('zone.email_routing'), sub: t('zone.email_routing_desc'), path: 'email' },
   ].filter(Boolean) as any;
 
   return (
@@ -143,6 +161,29 @@ export default function ZoneDetailScreen() {
           />
         </TouchableOpacity>
 
+        {/* Under Attack Mode toggle */}
+        <TouchableOpacity
+          style={[styles.devCard, { backgroundColor: underAttack ? colors.error + '10' : colors.surface, borderColor: underAttack ? colors.error : colors.borderLight }]}
+          onPress={() => toggleUnderAttack(!underAttack)}
+          activeOpacity={0.8}
+        >
+          <View style={[styles.devIconWrap, { backgroundColor: colors.error + '15' }]}>
+            <Icon name="shield" size={20} color={colors.error} />
+          </View>
+          <View style={{ flex: 1 }}>
+            <Text style={[styles.devTitle, { color: underAttack ? colors.error : colors.text }]}>{t('zone.under_attack')}</Text>
+            <Text style={[styles.devDesc, { color: colors.textSecondary }]}>
+              {underAttack ? t('zone.under_attack_active') : t('zone.under_attack_desc')}
+            </Text>
+          </View>
+          <Switch
+            value={underAttack}
+            onValueChange={toggleUnderAttack}
+            trackColor={{ true: colors.error, false: colors.border }}
+            thumbColor="#FFF"
+          />
+        </TouchableOpacity>
+
         {/* Management tile grid */}
         <Text style={[styles.sectionLabel, { color: colors.textSecondary }]}>{t('zone.management')}</Text>
         <View style={styles.tileGrid}>
@@ -150,7 +191,7 @@ export default function ZoneDetailScreen() {
             <TouchableOpacity
               key={tile.path}
               style={[styles.tile, { backgroundColor: colors.surface, borderColor: colors.borderLight }]}
-              onPress={() => { maybeShow(); router.push(`/zone/${id}/${tile.path}`); }}
+              onPress={() => router.push(`/zone/${id}/${tile.path}`)}
               activeOpacity={0.7}
             >
               <View style={[styles.tileIcon, { backgroundColor: tile.color + (isDark ? '20' : '12') }]}>
@@ -163,8 +204,6 @@ export default function ZoneDetailScreen() {
             </TouchableOpacity>
           ))}
         </View>
-
-        <AdBanner />
 
         {/* Nameservers */}
         <Text style={[styles.sectionLabel, { color: colors.textSecondary }]}>{t('zone.nameservers')}</Text>

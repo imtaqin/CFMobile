@@ -21,10 +21,16 @@ A full-featured Cloudflare management app built with React Native & Expo. Manage
 - **SSL/TLS** — Configure encryption mode, certificates, HTTPS settings
 - **Firewall** — Manage firewall rules, IP access rules, rate limiting
 - **Cache** — Purge cache, toggle development mode, cache settings
-- **Analytics** — Traffic, bandwidth, and threats overview
+- **Analytics** — Traffic, bandwidth, and threats overview with time-series charts
+- **Under Attack Mode** — One-tap security level toggle per zone
+- **DNS Import/Export** — Bulk import & export records as BIND zone files
+- **Email Routing** — Manage routing rules, catch-all, destination addresses
+- **Audit Logs** — Account activity history viewer
+- **Biometric Lock** — Fingerprint/face lock before the app opens
 - **Workers** — View and manage Cloudflare Workers scripts
 - **KV Namespaces** — Browse KV storage namespaces
-- **R2 Buckets** — Manage R2 object storage
+- **R2 Buckets** — Manage R2 object storage with a built-in file browser (upload / download / delete)
+- **Workers Live Logs** — Real-time tail of Worker requests and console output
 - **Pages** — View Cloudflare Pages projects and deployments
 - **Page Rules** — Configure page rules per zone
 - **Multi-Account** — Switch between multiple Cloudflare accounts
@@ -171,8 +177,9 @@ cd android && ./gradlew bundleRelease
 - **Expo Secure Store** — Encrypted credential storage
 - **Axios** — HTTP client for Cloudflare API v4
 - **i18next** — Internationalization (EN / ID)
-- **react-native-svg** — Custom icon system (Lucide-based)
-- **react-native-google-mobile-ads** — Google AdMob banner ads
+- **react-native-svg** — Custom icon system (Lucide-based) & analytics charts
+- **expo-local-authentication** — Biometric app lock
+- **expo-document-picker / expo-sharing / expo-file-system** — DNS import/export & R2 file browser
 
 ## Project Structure
 
