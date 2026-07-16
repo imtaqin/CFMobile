@@ -4,15 +4,23 @@ A full-featured Cloudflare management app built with React Native & Expo. Manage
 
 > **Disclaimer:** This is an unofficial app and is not affiliated with, endorsed by, or officially connected to Cloudflare, Inc.
 
+## Download
+
+<a href="https://play.google.com/store/apps/details?id=id.imtaqin.cfmobile">
+  <img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" height="80" />
+</a>
+
+Available on [Google Play](https://play.google.com/store/apps/details?id=id.imtaqin.cfmobile), or grab the APK from [GitHub Releases](https://github.com/imtaqin/CFMobile/releases/latest).
+
 ## Screenshots
 
 | Dashboard | Zones | Services |
 |:---------:|:-----:|:--------:|
 | ![Dashboard](screenshots/01_dashboard.png) | ![Zones](screenshots/02_zones.png) | ![Services](screenshots/03_services.png) |
 
-| Settings (Dark) | Settings (Light) | Dashboard (Light) |
-|:---------------:|:----------------:|:-----------------:|
-| ![Settings Dark](screenshots/04_settings.png) | ![Settings Light](screenshots/05_settings_light.png) | ![Dashboard Light](screenshots/06_dashboard_light.png) |
+| Settings (Dark) | Settings (Light) |
+|:---------------:|:----------------:|
+| ![Settings Dark](screenshots/04_settings.png) | ![Settings Light](screenshots/05_settings_light.png) |
 
 ## Features
 
