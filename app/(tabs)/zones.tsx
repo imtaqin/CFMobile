@@ -10,6 +10,9 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Loading } from '@/components/ui/loading';
 import { EmptyState } from '@/components/ui/empty-state';
+import { AdBanner } from '@/components/ui/ad-banner';
+import { NativeAdCard } from '@/components/ui/native-ad';
+import { useInterstitial } from '@/hooks/use-interstitial';
 import { Spacing, FontSize, Radius } from '@/constants/theme';
 import * as api from '@/services/cloudflare';
 import { Zone } from '@/services/types';
@@ -22,6 +25,7 @@ const maskName = (name: string) => {
 
 export default function ZonesScreen() {
   const { t } = useTranslation();
+  const { maybeShow } = useInterstitial();
   const { colors } = useTheme();
 
   const [zones, setZones] = useState<Zone[]>([]);
@@ -64,39 +68,53 @@ export default function ZonesScreen() {
     fetchZones(next, search);
   };
 
-  const renderZone = ({ item }: { item: Zone }) => (
-    <Card
-      onPress={() => router.push(`/zone/${item.id}`)}
-      style={styles.zoneCard}
-    >
-      <View style={styles.zoneHeader}>
-        <View style={{ flex: 1 }}>
-          <Text style={[styles.zoneName, { color: colors.text }]}>{item.name}</Text>
-          <Text style={[styles.zoneInfo, { color: colors.textSecondary }]}>
-            {item.plan.name} · {maskName(item.account.name)}
-          </Text>
+  const renderZone = ({ item, index }: { item: Zone; index: number }) => {
+    const statusColor = item.status === 'active' ? colors.success : item.status === 'pending' ? colors.warning : colors.error;
+    return (
+      <>
+      {index > 0 && index % 5 === 0 && <NativeAdCard />}
+      <TouchableOpacity
+        activeOpacity={0.7}
+        onPress={() => { maybeShow(); router.push(`/zone/${item.id}`); }}
+      >
+        <View style={[styles.zoneCard, { backgroundColor: colors.surface, borderColor: colors.borderLight }]}>
+          <View style={[styles.zoneIconWrap, { backgroundColor: colors.primary + '15' }]}>
+            <Icon name="globe" size={20} color={colors.primary} />
+          </View>
+          <View style={{ flex: 1 }}>
+            <View style={styles.zoneNameRow}>
+              <View style={[styles.statusDot, { backgroundColor: statusColor }]} />
+              <Text style={[styles.zoneName, { color: colors.text }]} numberOfLines={1}>{item.name}</Text>
+            </View>
+            <Text style={[styles.zoneInfo, { color: colors.textTertiary }]} numberOfLines={1}>
+              {item.plan.name}{item.account.name ? ` · ${maskName(item.account.name)}` : ''}
+            </Text>
+            <View style={styles.zoneFooter}>
+              <View style={[styles.metaPill, { backgroundColor: colors.surfaceSecondary }]}>
+                <Icon name="dns" size={11} color={colors.textTertiary} />
+                <Text style={[styles.metaPillText, { color: colors.textSecondary }]}>
+                  {item.name_servers?.length ?? 0} NS
+                </Text>
+              </View>
+              {item.development_mode > 0 && (
+                <View style={[styles.metaPill, { backgroundColor: colors.warning + '15' }]}>
+                  <Icon name="developer-mode" size={11} color={colors.warning} />
+                  <Text style={[styles.metaPillText, { color: colors.warning }]}>{t('zones.dev_mode')}</Text>
+                </View>
+              )}
+              {item.paused && (
+                <View style={[styles.metaPill, { backgroundColor: colors.error + '15' }]}>
+                  <Text style={[styles.metaPillText, { color: colors.error }]}>{t('zones.paused')}</Text>
+                </View>
+              )}
+            </View>
+          </View>
+          <Icon name="chevron-right" size={18} color={colors.textTertiary} />
         </View>
-        <Badge
-          label={item.status}
-          variant={item.status === 'active' ? 'success' : item.status === 'pending' ? 'warning' : 'error'}
-        />
-      </View>
-      <View style={styles.zoneFooter}>
-        <View style={styles.zoneFooterItem}>
-          <Icon name="dns" size={14} color={colors.textTertiary} />
-          <Text style={[styles.zoneFooterText, { color: colors.textTertiary }]}>
-            {item.name_servers?.length ?? 0} NS
-          </Text>
-        </View>
-        {item.development_mode > 0 && (
-          <Badge label={t('zones.dev_mode')} variant="warning" />
-        )}
-        {item.paused && (
-          <Badge label={t('zones.paused')} variant="error" />
-        )}
-      </View>
-    </Card>
-  );
+      </TouchableOpacity>
+      </>
+    );
+  };
 
   if (loading) return <Loading message={t('common.loading')} />;
 
@@ -133,6 +151,7 @@ export default function ZonesScreen() {
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colors.primary} />}
         onEndReached={loadMore}
         onEndReachedThreshold={0.3}
+        ListHeaderComponent={<AdBanner />}
         ListEmptyComponent={
           <EmptyState
             icon="cloud-off"
@@ -166,32 +185,57 @@ const styles = StyleSheet.create({
     paddingBottom: Spacing.xxxl,
   },
   zoneCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing.md,
+    padding: Spacing.md,
+    borderRadius: Radius.lg,
+    borderWidth: 1,
     marginBottom: Spacing.sm,
   },
-  zoneHeader: {
+  zoneIconWrap: {
+    width: 44,
+    height: 44,
+    borderRadius: Radius.md,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  zoneNameRow: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
+    alignItems: 'center',
+    gap: 6,
+    marginBottom: 2,
+  },
+  statusDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
   },
   zoneName: {
-    fontSize: FontSize.lg,
-    fontWeight: '600',
+    fontSize: FontSize.md,
+    fontWeight: '700',
+    flex: 1,
   },
   zoneInfo: {
-    fontSize: FontSize.sm,
-    marginTop: 2,
+    fontSize: 11,
   },
   zoneFooter: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: Spacing.sm,
-    gap: Spacing.md,
+    marginTop: 6,
+    gap: 6,
+    flexWrap: 'wrap',
   },
-  zoneFooterItem: {
+  metaPill: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: Radius.full,
   },
-  zoneFooterText: {
-    fontSize: FontSize.xs,
+  metaPillText: {
+    fontSize: 10,
+    fontWeight: '700',
   },
 });

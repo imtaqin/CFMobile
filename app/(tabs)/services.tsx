@@ -11,6 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { Loading } from '@/components/ui/loading';
 import { EmptyState } from '@/components/ui/empty-state';
 import { SectionHeader } from '@/components/ui/section-header';
+import { AdBanner } from '@/components/ui/ad-banner';
 import { Spacing, FontSize, Radius } from '@/constants/theme';
 import * as api from '@/services/cloudflare';
 import { WorkerScript, KVNamespace, R2Bucket, PagesProject } from '@/services/types';
@@ -25,7 +26,8 @@ interface ServiceError {
 export default function ServicesScreen() {
   const { t } = useTranslation();
   const { colors } = useTheme();
-  const { accountId } = useAuth();
+  const { accountId, permissions } = useAuth();
+  const perms = permissions ?? { workers: true, kv: true, r2: true, pages: true } as any;
 
   const [workers, setWorkers] = useState<WorkerScript[]>([]);
   const [kvNamespaces, setKvNamespaces] = useState<KVNamespace[]>([]);
@@ -145,110 +147,135 @@ export default function ServicesScreen() {
       contentContainerStyle={styles.content}
       refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colors.primary} />}
     >
-      {/* Account ID */}
-      <Card compact style={{ marginBottom: Spacing.sm }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: Spacing.sm }}>
-          <Icon name="user" size={18} color={colors.textTertiary} />
-          <Text style={{ color: colors.textTertiary, fontSize: FontSize.xs, fontFamily: 'monospace', flex: 1 }} numberOfLines={1}>
-            Account: {accountId ? accountId.slice(0, 4) + '\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022' : '-'}
+      <AdBanner />
+
+      {/* Account chip */}
+      <View style={[styles.accountChip, { backgroundColor: colors.surface, borderColor: colors.borderLight }]}>
+        <View style={[styles.accountIcon, { backgroundColor: colors.primary + '15' }]}>
+          <Icon name="user" size={14} color={colors.primary} />
+        </View>
+        <View style={{ flex: 1 }}>
+          <Text style={[styles.accountLabel, { color: colors.textTertiary }]}>ACCOUNT</Text>
+          <Text style={[styles.accountValue, { color: colors.text }]} numberOfLines={1}>
+            {accountId ? accountId.slice(0, 4) + '\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022' : '-'}
           </Text>
         </View>
-      </Card>
+      </View>
 
       {/* Service Overview Cards */}
       <View style={styles.grid}>
-        <ServiceCard icon="code" iconColor={colors.info} title={t('services.workers')} count={workers.length} error={errors.workers} />
-        <ServiceCard icon="database" iconColor={colors.warning} title="KV" count={kvNamespaces.length} error={errors.kv} />
-        <ServiceCard icon="cloud-upload" iconColor={colors.success} title="R2" count={r2Buckets.length} error={errors.r2} />
-        <ServiceCard icon="monitor" iconColor={colors.error} title="Pages" count={pages.length} error={errors.pages} />
+        {perms.workers && <ServiceCard icon="code" iconColor={colors.info} title={t('services.workers')} count={workers.length} error={errors.workers} />}
+        {perms.kv && <ServiceCard icon="database" iconColor={colors.warning} title="KV" count={kvNamespaces.length} error={errors.kv} />}
+        {perms.r2 && <ServiceCard icon="cloud-upload" iconColor={colors.success} title="R2" count={r2Buckets.length} error={errors.r2} />}
+        {perms.pages && <ServiceCard icon="monitor" iconColor={colors.error} title="Pages" count={pages.length} error={errors.pages} />}
       </View>
 
       {/* Workers List */}
-      <SectionHeader title={t('services.workers')} />
-      {errors.workers ? (
-        <ErrorBanner message={errors.workers} />
-      ) : workers.length === 0 ? (
-        <EmptyState icon="code" title={t('services.no_workers')} />
-      ) : (
-        workers.map((w) => (
-          <Card key={w.id} style={styles.itemCard}>
-            <View style={styles.itemRow}>
-              <Icon name="code" size={20} color={colors.info} />
-              <View style={{ flex: 1 }}>
-                <Text style={[styles.itemName, { color: colors.text }]}>{w.id}</Text>
-                <Text style={[styles.itemMeta, { color: colors.textSecondary }]}>
-                  {t('services.modified')}: {new Date(w.modified_on).toLocaleDateString()}
-                </Text>
-              </View>
-              <Badge label={w.usage_model || 'bundled'} />
-            </View>
-          </Card>
-        ))
+      {perms.workers && (
+        <>
+          <SectionHeader title={t('services.workers')} />
+          {errors.workers ? (
+            <ErrorBanner message={errors.workers} />
+          ) : workers.length === 0 ? (
+            <EmptyState icon="code" title={t('services.no_workers')} />
+          ) : (
+            workers.map((w) => (
+              <Card key={w.id} style={styles.itemCard}>
+                <View style={styles.itemRow}>
+                  <Icon name="code" size={20} color={colors.info} />
+                  <View style={{ flex: 1 }}>
+                    <Text style={[styles.itemName, { color: colors.text }]}>{w.id}</Text>
+                    <Text style={[styles.itemMeta, { color: colors.textSecondary }]}>
+                      {t('services.modified')}: {new Date(w.modified_on).toLocaleDateString()}
+                    </Text>
+                  </View>
+                  <Badge label={w.usage_model || 'bundled'} />
+                </View>
+              </Card>
+            ))
+          )}
+        </>
       )}
 
       {/* KV Namespaces */}
-      <SectionHeader title="KV Namespaces" />
-      {errors.kv ? (
-        <ErrorBanner message={errors.kv} />
-      ) : kvNamespaces.length === 0 ? (
-        <EmptyState icon="database" title={t('services.no_kv')} />
-      ) : (
-        kvNamespaces.map((ns) => (
-          <Card key={ns.id} style={styles.itemCard}>
-            <View style={styles.itemRow}>
-              <Icon name="database" size={20} color={colors.warning} />
-              <View style={{ flex: 1 }}>
-                <Text style={[styles.itemName, { color: colors.text }]}>{ns.title}</Text>
-                <Text style={[styles.itemMeta, { color: colors.textTertiary }]} numberOfLines={1}>{ns.id}</Text>
-              </View>
-            </View>
-          </Card>
-        ))
+      {perms.kv && (
+        <>
+          <SectionHeader title="KV Namespaces" />
+          {errors.kv ? (
+            <ErrorBanner message={errors.kv} />
+          ) : kvNamespaces.length === 0 ? (
+            <EmptyState icon="database" title={t('services.no_kv')} />
+          ) : (
+            kvNamespaces.map((ns) => (
+              <Card key={ns.id} style={styles.itemCard}>
+                <View style={styles.itemRow}>
+                  <Icon name="database" size={20} color={colors.warning} />
+                  <View style={{ flex: 1 }}>
+                    <Text style={[styles.itemName, { color: colors.text }]}>{ns.title}</Text>
+                    <Text style={[styles.itemMeta, { color: colors.textTertiary }]} numberOfLines={1}>{ns.id}</Text>
+                  </View>
+                </View>
+              </Card>
+            ))
+          )}
+        </>
       )}
 
       {/* R2 Buckets */}
-      <SectionHeader title="R2 Buckets" />
-      {errors.r2 ? (
-        <ErrorBanner message={errors.r2} />
-      ) : r2Buckets.length === 0 ? (
-        <EmptyState icon="cloud-upload" title={t('services.no_r2')} />
-      ) : (
-        r2Buckets.map((b) => (
-          <Card key={b.name} style={styles.itemCard}>
-            <View style={styles.itemRow}>
-              <Icon name="cloud-upload" size={20} color={colors.success} />
-              <View style={{ flex: 1 }}>
-                <Text style={[styles.itemName, { color: colors.text }]}>{b.name}</Text>
-                <Text style={[styles.itemMeta, { color: colors.textSecondary }]}>
-                  {t('services.created')}: {new Date(b.creation_date).toLocaleDateString()}
-                </Text>
-              </View>
-              {b.location && <Badge label={b.location} />}
-            </View>
-          </Card>
-        ))
+      {perms.r2 && (
+        <>
+          <SectionHeader title="R2 Buckets" />
+          {errors.r2 ? (
+            <ErrorBanner message={errors.r2} />
+          ) : r2Buckets.length === 0 ? (
+            <EmptyState icon="cloud-upload" title={t('services.no_r2')} />
+          ) : (
+            r2Buckets.map((b) => (
+              <Card key={b.name} style={styles.itemCard}>
+                <View style={styles.itemRow}>
+                  <Icon name="cloud-upload" size={20} color={colors.success} />
+                  <View style={{ flex: 1 }}>
+                    <Text style={[styles.itemName, { color: colors.text }]}>{b.name}</Text>
+                    <Text style={[styles.itemMeta, { color: colors.textSecondary }]}>
+                      {t('services.created')}: {new Date(b.creation_date).toLocaleDateString()}
+                    </Text>
+                  </View>
+                  {b.location && <Badge label={b.location} />}
+                </View>
+              </Card>
+            ))
+          )}
+        </>
       )}
 
       {/* Pages */}
-      <SectionHeader title="Pages Projects" />
-      {errors.pages ? (
-        <ErrorBanner message={errors.pages} />
-      ) : pages.length === 0 ? (
-        <EmptyState icon="monitor" title={t('services.no_pages')} />
-      ) : (
-        pages.map((p) => (
-          <Card key={p.id} style={styles.itemCard}>
-            <View style={styles.itemRow}>
-              <Icon name="monitor" size={20} color={colors.error} />
-              <View style={{ flex: 1 }}>
-                <Text style={[styles.itemName, { color: colors.text }]}>{p.name}</Text>
-                <Text style={[styles.itemMeta, { color: colors.textSecondary }]}>
-                  {p.subdomain} · {p.production_branch}
-                </Text>
-              </View>
-            </View>
-          </Card>
-        ))
+      {perms.pages && (
+        <>
+          <SectionHeader title="Pages Projects" />
+          {errors.pages ? (
+            <ErrorBanner message={errors.pages} />
+          ) : pages.length === 0 ? (
+            <EmptyState icon="monitor" title={t('services.no_pages')} />
+          ) : (
+            pages.map((p) => (
+              <Card key={p.id} style={styles.itemCard}>
+                <View style={styles.itemRow}>
+                  <Icon name="monitor" size={20} color={colors.error} />
+                  <View style={{ flex: 1 }}>
+                    <Text style={[styles.itemName, { color: colors.text }]}>{p.name}</Text>
+                    <Text style={[styles.itemMeta, { color: colors.textSecondary }]}>
+                      {p.subdomain} · {p.production_branch}
+                    </Text>
+                  </View>
+                </View>
+              </Card>
+            ))
+          )}
+        </>
+      )}
+
+      {!perms.workers && !perms.kv && !perms.r2 && !perms.pages && (
+        <EmptyState icon="lock" title="No access" message="Your token does not have permission for any service. Create a new token with Account level permissions." />
       )}
     </ScrollView>
   );
@@ -257,6 +284,32 @@ export default function ServicesScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1 },
   content: { padding: Spacing.lg, paddingBottom: Spacing.xxxl },
+  accountChip: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing.sm,
+    padding: Spacing.sm,
+    borderRadius: Radius.md,
+    borderWidth: 1,
+    marginBottom: Spacing.md,
+  },
+  accountIcon: {
+    width: 32,
+    height: 32,
+    borderRadius: Radius.sm,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  accountLabel: {
+    fontSize: 9,
+    fontWeight: '700',
+    letterSpacing: 0.5,
+  },
+  accountValue: {
+    fontSize: FontSize.sm,
+    fontFamily: 'monospace',
+    fontWeight: '600',
+  },
   grid: {
     flexDirection: 'row',
     flexWrap: 'wrap',

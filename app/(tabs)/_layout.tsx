@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { HapticTab } from '@/components/haptic-tab';
 import { Icon } from '@/components/ui/icon';
 import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
+import { useThemeContext } from '@/contexts/theme';
 import { useAuth } from '@/contexts/auth';
 import { Loading } from '@/components/ui/loading';
 
@@ -19,7 +19,8 @@ function getOnboardingDone(): boolean {
 }
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme() ?? 'light';
+  const { resolved } = useThemeContext();
+  const colorScheme = resolved;
   const { t } = useTranslation();
   const { isLoading, isAuthenticated } = useAuth();
   const [onboardingChecked, setOnboardingChecked] = useState(Platform.OS === 'web');

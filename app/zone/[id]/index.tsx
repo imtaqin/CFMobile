@@ -1,30 +1,32 @@
 import { useEffect, useState, useCallback } from 'react';
 import {
-  StyleSheet, View, Text, ScrollView, RefreshControl, Alert, Switch,
+  StyleSheet, View, Text, ScrollView, RefreshControl, Alert, Switch, TouchableOpacity,
 } from 'react-native';
 import { useLocalSearchParams, router, Stack } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import { Icon } from '@/components/ui/icon';
+import { Icon, IconName } from '@/components/ui/icon';
 import { useTheme } from '@/hooks/use-theme';
-import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Loading } from '@/components/ui/loading';
-import { MenuItem } from '@/components/ui/menu-item';
-import { SectionHeader } from '@/components/ui/section-header';
-import { Spacing, FontSize } from '@/constants/theme';
+import { AdBanner } from '@/components/ui/ad-banner';
+import { useInterstitial } from '@/hooks/use-interstitial';
+import { useAuth } from '@/contexts/auth';
+import { Spacing, FontSize, Radius } from '@/constants/theme';
 import * as api from '@/services/cloudflare';
 import { Zone } from '@/services/types';
 
 const maskName = (name: string) => {
   if (!name.includes('@')) return name;
   const [local, domain] = name.split('@');
-  return local.slice(0, 2) + '\u2022\u2022\u2022\u2022@' + domain;
+  return local.slice(0, 2) + '••••@' + domain;
 };
 
 export default function ZoneDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { t } = useTranslation();
-  const { colors } = useTheme();
+  const { colors, isDark } = useTheme();
+  const { maybeShow } = useInterstitial();
+  const { permissions } = useAuth();
+  const perms = permissions ?? { dns: true, ssl: true, firewall: true, cache: true, analytics: true, pageRules: true } as any;
 
   const [zone, setZone] = useState<Zone | null>(null);
   const [loading, setLoading] = useState(true);
@@ -58,6 +60,17 @@ export default function ZoneDetailScreen() {
 
   if (loading || !zone) return <Loading />;
 
+  const statusColor = zone.status === 'active' ? colors.success : zone.status === 'pending' ? colors.warning : colors.error;
+
+  const tiles: { icon: IconName; color: string; title: string; sub: string; path: string }[] = [
+    perms.dns && { icon: 'dns' as const, color: colors.info, title: t('zone.dns_records'), sub: t('zone.dns_records_desc'), path: 'dns' },
+    perms.ssl && { icon: 'lock' as const, color: colors.success, title: t('zone.ssl_tls'), sub: t('zone.ssl_tls_desc'), path: 'ssl' },
+    perms.firewall && { icon: 'shield' as const, color: colors.error, title: t('zone.firewall'), sub: t('zone.firewall_desc'), path: 'firewall' },
+    perms.cache && { icon: 'cached' as const, color: colors.warning, title: t('zone.cache'), sub: t('zone.cache_desc'), path: 'cache' },
+    perms.analytics && { icon: 'chart-line' as const, color: '#9333EA', title: t('zone.analytics'), sub: t('zone.analytics_desc'), path: 'analytics' },
+    perms.pageRules && { icon: 'rule' as const, color: colors.primary, title: t('zone.page_rules'), sub: t('zone.page_rules_desc'), path: 'pagerules' },
+  ].filter(Boolean) as any;
+
   return (
     <>
       <Stack.Screen options={{ title: zone.name }} />
@@ -65,116 +78,106 @@ export default function ZoneDetailScreen() {
         style={[styles.container, { backgroundColor: colors.background }]}
         contentContainerStyle={styles.content}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => { setRefreshing(true); fetchZone(); }} tintColor={colors.primary} />}
+        showsVerticalScrollIndicator={false}
       >
-        {/* Zone Info Card */}
-        <Card style={styles.infoCard}>
-          <View style={styles.infoRow}>
-            <Text style={[styles.zoneName, { color: colors.text }]}>{zone.name}</Text>
-            <Badge
-              label={zone.status}
-              variant={zone.status === 'active' ? 'success' : zone.status === 'pending' ? 'warning' : 'error'}
-            />
-          </View>
-          <View style={styles.metaGrid}>
-            <View style={styles.metaItem}>
-              <Text style={[styles.metaLabel, { color: colors.textTertiary }]}>{t('zone.plan')}</Text>
-              <Text style={[styles.metaValue, { color: colors.text }]}>{zone.plan.name}</Text>
+        {/* Hero card */}
+        <View style={[styles.hero, { backgroundColor: colors.surface, borderColor: colors.borderLight }]}>
+          <View style={styles.heroTop}>
+            <View style={[styles.heroIcon, { backgroundColor: colors.primary + '15' }]}>
+              <Icon name="globe" size={28} color={colors.primary} />
             </View>
-            <View style={styles.metaItem}>
-              <Text style={[styles.metaLabel, { color: colors.textTertiary }]}>{t('zone.account')}</Text>
-              <Text style={[styles.metaValue, { color: colors.text }]}>{maskName(zone.account.name)}</Text>
-            </View>
-            <View style={styles.metaItem}>
-              <Text style={[styles.metaLabel, { color: colors.textTertiary }]}>{t('zone.type')}</Text>
-              <Text style={[styles.metaValue, { color: colors.text }]}>{zone.type}</Text>
-            </View>
-            <View style={styles.metaItem}>
-              <Text style={[styles.metaLabel, { color: colors.textTertiary }]}>{t('zone.created')}</Text>
-              <Text style={[styles.metaValue, { color: colors.text }]}>
-                {new Date(zone.created_on).toLocaleDateString()}
-              </Text>
-            </View>
-          </View>
-        </Card>
-
-        {/* Quick Toggle */}
-        <Card style={styles.toggleCard}>
-          <View style={styles.toggleRow}>
-            <Icon name="developer-mode" size={22} color={colors.warning} />
             <View style={{ flex: 1 }}>
-              <Text style={[styles.toggleTitle, { color: colors.text }]}>{t('zone.dev_mode')}</Text>
-              <Text style={[styles.toggleDesc, { color: colors.textSecondary }]}>{t('zone.dev_mode_desc')}</Text>
+              <Text style={[styles.zoneName, { color: colors.text }]} numberOfLines={1}>{zone.name}</Text>
+              <View style={styles.statusRow}>
+                <View style={[styles.statusDot, { backgroundColor: statusColor }]} />
+                <Text style={[styles.statusText, { color: statusColor }]}>{zone.status.toUpperCase()}</Text>
+                <Text style={[styles.dotSep, { color: colors.textTertiary }]}>•</Text>
+                <Text style={[styles.planText, { color: colors.textSecondary }]}>{zone.plan.name}</Text>
+              </View>
             </View>
-            <Switch
-              value={devMode}
-              onValueChange={toggleDevMode}
-              trackColor={{ true: colors.primary }}
-            />
           </View>
-        </Card>
+
+          {/* Stats strip */}
+          <View style={[styles.statsStrip, { backgroundColor: colors.surfaceSecondary }]}>
+            <View style={styles.statCol}>
+              <Text style={[styles.statNum, { color: colors.text }]}>{zone.name_servers?.length ?? 0}</Text>
+              <Text style={[styles.statLabel, { color: colors.textTertiary }]}>NS</Text>
+            </View>
+            <View style={[styles.statSep, { backgroundColor: colors.border }]} />
+            <View style={styles.statCol}>
+              <Text style={[styles.statNum, { color: colors.text }]} numberOfLines={1}>{zone.type}</Text>
+              <Text style={[styles.statLabel, { color: colors.textTertiary }]}>Type</Text>
+            </View>
+            <View style={[styles.statSep, { backgroundColor: colors.border }]} />
+            <View style={styles.statCol}>
+              <Text style={[styles.statNum, { color: colors.text }]}>{new Date(zone.created_on).getFullYear()}</Text>
+              <Text style={[styles.statLabel, { color: colors.textTertiary }]}>Since</Text>
+            </View>
+          </View>
+
+          <Text style={[styles.accountLine, { color: colors.textTertiary }]} numberOfLines={1}>
+            {maskName(zone.account.name)}
+          </Text>
+        </View>
+
+        {/* Dev mode toggle */}
+        <TouchableOpacity
+          style={[styles.devCard, { backgroundColor: colors.surface, borderColor: devMode ? colors.warning : colors.borderLight }]}
+          onPress={() => toggleDevMode(!devMode)}
+          activeOpacity={0.8}
+        >
+          <View style={[styles.devIconWrap, { backgroundColor: colors.warning + '15' }]}>
+            <Icon name="developer-mode" size={20} color={colors.warning} />
+          </View>
+          <View style={{ flex: 1 }}>
+            <Text style={[styles.devTitle, { color: colors.text }]}>{t('zone.dev_mode')}</Text>
+            <Text style={[styles.devDesc, { color: colors.textSecondary }]}>
+              {devMode ? 'Active for 3 hours' : t('zone.dev_mode_desc')}
+            </Text>
+          </View>
+          <Switch
+            value={devMode}
+            onValueChange={toggleDevMode}
+            trackColor={{ true: colors.warning, false: colors.border }}
+            thumbColor="#FFF"
+          />
+        </TouchableOpacity>
+
+        {/* Management tile grid */}
+        <Text style={[styles.sectionLabel, { color: colors.textSecondary }]}>{t('zone.management')}</Text>
+        <View style={styles.tileGrid}>
+          {tiles.map((tile) => (
+            <TouchableOpacity
+              key={tile.path}
+              style={[styles.tile, { backgroundColor: colors.surface, borderColor: colors.borderLight }]}
+              onPress={() => { maybeShow(); router.push(`/zone/${id}/${tile.path}`); }}
+              activeOpacity={0.7}
+            >
+              <View style={[styles.tileIcon, { backgroundColor: tile.color + (isDark ? '20' : '12') }]}>
+                <Icon name={tile.icon} size={22} color={tile.color} />
+              </View>
+              <Text style={[styles.tileTitle, { color: colors.text }]}>{tile.title}</Text>
+              <Text style={[styles.tileSub, { color: colors.textTertiary }]} numberOfLines={2}>
+                {tile.sub}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+
+        <AdBanner />
 
         {/* Nameservers */}
-        <SectionHeader title={t('zone.nameservers')} />
-        <Card>
+        <Text style={[styles.sectionLabel, { color: colors.textSecondary }]}>{t('zone.nameservers')}</Text>
+        <View style={[styles.nsCard, { backgroundColor: colors.surface, borderColor: colors.borderLight }]}>
           {zone.name_servers?.map((ns, i) => (
             <View key={ns} style={[styles.nsRow, i > 0 && { borderTopWidth: 1, borderTopColor: colors.borderLight }]}>
-              <Icon name="dns" size={16} color={colors.info} />
+              <View style={[styles.nsDot, { backgroundColor: colors.info + '20' }]}>
+                <Icon name="dns" size={14} color={colors.info} />
+              </View>
               <Text style={[styles.nsText, { color: colors.text }]}>{ns}</Text>
             </View>
           ))}
-        </Card>
-
-        {/* Management Menu */}
-        <SectionHeader title={t('zone.management')} />
-        <Card style={{ padding: 0, overflow: 'hidden' as const }}>
-          <MenuItem
-            icon="dns"
-            iconColor={colors.info}
-            title={t('zone.dns_records')}
-            subtitle={t('zone.dns_records_desc')}
-            onPress={() => router.push(`/zone/${id}/dns`)}
-          />
-          <View style={[styles.divider, { backgroundColor: colors.borderLight }]} />
-          <MenuItem
-            icon="lock"
-            iconColor={colors.success}
-            title={t('zone.ssl_tls')}
-            subtitle={t('zone.ssl_tls_desc')}
-            onPress={() => router.push(`/zone/${id}/ssl`)}
-          />
-          <View style={[styles.divider, { backgroundColor: colors.borderLight }]} />
-          <MenuItem
-            icon="shield"
-            iconColor={colors.error}
-            title={t('zone.firewall')}
-            subtitle={t('zone.firewall_desc')}
-            onPress={() => router.push(`/zone/${id}/firewall`)}
-          />
-          <View style={[styles.divider, { backgroundColor: colors.borderLight }]} />
-          <MenuItem
-            icon="cached"
-            iconColor={colors.warning}
-            title={t('zone.cache')}
-            subtitle={t('zone.cache_desc')}
-            onPress={() => router.push(`/zone/${id}/cache`)}
-          />
-          <View style={[styles.divider, { backgroundColor: colors.borderLight }]} />
-          <MenuItem
-            icon="chart-line"
-            iconColor="#9333EA"
-            title={t('zone.analytics')}
-            subtitle={t('zone.analytics_desc')}
-            onPress={() => router.push(`/zone/${id}/analytics`)}
-          />
-          <View style={[styles.divider, { backgroundColor: colors.borderLight }]} />
-          <MenuItem
-            icon="rule"
-            iconColor={colors.primary}
-            title={t('zone.page_rules')}
-            subtitle={t('zone.page_rules_desc')}
-            onPress={() => router.push(`/zone/${id}/pagerules`)}
-          />
-        </Card>
+        </View>
       </ScrollView>
     </>
   );
@@ -182,24 +185,132 @@ export default function ZoneDetailScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  content: { padding: Spacing.lg, paddingBottom: Spacing.xxxl },
-  infoCard: { marginBottom: Spacing.sm },
-  infoRow: {
+  content: { padding: Spacing.lg, paddingBottom: Spacing.xxxl, gap: Spacing.md },
+
+  // Hero
+  hero: {
+    borderRadius: Radius.xl,
+    borderWidth: 1,
+    padding: Spacing.lg,
+  },
+  heroTop: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
+    gap: Spacing.md,
     marginBottom: Spacing.md,
   },
-  zoneName: { fontSize: FontSize.xl, fontWeight: '700', flex: 1, marginRight: Spacing.sm },
-  metaGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: Spacing.md },
-  metaItem: { flexBasis: '45%' },
-  metaLabel: { fontSize: FontSize.xs, marginBottom: 2 },
-  metaValue: { fontSize: FontSize.sm, fontWeight: '500' },
-  toggleCard: { marginBottom: Spacing.sm },
-  toggleRow: { flexDirection: 'row', alignItems: 'center', gap: Spacing.md },
-  toggleTitle: { fontSize: FontSize.md, fontWeight: '500' },
-  toggleDesc: { fontSize: FontSize.sm, marginTop: 2 },
-  nsRow: { flexDirection: 'row', alignItems: 'center', gap: Spacing.sm, paddingVertical: Spacing.sm },
-  nsText: { fontSize: FontSize.sm, fontFamily: 'monospace' },
-  divider: { height: 1, marginLeft: 64 },
+  heroIcon: {
+    width: 56,
+    height: 56,
+    borderRadius: Radius.lg,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  zoneName: { fontSize: FontSize.xl, fontWeight: '800', letterSpacing: -0.3 },
+  statusRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    marginTop: 4,
+  },
+  statusDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+  },
+  statusText: { fontSize: 11, fontWeight: '700', letterSpacing: 0.5 },
+  dotSep: { fontSize: FontSize.xs },
+  planText: { fontSize: FontSize.xs, fontWeight: '500' },
+
+  statsStrip: {
+    flexDirection: 'row',
+    paddingVertical: Spacing.sm,
+    borderRadius: Radius.md,
+  },
+  statCol: { flex: 1, alignItems: 'center', gap: 2 },
+  statNum: { fontSize: FontSize.md, fontWeight: '700' },
+  statLabel: { fontSize: 10, fontWeight: '600', textTransform: 'uppercase', letterSpacing: 0.5 },
+  statSep: { width: 1, alignSelf: 'stretch', marginVertical: 4 },
+  accountLine: {
+    fontSize: FontSize.xs,
+    marginTop: Spacing.sm,
+    textAlign: 'center',
+  },
+
+  // Dev mode
+  devCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing.md,
+    padding: Spacing.md,
+    borderRadius: Radius.lg,
+    borderWidth: 1,
+  },
+  devIconWrap: {
+    width: 40,
+    height: 40,
+    borderRadius: Radius.md,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  devTitle: { fontSize: FontSize.md, fontWeight: '600' },
+  devDesc: { fontSize: FontSize.xs, marginTop: 2 },
+
+  // Section
+  sectionLabel: {
+    fontSize: FontSize.xs,
+    fontWeight: '700',
+    textTransform: 'uppercase',
+    letterSpacing: 0.8,
+    marginTop: Spacing.sm,
+    marginBottom: -Spacing.xs,
+  },
+
+  // Tile grid
+  tileGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: Spacing.sm,
+  },
+  tile: {
+    width: '48.5%' as any,
+    flexGrow: 1,
+    flexBasis: '46%',
+    padding: Spacing.md,
+    borderRadius: Radius.lg,
+    borderWidth: 1,
+    gap: Spacing.xs,
+    minHeight: 120,
+  },
+  tileIcon: {
+    width: 44,
+    height: 44,
+    borderRadius: Radius.md,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 4,
+  },
+  tileTitle: { fontSize: FontSize.md, fontWeight: '700' },
+  tileSub: { fontSize: 11, lineHeight: 14 },
+
+  // Nameservers
+  nsCard: {
+    borderRadius: Radius.lg,
+    borderWidth: 1,
+    overflow: 'hidden',
+  },
+  nsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing.sm,
+    padding: Spacing.md,
+  },
+  nsDot: {
+    width: 28,
+    height: 28,
+    borderRadius: Radius.sm,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  nsText: { fontSize: FontSize.sm, fontFamily: 'monospace', flex: 1 },
 });

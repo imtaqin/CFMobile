@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { StyleSheet, View, Text, ScrollView, Alert, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, ScrollView, Alert, TouchableOpacity, Linking } from 'react-native';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/contexts/auth';
@@ -11,6 +11,7 @@ import { MenuItem } from '@/components/ui/menu-item';
 import { SectionHeader } from '@/components/ui/section-header';
 import { Badge } from '@/components/ui/badge';
 import { Spacing, FontSize, Radius, CF } from '@/constants/theme';
+import { AdBanner } from '@/components/ui/ad-banner';
 import i18n from '@/i18n';
 
 const LANGUAGES = [
@@ -74,6 +75,8 @@ export default function SettingsScreen() {
       style={[styles.container, { backgroundColor: colors.background }]}
       contentContainerStyle={styles.content}
     >
+      <AdBanner />
+
       {/* Account Card */}
       <Card style={styles.accountCard}>
         <View style={[styles.avatar, { backgroundColor: CF.orange }]}>
@@ -245,6 +248,34 @@ export default function SettingsScreen() {
         />
       </Card>
 
+      {/* About */}
+      <SectionHeader title={t('settings.about_section')} />
+      <Card style={{ padding: 0, overflow: 'hidden' as const }}>
+        <MenuItem
+          icon="info"
+          iconColor={colors.info}
+          title={t('settings.about_app')}
+          subtitle={t('settings.about_app_sub')}
+          onPress={() => router.push('/about')}
+        />
+        <View style={[styles.divider, { backgroundColor: colors.borderLight }]} />
+        <MenuItem
+          icon="clock"
+          iconColor={colors.success}
+          title={t('settings.changelog')}
+          subtitle={t('settings.changelog_sub')}
+          onPress={() => router.push('/changelog')}
+        />
+        <View style={[styles.divider, { backgroundColor: colors.borderLight }]} />
+        <MenuItem
+          icon="download"
+          iconColor={colors.warning}
+          title={t('settings.check_updates')}
+          subtitle={t('settings.check_updates_sub')}
+          onPress={() => Linking.openURL('https://github.com/imtaqin/CFMobile/releases/latest')}
+        />
+      </Card>
+
       {/* Logout */}
       <Card style={{ padding: 0, overflow: 'hidden' as const, marginTop: Spacing.lg }}>
         <MenuItem
@@ -256,8 +287,10 @@ export default function SettingsScreen() {
         />
       </Card>
 
+      <AdBanner />
+
       <Text style={[styles.version, { color: colors.textTertiary }]}>
-        CloudFlare Mobile v1.1.0
+        CloudFlare Mobile v{require('@/services/version-check').CURRENT_VERSION}
       </Text>
     </ScrollView>
   );

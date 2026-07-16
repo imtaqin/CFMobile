@@ -2,8 +2,8 @@
   "expo": {
     "name": "CloudFlare Mobile",
     "slug": "cloudflare-mobile",
-    "version": "1.1.0",
-    "orientation": "portrait",
+    "version": "1.2.0",
+    "orientation": "default",
     "icon": "./assets/images/icon.png",
     "scheme": "cfmobile",
     "userInterfaceStyle": "automatic",
@@ -39,7 +39,14 @@
             "backgroundColor": "#000000"
           }
         }
-      ]
+      ],
+      [
+        "react-native-google-mobile-ads",
+        {
+          "androidAppId": "ca-app-pub-9117362819301000~1107509248"
+        }
+      ],
+      "expo-video"
     ],
     "experiments": {
       "typedRoutes": true,

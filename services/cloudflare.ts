@@ -131,6 +131,72 @@ export async function verifyToken(): Promise<CFResponse<{ id: string; status: st
   return get('/user/tokens/verify');
 }
 
+// ─── Permission Probing ─────────────────────────────────────────────────────
+
+export interface Permissions {
+  user: boolean;
+  accounts: boolean;
+  zones: boolean;
+  dns: boolean;
+  ssl: boolean;
+  firewall: boolean;
+  cache: boolean;
+  analytics: boolean;
+  pageRules: boolean;
+  workers: boolean;
+  kv: boolean;
+  r2: boolean;
+  pages: boolean;
+}
+
+async function probe(req: () => Promise<any>): Promise<boolean> {
+  try {
+    await req();
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+export async function probePermissions(zoneId?: string, accountId?: string): Promise<Permissions> {
+  const checks: Promise<[keyof Permissions, boolean]>[] = [
+    probe(() => get('/user')).then((v) => ['user', v] as [keyof Permissions, boolean]),
+    probe(() => get('/accounts', { per_page: 1 })).then((v) => ['accounts', v] as [keyof Permissions, boolean]),
+    probe(() => get('/zones', { per_page: 1 })).then((v) => ['zones', v] as [keyof Permissions, boolean]),
+  ];
+
+  if (zoneId) {
+    checks.push(
+      probe(() => get(`/zones/${zoneId}/dns_records`, { per_page: 1 })).then((v) => ['dns', v] as [keyof Permissions, boolean]),
+      probe(() => get(`/zones/${zoneId}/settings/ssl`)).then((v) => ['ssl', v] as [keyof Permissions, boolean]),
+      probe(() => get(`/zones/${zoneId}/firewall/rules`, { per_page: 1 })).then((v) => ['firewall', v] as [keyof Permissions, boolean]),
+      probe(() => get(`/zones/${zoneId}/settings/cache_level`)).then((v) => ['cache', v] as [keyof Permissions, boolean]),
+      probe(() => get(`/zones/${zoneId}/analytics/dashboard`, { since: '-60' })).then((v) => ['analytics', v] as [keyof Permissions, boolean]),
+      probe(() => get(`/zones/${zoneId}/pagerules`)).then((v) => ['pageRules', v] as [keyof Permissions, boolean]),
+    );
+  }
+
+  if (accountId) {
+    checks.push(
+      probe(() => get(`/accounts/${accountId}/workers/scripts`)).then((v) => ['workers', v] as [keyof Permissions, boolean]),
+      probe(() => get(`/accounts/${accountId}/storage/kv/namespaces`, { per_page: 1 })).then((v) => ['kv', v] as [keyof Permissions, boolean]),
+      probe(() => get(`/accounts/${accountId}/r2/buckets`)).then((v) => ['r2', v] as [keyof Permissions, boolean]),
+      probe(() => get(`/accounts/${accountId}/pages/projects`)).then((v) => ['pages', v] as [keyof Permissions, boolean]),
+    );
+  }
+
+  const results = await Promise.all(checks);
+  const perms: Permissions = {
+    user: false, accounts: false, zones: false, dns: false, ssl: false,
+    firewall: false, cache: false, analytics: false, pageRules: false,
+    workers: false, kv: false, r2: false, pages: false,
+  };
+  for (const [key, value] of results) {
+    perms[key] = value;
+  }
+  return perms;
+}
+
 // ─── User ────────────────────────────────────────────────────────────────────
 
 export async function getUser(): Promise<CFResponse<CFUser>> {

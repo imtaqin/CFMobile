@@ -10,6 +10,10 @@ import { useTheme } from '@/hooks/use-theme';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Loading } from '@/components/ui/loading';
+import { AdBanner } from '@/components/ui/ad-banner';
+import { NativeAdCard } from '@/components/ui/native-ad';
+import { UpdateBanner } from '@/components/ui/update-banner';
+import { useInterstitial } from '@/hooks/use-interstitial';
 import { Spacing, FontSize, Radius, CF } from '@/constants/theme';
 import * as api from '@/services/cloudflare';
 import { Zone } from '@/services/types';
@@ -30,7 +34,8 @@ interface QuickAction {
 export default function DashboardScreen() {
   const { t } = useTranslation();
   const { colors, isDark } = useTheme();
-  const { user } = useAuth();
+  const { user, permissions } = useAuth();
+  const { maybeShow } = useInterstitial();
 
   const [zones, setZones] = useState<Zone[]>([]);
   const [loading, setLoading] = useState(true);
@@ -71,14 +76,15 @@ export default function DashboardScreen() {
     router.push(`/zone/${zoneId}/${zonePicker.target}`);
   };
 
-  const actions: QuickAction[] = [
-    { icon: 'dns', label: t('dashboard.manage_dns'), color: colors.info, onPress: () => router.push('/(tabs)/zones') },
-    { icon: 'cached', label: t('dashboard.purge_cache'), color: colors.warning, onPress: () => openWithZonePicker('cache') },
-    { icon: 'code', label: t('dashboard.workers'), color: colors.success, onPress: () => router.push('/(tabs)/services') },
-    { icon: 'chart-line', label: t('dashboard.analytics'), color: colors.error, onPress: () => openWithZonePicker('analytics') },
-    { icon: 'shield', label: t('dashboard.firewall'), color: '#8B5CF6', onPress: () => openWithZonePicker('firewall') },
-    { icon: 'lock', label: 'SSL/TLS', color: '#06B6D4', onPress: () => openWithZonePicker('ssl') },
+  const allActions: (QuickAction & { gate: boolean })[] = [
+    { icon: 'dns', label: t('dashboard.manage_dns'), color: colors.info, onPress: () => router.push('/(tabs)/zones'), gate: permissions?.zones ?? true },
+    { icon: 'cached', label: t('dashboard.purge_cache'), color: colors.warning, onPress: () => openWithZonePicker('cache'), gate: permissions?.cache ?? true },
+    { icon: 'code', label: t('dashboard.workers'), color: colors.success, onPress: () => router.push('/(tabs)/services'), gate: (permissions?.workers || permissions?.kv || permissions?.r2 || permissions?.pages) ?? true },
+    { icon: 'chart-line', label: t('dashboard.analytics'), color: colors.error, onPress: () => openWithZonePicker('analytics'), gate: permissions?.analytics ?? true },
+    { icon: 'shield', label: t('dashboard.firewall'), color: '#8B5CF6', onPress: () => openWithZonePicker('firewall'), gate: permissions?.firewall ?? true },
+    { icon: 'lock', label: 'SSL/TLS', color: '#06B6D4', onPress: () => openWithZonePicker('ssl'), gate: permissions?.ssl ?? true },
   ];
+  const actions: QuickAction[] = allActions.filter((a) => a.gate);
 
   if (loading) return <Loading message={t('common.loading')} />;
 
@@ -94,6 +100,8 @@ export default function DashboardScreen() {
       contentContainerStyle={styles.content}
       refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colors.primary} />}
     >
+      <UpdateBanner />
+
       {/* Hero Card */}
       <View style={[styles.heroCard, { backgroundColor: isDark ? '#1A1F2E' : CF.orange }]}>
         <View style={styles.heroTop}>
@@ -137,6 +145,8 @@ export default function DashboardScreen() {
         </View>
       </View>
 
+      <AdBanner />
+
       {/* Quick Actions — horizontal scroll */}
       <Text style={[styles.sectionTitle, { color: colors.text, paddingHorizontal: Spacing.lg }]}>{t('dashboard.quick_actions')}</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.actionsScroll} contentContainerStyle={styles.actionsContent}>
@@ -166,26 +176,28 @@ export default function DashboardScreen() {
       </View>
 
       {zones.slice(0, 5).map((zone, idx) => (
-        <TouchableOpacity
-          key={zone.id}
-          style={[styles.zoneItem, { backgroundColor: colors.surface, borderColor: colors.borderLight }]}
-          onPress={() => router.push(`/zone/${zone.id}`)}
-          activeOpacity={0.7}
-        >
-          <View style={[styles.zoneIconWrap, { backgroundColor: colors.primary + '12' }]}>
-            <Icon name="globe" size={20} color={colors.primary} />
-          </View>
-          <View style={styles.zoneInfo}>
-            <View style={styles.zoneNameRow}>
-              {statusDot(zone.status)}
-              <Text style={[styles.zoneName, { color: colors.text }]} numberOfLines={1}>{zone.name}</Text>
+        <View key={zone.id}>
+          <TouchableOpacity
+            style={[styles.zoneItem, { backgroundColor: colors.surface, borderColor: colors.borderLight }]}
+            onPress={() => { maybeShow(); router.push(`/zone/${zone.id}`); }}
+            activeOpacity={0.7}
+          >
+            <View style={[styles.zoneIconWrap, { backgroundColor: colors.primary + '12' }]}>
+              <Icon name="globe" size={20} color={colors.primary} />
             </View>
-            <Text style={[styles.zoneMeta, { color: colors.textTertiary }]} numberOfLines={1}>
-              {zone.plan.name}{zone.account.name ? ` \u00B7 ${maskAccount(zone.account.name)}` : ''}
-            </Text>
-          </View>
-          <Icon name="chevron-right" size={18} color={colors.textTertiary} />
-        </TouchableOpacity>
+            <View style={styles.zoneInfo}>
+              <View style={styles.zoneNameRow}>
+                {statusDot(zone.status)}
+                <Text style={[styles.zoneName, { color: colors.text }]} numberOfLines={1}>{zone.name}</Text>
+              </View>
+              <Text style={[styles.zoneMeta, { color: colors.textTertiary }]} numberOfLines={1}>
+                {zone.plan.name}{zone.account.name ? ` \u00B7 ${maskAccount(zone.account.name)}` : ''}
+              </Text>
+            </View>
+            <Icon name="chevron-right" size={18} color={colors.textTertiary} />
+          </TouchableOpacity>
+          {idx === 2 && <NativeAdCard />}
+        </View>
       ))}
 
       {zones.length === 0 && (

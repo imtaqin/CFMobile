@@ -42,6 +42,21 @@
     "token_steps": "Cara mendapatkan:\n1. Buka dash.cloudflare.com\n2. Profil Saya \u2192 Token API\n3. Buat Token \u2192 Pilih template\n4. Salin token",
     "global_key_info": "Kunci API Global memiliki akses ke SEMUA sumber daya. Tidak direkomendasikan untuk alasan keamanan.",
     "global_key_steps": "Cara mendapatkan:\n1. Buka dash.cloudflare.com\n2. Profil Saya \u2192 Token API\n3. Scroll ke Kunci API Global\n4. Klik Lihat \u2192 Masukkan password\n5. Salin kunci",
+    "watch_tutorial": "Tonton Tutorial",
+    "open_dashboard": "Buka Dashboard",
+    "tutorial_token": "Cara Membuat Token API",
+    "tutorial_global": "Cara Mendapatkan Kunci API Global",
+    "sign_in": "Masuk",
+    "choose_method": "Pilih metode otentikasi Anda",
+    "recommended": "Direkomendasikan — izin terbatas",
+    "full_access_warning": "Akses penuh akun — gunakan dengan hati-hati",
+    "need_help": "Butuh bantuan?",
+    "tutorial_hint": "Video panduan langkah demi langkah",
+    "dashboard_hint": "Buka di browser",
+    "feature_secure": "Enkripsi hardware",
+    "feature_fast": "Sangat cepat",
+    "feature_private": "Tanpa tracking",
+    "unofficial_notice": "CloudFlare Mobile tidak berafiliasi dengan Cloudflare, Inc.",
     "rate_limit_notice": "Batas: 1.200 permintaan per 5 menit per pengguna"
   },
   "dashboard": {
@@ -116,7 +131,8 @@
     "proxied": "Diproxy (Orange Cloud)",
     "proxied_desc": "Lalu lintas dialihkan melalui CDN & perlindungan Cloudflare",
     "create": "Buat Catatan",
-    "update": "Perbarui Catatan"
+    "update": "Perbarui Catatan",
+    "templates": "Template"
   },
   "ssl": {
     "title": "SSL/TLS",
@@ -214,7 +230,35 @@
     "theme_light": "Terang",
     "theme_dark": "Gelap",
     "theme_system": "Sistem",
+    "about_section": "Tentang",
+    "about_app": "Tentang CloudFlare Mobile",
+    "about_app_sub": "Info aplikasi, developer, lisensi",
+    "changelog": "Apa yang Baru",
+    "changelog_sub": "Pembaruan dan peningkatan terbaru",
+    "check_updates": "Periksa Pembaruan",
+    "check_updates_sub": "Lihat rilis terbaru di GitHub",
     "logout": "Keluar",
     "logout_confirm": "Apakah Anda yakin ingin keluar?"
+  },
+  "update": {
+    "title": "Pembaruan tersedia — v{{version}}",
+    "subtitle": "Anda menggunakan v{{current}}. Tap untuk lihat apa yang baru.",
+    "update_now": "Perbarui"
+  },
+  "changelog": {
+    "title": "Apa yang Baru",
+    "whats_new": "Apa yang Baru",
+    "subtitle": "Anda menggunakan v{{version}}",
+    "whats_new_section": "Perubahan Utama",
+    "fixes": "Perbaikan & peningkatan",
+    "latest": "TERBARU"
+  },
+  "about": {
+    "title": "Tentang",
+    "app_tagline": "Kelola akun Cloudflare Anda dari mana saja",
+    "developer": "Developer",
+    "dev_bio": "Full-stack developer. Membangun tools yang memudahkan pengelolaan infrastruktur di mana saja.",
+    "project": "Proyek",
+    "disclaimer": "CloudFlare Mobile adalah aplikasi tidak resmi dan tidak berafiliasi dengan, didukung oleh, atau terhubung dengan Cloudflare, Inc."
   }
 }

@@ -43,6 +43,8 @@ function AppContent() {
           name="zone/[id]"
           options={{ animation: 'slide_from_right' }}
         />
+        <Stack.Screen name="about" options={{ animation: 'slide_from_right' }} />
+        <Stack.Screen name="changelog" options={{ animation: 'slide_from_right' }} />
       </Stack>
       <StatusBar style={resolved === 'dark' ? 'light' : 'dark'} />
     </NavThemeProvider>

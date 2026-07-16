@@ -7,11 +7,8 @@ import { useLocalSearchParams, router, Stack } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { Icon } from '@/components/ui/icon';
 import { useTheme } from '@/hooks/use-theme';
-import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Loading } from '@/components/ui/loading';
 import { EmptyState } from '@/components/ui/empty-state';
-import { Button } from '@/components/ui/button';
 import { Spacing, FontSize, Radius } from '@/constants/theme';
 import * as api from '@/services/cloudflare';
 import { DNSRecord, DNSRecordType } from '@/services/types';
@@ -75,49 +72,77 @@ export default function DNSScreen() {
     return map[type] ?? colors.textSecondary;
   };
 
-  const renderRecord = ({ item }: { item: DNSRecord }) => (
-    <Card style={styles.recordCard}>
-      <View style={styles.recordHeader}>
-        <View style={[styles.typeBadge, { backgroundColor: typeColor(item.type) + '20' }]}>
-          <Text style={[styles.typeText, { color: typeColor(item.type) }]}>{item.type}</Text>
+  const stripZone = (name: string, zone: string) => {
+    if (name === zone) return '@';
+    if (name.endsWith(`.${zone}`)) return name.slice(0, -(zone.length + 1));
+    return name;
+  };
+
+  const renderRecord = ({ item }: { item: DNSRecord }) => {
+    const c = typeColor(item.type);
+    return (
+      <TouchableOpacity
+        activeOpacity={0.7}
+        onPress={() => router.push({ pathname: `/zone/[id]/dns-edit` as any, params: { id, recordId: item.id } })}
+      >
+        <View style={[styles.recordCard, { backgroundColor: colors.surface, borderColor: colors.borderLight }]}>
+          {/* Type badge — vertical accent bar */}
+          <View style={[styles.typeAccent, { backgroundColor: c }]} />
+
+          <View style={styles.recordBody}>
+            <View style={styles.recordTopRow}>
+              <View style={[styles.typePill, { backgroundColor: c + '18' }]}>
+                <Text style={[styles.typePillText, { color: c }]}>{item.type}</Text>
+              </View>
+              <Text style={[styles.recordName, { color: colors.text }]} numberOfLines={1}>
+                {stripZone(item.name, item.zone_name)}
+              </Text>
+              {item.proxied ? (
+                <View style={[styles.proxyChip, { backgroundColor: '#F6821F18' }]}>
+                  <Icon name="cloud" size={11} color="#F6821F" />
+                  <Text style={[styles.proxyText, { color: '#F6821F' }]}>Proxied</Text>
+                </View>
+              ) : item.proxiable ? (
+                <View style={[styles.proxyChip, { backgroundColor: colors.surfaceSecondary }]}>
+                  <Icon name="cloud-off" size={11} color={colors.textTertiary} />
+                  <Text style={[styles.proxyText, { color: colors.textTertiary }]}>DNS only</Text>
+                </View>
+              ) : null}
+            </View>
+
+            <Text style={[styles.recordContent, { color: colors.textSecondary }]} numberOfLines={1}>
+              {item.content}
+            </Text>
+
+            <View style={styles.recordMetaRow}>
+              <View style={styles.metaItem}>
+                <Icon name="clock" size={11} color={colors.textTertiary} />
+                <Text style={[styles.metaText, { color: colors.textTertiary }]}>
+                  {item.ttl === 1 ? 'Auto' : `${item.ttl}s`}
+                </Text>
+              </View>
+              {item.priority !== undefined && (
+                <View style={styles.metaItem}>
+                  <Icon name="zap" size={11} color={colors.textTertiary} />
+                  <Text style={[styles.metaText, { color: colors.textTertiary }]}>
+                    Priority {item.priority}
+                  </Text>
+                </View>
+              )}
+              <View style={{ flex: 1 }} />
+              <TouchableOpacity
+                onPress={(e) => { e.stopPropagation(); handleDelete(item); }}
+                style={styles.iconBtn}
+                hitSlop={8}
+              >
+                <Icon name="trash" size={16} color={colors.error} />
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
-        <Text style={[styles.recordName, { color: colors.text }]} numberOfLines={1}>
-          {item.name.replace(`.${item.zone_name}`, '')}
-        </Text>
-        {item.proxied && (
-          <Icon name="cloud" size={18} color={colors.primary} />
-        )}
-        {item.proxiable && !item.proxied && (
-          <Icon name="cloud-off" size={18} color={colors.textTertiary} />
-        )}
-      </View>
-
-      <Text style={[styles.recordContent, { color: colors.textSecondary }]} numberOfLines={2}>
-        {item.content}
-      </Text>
-
-      <View style={styles.recordFooter}>
-        <Text style={[styles.recordTtl, { color: colors.textTertiary }]}>
-          TTL: {item.ttl === 1 ? 'Auto' : `${item.ttl}s`}
-        </Text>
-        {item.priority !== undefined && (
-          <Text style={[styles.recordTtl, { color: colors.textTertiary }]}>
-            Priority: {item.priority}
-          </Text>
-        )}
-        <View style={{ flex: 1 }} />
-        <TouchableOpacity
-          onPress={() => router.push({ pathname: `/zone/[id]/dns-edit` as any, params: { id, recordId: item.id } })}
-          style={styles.actionBtn}
-        >
-          <Icon name="edit" size={18} color={colors.info} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => handleDelete(item)} style={styles.actionBtn}>
-          <Icon name="trash" size={18} color={colors.error} />
-        </TouchableOpacity>
-      </View>
-    </Card>
-  );
+      </TouchableOpacity>
+    );
+  };
 
   if (loading) return <Loading />;
 
@@ -125,9 +150,9 @@ export default function DNSScreen() {
     <>
       <Stack.Screen options={{ title: t('dns.title') }} />
       <View style={[styles.container, { backgroundColor: colors.background }]}>
-        {/* Search + Filter */}
+        {/* Search bar */}
         <View style={styles.toolbar}>
-          <View style={[styles.searchBar, { backgroundColor: colors.surface, borderColor: colors.border }]}>
+          <View style={[styles.searchBar, { backgroundColor: colors.surface, borderColor: colors.borderLight }]}>
             <Icon name="search" size={18} color={colors.textTertiary} />
             <TextInput
               style={[styles.searchInput, { color: colors.text }]}
@@ -138,40 +163,60 @@ export default function DNSScreen() {
               onSubmitEditing={fetchRecords}
               autoCapitalize="none"
             />
+            {search.length > 0 && (
+              <TouchableOpacity onPress={() => { setSearch(''); fetchRecords(); }} hitSlop={8}>
+                <Icon name="close" size={16} color={colors.textTertiary} />
+              </TouchableOpacity>
+            )}
           </View>
         </View>
 
-        {/* Type Filter Chips */}
+        {/* Type filter chips */}
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
-          style={styles.chipsRow}
           contentContainerStyle={styles.chips}
         >
-          {[undefined, ...RECORD_TYPES].map((item) => (
-            <TouchableOpacity
-              key={item ?? 'all'}
-              onPress={() => { setFilter(item); setLoading(true); }}
-              style={[
-                styles.chip,
-                {
-                  backgroundColor: filter === item ? colors.primary : colors.surface,
-                  borderColor: filter === item ? colors.primary : colors.border,
-                },
-              ]}
-            >
-              <Text style={{
-                fontSize: FontSize.xs,
-                fontWeight: '600',
-                color: filter === item ? '#FFF' : colors.textSecondary,
-              }}>
-                {item ?? t('dns.all')}
-              </Text>
-            </TouchableOpacity>
-          ))}
+          {[undefined, ...RECORD_TYPES].map((rt) => {
+            const active = filter === rt;
+            const c = rt ? typeColor(rt) : colors.primary;
+            return (
+              <TouchableOpacity
+                key={rt ?? 'all'}
+                onPress={() => { setFilter(rt); setLoading(true); }}
+                style={[
+                  styles.chip,
+                  {
+                    backgroundColor: active ? c : colors.surface,
+                    borderColor: active ? c : colors.borderLight,
+                  },
+                ]}
+                activeOpacity={0.7}
+              >
+                <Text style={{
+                  fontSize: FontSize.xs,
+                  fontWeight: '700',
+                  color: active ? '#FFF' : (rt ? c : colors.textSecondary),
+                  letterSpacing: 0.3,
+                }}>
+                  {rt ?? t('dns.all')}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
         </ScrollView>
 
-        {/* Records List */}
+        {/* Records count */}
+        {records.length > 0 && (
+          <View style={styles.countRow}>
+            <Text style={[styles.countText, { color: colors.textSecondary }]}>
+              {records.length} {records.length === 1 ? 'record' : 'records'}
+              {filter ? ` of type ${filter}` : ''}
+            </Text>
+          </View>
+        )}
+
+        {/* Records list */}
         <FlatList
           data={records}
           keyExtractor={(item) => item.id}
@@ -179,18 +224,31 @@ export default function DNSScreen() {
           contentContainerStyle={styles.list}
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colors.primary} />}
           ListEmptyComponent={
-            <EmptyState icon="dns" title={t('dns.no_records')} message={t('dns.no_records_message')} />
+            <View style={{ paddingTop: 40 }}>
+              <EmptyState icon="dns" title={t('dns.no_records')} message={t('dns.no_records_message')} />
+            </View>
           }
         />
 
-        {/* Add Button */}
-        <TouchableOpacity
-          style={[styles.fab, { backgroundColor: colors.primary }]}
-          onPress={() => router.push({ pathname: `/zone/[id]/dns-edit` as any, params: { id } })}
-          activeOpacity={0.8}
-        >
-          <Icon name="plus" size={28} color="#FFF" />
-        </TouchableOpacity>
+        {/* Action bar */}
+        <View style={[styles.actionBar, { backgroundColor: colors.surface, borderColor: colors.borderLight }]}>
+          <TouchableOpacity
+            style={[styles.actionBarBtn, { backgroundColor: colors.primary + '15' }]}
+            onPress={() => router.push({ pathname: `/zone/[id]/dns-templates` as any, params: { id } })}
+            activeOpacity={0.7}
+          >
+            <Icon name="layers" size={18} color={colors.primary} />
+            <Text style={[styles.actionBarText, { color: colors.primary }]}>{t('dns.templates')}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.actionBarPrimary, { backgroundColor: colors.primary }]}
+            onPress={() => router.push({ pathname: `/zone/[id]/dns-edit` as any, params: { id } })}
+            activeOpacity={0.85}
+          >
+            <Icon name="plus" size={18} color="#FFF" />
+            <Text style={styles.actionBarPrimaryText}>{t('dns.add_record')}</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </>
   );
@@ -200,76 +258,139 @@ const styles = StyleSheet.create({
   container: { flex: 1 },
   toolbar: {
     paddingHorizontal: Spacing.lg,
-    paddingTop: Spacing.sm,
+    paddingTop: Spacing.md,
   },
   searchBar: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: Spacing.md,
-    borderRadius: Radius.md,
+    borderRadius: Radius.lg,
     borderWidth: 1,
     gap: Spacing.sm,
+    height: 44,
   },
   searchInput: {
     flex: 1,
-    fontSize: FontSize.sm,
-    paddingVertical: Spacing.sm,
-  },
-  chipsRow: {
-    flexGrow: 0,
-    flexShrink: 0,
+    fontSize: FontSize.md,
   },
   chips: {
     paddingHorizontal: Spacing.lg,
-    paddingVertical: Spacing.sm,
-    gap: Spacing.sm,
+    paddingVertical: Spacing.md,
+    gap: Spacing.xs,
     alignItems: 'center',
   },
   chip: {
     paddingHorizontal: Spacing.md,
-    paddingVertical: Spacing.xs,
+    paddingVertical: 7,
     borderRadius: Radius.full,
     borderWidth: 1,
   },
+  countRow: {
+    paddingHorizontal: Spacing.lg,
+    paddingBottom: Spacing.sm,
+  },
+  countText: {
+    fontSize: FontSize.xs,
+    fontWeight: '500',
+  },
   list: {
     paddingHorizontal: Spacing.lg,
-    paddingBottom: 80,
+    paddingBottom: 100,
+    gap: Spacing.sm,
   },
-  recordCard: { marginBottom: Spacing.sm },
-  recordHeader: {
+  recordCard: {
+    flexDirection: 'row',
+    borderRadius: Radius.lg,
+    borderWidth: 1,
+    overflow: 'hidden',
+    marginBottom: Spacing.xs,
+  },
+  typeAccent: {
+    width: 4,
+  },
+  recordBody: {
+    flex: 1,
+    padding: Spacing.md,
+    gap: 6,
+  },
+  recordTopRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: Spacing.sm,
-    marginBottom: Spacing.xs,
   },
-  typeBadge: {
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    borderRadius: 4,
+  typePill: {
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: Radius.sm,
+    minWidth: 48,
+    alignItems: 'center',
   },
-  typeText: { fontSize: FontSize.xs, fontWeight: '700' },
-  recordName: { flex: 1, fontSize: FontSize.md, fontWeight: '600' },
-  recordContent: { fontSize: FontSize.sm, fontFamily: 'monospace', marginBottom: Spacing.sm },
-  recordFooter: {
+  typePillText: { fontSize: 11, fontWeight: '800', letterSpacing: 0.5 },
+  recordName: {
+    flex: 1,
+    fontSize: FontSize.md,
+    fontWeight: '700',
+  },
+  proxyChip: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 3,
+    paddingHorizontal: 7,
+    paddingVertical: 3,
+    borderRadius: Radius.full,
+  },
+  proxyText: { fontSize: 10, fontWeight: '700' },
+  recordContent: {
+    fontSize: FontSize.sm,
+    fontFamily: 'monospace',
+  },
+  recordMetaRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: Spacing.md,
+    marginTop: 2,
   },
-  recordTtl: { fontSize: FontSize.xs },
-  actionBtn: { padding: 4 },
-  fab: {
+  metaItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+  metaText: { fontSize: 11, fontWeight: '500' },
+  iconBtn: {
+    padding: 4,
+  },
+  actionBar: {
     position: 'absolute',
-    bottom: Spacing.xxl,
-    right: Spacing.xxl,
-    width: 56,
-    height: 56,
-    borderRadius: 28,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    flexDirection: 'row',
+    padding: Spacing.md,
+    gap: Spacing.sm,
+    borderTopWidth: 1,
+  },
+  actionBarBtn: {
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    elevation: 4,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
+    gap: 6,
+    paddingHorizontal: Spacing.lg,
+    height: 48,
+    borderRadius: Radius.md,
+  },
+  actionBarText: { fontSize: FontSize.sm, fontWeight: '700' },
+  actionBarPrimary: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 6,
+    height: 48,
+    borderRadius: Radius.md,
+  },
+  actionBarPrimaryText: {
+    color: '#FFF',
+    fontSize: FontSize.md,
+    fontWeight: '700',
   },
 });

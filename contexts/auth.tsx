@@ -15,6 +15,7 @@ interface AuthState {
   accountId: string | null;
   accounts: CFAccount[];
   authConfig: AuthConfig | null;
+  permissions: CF.Permissions | null;
 }
 
 interface AuthContextValue extends AuthState {
@@ -26,6 +27,12 @@ interface AuthContextValue extends AuthState {
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
+const DEFAULT_PERMS: CF.Permissions = {
+  user: false, accounts: false, zones: false, dns: false, ssl: false,
+  firewall: false, cache: false, analytics: false, pageRules: false,
+  workers: false, kv: false, r2: false, pages: false,
+};
+
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [state, setState] = useState<AuthState>({
     isLoading: true,
@@ -34,27 +41,89 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     accountId: null,
     accounts: [],
     authConfig: null,
+    permissions: null,
   });
 
   const fetchUser = useCallback(async () => {
+    let user: CFUser | null = null;
+    let accounts: CFAccount[] = [];
+    let zoneSample: any = null;
+    let zonesAccessible = false;
+
     try {
-      const [userRes, accountsRes] = await Promise.all([CF.getUser(), CF.getAccounts()]);
-      const user = userRes.result;
-      const accounts = accountsRes.result ?? [];
-      // Pick the account that matches the user's email, otherwise fall back to last account
-      // (first account is often a shared/org account where you're a member with limited perms)
-      const ownAccount = accounts.find(
-        (a) => a.name.toLowerCase().includes(user.email.split('@')[0].toLowerCase())
-      );
-      const accountId = ownAccount?.id ?? accounts[accounts.length - 1]?.id ?? null;
-      setState((s) => ({
-        ...s, user, accountId, isAuthenticated: true, isLoading: false,
-        accounts,
-      }));
+      const userRes = await CF.getUser();
+      user = userRes.result;
     } catch {
-      await CF.clearAuth();
-      setState({ isLoading: false, isAuthenticated: false, user: null, accountId: null, authConfig: null, accounts: [] });
+      // Token doesn't have User:Read permission — that's fine
     }
+
+    try {
+      const accountsRes = await CF.getAccounts();
+      accounts = accountsRes.result ?? [];
+    } catch {
+      // Token doesn't have Account:Read — try to derive accounts from zones
+    }
+
+    try {
+      const zonesRes = await CF.getZones(1);
+      const zones = zonesRes.result ?? [];
+      zonesAccessible = true;
+      if (zones.length > 0) {
+        zoneSample = zones[0];
+        if (accounts.length === 0) {
+          // Derive accounts from zone data
+          const accountMap = new Map<string, CFAccount>();
+          for (const z of zones) {
+            if (z.account?.id) {
+              accountMap.set(z.account.id, {
+                id: z.account.id,
+                name: z.account.name ?? 'Account',
+                type: 'standard',
+              });
+            }
+          }
+          accounts = Array.from(accountMap.values());
+        }
+      }
+    } catch {
+      // No zones access either
+    }
+
+    // Token is usable if: has user, has accounts, OR zones API is accessible (even if empty)
+    if (!user && accounts.length === 0 && !zonesAccessible) {
+      await CF.clearAuth();
+      setState({ isLoading: false, isAuthenticated: false, user: null, accountId: null, authConfig: null, accounts: [], permissions: null });
+      return;
+    }
+
+    // Pick account
+    let accountId: string | null = null;
+    if (user && accounts.length > 0) {
+      const ownAccount = accounts.find(
+        (a) => a.name.toLowerCase().includes(user!.email.split('@')[0].toLowerCase())
+      );
+      accountId = ownAccount?.id ?? accounts[accounts.length - 1]?.id ?? null;
+    } else {
+      accountId = accounts[0]?.id ?? null;
+    }
+
+    // Probe permissions (don't block login if this fails)
+    let permissions: CF.Permissions = { ...DEFAULT_PERMS, zones: zonesAccessible };
+    try {
+      permissions = await CF.probePermissions(zoneSample?.id, accountId ?? undefined);
+    } catch {
+      // ignore
+    }
+
+    setState((s) => ({
+      ...s,
+      user,
+      accountId,
+      accounts,
+      isAuthenticated: true,
+      isLoading: false,
+      permissions,
+    }));
   }, []);
 
   useEffect(() => {
@@ -72,7 +141,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const login = useCallback(async (config: AuthConfig) => {
     await CF.saveAuth(config);
     setState((s) => ({ ...s, authConfig: config }));
-    // Verify token works
     if (config.method === 'token') {
       await CF.verifyToken();
     }
@@ -81,7 +149,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const logout = useCallback(async () => {
     await CF.clearAuth();
-    setState({ isLoading: false, isAuthenticated: false, user: null, accountId: null, accounts: [], authConfig: null });
+    setState({ isLoading: false, isAuthenticated: false, user: null, accountId: null, accounts: [], authConfig: null, permissions: null });
   }, []);
 
   const switchAccount = useCallback((accountId: string) => {
