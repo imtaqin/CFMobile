@@ -4,9 +4,12 @@ import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 import '@/i18n';
 
+import { useEffect } from 'react';
 import { AuthProvider } from '@/contexts/auth';
 import { ThemeProvider, useThemeContext } from '@/contexts/theme';
 import { LockGate } from '@/components/ui/lock-gate';
+import { initPremium } from '@/services/premium';
+import { checkPlayUpdate } from '@/services/play-update';
 import { CF } from '@/constants/theme';
 
 const CFLightTheme = {
@@ -58,6 +61,11 @@ function AppContent() {
 }
 
 export default function RootLayout() {
+  useEffect(() => {
+    initPremium();
+    checkPlayUpdate();
+  }, []);
+
   return (
     <ThemeProvider>
       <AuthProvider>

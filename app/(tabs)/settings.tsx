@@ -12,11 +12,24 @@ import { SectionHeader } from '@/components/ui/section-header';
 import { Badge } from '@/components/ui/badge';
 import { Spacing, FontSize, Radius, CF } from '@/constants/theme';
 import * as appLock from '@/services/app-lock';
+import * as premiumService from '@/services/premium';
+import { usePremium } from '@/services/premium';
+import { DiceBearAvatar } from '@/components/ui/dicebear-avatar';
 import i18n from '@/i18n';
 
 const LANGUAGES = [
   { code: 'en', name: 'English', flag: 'EN' },
   { code: 'id', name: 'Bahasa Indonesia', flag: 'ID' },
+  { code: 'es', name: 'Español', flag: 'ES' },
+  { code: 'pt', name: 'Português (Brasil)', flag: 'PT' },
+  { code: 'de', name: 'Deutsch', flag: 'DE' },
+  { code: 'fr', name: 'Français', flag: 'FR' },
+  { code: 'ru', name: 'Русский', flag: 'RU' },
+  { code: 'ja', name: '日本語', flag: 'JA' },
+  { code: 'ko', name: '한국어', flag: 'KO' },
+  { code: 'zh', name: '中文（简体）', flag: 'ZH' },
+  { code: 'tr', name: 'Türkçe', flag: 'TR' },
+  { code: 'vi', name: 'Tiếng Việt', flag: 'VI' },
 ];
 
 const THEME_OPTIONS: { mode: ThemeMode; icon: IconName; labelKey: string }[] = [
@@ -36,6 +49,9 @@ export default function SettingsScreen() {
   const [showSensitive, setShowSensitive] = useState(false);
   const [lockAvailable, setLockAvailable] = useState(false);
   const [lockEnabled, setLockEnabledState] = useState(false);
+  const premium = usePremium();
+  const [premiumPrice, setPremiumPrice] = useState<string | null>(null);
+  const [premiumBusy, setPremiumBusy] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -43,6 +59,40 @@ export default function SettingsScreen() {
       setLockEnabledState(await appLock.isLockEnabled());
     })();
   }, []);
+
+  useEffect(() => {
+    if (!premium) {
+      premiumService.getPremiumPrice().then(setPremiumPrice).catch(() => {});
+    }
+  }, [premium]);
+
+  const handleBuyPremium = async () => {
+    setPremiumBusy(true);
+    try {
+      await premiumService.purchasePremium();
+    } catch (e: any) {
+      if (!String(e?.message ?? '').toLowerCase().includes('cancel')) {
+        Alert.alert(t('common.error'), e?.message ?? t('premium.purchase_error'));
+      }
+    } finally {
+      setPremiumBusy(false);
+    }
+  };
+
+  const handleRestorePremium = async () => {
+    setPremiumBusy(true);
+    try {
+      const owned = await premiumService.restorePremium();
+      Alert.alert(
+        t('common.info'),
+        owned ? t('premium.restored') : t('premium.nothing_to_restore')
+      );
+    } catch (e: any) {
+      Alert.alert(t('common.error'), e?.message ?? t('premium.purchase_error'));
+    } finally {
+      setPremiumBusy(false);
+    }
+  };
 
   const toggleLock = async (value: boolean) => {
     if (value) {
@@ -96,14 +146,10 @@ export default function SettingsScreen() {
     >
       {/* Account Card */}
       <Card style={styles.accountCard}>
-        <View style={[styles.avatar, { backgroundColor: CF.orange }]}>
-          <Text style={styles.avatarText}>
-            {(user?.first_name?.[0] || user?.email?.[0] || 'U').toUpperCase()}
-          </Text>
-        </View>
+        <DiceBearAvatar seed={user?.email || user?.username || 'cfmobile'} size={48} />
         <View style={{ flex: 1 }}>
           <Text style={[styles.accountName, { color: colors.text }]}>
-            {user?.first_name ? `${user.first_name} ${user.last_name ?? ''}`.trim() : 'User'}
+            {user?.first_name ? `${user.first_name} ${user.last_name ?? ''}`.trim() : (user?.email?.split('@')[0] ?? 'Admin')}
           </Text>
           <Text style={[styles.accountEmail, { color: colors.textSecondary }]}>
             {showSensitive ? user?.email : maskEmail(user?.email ?? '')}
@@ -114,6 +160,34 @@ export default function SettingsScreen() {
           variant="info"
         />
       </Card>
+
+      {/* Premium — compact row */}
+      {premium ? (
+        <View style={[styles.premiumRow, { backgroundColor: colors.success + '12', borderColor: colors.success + '40' }]}>
+          <Icon name="check-circle" size={18} color={colors.success} />
+          <Text style={[styles.premiumRowTitle, { color: colors.text, flex: 1 }]}>{t('premium.active_title')}</Text>
+        </View>
+      ) : (
+        <View style={[styles.premiumRow, { backgroundColor: CF.orange + '10', borderColor: CF.orange + '35' }]}>
+          <Icon name="zap" size={18} color={CF.orange} />
+          <View style={{ flex: 1 }}>
+            <Text style={[styles.premiumRowTitle, { color: colors.text }]}>{t('premium.upsell_compact')}</Text>
+            <TouchableOpacity onPress={handleRestorePremium} disabled={premiumBusy} hitSlop={6}>
+              <Text style={[styles.premiumRestore, { color: colors.textTertiary }]}>{t('premium.restore')}</Text>
+            </TouchableOpacity>
+          </View>
+          <TouchableOpacity
+            style={[styles.premiumBuyBtn, { backgroundColor: CF.orange, opacity: premiumBusy ? 0.6 : 1 }]}
+            onPress={handleBuyPremium}
+            disabled={premiumBusy}
+            activeOpacity={0.8}
+          >
+            <Text style={styles.premiumBuyText}>
+              {premiumPrice ?? t('premium.buy')}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      )}
 
       {/* Account Switcher */}
       {accounts.length > 1 && (
@@ -405,6 +479,24 @@ const styles = StyleSheet.create({
     fontSize: FontSize.md,
   },
   divider: { height: 1, marginLeft: 64 },
+  premiumRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing.sm,
+    paddingHorizontal: Spacing.md,
+    paddingVertical: Spacing.sm,
+    borderRadius: Radius.md,
+    borderWidth: 1,
+    marginBottom: Spacing.sm,
+  },
+  premiumRowTitle: { fontSize: FontSize.sm, fontWeight: '700' },
+  premiumBuyBtn: {
+    paddingHorizontal: Spacing.md,
+    paddingVertical: 7,
+    borderRadius: Radius.full,
+  },
+  premiumBuyText: { color: '#FFF', fontSize: FontSize.xs, fontWeight: '700' },
+  premiumRestore: { fontSize: 10, textDecorationLine: 'underline', marginTop: 1 },
   version: {
     textAlign: 'center',
     fontSize: FontSize.xs,

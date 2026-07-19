@@ -280,7 +280,27 @@
     "state_error": "Error",
     "state_closed": "Terputus",
     "waiting": "Menunggu event",
-    "waiting_message": "Permintaan ke Worker ini akan muncul di sini secara real time."
+    "waiting_message": "Permintaan ke Worker ini akan muncul di sini secara real time.",
+    "assets_only": "Worker ini hanya menyajikan aset statis (tanpa kode), jadi tidak ada log yang bisa di-tail. Cloudflare mungkin mendukung ini di masa depan."
+  },
+  "ads_notice": {
+    "title": "Sedikit catatan dari developer",
+    "body": "CloudFlare Mobile gratis dan open source. Untuk mendukung pengembangan, saya menampilkan satu iklan banner kecil di beranda saja. Kalau mau bebas iklan sepenuhnya, Anda bisa beli Premium sekali bayar dan mendukung proyek ini langsung. Terima kasih!",
+    "ok": "Oke, gak masalah",
+    "premium": "Mending Premium aja (tanpa iklan)"
+  },
+  "premium": {
+    "upsell_compact": "Upgrade Premium — hapus iklan selamanya",
+    "upsell_title": "Upgrade Premium",
+    "upsell_sub": "Sekali beli. Hapus semua iklan selamanya dan dukung pengembangan.",
+    "buy": "Hapus Iklan",
+    "buy_with_price": "Hapus Iklan — {{price}}",
+    "restore": "Pulihkan pembelian",
+    "restored": "Premium dipulihkan. Iklan hilang!",
+    "nothing_to_restore": "Tidak ada pembelian sebelumnya di akun ini.",
+    "purchase_error": "Pembelian gagal. Silakan coba lagi.",
+    "active_title": "Premium Aktif",
+    "active_sub": "Terima kasih telah mendukung CloudFlare Mobile! Semua iklan dihapus."
   },
   "lock": {
     "title": "CloudFlare Mobile terkunci",

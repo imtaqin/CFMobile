@@ -1,7 +1,7 @@
 # Privacy Policy
 
 **CloudFlare Mobile**
-Last updated: April 2, 2026
+Last updated: July 17, 2026
 
 ---
 
@@ -60,7 +60,22 @@ The app communicates with the official Cloudflare API for all account management
 https://api.cloudflare.com/client/v4
 ```
 
-No other third-party services, advertising networks, analytics platforms, or tracking SDKs are used. The app is completely ad-free.
+### Google AdMob
+
+The free version of the app displays advertisements via Google AdMob. AdMob may collect certain data as described in [Google's Privacy Policy](https://policies.google.com/privacy), including:
+
+- Advertising ID
+- Approximate location (IP-based)
+- Device information (model, OS version)
+- Ad interaction data
+
+You can opt out of personalized ads in your device settings under **Google > Ads**. Purchasing the one-time **Premium (Remove Ads)** upgrade removes all advertisements and stops all AdMob data collection.
+
+### Google Play Billing
+
+The optional Premium upgrade is processed by Google Play Billing. We never see or store your payment details — the entire transaction is handled by Google Play. The purchase state is stored locally on your device.
+
+No other third-party services, analytics platforms, or tracking SDKs are used.
 
 ---
 

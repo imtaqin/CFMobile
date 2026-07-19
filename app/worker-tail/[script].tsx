@@ -82,9 +82,15 @@ export default function WorkerTailScreen() {
       };
     } catch (e: any) {
       setConnState('error');
-      setErrorMsg(e?.response?.data?.errors?.[0]?.message ?? e?.message ?? 'Failed to start tail');
+      const cfError = e?.response?.data?.errors?.[0];
+      // 100311: assets-only Worker (static assets, no code) cannot be tailed
+      setErrorMsg(
+        cfError?.code === 100311
+          ? t('tail.assets_only')
+          : cfError?.message ?? e?.message ?? 'Failed to start tail'
+      );
     }
-  }, [accountId, script]);
+  }, [accountId, script, t]);
 
   useEffect(() => {
     connect();

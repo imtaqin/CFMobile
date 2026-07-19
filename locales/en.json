@@ -280,7 +280,27 @@
     "state_error": "Error",
     "state_closed": "Disconnected",
     "waiting": "Waiting for events",
-    "waiting_message": "Requests to this Worker will appear here in real time."
+    "waiting_message": "Requests to this Worker will appear here in real time.",
+    "assets_only": "This Worker only serves static assets (no code), so it has no logs to tail. Cloudflare may support this in the future."
+  },
+  "ads_notice": {
+    "title": "A small note from the developer",
+    "body": "CloudFlare Mobile is free and open source. To keep development going, I show a small banner ad on the home screen only. If you'd rather have no ads at all, you can buy Premium once and support the project directly. Thank you!",
+    "ok": "OK, that's fine",
+    "premium": "I'd rather go Premium (no ads)"
+  },
+  "premium": {
+    "upsell_compact": "Go Premium — remove ads forever",
+    "upsell_title": "Go Premium",
+    "upsell_sub": "One-time purchase. Removes all ads forever and supports development.",
+    "buy": "Remove Ads",
+    "buy_with_price": "Remove Ads — {{price}}",
+    "restore": "Restore purchase",
+    "restored": "Premium restored. Ads are gone!",
+    "nothing_to_restore": "No previous purchase found on this account.",
+    "purchase_error": "Purchase failed. Please try again.",
+    "active_title": "Premium Active",
+    "active_sub": "Thanks for supporting CloudFlare Mobile! All ads are removed."
   },
   "lock": {
     "title": "CloudFlare Mobile locked",

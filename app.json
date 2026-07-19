@@ -2,7 +2,7 @@
   "expo": {
     "name": "CloudFlare Mobile",
     "slug": "cloudflare-mobile",
-    "version": "1.3.0",
+    "version": "1.4.2",
     "orientation": "default",
     "icon": "./assets/images/icon.png",
     "scheme": "cfmobile",
@@ -12,15 +12,19 @@
       "supportsTablet": true
     },
     "android": {
+      "versionCode": 14,
       "adaptiveIcon": {
-        "backgroundColor": "#1B1B3A",
+        "backgroundColor": "#24105A",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
         "backgroundImage": "./assets/images/android-icon-background.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "id.imtaqin.cfmobile"
+      "package": "id.imtaqin.cfmobile",
+      "permissions": [
+        "com.android.vending.BILLING"
+      ]
     },
     "web": {
       "output": "static",
@@ -40,7 +44,22 @@
           }
         }
       ],
-      "expo-video"
+      [
+        "react-native-google-mobile-ads",
+        {
+          "androidAppId": "ca-app-pub-9117362819301000~1107509248"
+        }
+      ],
+      "expo-video",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "enableProguardInReleaseBuilds": true,
+            "enableShrinkResourcesInReleaseBuilds": true
+          }
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,

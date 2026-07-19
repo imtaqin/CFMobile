@@ -11,6 +11,9 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Loading } from '@/components/ui/loading';
 import { UpdateBanner } from '@/components/ui/update-banner';
+import { AdBanner } from '@/components/ui/ad-banner';
+import { DiceBearAvatar } from '@/components/ui/dicebear-avatar';
+import { usePremium } from '@/services/premium';
 import { Spacing, FontSize, Radius, CF } from '@/constants/theme';
 import * as api from '@/services/cloudflare';
 import { Zone } from '@/services/types';
@@ -32,6 +35,8 @@ export default function DashboardScreen() {
   const { t } = useTranslation();
   const { colors, isDark } = useTheme();
   const { user, permissions } = useAuth();
+  const premium = usePremium();
+  const [showAdsConsent, setShowAdsConsent] = useState(false);
 
   const [zones, setZones] = useState<Zone[]>([]);
   const [loading, setLoading] = useState(true);
@@ -51,6 +56,30 @@ export default function DashboardScreen() {
   }, []);
 
   useEffect(() => { fetchData(); }, [fetchData]);
+
+  // One-time friendly ads consent note
+  useEffect(() => {
+    if (premium) return;
+    (async () => {
+      try {
+        const SecureStore = require('expo-secure-store');
+        const seen = await SecureStore.getItemAsync('cf_ads_notice_seen');
+        if (!seen) setShowAdsConsent(true);
+      } catch {
+        // ignore
+      }
+    })();
+  }, [premium]);
+
+  const dismissAdsConsent = async () => {
+    setShowAdsConsent(false);
+    try {
+      const SecureStore = require('expo-secure-store');
+      await SecureStore.setItemAsync('cf_ads_notice_seen', 'true');
+    } catch {
+      // ignore
+    }
+  };
 
   const onRefresh = () => { setRefreshing(true); fetchData(); };
 
@@ -106,14 +135,10 @@ export default function DashboardScreen() {
               {t('dashboard.welcome')}
             </Text>
             <Text style={[styles.heroName, { color: isDark ? colors.text : '#FFF' }]} numberOfLines={1}>
-              {user?.first_name || 'User'}
+              {user?.first_name || user?.email?.split('@')[0] || 'Admin'}
             </Text>
           </View>
-          <View style={[styles.avatar, { backgroundColor: isDark ? CF.orange : 'rgba(255,255,255,0.25)' }]}>
-            <Text style={styles.avatarText}>
-              {(user?.first_name?.[0] || user?.email?.[0] || 'U').toUpperCase()}
-            </Text>
-          </View>
+          <DiceBearAvatar seed={user?.email || user?.username || 'cfmobile'} size={48} />
         </View>
 
         {/* Stats Row inside hero */}
@@ -140,6 +165,8 @@ export default function DashboardScreen() {
           </View>
         </View>
       </View>
+
+      <AdBanner />
 
       {/* Quick Actions — horizontal scroll */}
       <Text style={[styles.sectionTitle, { color: colors.text, paddingHorizontal: Spacing.lg }]}>{t('dashboard.quick_actions')}</Text>
@@ -201,6 +228,37 @@ export default function DashboardScreen() {
           </Text>
         </Card>
       )}
+
+      {/* Ads consent notice (once) */}
+      <Modal
+        visible={showAdsConsent}
+        transparent
+        animationType="fade"
+        onRequestClose={dismissAdsConsent}
+      >
+        <View style={styles.consentOverlay}>
+          <View style={[styles.consentCard, { backgroundColor: colors.surface }]}>
+            <View style={[styles.consentIcon, { backgroundColor: CF.orange + '18' }]}>
+              <Icon name="info" size={26} color={CF.orange} />
+            </View>
+            <Text style={[styles.consentTitle, { color: colors.text }]}>{t('ads_notice.title')}</Text>
+            <Text style={[styles.consentBody, { color: colors.textSecondary }]}>{t('ads_notice.body')}</Text>
+            <TouchableOpacity
+              style={[styles.consentPrimary, { backgroundColor: CF.orange }]}
+              onPress={dismissAdsConsent}
+              activeOpacity={0.85}
+            >
+              <Text style={styles.consentPrimaryText}>{t('ads_notice.ok')}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => { dismissAdsConsent(); router.push('/(tabs)/settings'); }}
+              hitSlop={8}
+            >
+              <Text style={[styles.consentSecondary, { color: colors.textSecondary }]}>{t('ads_notice.premium')}</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
 
       {/* Zone Picker Modal */}
       <Modal
@@ -345,6 +403,58 @@ const styles = StyleSheet.create({
   },
   zoneName: { fontSize: FontSize.md, fontWeight: '600' },
   zoneMeta: { fontSize: FontSize.xs, marginTop: 2, marginLeft: 16 },
+
+  // Ads consent
+  consentOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.55)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: Spacing.xl,
+  },
+  consentCard: {
+    width: '100%',
+    maxWidth: 380,
+    borderRadius: Radius.xl,
+    padding: Spacing.xl,
+    alignItems: 'center',
+    gap: Spacing.sm,
+  },
+  consentIcon: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: Spacing.xs,
+  },
+  consentTitle: {
+    fontSize: FontSize.lg,
+    fontWeight: '700',
+    textAlign: 'center',
+  },
+  consentBody: {
+    fontSize: FontSize.sm,
+    lineHeight: 20,
+    textAlign: 'center',
+  },
+  consentPrimary: {
+    alignSelf: 'stretch',
+    alignItems: 'center',
+    paddingVertical: Spacing.md,
+    borderRadius: Radius.full,
+    marginTop: Spacing.md,
+  },
+  consentPrimaryText: {
+    color: '#FFF',
+    fontSize: FontSize.md,
+    fontWeight: '700',
+  },
+  consentSecondary: {
+    fontSize: FontSize.sm,
+    textDecorationLine: 'underline',
+    paddingVertical: Spacing.xs,
+  },
 
   // Modal
   modalOverlay: {

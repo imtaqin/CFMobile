@@ -17,7 +17,7 @@ interface SocialLink {
 const SOCIAL_LINKS: SocialLink[] = [
   { icon: 'code', label: 'GitHub', value: '@imtaqin', url: 'https://github.com/imtaqin', color: '#181717' },
   { icon: 'globe', label: 'Website', value: 'imtaqin.id', url: 'https://imtaqin.id', color: '#3B82F6' },
-  { icon: 'mail', label: 'Email', value: 'taqin2731@gmail.com', url: 'mailto:taqin2731@gmail.com', color: '#EC4899' },
+  { icon: 'mail', label: 'Email', value: 'cp@imtaqin.id', url: 'mailto:cp@imtaqin.id', color: '#EC4899' },
 ];
 
 const APP_LINKS: SocialLink[] = [
@@ -63,7 +63,7 @@ export default function AboutScreen() {
             source={{ uri: 'https://github.com/imtaqin.png' }}
             style={styles.avatar}
           />
-          <Text style={[styles.devName, { color: colors.text }]}>Taqin Abdul Rachman</Text>
+          <Text style={[styles.devName, { color: colors.text }]}>Abdul Mutataqin</Text>
           <Text style={[styles.devHandle, { color: colors.primary }]}>@imtaqin</Text>
           <Text style={[styles.devBio, { color: colors.textSecondary }]}>
             {t('about.dev_bio')}
@@ -125,7 +125,7 @@ export default function AboutScreen() {
         </View>
 
         <Text style={[styles.copyright, { color: colors.textTertiary }]}>
-          © 2026 Taqin Abdul Rachman · MIT License
+          © 2026 Abdul Mutataqin · MIT License
         </Text>
       </ScrollView>
     </>

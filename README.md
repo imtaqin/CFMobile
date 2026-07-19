@@ -46,6 +46,7 @@ Available on [Google Play](https://play.google.com/store/apps/details?id=id.imta
 - **Localization** — English and Bahasa Indonesia
 - **Secure Storage** — API tokens stored with hardware-backed encryption (Android Keystore)
 - **Privacy First** — Sensitive data (email, account IDs) masked by default
+- **Premium** — One-time purchase removes all ads forever
 
 ## How to Use
 
@@ -186,6 +187,8 @@ cd android && ./gradlew bundleRelease
 - **Axios** — HTTP client for Cloudflare API v4
 - **i18next** — Internationalization (EN / ID)
 - **react-native-svg** — Custom icon system (Lucide-based) & analytics charts
+- **react-native-google-mobile-ads** — AdMob ads (free version)
+- **react-native-iap** — Premium one-time purchase (removes ads)
 - **expo-local-authentication** — Biometric app lock
 - **expo-document-picker / expo-sharing / expo-file-system** — DNS import/export & R2 file browser
 

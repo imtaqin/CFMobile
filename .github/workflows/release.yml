@@ -1,0 +1,87 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Read version
+        id: version
+        run: echo "version=$(node -p "require('./app.json').expo.version")" >> "$GITHUB_OUTPUT"
+
+      - name: Check if tag exists
+        id: tag
+        run: |
+          if git rev-parse "v${{ steps.version.outputs.version }}" >/dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Tag v${{ steps.version.outputs.version }} already exists — skipping release."
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/setup-node@v4
+        if: steps.tag.outputs.exists == 'false'
+        with:
+          node-version: 20
+          cache: npm
+
+      - uses: actions/setup-java@v4
+        if: steps.tag.outputs.exists == 'false'
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Install dependencies
+        if: steps.tag.outputs.exists == 'false'
+        run: npm ci
+
+      - name: Prebuild Android
+        if: steps.tag.outputs.exists == 'false'
+        run: npx expo prebuild --platform android --no-install
+
+      - name: Decode keystore
+        if: steps.tag.outputs.exists == 'false'
+        run: echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > android/app/upload.jks
+
+      - name: Apply release signing
+        if: steps.tag.outputs.exists == 'false'
+        run: node scripts/ci/apply-signing.js
+
+      - name: Build release APK
+        if: steps.tag.outputs.exists == 'false'
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleRelease --no-daemon
+
+      - name: Rename APK
+        if: steps.tag.outputs.exists == 'false'
+        run: cp android/app/build/outputs/apk/release/app-release.apk "CFMobile-v${{ steps.version.outputs.version }}.apk"
+
+      - name: Extract release notes
+        if: steps.tag.outputs.exists == 'false'
+        run: node scripts/ci/extract-changelog.js "${{ steps.version.outputs.version }}" > release-notes.md
+
+      - name: Create tag and release
+        if: steps.tag.outputs.exists == 'false'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          name: CloudFlare Mobile v${{ steps.version.outputs.version }}
+          body_path: release-notes.md
+          files: CFMobile-v${{ steps.version.outputs.version }}.apk

@@ -46,32 +46,39 @@ export function LockGate({ children }: { children: React.ReactNode }) {
     return () => sub.remove();
   }, []);
 
-  if (locked === false) return <>{children}</>;
-
+  // IMPORTANT: children stay mounted at all times — unmounting them destroys
+  // the navigation tree and the app "restarts" (onboarding shows again) after
+  // unlock. The lock screen is an opaque overlay on top instead.
   return (
-    <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <View style={[styles.iconWrap, { backgroundColor: colors.primary + '15' }]}>
-        <Icon name="lock" size={40} color={colors.primary} />
-      </View>
-      <Text style={[styles.title, { color: colors.text }]}>{t('lock.title')}</Text>
-      <Text style={[styles.subtitle, { color: colors.textSecondary }]}>{t('lock.subtitle')}</Text>
-      {locked === true && (
-        <TouchableOpacity
-          style={[styles.unlockBtn, { backgroundColor: colors.primary }]}
-          onPress={tryUnlock}
-          activeOpacity={0.8}
-        >
-          <Icon name="lock-open" size={18} color="#FFF" />
-          <Text style={styles.unlockText}>{t('lock.unlock')}</Text>
-        </TouchableOpacity>
+    <>
+      {children}
+      {locked !== false && (
+        <View style={[StyleSheet.absoluteFill, styles.container, { backgroundColor: colors.background }]}>
+          <View style={[styles.iconWrap, { backgroundColor: colors.primary + '15' }]}>
+            <Icon name="lock" size={40} color={colors.primary} />
+          </View>
+          <Text style={[styles.title, { color: colors.text }]}>{t('lock.title')}</Text>
+          <Text style={[styles.subtitle, { color: colors.textSecondary }]}>{t('lock.subtitle')}</Text>
+          {locked === true && (
+            <TouchableOpacity
+              style={[styles.unlockBtn, { backgroundColor: colors.primary }]}
+              onPress={tryUnlock}
+              activeOpacity={0.8}
+            >
+              <Icon name="lock-open" size={18} color="#FFF" />
+              <Text style={styles.unlockText}>{t('lock.unlock')}</Text>
+            </TouchableOpacity>
+          )}
+        </View>
       )}
-    </View>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    zIndex: 9999,
+    elevation: 9999,
     alignItems: 'center',
     justifyContent: 'center',
     padding: Spacing.xxl,

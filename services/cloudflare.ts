@@ -171,7 +171,12 @@ export async function probePermissions(zoneId?: string, accountId?: string): Pro
       probe(() => get(`/zones/${zoneId}/settings/ssl`)).then((v) => ['ssl', v] as [keyof Permissions, boolean]),
       probe(() => get(`/zones/${zoneId}/firewall/rules`, { per_page: 1 })).then((v) => ['firewall', v] as [keyof Permissions, boolean]),
       probe(() => get(`/zones/${zoneId}/settings/cache_level`)).then((v) => ['cache', v] as [keyof Permissions, boolean]),
-      probe(() => get(`/zones/${zoneId}/analytics/dashboard`, { since: '-60' })).then((v) => ['analytics', v] as [keyof Permissions, boolean]),
+      probe(async () => {
+        const res = await getClient().post('https://api.cloudflare.com/client/v4/graphql', {
+          query: `{ viewer { zones(filter: { zoneTag: "${zoneId}" }) { zoneTag } } }`,
+        });
+        if (res.data?.errors?.length) throw new Error('analytics denied');
+      }).then((v) => ['analytics', v] as [keyof Permissions, boolean]),
       probe(() => get(`/zones/${zoneId}/pagerules`)).then((v) => ['pageRules', v] as [keyof Permissions, boolean]),
     );
   }

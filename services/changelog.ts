@@ -7,6 +7,42 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '1.4.2',
+    date: '2026-07-19',
+    highlights: [
+      'Now in 12 languages: English, Indonesian, Spanish, Portuguese, German, French, Russian, Japanese, Korean, Chinese, Turkish, Vietnamese',
+    ],
+    fixes: [
+      'Biometric unlock no longer resets the app to onboarding',
+      'Analytics menu now appears correctly in zone management',
+      'Settings shows your name instead of "User"',
+    ],
+  },
+  {
+    version: '1.4.1',
+    date: '2026-07-18',
+    highlights: [
+      'New app icon',
+      'Way fewer ads — single banner on the home screen only',
+      'Friendly one-time notice about ads, with Premium option',
+      'New profile avatars',
+      'Update notifications from Google Play',
+    ],
+    fixes: [
+      'Clear message when tailing an assets-only Worker',
+      'Developer info corrected',
+    ],
+  },
+  {
+    version: '1.4.0',
+    date: '2026-07-17',
+    highlights: [
+      'Premium: one-time purchase removes all ads forever',
+      'Free version shows ads to support development',
+      'Restore purchase from Settings',
+    ],
+  },
+  {
     version: '1.3.0',
     date: '2026-07-16',
     highlights: [
