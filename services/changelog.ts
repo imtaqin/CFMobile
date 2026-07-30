@@ -7,6 +7,15 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '1.5.0',
+    date: '2026-07-31',
+    highlights: [
+      'Site Monitoring: get notified when your site errors out, gets attacked, or your SSL is about to expire',
+      'AI Security Audit: score your zone setup and get concrete fixes',
+      'Discover section on the dashboard to find features faster',
+    ],
+  },
+  {
     version: '1.4.2',
     date: '2026-07-19',
     highlights: [
