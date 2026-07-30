@@ -7,7 +7,7 @@ import Constants from 'expo-constants';
  * the monthly quota tied to the user's Play subscription.
  */
 const BASE_URL =
-  (Constants.expoConfig?.extra as any)?.aiBaseUrl ?? 'https://cfmobile-ai.imtaqin.workers.dev';
+  (Constants.expoConfig?.extra as any)?.aiBaseUrl ?? 'https://cfmobile-ai.imtaqin.id';
 
 export interface AiQuota {
   used: number;
