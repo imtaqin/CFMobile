@@ -413,5 +413,23 @@
     "sub_title": "Subscription required",
     "sub_body": "AI features are part of the CF Mobile AI plan.",
     "see_plans": "See plans"
+  },
+  "discover": {
+    "title": "Discover",
+    "ai_title": "AI Security Audit",
+    "ai_body": "Get a security score for your zone and clear fixes — in seconds.",
+    "ai_cta": "Try it free",
+    "monitor_title": "Never miss downtime",
+    "monitor_body": "Get alerted when your site errors out, gets attacked or your SSL expires.",
+    "monitor_cta": "Set up alerts",
+    "premium_title": "Go Premium",
+    "premium_body": "Remove ads forever, unlock site monitoring, and support development.",
+    "premium_cta": "See Premium",
+    "review_title": "Enjoying the app?",
+    "review_body": "A quick review helps other developers find CloudFlare Mobile.",
+    "review_cta": "Leave a review",
+    "oss_title": "Open source",
+    "oss_body": "Read the code, file an issue, or star the project on GitHub.",
+    "oss_cta": "View project"
   }
 }

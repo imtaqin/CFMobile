@@ -413,5 +413,23 @@
     "sub_title": "Perlu langganan",
     "sub_body": "Fitur AI termasuk dalam paket CF Mobile AI.",
     "see_plans": "Lihat paket"
+  },
+  "discover": {
+    "title": "Jelajahi",
+    "ai_title": "Audit Keamanan AI",
+    "ai_body": "Dapatkan skor keamanan zona Anda beserta perbaikannya — dalam hitungan detik.",
+    "ai_cta": "Coba gratis",
+    "monitor_title": "Jangan sampai kecolongan",
+    "monitor_body": "Dapat peringatan saat situs error, diserang, atau SSL mau kedaluwarsa.",
+    "monitor_cta": "Atur peringatan",
+    "premium_title": "Upgrade Premium",
+    "premium_body": "Hapus iklan selamanya, buka pemantauan situs, dan dukung pengembangan.",
+    "premium_cta": "Lihat Premium",
+    "review_title": "Suka aplikasinya?",
+    "review_body": "Ulasan singkat membantu developer lain menemukan CloudFlare Mobile.",
+    "review_cta": "Tulis ulasan",
+    "oss_title": "Open source",
+    "oss_body": "Baca kodenya, laporkan isu, atau beri bintang di GitHub.",
+    "oss_cta": "Lihat proyek"
   }
 }

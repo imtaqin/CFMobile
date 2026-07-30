@@ -413,5 +413,23 @@
     "sub_title": "Abonelik gerekli",
     "sub_body": "Yapay zeka özellikleri CF Mobile AI planının bir parçasıdır.",
     "see_plans": "Planları gör"
+  },
+  "discover": {
+    "title": "Keşfet",
+    "ai_title": "AI Güvenlik Denetimi",
+    "ai_body": "Bölgeniz için bir güvenlik puanı ve net düzeltmeler — saniyeler içinde alın.",
+    "ai_cta": "Ücretsiz deneyin",
+    "monitor_title": "Kesintiyi asla kaçırmayın",
+    "monitor_body": "Siteniz hata verdiğinde, saldırıya uğradığında veya SSL'iniz sona erdiğinde uyarı alın.",
+    "monitor_cta": "Uyarıları ayarla",
+    "premium_title": "Premium'a Geçin",
+    "premium_body": "Reklamları sonsuza dek kaldırın, site izlemeyi açın ve geliştirmeyi destekleyin.",
+    "premium_cta": "Premium'u Gör",
+    "review_title": "Uygulamayı beğeniyor musunuz?",
+    "review_body": "Kısa bir inceleme, diğer geliştiricilerin CloudFlare Mobile'ı bulmasına yardımcı olur.",
+    "review_cta": "İnceleme bırakın",
+    "oss_title": "Açık kaynak",
+    "oss_body": "Kodu okuyun, bir sorun bildirin veya projeyi GitHub'da yıldızlayın.",
+    "oss_cta": "Projeyi görüntüle"
   }
 }

@@ -413,5 +413,23 @@
     "sub_title": "Se requiere suscripción",
     "sub_body": "Las funciones de IA forman parte del plan CF Mobile AI.",
     "see_plans": "Ver planes"
+  },
+  "discover": {
+    "title": "Descubre",
+    "ai_title": "Auditoría de Seguridad con IA",
+    "ai_body": "Obtén una puntuación de seguridad para tu zona y soluciones claras, en segundos.",
+    "ai_cta": "Pruébalo gratis",
+    "monitor_title": "Nunca te pierdas un tiempo de inactividad",
+    "monitor_body": "Recibe alertas cuando tu sitio falle, sea atacado o tu SSL caduque.",
+    "monitor_cta": "Configurar alertas",
+    "premium_title": "Hazte Premium",
+    "premium_body": "Elimina los anuncios para siempre, desbloquea la monitorización del sitio y apoya el desarrollo.",
+    "premium_cta": "Ver Premium",
+    "review_title": "¿Disfrutando de la app?",
+    "review_body": "Una reseña rápida ayuda a otros desarrolladores a encontrar CloudFlare Mobile.",
+    "review_cta": "Deja una reseña",
+    "oss_title": "Código abierto",
+    "oss_body": "Lee el código, reporta un problema o dale una estrella al proyecto en GitHub.",
+    "oss_cta": "Ver proyecto"
   }
 }

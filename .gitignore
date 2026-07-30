@@ -32,3 +32,7 @@ IconKitchen-Output.zip
 # Worker deps
 ai-worker/node_modules/
 ai-worker/.wrangler/
+
+# Google service account - NEVER commit
+cf_mobile_service_account.json
+*service_account*.json

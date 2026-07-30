@@ -413,5 +413,23 @@
     "sub_title": "サブスクリプションが必要です",
     "sub_body": "AI機能はCF Mobile AIプランの一部です。",
     "see_plans": "プランを見る"
+  },
+  "discover": {
+    "title": "発見",
+    "ai_title": "AIセキュリティ監査",
+    "ai_body": "ゾーンのセキュリティスコアと明確な修正を数秒で取得。",
+    "ai_cta": "無料で試す",
+    "monitor_title": "ダウンタイムを見逃さない",
+    "monitor_body": "サイトのエラー、攻撃、SSLの期限切れ時にアラートを受け取る。",
+    "monitor_cta": "アラートを設定",
+    "premium_title": "プレミアムにアップグレード",
+    "premium_body": "広告を永久に削除し、サイト監視を解除し、開発をサポート。",
+    "premium_cta": "プレミアムを見る",
+    "review_title": "アプリを楽しんでいますか？",
+    "review_body": "簡単なレビューが他の開発者がCloudFlare Mobileを見つけるのに役立ちます。",
+    "review_cta": "レビューを残す",
+    "oss_title": "オープンソース",
+    "oss_body": "コードを読み、問題を報告し、GitHubでプロジェクトにスターを付ける。",
+    "oss_cta": "プロジェクトを見る"
   }
 }

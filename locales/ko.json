@@ -413,5 +413,23 @@
     "sub_title": "구독 필요",
     "sub_body": "AI 기능은 CF Mobile AI 플랜의 일부입니다.",
     "see_plans": "플랜 보기"
+  },
+  "discover": {
+    "title": "탐색",
+    "ai_title": "AI 보안 감사",
+    "ai_body": "몇 초 만에 영역의 보안 점수를 확인하고 명확한 수정 사항을 받아보세요.",
+    "ai_cta": "무료로 사용해보기",
+    "monitor_title": "다운타임을 놓치지 마세요",
+    "monitor_body": "사이트 오류, 공격 또는 SSL 만료 시 알림을 받으세요.",
+    "monitor_cta": "알림 설정",
+    "premium_title": "Premium으로 업그레이드",
+    "premium_body": "영원히 광고를 제거하고, 사이트 모니터링을 잠금 해제하며, 개발을 지원하세요.",
+    "premium_cta": "Premium 보기",
+    "review_title": "앱이 마음에 드시나요?",
+    "review_body": "간단한 리뷰는 다른 개발자들이 CloudFlare Mobile을 찾는 데 도움이 됩니다.",
+    "review_cta": "리뷰 남기기",
+    "oss_title": "오픈 소스",
+    "oss_body": "코드를 읽고, 문제를 제기하거나, GitHub에서 프로젝트에 별표를 표시하세요.",
+    "oss_cta": "프로젝트 보기"
   }
 }

@@ -413,5 +413,23 @@
     "sub_title": "需要订阅",
     "sub_body": "AI功能是CF Mobile AI计划的一部分。",
     "see_plans": "查看计划"
+  },
+  "discover": {
+    "title": "发现",
+    "ai_title": "AI 安全审计",
+    "ai_body": "秒速获取您的区域安全评分和清晰修复方案。",
+    "ai_cta": "免费试用",
+    "monitor_title": "绝不错过停机",
+    "monitor_body": "当您的网站出错、遭受攻击或 SSL 过期时，立即收到提醒。",
+    "monitor_cta": "设置提醒",
+    "premium_title": "升级 Premium",
+    "premium_body": "永久移除广告，解锁网站监控，并支持开发。",
+    "premium_cta": "查看 Premium",
+    "review_title": "喜欢这款应用吗？",
+    "review_body": "您的快速评价能帮助其他开发者找到 CloudFlare Mobile。",
+    "review_cta": "留下评价",
+    "oss_title": "开源项目",
+    "oss_body": "在 GitHub 上阅读代码、提交问题或为项目点赞。",
+    "oss_cta": "查看项目"
   }
 }

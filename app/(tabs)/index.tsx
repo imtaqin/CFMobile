@@ -13,6 +13,7 @@ import { Loading } from '@/components/ui/loading';
 import { UpdateBanner } from '@/components/ui/update-banner';
 import { AdBanner } from '@/components/ui/ad-banner';
 import { DiceBearAvatar } from '@/components/ui/dicebear-avatar';
+import { DiscoverCards } from '@/components/ui/discover-cards';
 import { usePremium } from '@/services/premium';
 import { Spacing, FontSize, Radius, CF } from '@/constants/theme';
 import * as api from '@/services/cloudflare';
@@ -167,6 +168,8 @@ export default function DashboardScreen() {
       </View>
 
       <AdBanner />
+
+      <DiscoverCards firstZoneId={zones[0]?.id} />
 
       {/* Quick Actions — horizontal scroll */}
       <Text style={[styles.sectionTitle, { color: colors.text, paddingHorizontal: Spacing.lg }]}>{t('dashboard.quick_actions')}</Text>

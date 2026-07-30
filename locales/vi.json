@@ -413,5 +413,23 @@
     "sub_title": "Yêu cầu đăng ký",
     "sub_body": "Các tính năng AI là một phần của gói CF Mobile AI.",
     "see_plans": "Xem các gói"
+  },
+  "discover": {
+    "title": "Khám phá",
+    "ai_title": "Kiểm tra bảo mật AI",
+    "ai_body": "Nhận điểm bảo mật cho khu vực của bạn và các bản sửa lỗi rõ ràng — chỉ trong vài giây.",
+    "ai_cta": "Dùng thử miễn phí",
+    "monitor_title": "Không bao giờ bỏ lỡ thời gian ngừng hoạt động",
+    "monitor_body": "Nhận thông báo khi trang web của bạn gặp lỗi, bị tấn công hoặc SSL của bạn hết hạn.",
+    "monitor_cta": "Thiết lập cảnh báo",
+    "premium_title": "Nâng cấp Premium",
+    "premium_body": "Xóa quảng cáo vĩnh viễn, mở khóa tính năng giám sát trang web và hỗ trợ phát triển.",
+    "premium_cta": "Xem Premium",
+    "review_title": "Bạn thích ứng dụng này chứ?",
+    "review_body": "Một đánh giá nhanh giúp các nhà phát triển khác tìm thấy CloudFlare Mobile.",
+    "review_cta": "Để lại đánh giá",
+    "oss_title": "Mã nguồn mở",
+    "oss_body": "Đọc mã, gửi vấn đề hoặc gắn dấu sao cho dự án trên GitHub.",
+    "oss_cta": "Xem dự án"
   }
 }

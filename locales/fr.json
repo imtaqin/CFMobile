@@ -413,5 +413,23 @@
     "sub_title": "Abonnement requis",
     "sub_body": "Les fonctionnalités IA font partie du plan CF Mobile AI.",
     "see_plans": "Voir les plans"
+  },
+  "discover": {
+    "title": "Découvrir",
+    "ai_title": "Audit de sécurité AI",
+    "ai_body": "Obtenez un score de sécurité pour votre zone et des correctifs clairs — en quelques secondes.",
+    "ai_cta": "Essayez gratuitement",
+    "monitor_title": "Ne manquez jamais un temps d'arrêt",
+    "monitor_body": "Soyez alerté lorsque votre site rencontre des erreurs, est attaqué ou que votre SSL expire.",
+    "monitor_cta": "Configurer les alertes",
+    "premium_title": "Passez au Premium",
+    "premium_body": "Supprimez les publicités pour toujours, débloquez la surveillance de site et soutenez le développement.",
+    "premium_cta": "Voir Premium",
+    "review_title": "Vous aimez l'application ?",
+    "review_body": "Un avis rapide aide d'autres développeurs à trouver CloudFlare Mobile.",
+    "review_cta": "Laisser un avis",
+    "oss_title": "Open source",
+    "oss_body": "Lisez le code, signalez un problème ou mettez une étoile au projet sur GitHub.",
+    "oss_cta": "Voir le projet"
   }
 }

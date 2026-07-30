@@ -413,5 +413,23 @@
     "sub_title": "Abonnement erforderlich",
     "sub_body": "KI-Funktionen sind Teil des CF Mobile AI-Plans.",
     "see_plans": "Pläne ansehen"
+  },
+  "discover": {
+    "title": "Entdecken",
+    "ai_title": "KI-Sicherheitsaudit",
+    "ai_body": "Erhalten Sie in Sekundenschnelle einen Sicherheits-Score für Ihre Zone und klare Lösungen.",
+    "ai_cta": "Kostenlos testen",
+    "monitor_title": "Nie wieder Ausfallzeiten verpassen",
+    "monitor_body": "Lassen Sie sich benachrichtigen, wenn Ihre Website Fehler aufweist, angegriffen wird oder Ihr SSL abläuft.",
+    "monitor_cta": "Benachrichtigungen einrichten",
+    "premium_title": "Go Premium",
+    "premium_body": "Entfernen Sie Werbung dauerhaft, schalten Sie die Website-Überwachung frei und unterstützen Sie die Entwicklung.",
+    "premium_cta": "Premium ansehen",
+    "review_title": "Gefällt Ihnen die App?",
+    "review_body": "Eine kurze Bewertung hilft anderen Entwicklern, CloudFlare Mobile zu finden.",
+    "review_cta": "Bewertung abgeben",
+    "oss_title": "Open Source",
+    "oss_body": "Lesen Sie den Code, melden Sie ein Problem oder markieren Sie das Projekt auf GitHub mit einem Stern.",
+    "oss_cta": "Projekt ansehen"
   }
 }
