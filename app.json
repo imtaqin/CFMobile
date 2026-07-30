@@ -59,7 +59,8 @@
             "enableShrinkResourcesInReleaseBuilds": true
           }
         }
-      ]
+      ],
+      "expo-background-task"
     ],
     "experiments": {
       "typedRoutes": true,
@@ -69,7 +70,8 @@
       "router": {},
       "eas": {
         "projectId": "452dc507-4f36-46d7-891c-18c8dd9e6b7b"
-      }
+      },
+      "aiBaseUrl": "https://cfmobile-ai.imtaqin.workers.dev"
     }
   }
 }

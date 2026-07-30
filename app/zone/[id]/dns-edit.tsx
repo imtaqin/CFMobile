@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import { Loading } from '@/components/ui/loading';
 import { Spacing, FontSize, Radius } from '@/constants/theme';
 import * as api from '@/services/cloudflare';
+import { recordHappyMoment } from '@/services/review-prompt';
 import { DNSRecordType, DNSRecordInput } from '@/services/types';
 
 const RECORD_TYPES: DNSRecordType[] = ['A', 'AAAA', 'CNAME', 'MX', 'TXT', 'NS', 'SRV', 'CAA'];
@@ -96,6 +97,7 @@ export default function DNSEditScreen() {
       } else {
         await api.createDnsRecord(id, record);
       }
+      recordHappyMoment();
       router.back();
     } catch (e: any) {
       const msg = e?.response?.data?.errors?.[0]?.message ?? t('dns.save_error');

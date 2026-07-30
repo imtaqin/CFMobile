@@ -55,10 +55,10 @@
     "dashboard_hint": "ブラウザで開く",
     "feature_secure": "ハードウェア暗号化",
     "feature_fast": "超高速",
-    "feature_private": "トラッキングなし",
+    "feature_private": "追跡なし",
     "unofficial_notice": "CloudFlare MobileはCloudflare, Inc.とは提携していません。",
     "rate_limit_notice": "レート制限: ユーザーあたり5分間に1,200リクエスト",
-    "privacy_notice": "お客様の認証情報は一切保存しません。デバイス上で暗号化され、Cloudflare APIにのみ送信されます。このアプリはオープンソースです。タップしてGitHubでコードを表示してください。"
+    "privacy_notice": "お客様の認証情報は一切保存しません。デバイス上で暗号化され、Cloudflare APIにのみ送信されます。このアプリはオープンソースです。タップしてGitHubでコードを表示します。"
   },
   "dashboard": {
     "welcome": "おかえりなさい、",
@@ -112,13 +112,15 @@
     "under_attack": "Under Attack Mode",
     "under_attack_desc": "最大限の保護 — すべての訪問者にチャレンジ",
     "under_attack_active": "アクティブ — すべての訪問者にチャレンジ中",
-    "under_attack_error": "セキュリティレベルの変更に失敗しました。"
+    "under_attack_error": "セキュリティレベルの変更に失敗しました。",
+    "ai_audit": "AIセキュリティ監査",
+    "ai_audit_desc": "設定を評価し、修正案を取得"
   },
   "dns": {
     "title": "DNSレコード",
     "search": "レコードを検索...",
     "all": "すべて",
-    "no_records": "DNSレコードなし",
+    "no_records": "DNSレコードがありません",
     "no_records_message": "DNSレコードを追加して開始してください。",
     "delete_title": "レコードを削除",
     "delete_confirm": "{{name}}を削除してもよろしいですか？",
@@ -136,7 +138,7 @@
     "comment": "コメント",
     "comment_placeholder": "オプションのコメント",
     "proxied": "プロキシ済み (オレンジクラウド)",
-    "proxied_desc": "Cloudflare CDNと保護を介してルーティングされるトラフィック",
+    "proxied_desc": "Cloudflare CDNと保護を介してトラフィックをルーティング",
     "create": "レコードを作成",
     "update": "レコードを更新",
     "templates": "テンプレート",
@@ -145,7 +147,7 @@
     "import_title": "DNSレコードをインポート",
     "import_confirm": "{{file}}からレコードをインポートしますか？レコードはBINDゾーンファイル形式で追加されます。",
     "import_action": "インポート",
-    "import_result": "解析されたレコード{{parsed}}件中{{added}}件が追加されました。",
+    "import_result": "{{parsed}}個の解析済みレコードのうち{{added}}個が追加されました。",
     "import_error": "レコードのインポートに失敗しました。"
   },
   "ssl": {
@@ -168,7 +170,7 @@
   },
   "firewall": {
     "title": "ファイアウォールルール",
-    "no_rules": "ファイアウォールルールなし",
+    "no_rules": "ファイアウォールルールがありません",
     "no_rules_message": "Cloudflareダッシュボードでファイアウォールルールを作成してください。",
     "delete_title": "ルールを削除",
     "delete_confirm": "このルールを削除してもよろしいですか？",
@@ -179,7 +181,7 @@
   },
   "cache": {
     "title": "キャッシュ管理",
-    "purge_everything": "すべてパージ",
+    "purge_everything": "すべてをパージ",
     "purge_all_title": "すべてのキャッシュをパージ",
     "purge_all_desc": "すべてのキャッシュファイルを削除します。キャッシュが再構築されるまで、オリジンサーバーがすべてのリクエストを処理する必要があります。",
     "purge_all_confirm": "これにより、キャッシュされたコンテンツがすべてパージされます。よろしいですか？",
@@ -187,7 +189,7 @@
     "purge": "パージ",
     "purge_error": "キャッシュのパージに失敗しました。",
     "purge_by_url": "URLでパージ",
-    "purge_urls_desc": "特定のコンテンツを選択的にパージするには、1行に1つのURLを入力してください。",
+    "purge_urls_desc": "特定のコンテンツを選択的にパージするために、1行に1つのURLを入力してください。",
     "urls_placeholder": "https://example.com/style.css\nhttps://example.com/script.js",
     "purge_urls": "URLをパージ",
     "purge_urls_success": "{{count}}個のURLが正常にパージされました！",
@@ -202,12 +204,12 @@
     "uncached": "未キャッシュ",
     "cache_hit_rate": "キャッシュヒット率",
     "bandwidth": "帯域幅",
-    "bandwidth_saved": "節約された帯域幅",
+    "bandwidth_saved": "帯域幅の節約",
     "security": "セキュリティと訪問者",
     "threats": "脅威",
     "pageviews": "ページビュー",
     "unique_visitors": "ユニーク訪問者",
-    "no_data": "分析データなし",
+    "no_data": "分析データがありません",
     "no_data_message": "この期間のトラフィックデータはありません。",
     "requests_over_time": "時間経過に伴うリクエスト",
     "bandwidth_over_time": "時間経過に伴う帯域幅",
@@ -216,7 +218,7 @@
   },
   "pagerules": {
     "title": "ページルール",
-    "no_rules": "ページルールなし",
+    "no_rules": "ページルールがありません",
     "no_rules_message": "Cloudflareダッシュボードでページルールを作成してください。",
     "delete_title": "ページルールを削除",
     "delete_confirm": "このページルールを削除してもよろしいですか？",
@@ -225,24 +227,24 @@
   "services": {
     "workers": "Workers",
     "no_workers": "Workersが見つかりません",
-    "no_kv": "KVネームスペースなし",
-    "no_r2": "R2バケットなし",
-    "no_pages": "Pagesプロジェクトなし",
+    "no_kv": "KVネームスペースがありません",
+    "no_r2": "R2バケットがありません",
+    "no_pages": "Pagesプロジェクトがありません",
     "modified": "変更日",
     "created": "作成日",
     "no_account": "アカウントが見つかりません",
     "no_account_message": "Cloudflareアカウントを取得できませんでした。APIトークンの権限を確認してください。",
-    "tap_tail": "タップしてライブログを表示",
-    "tap_browse": "タップしてファイルを参照"
+    "tap_tail": "ライブログをタップ",
+    "tap_browse": "ファイルを閲覧をタップ"
   },
   "email": {
     "title": "メールルーティング",
     "enabled": "有効",
     "enable": "メールルーティングを有効にする",
     "not_enabled": "メールルーティングはオフです",
-    "not_enabled_message": "メールルーティングを有効にして、ドメインに送信されたメールを任意の受信トレイに転送します。",
+    "not_enabled_message": "メールルーティングを有効にすると、ドメインに送信されたメールを任意の受信箱に転送できます。",
     "rules": "ルーティングルール",
-    "no_rules": "ルーティングルールなし",
+    "no_rules": "ルーティングルールがありません",
     "no_rules_message": "カスタムアドレスを転送するルールを追加してください。",
     "add_rule": "ルーティングルールを追加",
     "custom_address": "カスタムアドレス",
@@ -252,10 +254,10 @@
     "delete_rule_confirm": "{{name}}のルールを削除しますか？",
     "catch_all": "キャッチオール",
     "catch_all_desc": "その他のすべてのアドレス",
-    "no_destination": "確認済みの宛先アドレスがありません。",
-    "action_drop": "破棄",
+    "no_destination": "利用可能な確認済み宛先アドレスがありません。",
+    "action_drop": "ドロップ",
     "destinations": "宛先アドレス",
-    "no_destinations": "宛先アドレスなし",
+    "no_destinations": "宛先アドレスがありません",
     "no_destinations_message": "転送するメールアドレスを追加してください。",
     "add_destination": "宛先アドレスを追加",
     "destination_email": "メールアドレス",
@@ -265,7 +267,7 @@
   },
   "audit": {
     "title": "監査ログ",
-    "no_logs": "監査ログなし",
+    "no_logs": "監査ログがありません",
     "no_logs_message": "アカウントのアクティビティが見つからないか、トークンに監査ログの権限がありません。"
   },
   "r2": {
@@ -278,14 +280,14 @@
     "state_connecting": "接続中...",
     "state_live": "ライブ",
     "state_error": "エラー",
-    "state_closed": "切断されました",
+    "state_closed": "切断済み",
     "waiting": "イベントを待機中",
-    "waiting_message": "このWorkerへのリクエストがここにリアルタイムで表示されます。",
-    "assets_only": "このWorkerは静的アセットのみを提供するため（コードなし）、ログがありません。Cloudflareは将来的にこれをサポートする可能性があります。"
+    "waiting_message": "このWorkerへのリクエストがリアルタイムでここに表示されます。",
+    "assets_only": "このWorkerは静的アセットのみを提供するため（コードなし）、テールするログがありません。Cloudflareは将来的にこれをサポートする可能性があります。"
   },
   "ads_notice": {
-    "title": "開発者からのお知らせ",
-    "body": "CloudFlare Mobileは無料でオープンソースです。開発を継続するため、ホーム画面にのみ小さなバナー広告を表示しています。広告を一切表示したくない場合は、一度プレミアムを購入してプロジェクトを直接サポートできます。ありがとうございます！",
+    "title": "開発者からのちょっとしたお知らせ",
+    "body": "CloudFlare Mobileは無料でオープンソースです。開発を継続するために、ホーム画面にのみ小さなバナー広告を表示しています。広告を完全に表示したくない場合は、一度プレミアムを購入してプロジェクトを直接サポートできます。ありがとうございます！",
     "ok": "OK、問題ありません",
     "premium": "プレミアムにしたい（広告なし）"
   },
@@ -297,16 +299,16 @@
     "buy_with_price": "広告を削除 — {{price}}",
     "restore": "購入を復元",
     "restored": "プレミアムが復元されました。広告はなくなりました！",
-    "nothing_to_restore": "このアカウントで以前の購入は見つかりませんでした。",
+    "nothing_to_restore": "このアカウントで以前の購入が見つかりませんでした。",
     "purchase_error": "購入に失敗しました。もう一度お試しください。",
-    "active_title": "プレミアムが有効",
+    "active_title": "プレミアムが有効です",
     "active_sub": "CloudFlare Mobileをサポートしていただきありがとうございます！すべての広告が削除されました。"
   },
   "lock": {
     "title": "CloudFlare Mobileがロックされています",
     "subtitle": "アプリを開くには認証してください",
-    "prompt": "CloudFlare Mobileをロック解除",
-    "unlock": "ロック解除"
+    "prompt": "CloudFlare Mobileのロックを解除",
+    "unlock": "ロックを解除"
   },
   "settings": {
     "title": "設定",
@@ -325,7 +327,7 @@
     "theme_system": "システム",
     "security": "セキュリティ",
     "biometric_lock": "生体認証ロック",
-    "biometric_lock_sub": "アプリを開く際に指紋/顔認証を要求する",
+    "biometric_lock_sub": "アプリを開く際に指紋/顔認証を要求",
     "biometric_unavailable": "このデバイスに生体認証が登録されていません",
     "audit_logs": "監査ログ",
     "audit_logs_sub": "アカウントアクティビティ履歴",
@@ -337,7 +339,12 @@
     "check_updates": "更新を確認",
     "check_updates_sub": "GitHubで最新リリースを表示",
     "logout": "サインアウト",
-    "logout_confirm": "サインアウトしてもよろしいですか？"
+    "logout_confirm": "サインアウトしてもよろしいですか？",
+    "monitoring_section": "監視",
+    "monitoring": "サイト監視",
+    "monitoring_sub": "ダウンタイム、スパイク、SSL期限切れのアラート",
+    "rate_us": "CloudFlare Mobileを評価",
+    "rate_us_sub": "アプリを楽しんでいますか？レビューを残してください"
   },
   "update": {
     "title": "アップデートが利用可能です — v{{version}}",
@@ -359,5 +366,52 @@
     "dev_bio": "フルスタック開発者。外出先でのインフラ管理を容易にするツールを構築しています。",
     "project": "プロジェクト",
     "disclaimer": "CloudFlare Mobileは非公式アプリであり、Cloudflare, Inc.とは提携、承認、または関連していません。"
+  },
+  "monitor": {
+    "title": "サイト監視",
+    "hero_title": "サイトを監視",
+    "hero_on": "バックグラウンドで15分ごとにチェック中",
+    "hero_off": "何か問題が発生したときにアラートを受け取るにはオンにしてください",
+    "premium_title": "プレミアム機能",
+    "premium_body": "サイト監視はバックグラウンドで実行され、サイトに問題が発生したときにアラートを送信します。プレミアムで利用可能です。",
+    "premium_upsell": "プレミアムで監視をアンロック",
+    "perm_title": "通知が必要です",
+    "perm_body": "サイトがダウンしたときにアラートを送信できるように、通知を許可してください。",
+    "watching": "監視対象",
+    "check_down": "サイトエラー",
+    "check_down_sub": "リクエストの{{pct}}%以上が5xxで失敗した場合にアラート",
+    "check_spike": "トラフィックスパイク",
+    "check_spike_sub": "トラフィックが最近の平均の{{x}}倍になった場合にアラート",
+    "check_threats": "攻撃の急増",
+    "check_threats_sub": "Cloudflareが脅威の急増をブロックした場合にアラート",
+    "check_ssl": "証明書の期限切れ",
+    "check_ssl_sub": "SSL証明書の期限切れ{{days}}日前にアラート",
+    "zones": "監視対象ゾーン ({{count}})",
+    "no_zones": "このアカウントで利用可能なゾーンはありません。",
+    "check_now": "今すぐチェック",
+    "alerts_found_title": "問題が見つかりました",
+    "alerts_found_body": "{{count}}件のアラートが送信されました。通知を確認してください。",
+    "all_good_title": "すべて良好",
+    "all_good_body": "監視対象ゾーンで問題は検出されませんでした。",
+    "history": "最近のアラート",
+    "no_alerts": "まだアラートはありません",
+    "no_alerts_message": "注意が必要なことがあれば、ここに表示されます。",
+    "footnote": "デバイスがバックグラウンド作業を許可している間、約15分ごとにチェックが実行されます。バッテリー最適化により遅延する場合があります。"
+  },
+  "ai": {
+    "audit_title": "AIセキュリティ監査",
+    "audit_intro_title": "AIでこのゾーンを監査",
+    "audit_intro_body": "ゾーン設定、DNSレコード、最近の脅威アクティビティを読み取り、実行可能な修正案とともにセキュリティスコアを提供します。",
+    "run_audit": "監査を実行",
+    "rerun": "再実行",
+    "analyzing": "ゾーンを分析中...",
+    "analyzing_sub": "設定、DNSレコード、脅威アクティビティを読み取り中。",
+    "privacy_note": "分析のために送信されるのは設定情報のみであり、APIトークンや認証情報は送信されません。",
+    "disclaimer": "AIの提案は助言です。適用する前に変更を確認してください。",
+    "quota_title": "月間AI制限に達しました",
+    "quota_body": "今月のAIアクションをすべて使用しました。上限を増やすにはアップグレードしてください。",
+    "sub_title": "サブスクリプションが必要です",
+    "sub_body": "AI機能はCF Mobile AIプランの一部です。",
+    "see_plans": "プランを見る"
   }
 }

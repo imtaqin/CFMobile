@@ -112,7 +112,9 @@
     "under_attack": "공격 모드",
     "under_attack_desc": "최대 보호 — 모든 방문자에게 챌린지",
     "under_attack_active": "활성 — 모든 방문자에게 챌린지 중",
-    "under_attack_error": "보안 수준 변경에 실패했습니다."
+    "under_attack_error": "보안 수준 변경에 실패했습니다.",
+    "ai_audit": "AI Security Audit",
+    "ai_audit_desc": "Score your setup and get fixes"
   },
   "dns": {
     "title": "DNS 레코드",
@@ -337,7 +339,12 @@
     "check_updates": "업데이트 확인",
     "check_updates_sub": "GitHub에서 최신 릴리스 보기",
     "logout": "로그아웃",
-    "logout_confirm": "로그아웃하시겠습니까?"
+    "logout_confirm": "로그아웃하시겠습니까?",
+    "monitoring_section": "Monitoring",
+    "monitoring": "Site Monitoring",
+    "monitoring_sub": "Alerts for downtime, spikes and SSL expiry",
+    "rate_us": "Rate CloudFlare Mobile",
+    "rate_us_sub": "Enjoying the app? Leave a review"
   },
   "update": {
     "title": "업데이트 사용 가능 — v{{version}}",
@@ -359,5 +366,52 @@
     "dev_bio": "풀 스택 개발자. 이동 중에도 인프라 관리를 더 쉽게 만드는 도구를 만듭니다.",
     "project": "프로젝트",
     "disclaimer": "CloudFlare Mobile은 비공식 앱이며 Cloudflare, Inc.와 제휴, 보증 또는 연결되지 않습니다."
+  },
+  "monitor": {
+    "title": "사이트 모니터링",
+    "hero_title": "내 사이트 보기",
+    "hero_on": "백그라운드에서 15분마다 확인 중",
+    "hero_off": "문제가 발생하면 알림을 받으려면 켜세요",
+    "premium_title": "프리미엄 기능",
+    "premium_body": "사이트 모니터링은 백그라운드에서 실행되며 사이트에 문제가 발생하면 알려줍니다. 프리미엄으로 이용 가능합니다.",
+    "premium_upsell": "프리미엄으로 모니터링 잠금 해제",
+    "perm_title": "알림 필요",
+    "perm_body": "사이트가 다운될 때 알림을 받을 수 있도록 알림을 허용하세요.",
+    "watching": "우리가 지켜보는 것",
+    "check_down": "사이트 오류",
+    "check_down_sub": "요청의 {{pct}}% 이상이 5xx 오류로 실패할 때 알림",
+    "check_spike": "트래픽 급증",
+    "check_spike_sub": "트래픽이 최근 평균의 {{x}}배일 때 알림",
+    "check_threats": "공격 급증",
+    "check_threats_sub": "Cloudflare가 위협의 급증을 차단할 때 알림",
+    "check_ssl": "인증서 만료",
+    "check_ssl_sub": "SSL 인증서 만료 {{days}}일 전에 알림",
+    "zones": "모니터링되는 영역 ({{count}})",
+    "no_zones": "이 계정에서 사용할 수 있는 영역이 없습니다.",
+    "check_now": "지금 확인",
+    "alerts_found_title": "문제가 발견되었습니다",
+    "alerts_found_body": "{{count}}개의 알림이 전송되었습니다. 알림을 확인하세요.",
+    "all_good_title": "모두 양호",
+    "all_good_body": "모니터링되는 영역에서 문제가 감지되지 않았습니다.",
+    "history": "최근 알림",
+    "no_alerts": "아직 알림이 없습니다",
+    "no_alerts_message": "주의가 필요한 사항이 있으면 여기에 표시됩니다.",
+    "footnote": "기기에서 백그라운드 작업을 허용하는 동안 약 15분마다 확인이 실행됩니다. 배터리 최적화로 인해 지연될 수 있습니다."
+  },
+  "ai": {
+    "audit_title": "AI 보안 감사",
+    "audit_intro_title": "AI로 이 영역 감사",
+    "audit_intro_body": "영역 설정, DNS 레코드 및 최근 위협 활동을 읽은 다음, 조치할 수 있는 수정 사항과 함께 보안 점수를 제공합니다.",
+    "run_audit": "감사 실행",
+    "rerun": "다시 실행",
+    "analyzing": "영역 분석 중…",
+    "analyzing_sub": "설정, DNS 레코드 및 위협 활동 읽기.",
+    "privacy_note": "분석을 위해 구성 사실만 전송되며 API 토큰이나 자격 증명은 전송되지 않습니다.",
+    "disclaimer": "AI 제안은 권고 사항입니다. 적용하기 전에 변경 사항을 검토하세요.",
+    "quota_title": "월간 AI 한도 도달",
+    "quota_body": "이번 달 AI 작업을 모두 사용했습니다. 더 높은 한도를 위해 업그레이드하세요.",
+    "sub_title": "구독 필요",
+    "sub_body": "AI 기능은 CF Mobile AI 플랜의 일부입니다.",
+    "see_plans": "플랜 보기"
   }
 }

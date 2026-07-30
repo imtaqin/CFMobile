@@ -29,3 +29,6 @@ CFVideos/
 IconKitchen-Output.zip
 /.agents
 /.claude
+# Worker deps
+ai-worker/node_modules/
+ai-worker/.wrangler/

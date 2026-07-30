@@ -9,6 +9,7 @@ import { AuthProvider } from '@/contexts/auth';
 import { ThemeProvider, useThemeContext } from '@/contexts/theme';
 import { LockGate } from '@/components/ui/lock-gate';
 import { initPremium } from '@/services/premium';
+import { syncMonitoring } from '@/services/monitor-task';
 import { checkPlayUpdate } from '@/services/play-update';
 import { CF } from '@/constants/theme';
 
@@ -50,6 +51,7 @@ function AppContent() {
           />
           <Stack.Screen name="about" options={{ animation: 'slide_from_right' }} />
           <Stack.Screen name="changelog" options={{ animation: 'slide_from_right' }} />
+          <Stack.Screen name="monitoring" options={{ animation: 'slide_from_right', headerShown: true }} />
           <Stack.Screen name="audit-logs" options={{ animation: 'slide_from_right', headerShown: true }} />
           <Stack.Screen name="r2/[bucket]" options={{ animation: 'slide_from_right', headerShown: true }} />
           <Stack.Screen name="worker-tail/[script]" options={{ animation: 'slide_from_right', headerShown: true }} />
@@ -64,6 +66,7 @@ export default function RootLayout() {
   useEffect(() => {
     initPremium();
     checkPlayUpdate();
+    syncMonitoring();
   }, []);
 
   return (

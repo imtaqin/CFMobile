@@ -87,6 +87,7 @@ export default function ZoneDetailScreen() {
     perms.analytics && { icon: 'chart-line' as const, color: '#9333EA', title: t('zone.analytics'), sub: t('zone.analytics_desc'), path: 'analytics' },
     perms.pageRules && { icon: 'rule' as const, color: colors.primary, title: t('zone.page_rules'), sub: t('zone.page_rules_desc'), path: 'pagerules' },
     { icon: 'mail' as const, color: '#EC4899', title: t('zone.email_routing'), sub: t('zone.email_routing_desc'), path: 'email' },
+    { icon: 'shield-check' as const, color: '#F6821F', title: t('zone.ai_audit'), sub: t('zone.ai_audit_desc'), path: 'ai-audit' },
   ].filter(Boolean) as any;
 
   return (

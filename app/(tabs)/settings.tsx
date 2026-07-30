@@ -15,6 +15,7 @@ import * as appLock from '@/services/app-lock';
 import * as premiumService from '@/services/premium';
 import { usePremium } from '@/services/premium';
 import { DiceBearAvatar } from '@/components/ui/dicebear-avatar';
+import { openReview } from '@/services/review-prompt';
 import i18n from '@/i18n';
 
 const LANGUAGES = [
@@ -317,6 +318,18 @@ export default function SettingsScreen() {
         />
       </Card>
 
+      {/* Monitoring */}
+      <SectionHeader title={t('settings.monitoring_section')} />
+      <Card style={{ padding: 0, overflow: 'hidden' as const }}>
+        <MenuItem
+          icon="activity"
+          iconColor={colors.success}
+          title={t('settings.monitoring')}
+          subtitle={t('settings.monitoring_sub')}
+          onPress={() => router.push('/monitoring' as any)}
+        />
+      </Card>
+
       {/* Account Info */}
       <SectionHeader
         title={t('settings.account_info')}
@@ -392,6 +405,14 @@ export default function SettingsScreen() {
           title={t('settings.check_updates')}
           subtitle={t('settings.check_updates_sub')}
           onPress={() => Linking.openURL('https://github.com/imtaqin/CFMobile/releases/latest')}
+        />
+        <View style={[styles.divider, { backgroundColor: colors.borderLight }]} />
+        <MenuItem
+          icon="check-circle"
+          iconColor={CF.orange}
+          title={t('settings.rate_us')}
+          subtitle={t('settings.rate_us_sub')}
+          onPress={() => openReview()}
         />
       </Card>
 

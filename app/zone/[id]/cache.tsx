@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import { SectionHeader } from '@/components/ui/section-header';
 import { Spacing, FontSize, Radius } from '@/constants/theme';
 import * as api from '@/services/cloudflare';
+import { recordHappyMoment } from '@/services/review-prompt';
 
 export default function CacheScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -35,6 +36,7 @@ export default function CacheScreen() {
             try {
               await api.purgeAllCache(id);
               Alert.alert(t('common.success'), t('cache.purge_all_success'));
+              recordHappyMoment();
             } catch (e: any) {
               const msg = e?.response?.data?.errors?.[0]?.message ?? t('cache.purge_error');
               Alert.alert(t('common.error'), msg);
@@ -57,6 +59,7 @@ export default function CacheScreen() {
     try {
       await api.purgeUrls(id, urlList);
       Alert.alert(t('common.success'), t('cache.purge_urls_success', { count: urlList.length }));
+      recordHappyMoment();
       setUrls('');
     } catch (e: any) {
       const msg = e?.response?.data?.errors?.[0]?.message ?? t('cache.purge_error');
