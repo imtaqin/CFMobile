@@ -347,7 +347,9 @@
     "monitoring": "Monitorización del Sitio",
     "monitoring_sub": "Alertas por tiempo de inactividad, picos y caducidad de SSL",
     "rate_us": "Valora CloudFlare Mobile",
-    "rate_us_sub": "¿Disfrutas de la aplicación? Deja una reseña"
+    "rate_us_sub": "¿Disfrutas de la aplicación? Deja una reseña",
+    "share_usage": "Compartir uso anónimo",
+    "share_usage_sub": "Ayuda a decidir qué construir a continuación. Sin datos personales, sin seguimiento."
   },
   "update": {
     "title": "Actualización disponible — v{{version}}",

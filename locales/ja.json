@@ -347,7 +347,9 @@
     "monitoring": "サイト監視",
     "monitoring_sub": "ダウンタイム、スパイク、SSL期限切れのアラート",
     "rate_us": "CloudFlare Mobileを評価",
-    "rate_us_sub": "アプリを楽しんでいますか？レビューを残してください"
+    "rate_us_sub": "アプリを楽しんでいますか？レビューを残してください",
+    "share_usage": "匿名利用状況を共有",
+    "share_usage_sub": "今後の開発の参考にさせていただきます。個人データや追跡は行いません。"
   },
   "update": {
     "title": "アップデートが利用可能です — v{{version}}",

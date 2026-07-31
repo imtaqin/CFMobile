@@ -13,6 +13,7 @@ import { EmptyState } from '@/components/ui/empty-state';
 import { useAuth } from '@/contexts/auth';
 import { Spacing, FontSize, Radius, CF } from '@/constants/theme';
 import * as api from '@/services/cloudflare';
+import { track } from '@/services/analytics';
 import { D1TableInfo, D1QueryResult } from '@/services/cloudflare';
 
 const PAGE_SIZE = 25;
@@ -58,6 +59,10 @@ export default function D1BrowserScreen() {
       setRefreshing(false);
     }
   }, [accountId, db]);
+
+  useEffect(() => { track('d1_opened', { once: true }); }, []);
+
+  useEffect(() => { track('d1_opened', { once: true }); }, []);
 
   useEffect(() => { loadTables(); }, [loadTables]);
 

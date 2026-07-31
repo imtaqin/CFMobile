@@ -347,7 +347,9 @@
     "monitoring": "Giám sát trang web",
     "monitoring_sub": "Cảnh báo về thời gian ngừng hoạt động, tăng đột biến và hết hạn SSL",
     "rate_us": "Đánh giá CloudFlare Mobile",
-    "rate_us_sub": "Thích ứng dụng này? Để lại đánh giá"
+    "rate_us_sub": "Thích ứng dụng này? Để lại đánh giá",
+    "share_usage": "Chia sẻ dữ liệu sử dụng ẩn danh",
+    "share_usage_sub": "Giúp chúng tôi quyết định nên phát triển tính năng gì tiếp theo. Không có dữ liệu cá nhân, không theo dõi."
   },
   "update": {
     "title": "Có bản cập nhật — v{{version}}",

@@ -1,7 +1,7 @@
 # Privacy Policy
 
 **CloudFlare Mobile**
-Last updated: July 17, 2026
+Last updated: July 31, 2026
 
 ---
 
@@ -24,17 +24,32 @@ To use the app, you must provide one of the following:
 
 These credentials are stored **locally on your device only**, using Android Keystore hardware-backed encryption. They are never transmitted to any server other than the official Cloudflare API.
 
+### Anonymous Usage Statistics
+
+To decide which features to build and maintain, the app sends anonymous usage
+signals to a server we operate (`cfmobile-ai.imtaqin.id`):
+
+- A random install identifier, generated on your device — it is not derived from
+  your account, email, device ID, or advertising ID, and it identifies an install,
+  not a person
+- The name of the feature used (for example `ai_audit_start`, `monitor_enabled`)
+- App version and interface language
+- Country, as determined by Cloudflare's network from the connection — we never
+  request location permission and never store IP addresses
+
+You can turn this off at any time: **Settings → Security → Share anonymous usage**.
+When it is off, nothing is sent at all.
+
 ### No Additional Data Collection
 
 We do **not** collect, store, or transmit:
 
 - Personal information beyond what you provide for authentication
-- Device identifiers or fingerprints
-- Location data
-- Usage analytics or telemetry
+- Device identifiers, fingerprints, or advertising identifiers
+- Precise location data
+- Your domains, DNS record contents, or credentials in usage statistics
 - Crash reports
-- Advertising identifiers
-- Cookies or tracking data
+- Cookies or cross-app tracking data
 
 ---
 

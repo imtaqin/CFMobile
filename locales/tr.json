@@ -347,7 +347,9 @@
     "monitoring": "Site İzleme",
     "monitoring_sub": "Kesinti, ani yükselişler ve SSL süresi dolması için uyarılar",
     "rate_us": "CloudFlare Mobile'ı Değerlendir",
-    "rate_us_sub": "Uygulamayı beğeniyor musunuz? Bir yorum bırakın"
+    "rate_us_sub": "Uygulamayı beğeniyor musunuz? Bir yorum bırakın",
+    "share_usage": "Anonim kullanımı paylaş",
+    "share_usage_sub": "Sırada ne geliştirileceğine karar vermeye yardımcı olur. Kişisel veri yok, takip yok."
   },
   "update": {
     "title": "Güncelleme mevcut — v{{version}}",

@@ -347,7 +347,9 @@
     "monitoring": "Website-Überwachung",
     "monitoring_sub": "Benachrichtigungen bei Ausfallzeiten, Spitzen und SSL-Ablauf",
     "rate_us": "CloudFlare Mobile bewerten",
-    "rate_us_sub": "Gefällt Ihnen die App? Hinterlassen Sie eine Bewertung"
+    "rate_us_sub": "Gefällt Ihnen die App? Hinterlassen Sie eine Bewertung",
+    "share_usage": "Anonyme Nutzungsdaten teilen",
+    "share_usage_sub": "Hilft uns zu entscheiden, was als Nächstes entwickelt werden soll. Keine persönlichen Daten, kein Tracking."
   },
   "update": {
     "title": "Update verfügbar — v{{version}}",

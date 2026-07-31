@@ -347,7 +347,9 @@
     "monitoring": "Site Monitoring",
     "monitoring_sub": "Alerts for downtime, spikes and SSL expiry",
     "rate_us": "Rate CloudFlare Mobile",
-    "rate_us_sub": "Enjoying the app? Leave a review"
+    "rate_us_sub": "Enjoying the app? Leave a review",
+    "share_usage": "Share anonymous usage",
+    "share_usage_sub": "Helps decide what to build next. No personal data, no tracking."
   },
   "update": {
     "title": "Update available — v{{version}}",

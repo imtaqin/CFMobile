@@ -347,7 +347,9 @@
     "monitoring": "站点监控",
     "monitoring_sub": "停机、流量高峰和SSL过期警报",
     "rate_us": "评价CloudFlare Mobile",
-    "rate_us_sub": "喜欢这个应用吗？留下评论"
+    "rate_us_sub": "喜欢这个应用吗？留下评论",
+    "share_usage": "分享匿名使用数据",
+    "share_usage_sub": "帮助我们决定下一步开发什么。不包含个人数据，不进行跟踪。"
   },
   "update": {
     "title": "有可用更新 — v{{version}}",

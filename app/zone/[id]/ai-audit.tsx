@@ -13,6 +13,7 @@ import * as ai from '@/services/ai';
 import { AuditResult, AuditFinding, AiError } from '@/services/ai';
 import { recordHappyMoment } from '@/services/review-prompt';
 import { AiPaywall } from '@/components/ui/ai-paywall';
+import { track } from '@/services/analytics';
 import i18n from '@/i18n';
 
 export default function AiAuditScreen() {
@@ -28,6 +29,7 @@ export default function AiAuditScreen() {
   const runAudit = useCallback(async () => {
     setRunning(true);
     setError(null);
+    track('ai_audit_start');
     try {
       // Gather zone facts locally, then let the worker do the reasoning.
       const [zoneRes, settingsRes, dnsRes] = await Promise.all([

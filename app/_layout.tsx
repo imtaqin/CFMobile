@@ -10,6 +10,7 @@ import { ThemeProvider, useThemeContext } from '@/contexts/theme';
 import { LockGate } from '@/components/ui/lock-gate';
 import { initPremium } from '@/services/premium';
 import { syncMonitoring } from '@/services/monitor-task';
+import { track } from '@/services/analytics';
 import { checkPlayUpdate } from '@/services/play-update';
 import { CF } from '@/constants/theme';
 
@@ -69,6 +70,7 @@ export default function RootLayout() {
     initPremium();
     checkPlayUpdate();
     syncMonitoring();
+    track('app_open');
   }, []);
 
   return (

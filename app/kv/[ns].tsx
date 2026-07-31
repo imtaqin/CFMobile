@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/auth';
 import { Spacing, FontSize, Radius, CF } from '@/constants/theme';
 import * as api from '@/services/cloudflare';
+import { track } from '@/services/analytics';
 
 interface KVKey {
   name: string;
@@ -52,6 +53,8 @@ export default function KVBrowserScreen() {
       setRefreshing(false);
     }
   }, [accountId, ns]);
+
+  useEffect(() => { track('kv_opened', { once: true }); }, []);
 
   useEffect(() => { load(); }, [load]);
 

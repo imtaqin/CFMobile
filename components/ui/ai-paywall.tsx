@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { Icon } from '@/components/ui/icon';
 import { useTheme } from '@/hooks/use-theme';
 import * as aiSub from '@/services/ai-subscription';
+import { track } from '@/services/analytics';
 import { Spacing, FontSize, Radius, CF } from '@/constants/theme';
 
 interface AiPaywallProps {
@@ -25,12 +26,16 @@ export function AiPaywall({ visible, onClose, reason = 'browse', onSubscribed }:
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
-    if (visible) aiSub.getSubscriptionPrice().then(setPrice).catch(() => {});
+    if (visible) {
+      track('paywall_shown');
+      aiSub.getSubscriptionPrice().then(setPrice).catch(() => {});
+    }
   }, [visible]);
 
   const buy = async () => {
     setBusy(true);
     try {
+      track('subscribe_tapped');
       await aiSub.subscribeAi();
       // entitlement arrives through the purchase listener; refresh once the sheet closes
       setTimeout(async () => {

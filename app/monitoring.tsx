@@ -14,6 +14,7 @@ import { usePremium } from '@/services/premium';
 import * as monitoring from '@/services/monitoring';
 import { MonitorConfig, MonitorAlert } from '@/services/monitoring';
 import { requestNotificationPermission, syncMonitoring, runCheckNow } from '@/services/monitor-task';
+import { track } from '@/services/analytics';
 import { Spacing, FontSize, Radius, CF } from '@/constants/theme';
 import * as api from '@/services/cloudflare';
 import { Zone } from '@/services/types';
@@ -68,6 +69,7 @@ export default function MonitoringScreen() {
         return;
       }
     }
+    track(value ? 'monitor_enabled' : 'monitor_disabled');
     await save({ ...config, enabled: value });
   };
 

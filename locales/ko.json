@@ -347,7 +347,9 @@
     "monitoring": "Site Monitoring",
     "monitoring_sub": "Alerts for downtime, spikes and SSL expiry",
     "rate_us": "Rate CloudFlare Mobile",
-    "rate_us_sub": "Enjoying the app? Leave a review"
+    "rate_us_sub": "Enjoying the app? Leave a review",
+    "share_usage": "익명 사용 정보 공유",
+    "share_usage_sub": "다음 개발 기능을 결정하는 데 도움이 됩니다. 개인 데이터나 추적은 포함되지 않습니다."
   },
   "update": {
     "title": "업데이트 사용 가능 — v{{version}}",

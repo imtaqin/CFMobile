@@ -18,6 +18,7 @@ import { DiceBearAvatar } from '@/components/ui/dicebear-avatar';
 import { openReview } from '@/services/review-prompt';
 import { AiPaywall } from '@/components/ui/ai-paywall';
 import { useAiQuota } from '@/services/ai-subscription';
+import { isAnalyticsEnabled, setAnalyticsEnabled } from '@/services/analytics';
 import i18n from '@/i18n';
 
 const LANGUAGES = [
@@ -57,6 +58,16 @@ export default function SettingsScreen() {
   const [premiumBusy, setPremiumBusy] = useState(false);
   const { quota: aiQuota } = useAiQuota();
   const [showAiPaywall, setShowAiPaywall] = useState(false);
+  const [analyticsOn, setAnalyticsOn] = useState(true);
+
+  useEffect(() => {
+    isAnalyticsEnabled().then(setAnalyticsOn).catch(() => {});
+  }, []);
+
+  const toggleAnalytics = async (value: boolean) => {
+    setAnalyticsOn(value);
+    await setAnalyticsEnabled(value);
+  };
 
   useEffect(() => {
     (async () => {
@@ -350,6 +361,21 @@ export default function SettingsScreen() {
           title={t('settings.audit_logs')}
           subtitle={t('settings.audit_logs_sub')}
           onPress={() => router.push('/audit-logs' as any)}
+        />
+        <View style={[styles.divider, { backgroundColor: colors.borderLight }]} />
+        <MenuItem
+          icon="pageview"
+          iconColor={colors.textSecondary}
+          title={t('settings.share_usage')}
+          subtitle={t('settings.share_usage_sub')}
+          trailing={
+            <Switch
+              value={analyticsOn}
+              onValueChange={toggleAnalytics}
+              trackColor={{ true: colors.success, false: colors.border }}
+              thumbColor="#FFF"
+            />
+          }
         />
       </Card>
 

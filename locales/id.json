@@ -347,7 +347,9 @@
     "monitoring": "Pemantauan Situs",
     "monitoring_sub": "Peringatan downtime, lonjakan, dan masa SSL",
     "rate_us": "Beri rating CloudFlare Mobile",
-    "rate_us_sub": "Suka aplikasinya? Tulis ulasan"
+    "rate_us_sub": "Suka aplikasinya? Tulis ulasan",
+    "share_usage": "Bagikan penggunaan anonim",
+    "share_usage_sub": "Membantu menentukan fitur berikutnya. Tanpa data pribadi, tanpa pelacakan."
   },
   "update": {
     "title": "Pembaruan tersedia — v{{version}}",

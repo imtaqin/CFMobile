@@ -347,7 +347,9 @@
     "monitoring": "Monitoramento de Sites",
     "monitoring_sub": "Alertas para tempo de inatividade, picos e expiração de SSL",
     "rate_us": "Avaliar CloudFlare Mobile",
-    "rate_us_sub": "Gostando do aplicativo? Deixe uma avaliação"
+    "rate_us_sub": "Gostando do aplicativo? Deixe uma avaliação",
+    "share_usage": "Compartilhar uso anônimo",
+    "share_usage_sub": "Ajuda a decidir o que construir em seguida. Sem dados pessoais, sem rastreamento."
   },
   "update": {
     "title": "Atualização disponível — v{{version}}",
