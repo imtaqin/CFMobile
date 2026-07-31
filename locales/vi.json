@@ -368,7 +368,9 @@
     "developer": "Nhà phát triển",
     "dev_bio": "Nhà phát triển full-stack. Xây dựng các công cụ giúp quản lý cơ sở hạ tầng dễ dàng hơn khi đang di chuyển.",
     "project": "Dự án",
-    "disclaimer": "CloudFlare Mobile là một ứng dụng không chính thức và không liên kết, được chứng thực hoặc kết nối với Cloudflare, Inc."
+    "disclaimer": "CloudFlare Mobile là một ứng dụng không chính thức và không liên kết, được chứng thực hoặc kết nối với Cloudflare, Inc.",
+    "more_apps": "Ứng dụng khác của nhà phát triển",
+    "get": "TẢI"
   },
   "monitor": {
     "title": "Giám sát trang web",

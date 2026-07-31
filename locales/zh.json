@@ -368,7 +368,9 @@
     "developer": "开发者",
     "dev_bio": "全栈开发者。致力于构建工具，让移动基础设施管理更便捷。",
     "project": "项目",
-    "disclaimer": "CloudFlare Mobile是一个非官方应用程序，与Cloudflare, Inc.无关联、未获得其认可或连接。"
+    "disclaimer": "CloudFlare Mobile是一个非官方应用程序，与Cloudflare, Inc.无关联、未获得其认可或连接。",
+    "more_apps": "更多此开发者的应用",
+    "get": "获取"
   },
   "monitor": {
     "title": "站点监控",

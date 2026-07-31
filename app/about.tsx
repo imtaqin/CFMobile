@@ -20,6 +20,24 @@ const SOCIAL_LINKS: SocialLink[] = [
   { icon: 'mail', label: 'Email', value: 'cp@imtaqin.id', url: 'mailto:cp@imtaqin.id', color: '#EC4899' },
 ];
 
+interface OtherApp {
+  name: string;
+  tagline: string;
+  icon: IconName;
+  color: string;
+  packageName: string;
+}
+
+const OTHER_APPS: OtherApp[] = [
+  {
+    name: 'NiceSSH',
+    tagline: 'Free SSH client — manage your servers from your phone',
+    icon: 'server',
+    color: '#10B981',
+    packageName: 'com.imtaqin.nice_ssh',
+  },
+];
+
 const APP_LINKS: SocialLink[] = [
   { icon: 'code', label: 'Source code', value: 'github.com/imtaqin/CFMobile', url: 'https://github.com/imtaqin/CFMobile', color: '#181717' },
   { icon: 'shield', label: 'Privacy Policy', value: 'imtaqin.id', url: 'https://imtaqin.id/page/-privacy-policy-cloudflare-mobile', color: '#10B981' },
@@ -88,6 +106,36 @@ export default function AboutScreen() {
               </TouchableOpacity>
             ))}
           </View>
+        </View>
+
+        {/* More apps by this developer */}
+        <Text style={[styles.sectionLabel, { color: colors.textSecondary }]}>
+          {t('about.more_apps')}
+        </Text>
+        <View style={[styles.linkList, { backgroundColor: colors.surface, borderColor: colors.borderLight }]}>
+          {OTHER_APPS.map((app, idx) => (
+            <View key={app.packageName}>
+              {idx > 0 && <View style={[styles.divider, { backgroundColor: colors.borderLight }]} />}
+              <TouchableOpacity
+                style={styles.linkRow}
+                onPress={() => open(`https://play.google.com/store/apps/details?id=${app.packageName}`)}
+                activeOpacity={0.7}
+              >
+                <View style={[styles.linkIcon, { backgroundColor: app.color + '18' }]}>
+                  <Icon name={app.icon} size={20} color={app.color} />
+                </View>
+                <View style={{ flex: 1 }}>
+                  <Text style={[styles.linkLabel, { color: colors.text }]}>{app.name}</Text>
+                  <Text style={[styles.linkValue, { color: colors.textSecondary }]} numberOfLines={2}>
+                    {app.tagline}
+                  </Text>
+                </View>
+                <View style={[styles.getBadge, { backgroundColor: app.color }]}>
+                  <Text style={styles.getBadgeText}>{t('about.get')}</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          ))}
         </View>
 
         {/* Project Links */}
@@ -268,6 +316,17 @@ const styles = StyleSheet.create({
   linkValue: {
     fontSize: FontSize.xs,
     marginTop: 1,
+    lineHeight: 15,
+  },
+  getBadge: {
+    paddingHorizontal: Spacing.md,
+    paddingVertical: 6,
+    borderRadius: Radius.full,
+  },
+  getBadgeText: {
+    color: '#FFF',
+    fontSize: FontSize.xs,
+    fontWeight: '800',
   },
   divider: {
     height: 1,

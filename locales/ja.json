@@ -368,7 +368,9 @@
     "developer": "開発者",
     "dev_bio": "フルスタック開発者。外出先でのインフラ管理を容易にするツールを構築しています。",
     "project": "プロジェクト",
-    "disclaimer": "CloudFlare Mobileは非公式アプリであり、Cloudflare, Inc.とは提携、承認、または関連していません。"
+    "disclaimer": "CloudFlare Mobileは非公式アプリであり、Cloudflare, Inc.とは提携、承認、または関連していません。",
+    "more_apps": "その他のApp",
+    "get": "入手"
   },
   "monitor": {
     "title": "サイト監視",

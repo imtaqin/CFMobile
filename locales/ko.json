@@ -368,7 +368,9 @@
     "developer": "개발자",
     "dev_bio": "풀 스택 개발자. 이동 중에도 인프라 관리를 더 쉽게 만드는 도구를 만듭니다.",
     "project": "프로젝트",
-    "disclaimer": "CloudFlare Mobile은 비공식 앱이며 Cloudflare, Inc.와 제휴, 보증 또는 연결되지 않습니다."
+    "disclaimer": "CloudFlare Mobile은 비공식 앱이며 Cloudflare, Inc.와 제휴, 보증 또는 연결되지 않습니다.",
+    "more_apps": "개발자의 다른 앱",
+    "get": "받기"
   },
   "monitor": {
     "title": "사이트 모니터링",

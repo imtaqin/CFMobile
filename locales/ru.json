@@ -368,7 +368,9 @@
     "developer": "Разработчик",
     "dev_bio": "Full-stack разработчик. Создаёт инструменты для удобного управления инфраструктурой.",
     "project": "Проект",
-    "disclaimer": "CloudFlare Mobile — неофициальное приложение, не связанное с Cloudflare, Inc."
+    "disclaimer": "CloudFlare Mobile — неофициальное приложение, не связанное с Cloudflare, Inc.",
+    "more_apps": "Другие приложения разработчика",
+    "get": "ПОЛУЧИТЬ"
   },
   "monitor": {
     "title": "Мониторинг сайтов",

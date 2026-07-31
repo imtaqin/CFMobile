@@ -368,7 +368,9 @@
     "developer": "Développeur",
     "dev_bio": "Développeur full-stack. Crée des outils qui facilitent la gestion de l'infrastructure en déplacement.",
     "project": "Projet",
-    "disclaimer": "CloudFlare Mobile est une application non officielle et n'est pas affiliée, approuvée ou connectée à Cloudflare, Inc."
+    "disclaimer": "CloudFlare Mobile est une application non officielle et n'est pas affiliée, approuvée ou connectée à Cloudflare, Inc.",
+    "more_apps": "Autres apps du développeur",
+    "get": "OBTENIR"
   },
   "monitor": {
     "title": "Surveillance du site",

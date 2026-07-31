@@ -368,7 +368,9 @@
     "developer": "Developer",
     "dev_bio": "Full-stack developer. Membangun tools yang memudahkan pengelolaan infrastruktur di mana saja.",
     "project": "Proyek",
-    "disclaimer": "CloudFlare Mobile adalah aplikasi tidak resmi dan tidak berafiliasi dengan, didukung oleh, atau terhubung dengan Cloudflare, Inc."
+    "disclaimer": "CloudFlare Mobile adalah aplikasi tidak resmi dan tidak berafiliasi dengan, didukung oleh, atau terhubung dengan Cloudflare, Inc.",
+    "more_apps": "Aplikasi lain dari developer ini",
+    "get": "DAPATKAN"
   },
   "monitor": {
     "title": "Pemantauan Situs",

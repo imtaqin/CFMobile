@@ -368,7 +368,9 @@
     "developer": "Entwickler",
     "dev_bio": "Full-Stack-Entwickler. Erstellt Tools, die die Infrastrukturverwaltung unterwegs erleichtern.",
     "project": "Projekt",
-    "disclaimer": "CloudFlare Mobile ist eine inoffizielle App und ist nicht mit Cloudflare, Inc. verbunden, wird nicht von Cloudflare, Inc. unterstützt oder ist mit Cloudflare, Inc. verbunden."
+    "disclaimer": "CloudFlare Mobile ist eine inoffizielle App und ist nicht mit Cloudflare, Inc. verbunden, wird nicht von Cloudflare, Inc. unterstützt oder ist mit Cloudflare, Inc. verbunden.",
+    "more_apps": "Mehr von diesem Entwickler",
+    "get": "LADEN"
   },
   "monitor": {
     "title": "Website-Überwachung",

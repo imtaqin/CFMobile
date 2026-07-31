@@ -368,7 +368,9 @@
     "developer": "Geliştirici",
     "dev_bio": "Full-stack geliştirici. Hareket halindeyken altyapı yönetimini kolaylaştıran araçlar geliştiriyor.",
     "project": "Proje",
-    "disclaimer": "CloudFlare Mobile resmi olmayan bir uygulamadır ve Cloudflare, Inc. ile ilişkili değildir, tarafından onaylanmamıştır veya bağlantılı değildir."
+    "disclaimer": "CloudFlare Mobile resmi olmayan bir uygulamadır ve Cloudflare, Inc. ile ilişkili değildir, tarafından onaylanmamıştır veya bağlantılı değildir.",
+    "more_apps": "Geliştiriciden daha fazla",
+    "get": "AL"
   },
   "monitor": {
     "title": "Site İzleme",
