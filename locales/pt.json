@@ -238,7 +238,9 @@
     "tap_browse": "Toque para navegar pelos arquivos",
     "tap_keys": "Toque para navegar pelas chaves",
     "tap_query": "Toque para navegar e consultar",
-    "no_d1": "Nenhum Banco de Dados D1"
+    "no_d1": "Nenhum Banco de Dados D1",
+    "total_resources": "Recursos",
+    "all_healthy": "Tudo ok"
   },
   "email": {
     "title": "Encaminhamento de E-mail",

@@ -238,7 +238,9 @@
     "tap_browse": "Nhấn để duyệt tệp",
     "tap_keys": "Nhấn để duyệt khóa",
     "tap_query": "Nhấn để duyệt và truy vấn",
-    "no_d1": "Không có cơ sở dữ liệu D1"
+    "no_d1": "Không có cơ sở dữ liệu D1",
+    "total_resources": "Tài nguyên",
+    "all_healthy": "Tất cả ổn định"
   },
   "email": {
     "title": "Định tuyến email",

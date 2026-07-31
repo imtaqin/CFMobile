@@ -238,7 +238,9 @@
     "tap_browse": "点击浏览文件",
     "tap_keys": "点击浏览键",
     "tap_query": "点击浏览和查询",
-    "no_d1": "没有 D1 数据库"
+    "no_d1": "没有 D1 数据库",
+    "total_resources": "资源",
+    "all_healthy": "全部正常"
   },
   "email": {
     "title": "电子邮件路由",

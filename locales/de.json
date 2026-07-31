@@ -238,7 +238,9 @@
     "tap_browse": "Tippen zum Durchsuchen von Dateien",
     "tap_keys": "Zum Durchsuchen der Schlüssel tippen",
     "tap_query": "Zum Durchsuchen und Abfragen tippen",
-    "no_d1": "Keine D1-Datenbanken"
+    "no_d1": "Keine D1-Datenbanken",
+    "total_resources": "Ressourcen",
+    "all_healthy": "Alle erreichbar"
   },
   "email": {
     "title": "E-Mail-Routing",

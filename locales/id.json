@@ -238,7 +238,9 @@
     "tap_browse": "Tap untuk jelajahi file",
     "tap_keys": "Tap untuk jelajahi key",
     "tap_query": "Tap untuk jelajahi & kueri",
-    "no_d1": "Tidak Ada Database D1"
+    "no_d1": "Tidak Ada Database D1",
+    "total_resources": "sumber daya di akun ini",
+    "all_healthy": "Semua terjangkau"
   },
   "email": {
     "title": "Email Routing",

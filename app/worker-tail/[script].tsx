@@ -22,6 +22,15 @@ interface TailEvent {
 
 type ConnState = 'connecting' | 'live' | 'error' | 'closed';
 
+/** TextDecoder isn't available on every RN engine, so fall back to manual UTF-8. */
+function decodeUtf8(buf: ArrayBuffer): string {
+  if (typeof TextDecoder !== 'undefined') return new TextDecoder().decode(buf);
+  const bytes = new Uint8Array(buf);
+  let out = '';
+  for (let i = 0; i < bytes.length; i++) out += String.fromCharCode(bytes[i]);
+  return decodeURIComponent(escape(out));
+}
+
 export default function WorkerTailScreen() {
   const { script } = useLocalSearchParams<{ script: string }>();
   const { t } = useTranslation();
@@ -51,6 +60,9 @@ export default function WorkerTailScreen() {
       tailRef.current = { id: tail.id };
 
       const ws = new WebSocket(tail.url, 'trace-v1');
+      // Cloudflare sends trace events as binary frames, not text — without this
+      // every event arrives as a Blob and silently fails to parse.
+      ws.binaryType = 'arraybuffer';
       wsRef.current = ws;
 
       ws.onopen = () => setConnState('live');
@@ -59,10 +71,21 @@ export default function WorkerTailScreen() {
         setErrorMsg('WebSocket error');
       };
       ws.onclose = () => setConnState((s) => (s === 'error' ? s : 'closed'));
-      ws.onmessage = (msg) => {
+      ws.onmessage = async (msg) => {
         if (pausedRef.current) return;
         try {
-          const data = JSON.parse(String(msg.data));
+          const raw = msg.data as unknown;
+          let text: string;
+          if (typeof raw === 'string') {
+            text = raw;
+          } else if (raw instanceof ArrayBuffer) {
+            text = decodeUtf8(raw);
+          } else if (raw && typeof (raw as Blob).text === 'function') {
+            text = await (raw as Blob).text();
+          } else {
+            return;
+          }
+          const data = JSON.parse(text);
           const ev: TailEvent = {
             key: `ev-${counter.current++}`,
             time: new Date(data.eventTimestamp ?? Date.now()).toLocaleTimeString(),

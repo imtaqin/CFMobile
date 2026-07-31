@@ -238,7 +238,9 @@
     "tap_browse": "파일을 탐색하려면 탭하세요",
     "tap_keys": "눌러서 키 찾아보기",
     "tap_query": "눌러서 찾아보고 쿼리하기",
-    "no_d1": "D1 데이터베이스 없음"
+    "no_d1": "D1 데이터베이스 없음",
+    "total_resources": "총 리소스",
+    "all_healthy": "모두 정상"
   },
   "email": {
     "title": "이메일 라우팅",

@@ -238,7 +238,9 @@
     "tap_browse": "Dosyalara göz atmak için dokunun",
     "tap_keys": "Anahtarlara göz atmak için dokunun",
     "tap_query": "Göz atmak ve sorgulamak için dokunun",
-    "no_d1": "D1 Veritabanı yok"
+    "no_d1": "D1 Veritabanı yok",
+    "total_resources": "Kaynaklar",
+    "all_healthy": "Tümü Erişilebilir"
   },
   "email": {
     "title": "E-posta Yönlendirme",

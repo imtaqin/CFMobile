@@ -12,6 +12,7 @@ import { Badge } from '@/components/ui/badge';
 import { Loading } from '@/components/ui/loading';
 import { EmptyState } from '@/components/ui/empty-state';
 import { SectionHeader } from '@/components/ui/section-header';
+import { ProportionBar } from '@/components/ui/mini-chart';
 import { Spacing, FontSize, Radius } from '@/constants/theme';
 import * as api from '@/services/cloudflare';
 import { WorkerScript, KVNamespace, R2Bucket, PagesProject } from '@/services/types';
@@ -126,6 +127,15 @@ export default function ServicesScreen() {
     );
   }
 
+  const resourceSlices = [
+    { label: t('services.workers'), value: workers.length, color: colors.info },
+    { label: 'KV', value: kvNamespaces.length, color: colors.warning },
+    { label: 'R2', value: r2Buckets.length, color: colors.success },
+    { label: 'Pages', value: pages.length, color: colors.error },
+    { label: 'D1', value: d1Dbs.length, color: '#8B5CF6' },
+  ].filter((s) => s.value > 0);
+  const totalResources = resourceSlices.reduce((sum, s) => sum + s.value, 0);
+
   const ErrorBanner = ({ message }: { message: string }) => (
     <View style={[styles.errorBanner, { backgroundColor: colors.error + '15' }]}>
       <Icon name="error-circle" size={16} color={colors.error} />
@@ -171,6 +181,40 @@ export default function ServicesScreen() {
           </Text>
         </View>
       </View>
+
+      {/* Resource mix \u2014 one glance at what this account runs */}
+      {resourceSlices.length > 0 && (
+        <Card style={styles.overviewCard}>
+          <View style={styles.overviewTop}>
+            <View>
+              <Text style={[styles.overviewNum, { color: colors.text }]}>{totalResources}</Text>
+              <Text style={[styles.overviewLabel, { color: colors.textSecondary }]}>
+                {t('services.total_resources')}
+              </Text>
+            </View>
+            <View style={{ flex: 1 }} />
+            <View style={[styles.deployBadge, { backgroundColor: colors.success + '15' }]}>
+              <Icon name="check-circle" size={13} color={colors.success} />
+              <Text style={[styles.deployText, { color: colors.success }]}>
+                {t('services.all_healthy')}
+              </Text>
+            </View>
+          </View>
+
+          <ProportionBar slices={resourceSlices} />
+
+          <View style={styles.legendRow}>
+            {resourceSlices.map((s) => (
+              <View key={s.label} style={styles.legendItem}>
+                <View style={[styles.legendDot, { backgroundColor: s.color }]} />
+                <Text style={[styles.legendText, { color: colors.textSecondary }]}>
+                  {s.label} {s.value}
+                </Text>
+              </View>
+            ))}
+          </View>
+        </Card>
+      )}
 
       {/* Service Overview Cards */}
       <View style={styles.grid}>
@@ -349,6 +393,16 @@ export default function ServicesScreen() {
 }
 
 const styles = StyleSheet.create({
+  overviewCard: { gap: Spacing.md, marginBottom: Spacing.md },
+  overviewTop: { flexDirection: 'row', alignItems: 'center' },
+  overviewNum: { fontSize: 32, fontWeight: '800', letterSpacing: -1.2 },
+  overviewLabel: { fontSize: FontSize.xs, marginTop: -2 },
+  deployBadge: { flexDirection: 'row', alignItems: 'center', gap: 5, paddingHorizontal: Spacing.md, paddingVertical: 6, borderRadius: Radius.full },
+  deployText: { fontSize: FontSize.xs, fontWeight: '700' },
+  legendRow: { flexDirection: 'row', flexWrap: 'wrap', gap: Spacing.md },
+  legendItem: { flexDirection: 'row', alignItems: 'center', gap: 5 },
+  legendDot: { width: 8, height: 8, borderRadius: 4 },
+  legendText: { fontSize: FontSize.xs, fontWeight: '600' },
   container: { flex: 1 },
   content: { padding: Spacing.lg, paddingBottom: Spacing.xxxl },
   accountChip: {

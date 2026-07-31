@@ -238,7 +238,9 @@
     "tap_browse": "Toca para explorar archivos",
     "tap_keys": "Toque para explorar claves",
     "tap_query": "Toque para explorar y consultar",
-    "no_d1": "No hay bases de datos D1"
+    "no_d1": "No hay bases de datos D1",
+    "total_resources": "Recursos",
+    "all_healthy": "Todo OK"
   },
   "email": {
     "title": "Enrutamiento de Correo",

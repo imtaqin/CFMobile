@@ -238,7 +238,9 @@
     "tap_browse": "Tap to browse files",
     "tap_keys": "Tap to browse keys",
     "tap_query": "Tap to browse and query",
-    "no_d1": "No D1 Databases"
+    "no_d1": "No D1 Databases",
+    "total_resources": "resources on this account",
+    "all_healthy": "All reachable"
   },
   "email": {
     "title": "Email Routing",

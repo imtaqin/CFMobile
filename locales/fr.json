@@ -238,7 +238,9 @@
     "tap_browse": "Appuyez pour parcourir les fichiers",
     "tap_keys": "Appuyez pour parcourir les clés",
     "tap_query": "Appuyez pour parcourir et interroger",
-    "no_d1": "Aucune base de données D1"
+    "no_d1": "Aucune base de données D1",
+    "total_resources": "Ressources",
+    "all_healthy": "Tout OK"
   },
   "email": {
     "title": "Routage des e-mails",
