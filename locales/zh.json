@@ -470,5 +470,26 @@
     "expires": "{{date}} 到期",
     "delete_title": "删除键",
     "delete_confirm": "永久删除“{{key}}”？"
+  },
+  "ai_plan": {
+    "title": "CF Mobile AI",
+    "subtitle": "让AI审查您的Cloudflare设置，解释您的流量，并编写您的DNS记录。",
+    "subtitle_quota": "您本月已用完所有免费AI操作。升级以继续使用。",
+    "usage": "本月已使用 {{used}} 次AI操作，共 {{limit}} 次",
+    "perk_audit": "安全审计，提供评分和具体修复方案",
+    "perk_traffic": "用通俗易懂的语言解释您的流量",
+    "perk_dns": "描述一个DNS记录，让AI为您编写",
+    "perk_logs": "解释Worker错误并提供建议的修复方案",
+    "plan_name": "月度计划",
+    "plan_detail": "每月100次AI操作 · 随时取消",
+    "subscribe": "订阅",
+    "restore": "恢复购买",
+    "restored": "订阅已恢复。AI已解锁！",
+    "nothing_to_restore": "此账户未找到活跃订阅。",
+    "purchase_error": "购买失败。请重试。",
+    "legal": "通过Google Play计费。每月续订直至取消 — 随时在Play Store中管理或取消。",
+    "upsell_compact": "CF Mobile AI — 解锁100次AI操作",
+    "upgrade": "升级",
+    "active_title": "CF Mobile AI 已激活"
   }
 }

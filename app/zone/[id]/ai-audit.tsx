@@ -12,6 +12,7 @@ import * as api from '@/services/cloudflare';
 import * as ai from '@/services/ai';
 import { AuditResult, AuditFinding, AiError } from '@/services/ai';
 import { recordHappyMoment } from '@/services/review-prompt';
+import { AiPaywall } from '@/components/ui/ai-paywall';
 import i18n from '@/i18n';
 
 export default function AiAuditScreen() {
@@ -22,6 +23,7 @@ export default function AiAuditScreen() {
   const [result, setResult] = useState<AuditResult | null>(null);
   const [running, setRunning] = useState(false);
   const [error, setError] = useState<{ code: string; message: string } | null>(null);
+  const [showPaywall, setShowPaywall] = useState(false);
 
   const runAudit = useCallback(async () => {
     setRunning(true);
@@ -75,6 +77,7 @@ export default function AiAuditScreen() {
     } catch (e: any) {
       if (e instanceof AiError) {
         setError({ code: e.code, message: e.message });
+        if (e.code === 'quota' || e.code === 'auth') setShowPaywall(true);
       } else {
         setError({ code: 'server', message: e?.message ?? 'Audit failed' });
       }
@@ -140,7 +143,7 @@ export default function AiAuditScreen() {
               {(error.code === 'quota' || error.code === 'auth') && (
                 <TouchableOpacity
                   style={[styles.smallBtn, { backgroundColor: CF.orange }]}
-                  onPress={() => router.push('/(tabs)/settings')}
+                  onPress={() => setShowPaywall(true)}
                 >
                   <Text style={styles.smallBtnText}>{t('ai.see_plans')}</Text>
                 </TouchableOpacity>
@@ -194,6 +197,13 @@ export default function AiAuditScreen() {
           </>
         )}
       </ScrollView>
+
+      <AiPaywall
+        visible={showPaywall}
+        reason="quota"
+        onClose={() => setShowPaywall(false)}
+        onSubscribed={() => { setShowPaywall(false); runAudit(); }}
+      />
     </>
   );
 }

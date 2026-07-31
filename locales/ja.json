@@ -470,5 +470,26 @@
     "expires": "{{date}} に期限切れ",
     "delete_title": "キーを削除",
     "delete_confirm": "\"{{key}}\" を完全に削除しますか？"
+  },
+  "ai_plan": {
+    "title": "CF Mobile AI",
+    "subtitle": "AIがCloudflareの設定をレビューし、トラフィックを説明し、DNSレコードを作成します。",
+    "subtitle_quota": "今月の無料AIアクションをすべて使い切りました。アップグレードして続行してください。",
+    "usage": "今月使用したAIアクション: {{used}}/{{limit}}",
+    "perk_audit": "スコアと具体的な修正案を含むセキュリティ監査",
+    "perk_traffic": "トラフィックを平易な言葉で説明",
+    "perk_dns": "DNSレコードを記述すると、それが作成されます",
+    "perk_logs": "Workerエラーを説明し、修正案を提示",
+    "plan_name": "月額プラン",
+    "plan_detail": "毎月100回のAIアクション · いつでもキャンセル可能",
+    "subscribe": "購読する",
+    "restore": "購入を復元",
+    "restored": "サブスクリプションが復元されました。AIがアンロックされました！",
+    "nothing_to_restore": "このアカウントで有効なサブスクリプションは見つかりませんでした。",
+    "purchase_error": "購入に失敗しました。もう一度お試しください。",
+    "legal": "Google Playを通じて請求されます。キャンセルされるまで毎月更新されます — Play Storeでいつでも管理またはキャンセルできます。",
+    "upsell_compact": "CF Mobile AI — 100回のAIアクションをアンロック",
+    "upgrade": "アップグレード",
+    "active_title": "CF Mobile AIがアクティブ"
   }
 }

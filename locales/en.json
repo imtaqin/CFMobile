@@ -470,5 +470,26 @@
     "expires": "Expires {{date}}",
     "delete_title": "Delete key",
     "delete_confirm": "Delete \"{{key}}\" permanently?"
+  },
+  "ai_plan": {
+    "title": "CF Mobile AI",
+    "subtitle": "Let AI review your Cloudflare setup, explain your traffic, and write your DNS records.",
+    "subtitle_quota": "You have used all your free AI actions this month. Upgrade to keep going.",
+    "usage": "{{used}} of {{limit}} AI actions used this month",
+    "perk_audit": "Security audits with a score and concrete fixes",
+    "perk_traffic": "Plain-language explanations of your traffic",
+    "perk_dns": "Describe a DNS record, get it written for you",
+    "perk_logs": "Worker errors explained with a suggested fix",
+    "plan_name": "Monthly plan",
+    "plan_detail": "100 AI actions per month · cancel anytime",
+    "subscribe": "Subscribe",
+    "restore": "Restore purchase",
+    "restored": "Subscription restored. AI unlocked!",
+    "nothing_to_restore": "No active subscription found on this account.",
+    "purchase_error": "Purchase failed. Please try again.",
+    "legal": "Billed through Google Play. Renews monthly until cancelled — manage or cancel anytime in the Play Store.",
+    "upsell_compact": "CF Mobile AI — unlock 100 AI actions",
+    "upgrade": "Upgrade",
+    "active_title": "CF Mobile AI active"
   }
 }

@@ -56,6 +56,14 @@ export async function initPremium(): Promise<void> {
 
     iap().purchaseUpdatedListener(async (purchase: any) => {
       const ids = [purchase.productId, ...(purchase.productIds ?? [])];
+
+      // AI subscription is handled by its own service (worker verification)
+      if (ids.includes('cfmobile_ai_monthly')) {
+        const { handlePurchase } = require('./ai-subscription');
+        await handlePurchase(purchase);
+        return;
+      }
+
       if (!ids.includes(PREMIUM_SKU)) return;
       try {
         await iap().finishTransaction({ purchase, isConsumable: false });

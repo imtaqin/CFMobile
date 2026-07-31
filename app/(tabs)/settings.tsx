@@ -16,6 +16,8 @@ import * as premiumService from '@/services/premium';
 import { usePremium } from '@/services/premium';
 import { DiceBearAvatar } from '@/components/ui/dicebear-avatar';
 import { openReview } from '@/services/review-prompt';
+import { AiPaywall } from '@/components/ui/ai-paywall';
+import { useAiQuota } from '@/services/ai-subscription';
 import i18n from '@/i18n';
 
 const LANGUAGES = [
@@ -53,6 +55,8 @@ export default function SettingsScreen() {
   const premium = usePremium();
   const [premiumPrice, setPremiumPrice] = useState<string | null>(null);
   const [premiumBusy, setPremiumBusy] = useState(false);
+  const { quota: aiQuota } = useAiQuota();
+  const [showAiPaywall, setShowAiPaywall] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -189,6 +193,37 @@ export default function SettingsScreen() {
           </TouchableOpacity>
         </View>
       )}
+
+      {/* CF Mobile AI plan */}
+      <TouchableOpacity
+        style={[styles.premiumRow, {
+          backgroundColor: aiQuota?.tier === 'pro' ? colors.success + '12' : '#8B5CF6' + '10',
+          borderColor: aiQuota?.tier === 'pro' ? colors.success + '40' : '#8B5CF6' + '35',
+        }]}
+        onPress={() => (aiQuota?.tier === 'pro' ? undefined : setShowAiPaywall(true))}
+        activeOpacity={aiQuota?.tier === 'pro' ? 1 : 0.8}
+      >
+        <Icon
+          name={aiQuota?.tier === 'pro' ? 'check-circle' : 'shield-check'}
+          size={18}
+          color={aiQuota?.tier === 'pro' ? colors.success : '#8B5CF6'}
+        />
+        <View style={{ flex: 1 }}>
+          <Text style={[styles.premiumRowTitle, { color: colors.text }]}>
+            {aiQuota?.tier === 'pro' ? t('ai_plan.active_title') : t('ai_plan.upsell_compact')}
+          </Text>
+          {aiQuota && (
+            <Text style={[styles.premiumRestore, { color: colors.textTertiary, textDecorationLine: 'none' }]}>
+              {t('ai_plan.usage', { used: aiQuota.used, limit: aiQuota.limit })}
+            </Text>
+          )}
+        </View>
+        {aiQuota?.tier !== 'pro' && (
+          <View style={[styles.premiumBuyBtn, { backgroundColor: '#8B5CF6' }]}>
+            <Text style={styles.premiumBuyText}>{t('ai_plan.upgrade')}</Text>
+          </View>
+        )}
+      </TouchableOpacity>
 
       {/* Account Switcher */}
       {accounts.length > 1 && (
@@ -430,6 +465,8 @@ export default function SettingsScreen() {
       <Text style={[styles.version, { color: colors.textTertiary }]}>
         CloudFlare Mobile v{require('@/services/version-check').CURRENT_VERSION}
       </Text>
+
+      <AiPaywall visible={showAiPaywall} onClose={() => setShowAiPaywall(false)} />
     </ScrollView>
   );
 }

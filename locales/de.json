@@ -470,5 +470,26 @@
     "expires": "Läuft ab am {{date}}",
     "delete_title": "Schlüssel löschen",
     "delete_confirm": "„{{key}}“ dauerhaft löschen?"
+  },
+  "ai_plan": {
+    "title": "CF Mobile AI",
+    "subtitle": "Lassen Sie die AI Ihr Cloudflare-Setup überprüfen, Ihren Traffic erklären und Ihre DNS-Einträge schreiben.",
+    "subtitle_quota": "Sie haben alle Ihre kostenlosen AI-Aktionen diesen Monat aufgebraucht. Upgraden Sie, um fortzufahren.",
+    "usage": "{{used}} von {{limit}} AI-Aktionen diesen Monat genutzt",
+    "perk_audit": "Sicherheitsaudits mit Bewertung und konkreten Korrekturen",
+    "perk_traffic": "Verständliche Erklärungen Ihres Traffics",
+    "perk_dns": "Beschreiben Sie einen DNS-Eintrag, lassen Sie ihn für sich schreiben",
+    "perk_logs": "Worker-Fehler erklärt mit vorgeschlagener Lösung",
+    "plan_name": "Monatsplan",
+    "plan_detail": "100 AI-Aktionen pro Monat · jederzeit kündbar",
+    "subscribe": "Abonnieren",
+    "restore": "Kauf wiederherstellen",
+    "restored": "Abonnement wiederhergestellt. AI freigeschaltet!",
+    "nothing_to_restore": "Kein aktives Abonnement auf diesem Konto gefunden.",
+    "purchase_error": "Kauf fehlgeschlagen. Bitte versuchen Sie es erneut.",
+    "legal": "Abrechnung über Google Play. Verlängert sich monatlich bis zur Kündigung – jederzeit im Play Store verwalten oder kündigen.",
+    "upsell_compact": "CF Mobile AI – 100 AI-Aktionen freischalten",
+    "upgrade": "Upgrade",
+    "active_title": "CF Mobile AI aktiv"
   }
 }

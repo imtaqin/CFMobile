@@ -470,5 +470,26 @@
     "expires": "{{date}} tarihinde sona eriyor",
     "delete_title": "Anahtarı sil",
     "delete_confirm": "\"{{key}}\" kalıcı olarak silinsin mi?"
+  },
+  "ai_plan": {
+    "title": "CF Mobile AI",
+    "subtitle": "AI'ın Cloudflare kurulumunuzu incelemesine, trafiğinizi açıklamasına ve DNS kayıtlarınızı yazmasına izin verin.",
+    "subtitle_quota": "Bu ay tüm ücretsiz AI eylemlerinizi kullandınız. Devam etmek için yükseltin.",
+    "usage": "Bu ay {{limit}} AI eyleminden {{used}} tanesi kullanıldı",
+    "perk_audit": "Puan ve somut düzeltmelerle güvenlik denetimleri",
+    "perk_traffic": "Trafiğinizin sade dilde açıklamaları",
+    "perk_dns": "Bir DNS kaydını tanımlayın, sizin için yazılsın",
+    "perk_logs": "Önerilen bir düzeltmeyle Worker hataları açıklandı",
+    "plan_name": "Aylık plan",
+    "plan_detail": "Ayda 100 AI eylemi · istediğiniz zaman iptal edin",
+    "subscribe": "Abone Ol",
+    "restore": "Satın almayı geri yükle",
+    "restored": "Abonelik geri yüklendi. AI kilidi açıldı!",
+    "nothing_to_restore": "Bu hesapta aktif abonelik bulunamadı.",
+    "purchase_error": "Satın alma başarısız oldu. Lütfen tekrar deneyin.",
+    "legal": "Google Play üzerinden faturalandırılır. İptal edilene kadar aylık olarak yenilenir — istediğiniz zaman Play Store'da yönetin veya iptal edin.",
+    "upsell_compact": "CF Mobile AI — 100 AI eyleminin kilidini açın",
+    "upgrade": "Yükselt",
+    "active_title": "CF Mobile AI aktif"
   }
 }

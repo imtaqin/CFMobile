@@ -470,5 +470,26 @@
     "expires": "Kedaluwarsa {{date}}",
     "delete_title": "Hapus key",
     "delete_confirm": "Hapus \"{{key}}\" secara permanen?"
+  },
+  "ai_plan": {
+    "title": "CF Mobile AI",
+    "subtitle": "Biarkan AI meninjau konfigurasi Cloudflare Anda, menjelaskan trafik, dan menuliskan catatan DNS.",
+    "subtitle_quota": "Kuota AI gratis bulan ini sudah habis. Tingkatkan untuk melanjutkan.",
+    "usage": "{{used}} dari {{limit}} aksi AI terpakai bulan ini",
+    "perk_audit": "Audit keamanan dengan skor dan perbaikan konkret",
+    "perk_traffic": "Penjelasan trafik dengan bahasa sederhana",
+    "perk_dns": "Jelaskan catatan DNS, biar AI yang menuliskan",
+    "perk_logs": "Error Worker dijelaskan beserta saran perbaikan",
+    "plan_name": "Paket bulanan",
+    "plan_detail": "100 aksi AI per bulan · batal kapan saja",
+    "subscribe": "Berlangganan",
+    "restore": "Pulihkan pembelian",
+    "restored": "Langganan dipulihkan. AI terbuka!",
+    "nothing_to_restore": "Tidak ada langganan aktif di akun ini.",
+    "purchase_error": "Pembelian gagal. Silakan coba lagi.",
+    "legal": "Ditagih melalui Google Play. Diperpanjang tiap bulan sampai dibatalkan — kelola atau batalkan kapan saja di Play Store.",
+    "upsell_compact": "CF Mobile AI — buka 100 aksi AI",
+    "upgrade": "Upgrade",
+    "active_title": "CF Mobile AI aktif"
   }
 }

@@ -470,5 +470,26 @@
     "expires": "Hết hạn {{date}}",
     "delete_title": "Xóa khóa",
     "delete_confirm": "Xóa vĩnh viễn \"{{key}}\"?"
+  },
+  "ai_plan": {
+    "title": "CF Mobile AI",
+    "subtitle": "Hãy để AI xem xét thiết lập Cloudflare của bạn, giải thích lưu lượng truy cập và viết các bản ghi DNS của bạn.",
+    "subtitle_quota": "Bạn đã sử dụng hết các hành động AI miễn phí trong tháng này. Nâng cấp để tiếp tục.",
+    "usage": "Đã sử dụng {{used}} trong số {{limit}} hành động AI trong tháng này",
+    "perk_audit": "Kiểm tra bảo mật với điểm số và các bản sửa lỗi cụ thể",
+    "perk_traffic": "Giải thích lưu lượng truy cập của bạn bằng ngôn ngữ dễ hiểu",
+    "perk_dns": "Mô tả một bản ghi DNS, và nó sẽ được viết cho bạn",
+    "perk_logs": "Lỗi Worker được giải thích với đề xuất khắc phục",
+    "plan_name": "Gói hàng tháng",
+    "plan_detail": "100 hành động AI mỗi tháng · hủy bất cứ lúc nào",
+    "subscribe": "Đăng ký",
+    "restore": "Khôi phục giao dịch mua",
+    "restored": "Đã khôi phục đăng ký. AI đã được mở khóa!",
+    "nothing_to_restore": "Không tìm thấy đăng ký hoạt động nào trên tài khoản này.",
+    "purchase_error": "Mua hàng không thành công. Vui lòng thử lại.",
+    "legal": "Thanh toán qua Google Play. Tự động gia hạn hàng tháng cho đến khi hủy — quản lý hoặc hủy bất cứ lúc nào trong Play Store.",
+    "upsell_compact": "CF Mobile AI — mở khóa 100 hành động AI",
+    "upgrade": "Nâng cấp",
+    "active_title": "CF Mobile AI đang hoạt động"
   }
 }
