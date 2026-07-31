@@ -342,7 +342,7 @@
     "changelog": "Что нового",
     "changelog_sub": "Обновления и улучшения",
     "check_updates": "Проверить обновления",
-    "check_updates_sub": "Посмотреть релиз на GitHub",
+    "check_updates_sub": "Обновить из Google Play",
     "logout": "Выйти",
     "logout_confirm": "Вы уверены, что хотите выйти?",
     "monitoring_section": "Мониторинг",
@@ -356,7 +356,9 @@
   "update": {
     "title": "Доступно обновление — v{{version}}",
     "subtitle": "У вас v{{current}}. Нажмите для подробностей.",
-    "update_now": "Обновить"
+    "update_now": "Обновить",
+    "title_play": "Доступно обновление",
+    "subtitle_play": "Новая версия доступна в Google Play"
   },
   "changelog": {
     "title": "Что нового",

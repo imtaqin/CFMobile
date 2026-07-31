@@ -342,7 +342,7 @@
     "changelog": "Apa yang Baru",
     "changelog_sub": "Pembaruan dan peningkatan terbaru",
     "check_updates": "Periksa Pembaruan",
-    "check_updates_sub": "Lihat rilis terbaru di GitHub",
+    "check_updates_sub": "Perbarui lewat Google Play",
     "logout": "Keluar",
     "logout_confirm": "Apakah Anda yakin ingin keluar?",
     "monitoring_section": "Pemantauan",
@@ -356,7 +356,9 @@
   "update": {
     "title": "Pembaruan tersedia — v{{version}}",
     "subtitle": "Anda menggunakan v{{current}}. Tap untuk lihat apa yang baru.",
-    "update_now": "Perbarui"
+    "update_now": "Perbarui",
+    "title_play": "Pembaruan tersedia",
+    "subtitle_play": "Versi terbaru sudah siap di Google Play"
   },
   "changelog": {
     "title": "Apa yang Baru",

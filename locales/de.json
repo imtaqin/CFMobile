@@ -342,7 +342,7 @@
     "changelog": "Was ist neu",
     "changelog_sub": "Aktuelle Updates und Verbesserungen",
     "check_updates": "Nach Updates suchen",
-    "check_updates_sub": "Neueste Version auf GitHub ansehen",
+    "check_updates_sub": "Update von Google Play",
     "logout": "Abmelden",
     "logout_confirm": "Möchten Sie sich wirklich abmelden?",
     "monitoring_section": "Überwachung",
@@ -356,7 +356,9 @@
   "update": {
     "title": "Update verfügbar — v{{version}}",
     "subtitle": "Sie verwenden v{{current}}. Tippen Sie, um zu sehen, was neu ist.",
-    "update_now": "Aktualisieren"
+    "update_now": "Aktualisieren",
+    "title_play": "Update verfügbar",
+    "subtitle_play": "Eine neuere Version ist auf Google Play verfügbar"
   },
   "changelog": {
     "title": "Was ist neu",

@@ -16,6 +16,7 @@ import * as premiumService from '@/services/premium';
 import { usePremium } from '@/services/premium';
 import { DiceBearAvatar } from '@/components/ui/dicebear-avatar';
 import { openReview } from '@/services/review-prompt';
+import { startPlayUpdate } from '@/services/play-update';
 import { AiPaywall } from '@/components/ui/ai-paywall';
 import { useAiQuota } from '@/services/ai-subscription';
 import { isAnalyticsEnabled, setAnalyticsEnabled } from '@/services/analytics';
@@ -465,7 +466,7 @@ export default function SettingsScreen() {
           iconColor={colors.warning}
           title={t('settings.check_updates')}
           subtitle={t('settings.check_updates_sub')}
-          onPress={() => Linking.openURL('https://github.com/imtaqin/CFMobile/releases/latest')}
+          onPress={() => startPlayUpdate()}
         />
         <View style={[styles.divider, { backgroundColor: colors.borderLight }]} />
         <MenuItem

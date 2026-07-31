@@ -37,3 +37,10 @@ ai-worker/.wrangler/
 cf_mobile_service_account.json
 *service_account*.json
 /cf_mobile_service_account.json
+# Private premium backend - never publish
+ai-worker/
+
+# Local agent config
+.claude/
+.agents/
+skills-lock.json

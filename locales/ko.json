@@ -342,7 +342,7 @@
     "changelog": "새로운 기능",
     "changelog_sub": "최근 업데이트 및 개선 사항",
     "check_updates": "업데이트 확인",
-    "check_updates_sub": "GitHub에서 최신 릴리스 보기",
+    "check_updates_sub": "Google Play에서 업데이트",
     "logout": "로그아웃",
     "logout_confirm": "로그아웃하시겠습니까?",
     "monitoring_section": "Monitoring",
@@ -356,7 +356,9 @@
   "update": {
     "title": "업데이트 사용 가능 — v{{version}}",
     "subtitle": "현재 v{{current}}입니다. 새로운 기능을 보려면 탭하세요.",
-    "update_now": "업데이트"
+    "update_now": "업데이트",
+    "title_play": "업데이트 가능",
+    "subtitle_play": "새로운 버전이 Google Play에 준비되었습니다"
   },
   "changelog": {
     "title": "새로운 기능",

@@ -342,7 +342,7 @@
     "changelog": "What's New",
     "changelog_sub": "Recent updates and improvements",
     "check_updates": "Check for Updates",
-    "check_updates_sub": "View latest release on GitHub",
+    "check_updates_sub": "Update from Google Play",
     "logout": "Sign Out",
     "logout_confirm": "Are you sure you want to sign out?",
     "monitoring_section": "Monitoring",
@@ -356,7 +356,9 @@
   "update": {
     "title": "Update available — v{{version}}",
     "subtitle": "You are on v{{current}}. Tap to see what's new.",
-    "update_now": "Update"
+    "update_now": "Update",
+    "title_play": "Update available",
+    "subtitle_play": "A newer version is ready on Google Play"
   },
   "changelog": {
     "title": "What's New",

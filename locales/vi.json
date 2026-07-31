@@ -342,7 +342,7 @@
     "changelog": "Có gì mới",
     "changelog_sub": "Các bản cập nhật và cải tiến gần đây",
     "check_updates": "Kiểm tra cập nhật",
-    "check_updates_sub": "Xem bản phát hành mới nhất trên GitHub",
+    "check_updates_sub": "Cập nhật từ Google Play",
     "logout": "Đăng xuất",
     "logout_confirm": "Bạn có chắc chắn muốn đăng xuất không?",
     "monitoring_section": "Giám sát",
@@ -356,7 +356,9 @@
   "update": {
     "title": "Có bản cập nhật — v{{version}}",
     "subtitle": "Bạn đang dùng v{{current}}. Nhấn để xem có gì mới.",
-    "update_now": "Cập nhật"
+    "update_now": "Cập nhật",
+    "title_play": "Có bản cập nhật",
+    "subtitle_play": "Phiên bản mới hơn đã có trên Google Play"
   },
   "changelog": {
     "title": "Có gì mới",

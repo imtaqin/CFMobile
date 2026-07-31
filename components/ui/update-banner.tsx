@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Linking, Platform } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, Platform } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { Icon } from './icon';
 import { useTheme } from '@/hooks/use-theme';
 import { Spacing, FontSize, Radius } from '@/constants/theme';
-import { checkForUpdate, VersionInfo } from '@/services/version-check';
+import { CURRENT_VERSION } from '@/services/version-check';
+import { hasPlayUpdate, startPlayUpdate } from '@/services/play-update';
 
 const STORAGE_KEY = 'cf_update_dismissed';
 
@@ -24,29 +25,26 @@ const storage = {
 export function UpdateBanner() {
   const { t } = useTranslation();
   const { colors } = useTheme();
-  const [info, setInfo] = useState<VersionInfo | null>(null);
+  const [available, setAvailable] = useState(false);
 
   useEffect(() => {
     (async () => {
-      const result = await checkForUpdate();
-      if (!result || !result.hasUpdate) return;
-      // Check if user dismissed this specific version
+      if (!(await hasPlayUpdate())) return;
+      // don't nag again for a version the user already dismissed
       const dismissed = await storage.get();
-      if (dismissed === result.latest) return;
-      setInfo(result);
+      if (dismissed === CURRENT_VERSION) return;
+      setAvailable(true);
     })();
   }, []);
 
-  if (!info) return null;
+  if (!available) return null;
 
   const dismiss = async () => {
-    await storage.set(info.latest);
-    setInfo(null);
+    await storage.set(CURRENT_VERSION);
+    setAvailable(false);
   };
 
-  const update = () => {
-    Linking.openURL(info.releaseUrl).catch(() => {});
-  };
+  const update = () => { startPlayUpdate(); };
 
   return (
     <View style={[styles.banner, { backgroundColor: colors.primary }]}>
@@ -54,9 +52,9 @@ export function UpdateBanner() {
         <Icon name="download" size={18} color="#FFF" />
       </View>
       <View style={{ flex: 1 }}>
-        <Text style={styles.title}>{t('update.title', { version: info.latest })}</Text>
+        <Text style={styles.title}>{t('update.title_play')}</Text>
         <Text style={styles.subtitle}>
-          {t('update.subtitle', { current: info.current })}
+          {t('update.subtitle_play')}
         </Text>
       </View>
       <TouchableOpacity onPress={update} style={styles.actionBtn} activeOpacity={0.8}>

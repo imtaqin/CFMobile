@@ -342,7 +342,7 @@
     "changelog": "Yenilikler",
     "changelog_sub": "Son güncellemeler ve iyileştirmeler",
     "check_updates": "Güncellemeleri Kontrol Et",
-    "check_updates_sub": "GitHub'daki en son sürümü görüntüle",
+    "check_updates_sub": "Google Play'den güncelle",
     "logout": "Çıkış Yap",
     "logout_confirm": "Çıkış yapmak istediğinizden emin misiniz?",
     "monitoring_section": "İzleme",
@@ -356,7 +356,9 @@
   "update": {
     "title": "Güncelleme mevcut — v{{version}}",
     "subtitle": "v{{current}} sürümündesiniz. Yenilikleri görmek için dokunun.",
-    "update_now": "Güncelle"
+    "update_now": "Güncelle",
+    "title_play": "Güncelleme mevcut",
+    "subtitle_play": "Google Play'de daha yeni bir sürüm hazır"
   },
   "changelog": {
     "title": "Yenilikler",

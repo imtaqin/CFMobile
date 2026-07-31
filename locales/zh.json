@@ -342,7 +342,7 @@
     "changelog": "更新日志",
     "changelog_sub": "最近的更新和改进",
     "check_updates": "检查更新",
-    "check_updates_sub": "在GitHub上查看最新版本",
+    "check_updates_sub": "从 Google Play 更新",
     "logout": "退出登录",
     "logout_confirm": "您确定要退出登录吗？",
     "monitoring_section": "监控",
@@ -356,7 +356,9 @@
   "update": {
     "title": "有可用更新 — v{{version}}",
     "subtitle": "您当前版本为 v{{current}}。点击查看新功能。",
-    "update_now": "立即更新"
+    "update_now": "立即更新",
+    "title_play": "有可用更新",
+    "subtitle_play": "Google Play 上有新版本可用"
   },
   "changelog": {
     "title": "更新日志",
