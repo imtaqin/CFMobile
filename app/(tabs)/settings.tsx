@@ -88,8 +88,11 @@ export default function SettingsScreen() {
     try {
       await premiumService.purchasePremium();
     } catch (e: any) {
-      if (!String(e?.message ?? '').toLowerCase().includes('cancel')) {
-        Alert.alert(t('common.error'), e?.message ?? t('premium.purchase_error'));
+      const msg = String(e?.message ?? '');
+      if (msg === 'billing-unavailable') {
+        Alert.alert(t('premium.unavailable_title'), t('premium.unavailable_body'));
+      } else if (!msg.toLowerCase().includes('cancel')) {
+        Alert.alert(t('common.error'), msg || t('premium.purchase_error'));
       }
     } finally {
       setPremiumBusy(false);

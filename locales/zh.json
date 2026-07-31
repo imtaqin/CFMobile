@@ -307,7 +307,9 @@
     "nothing_to_restore": "此账户未找到之前的购买记录。",
     "purchase_error": "购买失败。请重试。",
     "active_title": "高级版已激活",
-    "active_sub": "感谢您支持CloudFlare Mobile！所有广告已移除。"
+    "active_sub": "感谢您支持CloudFlare Mobile！所有广告已移除。",
+    "unavailable_title": "无法购买",
+    "unavailable_body": "此设备上无法使用 Google Play 结算服务。请从 Google Play 安装此应用，以便购买或恢复购买项目。"
   },
   "lock": {
     "title": "CloudFlare Mobile已锁定",

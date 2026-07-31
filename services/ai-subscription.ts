@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Platform } from 'react-native';
 import Constants from 'expo-constants';
 import { getQuota, AiQuota } from './ai';
+import { isBillingAvailable } from './premium';
 
 export const AI_SUB_SKU = 'cfmobile_ai_monthly';
 
@@ -29,7 +30,7 @@ async function installId(): Promise<string> {
 
 /** Localized price of the AI plan, or null when billing is unavailable. */
 export async function getSubscriptionPrice(): Promise<string | null> {
-  if (Platform.OS === 'web') return null;
+  if (Platform.OS === 'web' || !isBillingAvailable()) return null;
   try {
     const products = await iap().fetchProducts({ skus: [AI_SUB_SKU], type: 'subs' });
     const p = products?.[0];
@@ -60,6 +61,7 @@ async function registerWithWorker(purchaseToken: string): Promise<boolean> {
 
 /** Launch the subscription purchase flow. */
 export async function subscribeAi(): Promise<void> {
+  if (!isBillingAvailable()) throw new Error('billing-unavailable');
   const products = await iap().fetchProducts({ skus: [AI_SUB_SKU], type: 'subs' });
   const offerToken = products?.[0]?.subscriptionOfferDetailsAndroid?.[0]?.offerToken;
 
@@ -78,6 +80,7 @@ export async function subscribeAi(): Promise<void> {
 export async function syncSubscription(): Promise<AiQuota | null> {
   if (Platform.OS === 'web') return null;
   try {
+    if (!isBillingAvailable()) throw new Error('billing-unavailable');
     const purchases = await iap().getAvailablePurchases();
     const sub = (purchases ?? []).find((p: any) =>
       p.productId === AI_SUB_SKU || (p.productIds ?? []).includes(AI_SUB_SKU)

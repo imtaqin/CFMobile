@@ -307,7 +307,9 @@
     "nothing_to_restore": "Tidak ada pembelian sebelumnya di akun ini.",
     "purchase_error": "Pembelian gagal. Silakan coba lagi.",
     "active_title": "Premium Aktif",
-    "active_sub": "Terima kasih telah mendukung CloudFlare Mobile! Semua iklan dihapus."
+    "active_sub": "Terima kasih telah mendukung CloudFlare Mobile! Semua iklan dihapus.",
+    "unavailable_title": "Pembelian tidak tersedia",
+    "unavailable_body": "Layanan pembayaran Google Play tidak tersedia di perangkat ini. Instal aplikasi dari Google Play untuk membeli atau memulihkan pembelian."
   },
   "lock": {
     "title": "CloudFlare Mobile terkunci",

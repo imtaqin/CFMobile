@@ -44,7 +44,9 @@ export function AiPaywall({ visible, onClose, reason = 'browse', onSubscribed }:
       }, 1500);
     } catch (e: any) {
       const msg = String(e?.message ?? '');
-      if (!/cancel/i.test(msg)) {
+      if (msg === 'billing-unavailable') {
+        Alert.alert(t('premium.unavailable_title'), t('premium.unavailable_body'));
+      } else if (!/cancel/i.test(msg)) {
         Alert.alert(t('common.error'), msg || t('ai_plan.purchase_error'));
       }
     } finally {

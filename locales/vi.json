@@ -307,7 +307,9 @@
     "nothing_to_restore": "Không tìm thấy giao dịch mua trước đó trên tài khoản này.",
     "purchase_error": "Mua hàng thất bại. Vui lòng thử lại.",
     "active_title": "Premium đang hoạt động",
-    "active_sub": "Cảm ơn bạn đã hỗ trợ CloudFlare Mobile! Tất cả quảng cáo đã bị xóa."
+    "active_sub": "Cảm ơn bạn đã hỗ trợ CloudFlare Mobile! Tất cả quảng cáo đã bị xóa.",
+    "unavailable_title": "Không thể mua hàng",
+    "unavailable_body": "Tính năng thanh toán của Google Play không khả dụng trên thiết bị này. Vui lòng cài đặt ứng dụng từ Google Play để mua hoặc khôi phục giao dịch mua."
   },
   "lock": {
     "title": "CloudFlare Mobile đã khóa",

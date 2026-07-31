@@ -307,7 +307,9 @@
     "nothing_to_restore": "Bu hesapta önceki satın alma bulunamadı.",
     "purchase_error": "Satın alma başarısız oldu. Lütfen tekrar deneyin.",
     "active_title": "Premium Aktif",
-    "active_sub": "CloudFlare Mobile'ı desteklediğiniz için teşekkürler! Tüm reklamlar kaldırıldı."
+    "active_sub": "CloudFlare Mobile'ı desteklediğiniz için teşekkürler! Tüm reklamlar kaldırıldı.",
+    "unavailable_title": "Satın alımlar kullanılamıyor",
+    "unavailable_body": "Bu cihazda Google Play faturalandırması kullanılamıyor. Satın alma işlemleri yapmak veya geri yüklemek için uygulamayı Google Play'den yükleyin."
   },
   "lock": {
     "title": "CloudFlare Mobile kilitli",

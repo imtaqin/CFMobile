@@ -6,7 +6,17 @@ const CACHE_KEY = 'cf_premium';
 
 let premium = false;
 let initialized = false;
+/**
+ * Play billing is missing on emulators, sideloads and devices without Play
+ * Services. Calling into it there throws SERVICE_DISCONNECTED and the library
+ * logs a console error, so every entry point checks this first.
+ */
+let billingReady = false;
 const listeners = new Set<(value: boolean) => void>();
+
+export function isBillingAvailable(): boolean {
+  return billingReady;
+}
 
 const storage = {
   getItem: async (key: string): Promise<string | null> => {
@@ -53,6 +63,7 @@ export async function initPremium(): Promise<void> {
 
   try {
     await iap().initConnection();
+    billingReady = true;
 
     iap().purchaseUpdatedListener(async (purchase: any) => {
       const ids = [purchase.productId, ...(purchase.productIds ?? [])];
@@ -81,7 +92,7 @@ export async function initPremium(): Promise<void> {
 
 /** Localized price string for the premium product, or null. */
 export async function getPremiumPrice(): Promise<string | null> {
-  if (Platform.OS === 'web') return null;
+  if (Platform.OS === 'web' || !billingReady) return null;
   try {
     const products = await iap().fetchProducts({ skus: [PREMIUM_SKU], type: 'in-app' });
     return products?.[0]?.displayPrice ?? null;
@@ -92,6 +103,7 @@ export async function getPremiumPrice(): Promise<string | null> {
 
 /** Launch the purchase flow. Resolution happens via purchaseUpdatedListener. */
 export async function purchasePremium(): Promise<void> {
+  if (!billingReady) throw new Error('billing-unavailable');
   await iap().requestPurchase({
     request: { google: { skus: [PREMIUM_SKU] } },
     type: 'in-app',
@@ -100,7 +112,7 @@ export async function purchasePremium(): Promise<void> {
 
 /** Re-check owned purchases (restore). Returns the new premium state. */
 export async function restorePremium(): Promise<boolean> {
-  if (Platform.OS === 'web') return false;
+  if (Platform.OS === 'web' || !billingReady) return false;
   const owned = await ownsPremium();
   setPremium(owned);
   return owned;

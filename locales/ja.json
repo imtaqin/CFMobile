@@ -307,7 +307,9 @@
     "nothing_to_restore": "このアカウントで以前の購入が見つかりませんでした。",
     "purchase_error": "購入に失敗しました。もう一度お試しください。",
     "active_title": "プレミアムが有効です",
-    "active_sub": "CloudFlare Mobileをサポートしていただきありがとうございます！すべての広告が削除されました。"
+    "active_sub": "CloudFlare Mobileをサポートしていただきありがとうございます！すべての広告が削除されました。",
+    "unavailable_title": "購入できません",
+    "unavailable_body": "このデバイスではGoogle Playの課金をご利用いただけません。購入または復元するには、Google Playからアプリをインストールしてください。"
   },
   "lock": {
     "title": "CloudFlare Mobileがロックされています",

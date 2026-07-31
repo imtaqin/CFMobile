@@ -307,7 +307,9 @@
     "nothing_to_restore": "Kein früherer Kauf auf diesem Konto gefunden.",
     "purchase_error": "Kauf fehlgeschlagen. Bitte versuchen Sie es erneut.",
     "active_title": "Premium aktiv",
-    "active_sub": "Vielen Dank für Ihre Unterstützung von CloudFlare Mobile! Alle Anzeigen wurden entfernt."
+    "active_sub": "Vielen Dank für Ihre Unterstützung von CloudFlare Mobile! Alle Anzeigen wurden entfernt.",
+    "unavailable_title": "Käufe nicht verfügbar",
+    "unavailable_body": "Die Google Play-Abrechnung ist auf diesem Gerät nicht verfügbar. Installieren Sie die App von Google Play, um Käufe zu tätigen oder wiederherzustellen."
   },
   "lock": {
     "title": "CloudFlare Mobile gesperrt",

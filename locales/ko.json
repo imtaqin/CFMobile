@@ -307,7 +307,9 @@
     "nothing_to_restore": "이 계정에서 이전 구매를 찾을 수 없습니다.",
     "purchase_error": "구매에 실패했습니다. 다시 시도해주세요.",
     "active_title": "프리미엄 활성",
-    "active_sub": "CloudFlare Mobile을 지원해 주셔서 감사합니다! 모든 광고가 제거되었습니다."
+    "active_sub": "CloudFlare Mobile을 지원해 주셔서 감사합니다! 모든 광고가 제거되었습니다.",
+    "unavailable_title": "구매 불가",
+    "unavailable_body": "이 기기에서는 Google Play 결제를 사용할 수 없습니다. 구매하거나 복원하려면 Google Play에서 앱을 설치하세요."
   },
   "lock": {
     "title": "CloudFlare Mobile 잠김",

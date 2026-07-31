@@ -307,7 +307,9 @@
     "nothing_to_restore": "No previous purchase found on this account.",
     "purchase_error": "Purchase failed. Please try again.",
     "active_title": "Premium Active",
-    "active_sub": "Thanks for supporting CloudFlare Mobile! All ads are removed."
+    "active_sub": "Thanks for supporting CloudFlare Mobile! All ads are removed.",
+    "unavailable_title": "Purchases unavailable",
+    "unavailable_body": "Google Play billing is not available on this device. Install the app from Google Play to buy or restore purchases."
   },
   "lock": {
     "title": "CloudFlare Mobile locked",
