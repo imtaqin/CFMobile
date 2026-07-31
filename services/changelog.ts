@@ -7,6 +7,16 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '1.6.0',
+    date: '2026-07-31',
+    highlights: [
+      'D1 database browser: view tables, browse rows, and run SQL queries',
+      'KV explorer: browse, search, edit and delete keys',
+      'CF Mobile AI subscription for higher AI limits',
+      'Discover section and cross-links to other apps',
+    ],
+  },
+  {
     version: '1.5.0',
     date: '2026-07-31',
     highlights: [
