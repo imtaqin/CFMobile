@@ -52,6 +52,7 @@ function AppContent() {
           />
           <Stack.Screen name="about" options={{ animation: 'slide_from_right' }} />
           <Stack.Screen name="changelog" options={{ animation: 'slide_from_right' }} />
+          <Stack.Screen name="accounts" options={{ animation: 'slide_from_right', headerShown: true }} />
           <Stack.Screen name="monitoring" options={{ animation: 'slide_from_right', headerShown: true }} />
           <Stack.Screen name="audit-logs" options={{ animation: 'slide_from_right', headerShown: true }} />
           <Stack.Screen name="d1/[db]" options={{ animation: 'slide_from_right', headerShown: true }} />

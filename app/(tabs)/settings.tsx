@@ -47,7 +47,7 @@ export default function SettingsScreen() {
   const { t } = useTranslation();
   const { colors, isDark } = useTheme();
   const { mode: themeMode, setMode: setThemeMode } = useThemeContext();
-  const { user, authConfig, logout, accounts, accountId, switchAccount } = useAuth();
+  const { user, authConfig, logout, accounts, accountId, switchAccount, profiles } = useAuth();
 
   const currentLang = i18n.language;
   const [langOpen, setLangOpen] = useState(false);
@@ -240,7 +240,19 @@ export default function SettingsScreen() {
         )}
       </TouchableOpacity>
 
-      {/* Account Switcher */}
+      {/* Stored Cloudflare logins */}
+      <SectionHeader title={t('settings.accounts_section')} />
+      <Card style={{ padding: 0, overflow: 'hidden' as const }}>
+        <MenuItem
+          icon="users"
+          iconColor={CF.orange}
+          title={t('settings.manage_accounts')}
+          subtitle={t('settings.manage_accounts_sub', { count: profiles.length })}
+          onPress={() => router.push('/accounts' as any)}
+        />
+      </Card>
+
+      {/* Sub-accounts visible to the active login */}
       {accounts.length > 1 && (
         <>
           <SectionHeader title={t('settings.switch_account')} />

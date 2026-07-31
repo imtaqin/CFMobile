@@ -353,7 +353,10 @@
     "rate_us": "CloudFlare Mobileを評価",
     "rate_us_sub": "アプリを楽しんでいますか？レビューを残してください",
     "share_usage": "匿名利用状況を共有",
-    "share_usage_sub": "今後の開発の参考にさせていただきます。個人データや追跡は行いません。"
+    "share_usage_sub": "今後の開発の参考にさせていただきます。個人データや追跡は行いません。",
+    "accounts_section": "Cloudflareアカウント",
+    "manage_accounts": "アカウントを管理",
+    "manage_accounts_sub": "{{count}}件サインイン済み · 追加または切り替え"
   },
   "update": {
     "title": "アップデートが利用可能です — v{{version}}",
@@ -499,5 +502,20 @@
     "upsell_compact": "CF Mobile AI — 100回のAIアクションをアンロック",
     "upgrade": "アップグレード",
     "active_title": "CF Mobile AIがアクティブ"
+  },
+  "accounts": {
+    "title": "Cloudflareアカウント",
+    "intro": "複数のCloudflareログインを追加し、サインアウトせずに切り替えることができます。",
+    "add": "別のアカウントを追加",
+    "active": "アクティブ",
+    "via_token": "API Token",
+    "via_key": "Global API Key",
+    "remove": "削除",
+    "remove_title": "アカウントを削除",
+    "remove_body": "このアプリから「{{label}}」を削除しますか？Cloudflareアカウント自体には影響ありません。",
+    "remove_last_body": "「{{label}}」は唯一のアカウントです。削除するとアプリからサインアウトされます。",
+    "rename_title": "アカウント名を変更",
+    "rename_placeholder": "例：仕事用、クライアントA",
+    "note": "各アカウントの認証情報は、このデバイスで暗号化され、Cloudflare APIにのみ送信されます。"
   }
 }

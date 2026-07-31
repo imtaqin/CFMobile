@@ -4,7 +4,7 @@ import {
   Platform, Alert, Modal, Linking,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { useVideoPlayer, VideoView } from 'expo-video';
 import { useAuth } from '@/contexts/auth';
@@ -27,6 +27,8 @@ export default function LoginScreen() {
   const { t } = useTranslation();
   const { colors, isDark } = useTheme();
   const { login } = useAuth();
+  const { add } = useLocalSearchParams<{ add?: string }>();
+  const isAddMode = add === '1';
 
   const [method, setMethod] = useState<AuthMethod>('token');
   const [apiToken, setApiToken] = useState('');
@@ -66,7 +68,8 @@ export default function LoginScreen() {
         }
         await login({ method: 'global_key', globalKey: globalKey.replace(/\s+/g, ''), email: email.trim() });
       }
-      router.replace('/(tabs)');
+      if (isAddMode && router.canGoBack()) router.back();
+      else router.replace('/(tabs)');
     } catch (e: any) {
       const msg = e?.response?.data?.errors?.[0]?.message ?? e?.message ?? t('auth.error');
       Alert.alert(t('common.error'), msg);

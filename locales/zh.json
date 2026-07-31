@@ -353,7 +353,10 @@
     "rate_us": "评价CloudFlare Mobile",
     "rate_us_sub": "喜欢这个应用吗？留下评论",
     "share_usage": "分享匿名使用数据",
-    "share_usage_sub": "帮助我们决定下一步开发什么。不包含个人数据，不进行跟踪。"
+    "share_usage_sub": "帮助我们决定下一步开发什么。不包含个人数据，不进行跟踪。",
+    "accounts_section": "Cloudflare 账户",
+    "manage_accounts": "管理账户",
+    "manage_accounts_sub": "{{count}} 已登录 · 添加或切换"
   },
   "update": {
     "title": "有可用更新 — v{{version}}",
@@ -499,5 +502,20 @@
     "upsell_compact": "CF Mobile AI — 解锁100次AI操作",
     "upgrade": "升级",
     "active_title": "CF Mobile AI 已激活"
+  },
+  "accounts": {
+    "title": "Cloudflare 账户",
+    "intro": "添加多个 Cloudflare 登录信息，无需退出即可在它们之间切换。",
+    "add": "添加其他账户",
+    "active": "活跃",
+    "via_token": "API Token",
+    "via_key": "Global API Key",
+    "remove": "移除",
+    "remove_title": "移除账户",
+    "remove_body": "从此应用中移除“{{label}}”？您的 Cloudflare 账户本身不受影响。",
+    "remove_last_body": "“{{label}}”是您唯一的账户。移除它将使您退出应用。",
+    "rename_title": "重命名账户",
+    "rename_placeholder": "例如：工作、客户 A",
+    "note": "每个账户的凭据在此设备上加密，并且仅发送到 Cloudflare API。"
   }
 }

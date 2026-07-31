@@ -353,7 +353,10 @@
     "rate_us": "Beri rating CloudFlare Mobile",
     "rate_us_sub": "Suka aplikasinya? Tulis ulasan",
     "share_usage": "Bagikan penggunaan anonim",
-    "share_usage_sub": "Membantu menentukan fitur berikutnya. Tanpa data pribadi, tanpa pelacakan."
+    "share_usage_sub": "Membantu menentukan fitur berikutnya. Tanpa data pribadi, tanpa pelacakan.",
+    "accounts_section": "Akun Cloudflare",
+    "manage_accounts": "Kelola akun",
+    "manage_accounts_sub": "{{count}} masuk · tambah atau ganti"
   },
   "update": {
     "title": "Pembaruan tersedia — v{{version}}",
@@ -499,5 +502,20 @@
     "upsell_compact": "CF Mobile AI — buka 100 aksi AI",
     "upgrade": "Upgrade",
     "active_title": "CF Mobile AI aktif"
+  },
+  "accounts": {
+    "title": "Akun Cloudflare",
+    "intro": "Tambahkan lebih dari satu login Cloudflare dan berpindah tanpa perlu keluar.",
+    "add": "Tambah akun lain",
+    "active": "aktif",
+    "via_token": "Token API",
+    "via_key": "Kunci API Global",
+    "remove": "Hapus",
+    "remove_title": "Hapus akun",
+    "remove_body": "Hapus \"{{label}}\" dari aplikasi ini? Akun Cloudflare Anda sendiri tidak terpengaruh.",
+    "remove_last_body": "\"{{label}}\" adalah satu-satunya akun Anda. Menghapusnya akan mengeluarkan Anda dari aplikasi.",
+    "rename_title": "Ganti nama akun",
+    "rename_placeholder": "mis. Kantor, Klien A",
+    "note": "Kredensial tiap akun terenkripsi di perangkat ini dan hanya dikirim ke API Cloudflare."
   }
 }

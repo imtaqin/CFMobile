@@ -7,6 +7,13 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '1.7.0',
+    date: '2026-07-31',
+    highlights: [
+      'Multiple Cloudflare accounts: add several logins and switch between them without signing out',
+    ],
+  },
+  {
     version: '1.6.0',
     date: '2026-07-31',
     highlights: [

@@ -353,7 +353,10 @@
     "rate_us": "Rate CloudFlare Mobile",
     "rate_us_sub": "Enjoying the app? Leave a review",
     "share_usage": "Share anonymous usage",
-    "share_usage_sub": "Helps decide what to build next. No personal data, no tracking."
+    "share_usage_sub": "Helps decide what to build next. No personal data, no tracking.",
+    "accounts_section": "Cloudflare accounts",
+    "manage_accounts": "Manage accounts",
+    "manage_accounts_sub": "{{count}} signed in · add or switch"
   },
   "update": {
     "title": "Update available — v{{version}}",
@@ -499,5 +502,20 @@
     "upsell_compact": "CF Mobile AI — unlock 100 AI actions",
     "upgrade": "Upgrade",
     "active_title": "CF Mobile AI active"
+  },
+  "accounts": {
+    "title": "Cloudflare accounts",
+    "intro": "Add more than one Cloudflare login and switch between them without signing out.",
+    "add": "Add another account",
+    "active": "active",
+    "via_token": "API Token",
+    "via_key": "Global API Key",
+    "remove": "Remove",
+    "remove_title": "Remove account",
+    "remove_body": "Remove \"{{label}}\" from this app? Your Cloudflare account itself is not affected.",
+    "remove_last_body": "\"{{label}}\" is your only account. Removing it signs you out of the app.",
+    "rename_title": "Rename account",
+    "rename_placeholder": "e.g. Work, Client A",
+    "note": "Each account's credentials are encrypted on this device and only ever sent to the Cloudflare API."
   }
 }

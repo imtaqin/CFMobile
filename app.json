@@ -2,7 +2,7 @@
   "expo": {
     "name": "CloudFlare Mobile",
     "slug": "cloudflare-mobile",
-    "version": "1.6.0",
+    "version": "1.7.0",
     "orientation": "default",
     "icon": "./assets/images/icon.png",
     "scheme": "cfmobile",
@@ -12,7 +12,7 @@
       "supportsTablet": true
     },
     "android": {
-      "versionCode": 16,
+      "versionCode": 17,
       "adaptiveIcon": {
         "backgroundColor": "#24105A",
         "foregroundImage": "./assets/images/android-icon-foreground.png",

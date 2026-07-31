@@ -353,7 +353,10 @@
     "rate_us": "Đánh giá CloudFlare Mobile",
     "rate_us_sub": "Thích ứng dụng này? Để lại đánh giá",
     "share_usage": "Chia sẻ dữ liệu sử dụng ẩn danh",
-    "share_usage_sub": "Giúp chúng tôi quyết định nên phát triển tính năng gì tiếp theo. Không có dữ liệu cá nhân, không theo dõi."
+    "share_usage_sub": "Giúp chúng tôi quyết định nên phát triển tính năng gì tiếp theo. Không có dữ liệu cá nhân, không theo dõi.",
+    "accounts_section": "Tài khoản Cloudflare",
+    "manage_accounts": "Quản lý tài khoản",
+    "manage_accounts_sub": "{{count}} đã đăng nhập · thêm hoặc chuyển đổi"
   },
   "update": {
     "title": "Có bản cập nhật — v{{version}}",
@@ -499,5 +502,20 @@
     "upsell_compact": "CF Mobile AI — mở khóa 100 hành động AI",
     "upgrade": "Nâng cấp",
     "active_title": "CF Mobile AI đang hoạt động"
+  },
+  "accounts": {
+    "title": "Tài khoản Cloudflare",
+    "intro": "Thêm nhiều tài khoản Cloudflare và chuyển đổi giữa chúng mà không cần đăng xuất.",
+    "add": "Thêm tài khoản khác",
+    "active": "đang hoạt động",
+    "via_token": "API Token",
+    "via_key": "Global API Key",
+    "remove": "Xóa",
+    "remove_title": "Xóa tài khoản",
+    "remove_body": "Xóa \"{{label}}\" khỏi ứng dụng này? Tài khoản Cloudflare của bạn không bị ảnh hưởng.",
+    "remove_last_body": "\"{{label}}\" là tài khoản duy nhất của bạn. Việc xóa tài khoản này sẽ đăng xuất bạn khỏi ứng dụng.",
+    "rename_title": "Đổi tên tài khoản",
+    "rename_placeholder": "ví dụ: Công việc, Khách hàng A",
+    "note": "Thông tin đăng nhập của mỗi tài khoản được mã hóa trên thiết bị này và chỉ được gửi đến Cloudflare API."
   }
 }

@@ -353,7 +353,10 @@
     "rate_us": "Valora CloudFlare Mobile",
     "rate_us_sub": "¿Disfrutas de la aplicación? Deja una reseña",
     "share_usage": "Compartir uso anónimo",
-    "share_usage_sub": "Ayuda a decidir qué construir a continuación. Sin datos personales, sin seguimiento."
+    "share_usage_sub": "Ayuda a decidir qué construir a continuación. Sin datos personales, sin seguimiento.",
+    "accounts_section": "Cuentas de Cloudflare",
+    "manage_accounts": "Administrar cuentas",
+    "manage_accounts_sub": "{{count}} sesión iniciada · agregar o cambiar"
   },
   "update": {
     "title": "Actualización disponible — v{{version}}",
@@ -499,5 +502,20 @@
     "upsell_compact": "CF Mobile AI — desbloquea 100 acciones de IA",
     "upgrade": "Actualizar",
     "active_title": "CF Mobile AI activo"
+  },
+  "accounts": {
+    "title": "Cuentas de Cloudflare",
+    "intro": "Agregue más de un inicio de sesión de Cloudflare y cambie entre ellos sin cerrar sesión.",
+    "add": "Agregar otra cuenta",
+    "active": "activa",
+    "via_token": "API Token",
+    "via_key": "Global API Key",
+    "remove": "Eliminar",
+    "remove_title": "Eliminar cuenta",
+    "remove_body": "¿Eliminar \"{{label}}\" de esta aplicación? Su cuenta de Cloudflare no se verá afectada.",
+    "remove_last_body": "\"{{label}}\" es su única cuenta. Al eliminarla, se cerrará su sesión en la aplicación.",
+    "rename_title": "Renombrar cuenta",
+    "rename_placeholder": "ej. Trabajo, Cliente A",
+    "note": "Las credenciales de cada cuenta se cifran en este dispositivo y solo se envían a la API de Cloudflare."
   }
 }

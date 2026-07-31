@@ -353,7 +353,10 @@
     "rate_us": "CloudFlare Mobile'ı Değerlendir",
     "rate_us_sub": "Uygulamayı beğeniyor musunuz? Bir yorum bırakın",
     "share_usage": "Anonim kullanımı paylaş",
-    "share_usage_sub": "Sırada ne geliştirileceğine karar vermeye yardımcı olur. Kişisel veri yok, takip yok."
+    "share_usage_sub": "Sırada ne geliştirileceğine karar vermeye yardımcı olur. Kişisel veri yok, takip yok.",
+    "accounts_section": "Cloudflare hesapları",
+    "manage_accounts": "Hesapları yönet",
+    "manage_accounts_sub": "{{count}} oturum açıldı · ekle veya değiştir"
   },
   "update": {
     "title": "Güncelleme mevcut — v{{version}}",
@@ -499,5 +502,20 @@
     "upsell_compact": "CF Mobile AI — 100 AI eyleminin kilidini açın",
     "upgrade": "Yükselt",
     "active_title": "CF Mobile AI aktif"
+  },
+  "accounts": {
+    "title": "Cloudflare hesapları",
+    "intro": "Birden fazla Cloudflare girişi ekleyin ve çıkış yapmadan aralarında geçiş yapın.",
+    "add": "Başka bir hesap ekle",
+    "active": "aktif",
+    "via_token": "API Token",
+    "via_key": "Global API Key",
+    "remove": "Kaldır",
+    "remove_title": "Hesabı kaldır",
+    "remove_body": "\"{{label}}\" bu uygulamadan kaldırılsın mı? Cloudflare hesabınızın kendisi etkilenmez.",
+    "remove_last_body": "\"{{label}}\" tek hesabınızdır. Kaldırmak sizi uygulamadan çıkarır.",
+    "rename_title": "Hesabı yeniden adlandır",
+    "rename_placeholder": "örn. İş, Müşteri A",
+    "note": "Her hesabın kimlik bilgileri bu cihazda şifrelenir ve yalnızca Cloudflare API'sine gönderilir."
   }
 }
