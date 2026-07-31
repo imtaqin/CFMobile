@@ -235,7 +235,10 @@
     "no_account": "Không tìm thấy tài khoản",
     "no_account_message": "Không thể truy xuất tài khoản Cloudflare của bạn. Kiểm tra quyền mã API của bạn.",
     "tap_tail": "Nhấn để xem nhật ký trực tiếp",
-    "tap_browse": "Nhấn để duyệt tệp"
+    "tap_browse": "Nhấn để duyệt tệp",
+    "tap_keys": "Nhấn để duyệt khóa",
+    "tap_query": "Nhấn để duyệt và truy vấn",
+    "no_d1": "Không có cơ sở dữ liệu D1"
   },
   "email": {
     "title": "Định tuyến email",
@@ -431,5 +434,39 @@
     "oss_title": "Mã nguồn mở",
     "oss_body": "Đọc mã, gửi vấn đề hoặc gắn dấu sao cho dự án trên GitHub.",
     "oss_cta": "Xem dự án"
+  },
+  "d1": {
+    "title": "Cơ sở dữ liệu D1",
+    "tables": "Bảng",
+    "sql": "SQL",
+    "no_tables": "Không có bảng",
+    "no_tables_message": "Cơ sở dữ liệu này chưa có bảng nào.",
+    "row_count": "{{count}} hàng",
+    "unknown_rows": "Số lượng hàng không có sẵn",
+    "empty_table": "Bảng trống",
+    "empty_table_message": "Không có hàng nào để hiển thị.",
+    "prev": "Trước",
+    "next": "Tiếp",
+    "run": "Chạy truy vấn",
+    "result_meta": "{{rows}} hàng · {{ms}} ms",
+    "changes": "{{n}} đã thay đổi",
+    "write_title": "Truy vấn này ghi dữ liệu",
+    "write_body": "Câu lệnh này có thể sửa đổi hoặc xóa dữ liệu trong cơ sở dữ liệu của bạn. Dù sao cũng chạy chứ?",
+    "run_anyway": "Chạy dù sao"
+  },
+  "kv": {
+    "title": "Không gian tên KV",
+    "search": "Tìm kiếm khóa...",
+    "key_count": "{{count}} khóa",
+    "no_keys": "Không có khóa",
+    "no_keys_message": "Không gian tên này trống. Nhấn + để thêm khóa.",
+    "key": "Khóa",
+    "value": "Giá trị",
+    "new_key": "Khóa mới",
+    "edit_key": "Sửa khóa",
+    "key_required": "Tên khóa là bắt buộc.",
+    "expires": "Hết hạn {{date}}",
+    "delete_title": "Xóa khóa",
+    "delete_confirm": "Xóa vĩnh viễn \"{{key}}\"?"
   }
 }

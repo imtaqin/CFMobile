@@ -235,7 +235,10 @@
     "no_account": "Hesap Bulunamadı",
     "no_account_message": "Cloudflare hesabınız alınamadı. API anahtarı izinlerinizi kontrol edin.",
     "tap_tail": "Canlı günlükler için dokunun",
-    "tap_browse": "Dosyalara göz atmak için dokunun"
+    "tap_browse": "Dosyalara göz atmak için dokunun",
+    "tap_keys": "Anahtarlara göz atmak için dokunun",
+    "tap_query": "Göz atmak ve sorgulamak için dokunun",
+    "no_d1": "D1 Veritabanı yok"
   },
   "email": {
     "title": "E-posta Yönlendirme",
@@ -431,5 +434,39 @@
     "oss_title": "Açık kaynak",
     "oss_body": "Kodu okuyun, bir sorun bildirin veya projeyi GitHub'da yıldızlayın.",
     "oss_cta": "Projeyi görüntüle"
+  },
+  "d1": {
+    "title": "D1 Veritabanı",
+    "tables": "Tablolar",
+    "sql": "SQL",
+    "no_tables": "Tablo yok",
+    "no_tables_message": "Bu veritabanında henüz tablo yok.",
+    "row_count": "{{count}} satır",
+    "unknown_rows": "Satır sayısı mevcut değil",
+    "empty_table": "Boş tablo",
+    "empty_table_message": "Gösterilecek satır yok.",
+    "prev": "Önceki",
+    "next": "Sonraki",
+    "run": "Sorguyu çalıştır",
+    "result_meta": "{{rows}} satır · {{ms}} ms",
+    "changes": "{{n}} değişti",
+    "write_title": "Bu sorgu veri yazıyor",
+    "write_body": "Bu ifade, veritabanınızdaki verileri değiştirebilir veya silebilir. Yine de çalıştırayım mı?",
+    "run_anyway": "Yine de çalıştır"
+  },
+  "kv": {
+    "title": "KV Namespace",
+    "search": "Anahtarları ara...",
+    "key_count": "{{count}} anahtar",
+    "no_keys": "Anahtar yok",
+    "no_keys_message": "Bu namespace boş. Anahtar eklemek için + tuşuna dokunun.",
+    "key": "Anahtar",
+    "value": "Değer",
+    "new_key": "Yeni anahtar",
+    "edit_key": "Anahtarı düzenle",
+    "key_required": "Anahtar adı gerekli.",
+    "expires": "{{date}} tarihinde sona eriyor",
+    "delete_title": "Anahtarı sil",
+    "delete_confirm": "\"{{key}}\" kalıcı olarak silinsin mi?"
   }
 }

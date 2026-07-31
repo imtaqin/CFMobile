@@ -235,7 +235,10 @@
     "no_account": "未找到账户",
     "no_account_message": "无法检索您的Cloudflare账户。请检查您的API令牌权限。",
     "tap_tail": "点击查看实时日志",
-    "tap_browse": "点击浏览文件"
+    "tap_browse": "点击浏览文件",
+    "tap_keys": "点击浏览键",
+    "tap_query": "点击浏览和查询",
+    "no_d1": "没有 D1 数据库"
   },
   "email": {
     "title": "电子邮件路由",
@@ -431,5 +434,39 @@
     "oss_title": "开源项目",
     "oss_body": "在 GitHub 上阅读代码、提交问题或为项目点赞。",
     "oss_cta": "查看项目"
+  },
+  "d1": {
+    "title": "D1 数据库",
+    "tables": "表",
+    "sql": "SQL",
+    "no_tables": "没有表",
+    "no_tables_message": "此数据库尚无表。",
+    "row_count": "{{count}} 行",
+    "unknown_rows": "行数不可用",
+    "empty_table": "空表",
+    "empty_table_message": "没有可显示的行。",
+    "prev": "上一页",
+    "next": "下一页",
+    "run": "运行查询",
+    "result_meta": "{{rows}} 行 · {{ms}} 毫秒",
+    "changes": "已更改 {{n}} 项",
+    "write_title": "此查询写入数据",
+    "write_body": "此语句可以修改或删除数据库中的数据。仍然运行吗？",
+    "run_anyway": "仍然运行"
+  },
+  "kv": {
+    "title": "KV 命名空间",
+    "search": "搜索键...",
+    "key_count": "{{count}} 个键",
+    "no_keys": "没有键",
+    "no_keys_message": "此命名空间为空。点击 + 添加一个键。",
+    "key": "键",
+    "value": "值",
+    "new_key": "新键",
+    "edit_key": "编辑键",
+    "key_required": "键名是必需的。",
+    "expires": "{{date}} 到期",
+    "delete_title": "删除键",
+    "delete_confirm": "永久删除“{{key}}”？"
   }
 }

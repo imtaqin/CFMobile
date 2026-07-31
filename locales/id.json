@@ -235,7 +235,10 @@
     "no_account": "Akun Tidak Ditemukan",
     "no_account_message": "Tidak dapat mengambil akun Cloudflare Anda. Periksa izin token API Anda.",
     "tap_tail": "Tap untuk log langsung",
-    "tap_browse": "Tap untuk jelajahi file"
+    "tap_browse": "Tap untuk jelajahi file",
+    "tap_keys": "Tap untuk jelajahi key",
+    "tap_query": "Tap untuk jelajahi & kueri",
+    "no_d1": "Tidak Ada Database D1"
   },
   "email": {
     "title": "Email Routing",
@@ -431,5 +434,39 @@
     "oss_title": "Open source",
     "oss_body": "Baca kodenya, laporkan isu, atau beri bintang di GitHub.",
     "oss_cta": "Lihat proyek"
+  },
+  "d1": {
+    "title": "Database D1",
+    "tables": "Tabel",
+    "sql": "SQL",
+    "no_tables": "Tidak ada tabel",
+    "no_tables_message": "Database ini belum punya tabel.",
+    "row_count": "{{count}} baris",
+    "unknown_rows": "Jumlah baris tidak tersedia",
+    "empty_table": "Tabel kosong",
+    "empty_table_message": "Tidak ada baris untuk ditampilkan.",
+    "prev": "Sebelumnya",
+    "next": "Berikutnya",
+    "run": "Jalankan kueri",
+    "result_meta": "{{rows}} baris · {{ms}} ms",
+    "changes": "{{n}} diubah",
+    "write_title": "Kueri ini menulis data",
+    "write_body": "Perintah ini bisa mengubah atau menghapus data di database Anda. Tetap jalankan?",
+    "run_anyway": "Tetap jalankan"
+  },
+  "kv": {
+    "title": "Namespace KV",
+    "search": "Cari key...",
+    "key_count": "{{count}} key",
+    "no_keys": "Tidak ada key",
+    "no_keys_message": "Namespace ini kosong. Tap + untuk menambah key.",
+    "key": "Key",
+    "value": "Nilai",
+    "new_key": "Key baru",
+    "edit_key": "Edit key",
+    "key_required": "Nama key wajib diisi.",
+    "expires": "Kedaluwarsa {{date}}",
+    "delete_title": "Hapus key",
+    "delete_confirm": "Hapus \"{{key}}\" secara permanen?"
   }
 }

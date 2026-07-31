@@ -147,6 +147,7 @@ export interface Permissions {
   kv: boolean;
   r2: boolean;
   pages: boolean;
+  d1: boolean;
 }
 
 async function probe(req: () => Promise<any>): Promise<boolean> {
@@ -187,6 +188,7 @@ export async function probePermissions(zoneId?: string, accountId?: string): Pro
       probe(() => get(`/accounts/${accountId}/storage/kv/namespaces`, { per_page: 1 })).then((v) => ['kv', v] as [keyof Permissions, boolean]),
       probe(() => get(`/accounts/${accountId}/r2/buckets`)).then((v) => ['r2', v] as [keyof Permissions, boolean]),
       probe(() => get(`/accounts/${accountId}/pages/projects`)).then((v) => ['pages', v] as [keyof Permissions, boolean]),
+      probe(() => get(`/accounts/${accountId}/d1/database`, { per_page: 1 })).then((v) => ['d1', v] as [keyof Permissions, boolean]),
     );
   }
 
@@ -194,7 +196,7 @@ export async function probePermissions(zoneId?: string, accountId?: string): Pro
   const perms: Permissions = {
     user: false, accounts: false, zones: false, dns: false, ssl: false,
     firewall: false, cache: false, analytics: false, pageRules: false,
-    workers: false, kv: false, r2: false, pages: false,
+    workers: false, kv: false, r2: false, pages: false, d1: false,
   };
   for (const [key, value] of results) {
     perms[key] = value;
@@ -476,6 +478,112 @@ export async function deleteKVNamespace(accountId: string, nsId: string): Promis
 
 export async function getKVKeys(accountId: string, nsId: string, page = 1): Promise<CFResponse<{ name: string; expiration?: number }[]>> {
   return get(`/accounts/${accountId}/storage/kv/namespaces/${nsId}/keys`, { page, per_page: 100 });
+}
+
+export async function getKVValue(accountId: string, nsId: string, key: string): Promise<string> {
+  const res = await getClient().get(
+    `/accounts/${accountId}/storage/kv/namespaces/${nsId}/values/${encodeURIComponent(key)}`,
+    { transformResponse: [(d) => d] } // keep raw text; values are not always JSON
+  );
+  return typeof res.data === 'string' ? res.data : JSON.stringify(res.data);
+}
+
+export async function putKVValue(accountId: string, nsId: string, key: string, value: string): Promise<void> {
+  const form = new FormData();
+  form.append('value', value);
+  form.append('metadata', '{}');
+  await getClient().put(
+    `/accounts/${accountId}/storage/kv/namespaces/${nsId}/values/${encodeURIComponent(key)}`,
+    form,
+    { headers: { 'Content-Type': 'multipart/form-data' } }
+  );
+}
+
+export async function deleteKVValue(accountId: string, nsId: string, key: string): Promise<void> {
+  await getClient().delete(`/accounts/${accountId}/storage/kv/namespaces/${nsId}/values/${encodeURIComponent(key)}`);
+}
+
+// ─── D1 ──────────────────────────────────────────────────────────────────────
+
+export interface D1Database {
+  uuid: string;
+  name: string;
+  version?: string;
+  num_tables?: number;
+  file_size?: number;
+  created_at?: string;
+}
+
+export interface D1QueryResult {
+  results: Record<string, unknown>[];
+  success: boolean;
+  meta?: {
+    duration?: number;
+    rows_read?: number;
+    rows_written?: number;
+    changes?: number;
+    last_row_id?: number;
+  };
+}
+
+export async function getD1Databases(accountId: string): Promise<CFResponse<D1Database[]>> {
+  return get(`/accounts/${accountId}/d1/database`, { per_page: 100 });
+}
+
+export async function getD1Database(accountId: string, dbId: string): Promise<CFResponse<D1Database>> {
+  return get(`/accounts/${accountId}/d1/database/${dbId}`);
+}
+
+/** Run SQL against a D1 database. `params` are bound positionally to `?`. */
+export async function queryD1(
+  accountId: string,
+  dbId: string,
+  sql: string,
+  params: string[] = []
+): Promise<D1QueryResult> {
+  const res = await post<D1QueryResult[]>(`/accounts/${accountId}/d1/database/${dbId}/query`, { sql, params });
+  const first = Array.isArray(res.result) ? res.result[0] : (res.result as unknown as D1QueryResult);
+  return first ?? { results: [], success: true };
+}
+
+export interface D1TableInfo {
+  name: string;
+  rowCount: number | null;
+}
+
+/** User tables in a D1 database, with row counts (internal cf tables hidden). */
+export async function getD1Tables(accountId: string, dbId: string): Promise<D1TableInfo[]> {
+  const res = await queryD1(
+    accountId,
+    dbId,
+    "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' AND name NOT LIKE '_cf_%' ORDER BY name"
+  );
+  const names = (res.results ?? []).map((r) => String((r as any).name));
+
+  const tables: D1TableInfo[] = [];
+  for (const name of names) {
+    let rowCount: number | null = null;
+    try {
+      // table names can't be bound as parameters; they come from sqlite_master so they are safe
+      const c = await queryD1(accountId, dbId, `SELECT COUNT(*) AS n FROM "${name.replace(/"/g, '""')}"`);
+      rowCount = Number((c.results?.[0] as any)?.n ?? 0);
+    } catch {
+      // view or permission issue — show the table without a count
+    }
+    tables.push({ name, rowCount });
+  }
+  return tables;
+}
+
+export async function getD1TableRows(
+  accountId: string,
+  dbId: string,
+  table: string,
+  limit = 50,
+  offset = 0
+): Promise<D1QueryResult> {
+  const safe = table.replace(/"/g, '""');
+  return queryD1(accountId, dbId, `SELECT * FROM "${safe}" LIMIT ${limit} OFFSET ${offset}`);
 }
 
 // ─── R2 ──────────────────────────────────────────────────────────────────────

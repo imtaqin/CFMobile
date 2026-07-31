@@ -235,7 +235,10 @@
     "no_account": "Kein Konto gefunden",
     "no_account_message": "Ihr Cloudflare-Konto konnte nicht abgerufen werden. Überprüfen Sie Ihre API-Token-Berechtigungen.",
     "tap_tail": "Tippen für Live-Logs",
-    "tap_browse": "Tippen zum Durchsuchen von Dateien"
+    "tap_browse": "Tippen zum Durchsuchen von Dateien",
+    "tap_keys": "Zum Durchsuchen der Schlüssel tippen",
+    "tap_query": "Zum Durchsuchen und Abfragen tippen",
+    "no_d1": "Keine D1-Datenbanken"
   },
   "email": {
     "title": "E-Mail-Routing",
@@ -431,5 +434,39 @@
     "oss_title": "Open Source",
     "oss_body": "Lesen Sie den Code, melden Sie ein Problem oder markieren Sie das Projekt auf GitHub mit einem Stern.",
     "oss_cta": "Projekt ansehen"
+  },
+  "d1": {
+    "title": "D1-Datenbank",
+    "tables": "Tabellen",
+    "sql": "SQL",
+    "no_tables": "Keine Tabellen",
+    "no_tables_message": "Diese Datenbank hat noch keine Tabellen.",
+    "row_count": "{{count}} Zeilen",
+    "unknown_rows": "Zeilenanzahl nicht verfügbar",
+    "empty_table": "Leere Tabelle",
+    "empty_table_message": "Keine Zeilen zum Anzeigen.",
+    "prev": "Zurück",
+    "next": "Weiter",
+    "run": "Abfrage ausführen",
+    "result_meta": "{{rows}} Zeilen · {{ms}} ms",
+    "changes": "{{n}} geändert",
+    "write_title": "Diese Abfrage schreibt Daten",
+    "write_body": "Diese Anweisung kann Daten in Ihrer Datenbank ändern oder löschen. Trotzdem ausführen?",
+    "run_anyway": "Trotzdem ausführen"
+  },
+  "kv": {
+    "title": "KV-Namespace",
+    "search": "Schlüssel suchen...",
+    "key_count": "{{count}} Schlüssel",
+    "no_keys": "Keine Schlüssel",
+    "no_keys_message": "Dieser Namespace ist leer. Tippen Sie auf +, um einen Schlüssel hinzuzufügen.",
+    "key": "Schlüssel",
+    "value": "Wert",
+    "new_key": "Neuer Schlüssel",
+    "edit_key": "Schlüssel bearbeiten",
+    "key_required": "Schlüsselname ist erforderlich.",
+    "expires": "Läuft ab am {{date}}",
+    "delete_title": "Schlüssel löschen",
+    "delete_confirm": "„{{key}}“ dauerhaft löschen?"
   }
 }

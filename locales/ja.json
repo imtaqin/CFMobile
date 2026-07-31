@@ -235,7 +235,10 @@
     "no_account": "アカウントが見つかりません",
     "no_account_message": "Cloudflareアカウントを取得できませんでした。APIトークンの権限を確認してください。",
     "tap_tail": "ライブログをタップ",
-    "tap_browse": "ファイルを閲覧をタップ"
+    "tap_browse": "ファイルを閲覧をタップ",
+    "tap_keys": "タップしてキーを閲覧",
+    "tap_query": "タップして閲覧およびクエリ",
+    "no_d1": "D1 データベースがありません"
   },
   "email": {
     "title": "メールルーティング",
@@ -431,5 +434,39 @@
     "oss_title": "オープンソース",
     "oss_body": "コードを読み、問題を報告し、GitHubでプロジェクトにスターを付ける。",
     "oss_cta": "プロジェクトを見る"
+  },
+  "d1": {
+    "title": "D1 データベース",
+    "tables": "テーブル",
+    "sql": "SQL",
+    "no_tables": "テーブルがありません",
+    "no_tables_message": "このデータベースにはまだテーブルがありません。",
+    "row_count": "{{count}} 行",
+    "unknown_rows": "行数は利用できません",
+    "empty_table": "空のテーブル",
+    "empty_table_message": "表示する行がありません。",
+    "prev": "前へ",
+    "next": "次へ",
+    "run": "クエリを実行",
+    "result_meta": "{{rows}} 行 · {{ms}} ミリ秒",
+    "changes": "{{n}} 件変更",
+    "write_title": "このクエリはデータを書き込みます",
+    "write_body": "このステートメントは、データベース内のデータを変更または削除する可能性があります。それでも実行しますか？",
+    "run_anyway": "とにかく実行"
+  },
+  "kv": {
+    "title": "KV Namespace",
+    "search": "キーを検索...",
+    "key_count": "{{count}} キー",
+    "no_keys": "キーがありません",
+    "no_keys_message": "この namespace は空です。+ をタップしてキーを追加してください。",
+    "key": "キー",
+    "value": "値",
+    "new_key": "新しいキー",
+    "edit_key": "キーを編集",
+    "key_required": "キー名は必須です。",
+    "expires": "{{date}} に期限切れ",
+    "delete_title": "キーを削除",
+    "delete_confirm": "\"{{key}}\" を完全に削除しますか？"
   }
 }

@@ -30,7 +30,7 @@ const AuthContext = createContext<AuthContextValue | null>(null);
 const DEFAULT_PERMS: CF.Permissions = {
   user: false, accounts: false, zones: false, dns: false, ssl: false,
   firewall: false, cache: false, analytics: false, pageRules: false,
-  workers: false, kv: false, r2: false, pages: false,
+  workers: false, kv: false, r2: false, pages: false, d1: false,
 };
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {

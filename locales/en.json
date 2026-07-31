@@ -235,7 +235,10 @@
     "no_account": "No Account Found",
     "no_account_message": "Could not retrieve your Cloudflare account. Check your API token permissions.",
     "tap_tail": "Tap for live logs",
-    "tap_browse": "Tap to browse files"
+    "tap_browse": "Tap to browse files",
+    "tap_keys": "Tap to browse keys",
+    "tap_query": "Tap to browse and query",
+    "no_d1": "No D1 Databases"
   },
   "email": {
     "title": "Email Routing",
@@ -431,5 +434,39 @@
     "oss_title": "Open source",
     "oss_body": "Read the code, file an issue, or star the project on GitHub.",
     "oss_cta": "View project"
+  },
+  "d1": {
+    "title": "D1 Database",
+    "tables": "Tables",
+    "sql": "SQL",
+    "no_tables": "No tables",
+    "no_tables_message": "This database has no tables yet.",
+    "row_count": "{{count}} rows",
+    "unknown_rows": "Row count unavailable",
+    "empty_table": "Empty table",
+    "empty_table_message": "No rows to show.",
+    "prev": "Previous",
+    "next": "Next",
+    "run": "Run query",
+    "result_meta": "{{rows}} rows · {{ms}} ms",
+    "changes": "{{n}} changed",
+    "write_title": "This query writes data",
+    "write_body": "This statement can modify or delete data in your database. Run it anyway?",
+    "run_anyway": "Run anyway"
+  },
+  "kv": {
+    "title": "KV Namespace",
+    "search": "Search keys...",
+    "key_count": "{{count}} keys",
+    "no_keys": "No keys",
+    "no_keys_message": "This namespace is empty. Tap + to add a key.",
+    "key": "Key",
+    "value": "Value",
+    "new_key": "New key",
+    "edit_key": "Edit key",
+    "key_required": "Key name is required.",
+    "expires": "Expires {{date}}",
+    "delete_title": "Delete key",
+    "delete_confirm": "Delete \"{{key}}\" permanently?"
   }
 }

@@ -235,7 +235,10 @@
     "no_account": "Aucun compte trouvé",
     "no_account_message": "Impossible de récupérer votre compte Cloudflare. Vérifiez les permissions de votre jeton API.",
     "tap_tail": "Appuyez pour les logs en direct",
-    "tap_browse": "Appuyez pour parcourir les fichiers"
+    "tap_browse": "Appuyez pour parcourir les fichiers",
+    "tap_keys": "Appuyez pour parcourir les clés",
+    "tap_query": "Appuyez pour parcourir et interroger",
+    "no_d1": "Aucune base de données D1"
   },
   "email": {
     "title": "Routage des e-mails",
@@ -431,5 +434,39 @@
     "oss_title": "Open source",
     "oss_body": "Lisez le code, signalez un problème ou mettez une étoile au projet sur GitHub.",
     "oss_cta": "Voir le projet"
+  },
+  "d1": {
+    "title": "Base de données D1",
+    "tables": "Tables",
+    "sql": "SQL",
+    "no_tables": "Aucune table",
+    "no_tables_message": "Cette base de données n'a pas encore de tables.",
+    "row_count": "{{count}} lignes",
+    "unknown_rows": "Nombre de lignes indisponible",
+    "empty_table": "Table vide",
+    "empty_table_message": "Aucune ligne à afficher.",
+    "prev": "Précédent",
+    "next": "Suivant",
+    "run": "Exécuter la requête",
+    "result_meta": "{{rows}} lignes · {{ms}} ms",
+    "changes": "{{n}} modifié(s)",
+    "write_title": "Cette requête écrit des données",
+    "write_body": "Cette instruction peut modifier ou supprimer des données dans votre base de données. L'exécuter quand même ?",
+    "run_anyway": "Exécuter quand même"
+  },
+  "kv": {
+    "title": "Namespace KV",
+    "search": "Rechercher des clés...",
+    "key_count": "{{count}} clés",
+    "no_keys": "Aucune clé",
+    "no_keys_message": "Ce namespace est vide. Appuyez sur + pour ajouter une clé.",
+    "key": "Clé",
+    "value": "Valeur",
+    "new_key": "Nouvelle clé",
+    "edit_key": "Modifier la clé",
+    "key_required": "Le nom de la clé est requis.",
+    "expires": "Expire le {{date}}",
+    "delete_title": "Supprimer la clé",
+    "delete_confirm": "Supprimer \"{{key}}\" définitivement ?"
   }
 }

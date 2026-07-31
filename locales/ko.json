@@ -235,7 +235,10 @@
     "no_account": "계정을 찾을 수 없습니다",
     "no_account_message": "Cloudflare 계정을 검색할 수 없습니다. API 토큰 권한을 확인하세요.",
     "tap_tail": "실시간 로그를 보려면 탭하세요",
-    "tap_browse": "파일을 탐색하려면 탭하세요"
+    "tap_browse": "파일을 탐색하려면 탭하세요",
+    "tap_keys": "눌러서 키 찾아보기",
+    "tap_query": "눌러서 찾아보고 쿼리하기",
+    "no_d1": "D1 데이터베이스 없음"
   },
   "email": {
     "title": "이메일 라우팅",
@@ -431,5 +434,39 @@
     "oss_title": "오픈 소스",
     "oss_body": "코드를 읽고, 문제를 제기하거나, GitHub에서 프로젝트에 별표를 표시하세요.",
     "oss_cta": "프로젝트 보기"
+  },
+  "d1": {
+    "title": "D1 데이터베이스",
+    "tables": "테이블",
+    "sql": "SQL",
+    "no_tables": "테이블 없음",
+    "no_tables_message": "이 데이터베이스에는 아직 테이블이 없습니다.",
+    "row_count": "{{count}} 행",
+    "unknown_rows": "행 수 확인 불가",
+    "empty_table": "빈 테이블",
+    "empty_table_message": "표시할 행이 없습니다.",
+    "prev": "이전",
+    "next": "다음",
+    "run": "쿼리 실행",
+    "result_meta": "{{rows}} 행 · {{ms}} ms",
+    "changes": "{{n}} 변경됨",
+    "write_title": "이 쿼리는 데이터를 씁니다",
+    "write_body": "이 문은 데이터베이스의 데이터를 수정하거나 삭제할 수 있습니다. 그래도 실행하시겠습니까?",
+    "run_anyway": "그래도 실행"
+  },
+  "kv": {
+    "title": "KV 네임스페이스",
+    "search": "키 검색...",
+    "key_count": "{{count}} 키",
+    "no_keys": "키 없음",
+    "no_keys_message": "이 네임스페이스는 비어 있습니다. +를 눌러 키를 추가하세요.",
+    "key": "키",
+    "value": "값",
+    "new_key": "새 키",
+    "edit_key": "키 편집",
+    "key_required": "키 이름은 필수입니다.",
+    "expires": "{{date}} 만료",
+    "delete_title": "키 삭제",
+    "delete_confirm": "\"{{key}}\"를 영구적으로 삭제하시겠습니까?"
   }
 }

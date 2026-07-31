@@ -53,6 +53,8 @@ function AppContent() {
           <Stack.Screen name="changelog" options={{ animation: 'slide_from_right' }} />
           <Stack.Screen name="monitoring" options={{ animation: 'slide_from_right', headerShown: true }} />
           <Stack.Screen name="audit-logs" options={{ animation: 'slide_from_right', headerShown: true }} />
+          <Stack.Screen name="d1/[db]" options={{ animation: 'slide_from_right', headerShown: true }} />
+          <Stack.Screen name="kv/[ns]" options={{ animation: 'slide_from_right', headerShown: true }} />
           <Stack.Screen name="r2/[bucket]" options={{ animation: 'slide_from_right', headerShown: true }} />
           <Stack.Screen name="worker-tail/[script]" options={{ animation: 'slide_from_right', headerShown: true }} />
         </Stack>

@@ -15,24 +15,27 @@ import { SectionHeader } from '@/components/ui/section-header';
 import { Spacing, FontSize, Radius } from '@/constants/theme';
 import * as api from '@/services/cloudflare';
 import { WorkerScript, KVNamespace, R2Bucket, PagesProject } from '@/services/types';
+import { D1Database } from '@/services/cloudflare';
 
 interface ServiceError {
   workers?: string;
   kv?: string;
   r2?: string;
   pages?: string;
+  d1?: string;
 }
 
 export default function ServicesScreen() {
   const { t } = useTranslation();
   const { colors } = useTheme();
   const { accountId, permissions } = useAuth();
-  const perms = permissions ?? { workers: true, kv: true, r2: true, pages: true } as any;
+  const perms = permissions ?? { workers: true, kv: true, r2: true, pages: true, d1: true } as any;
 
   const [workers, setWorkers] = useState<WorkerScript[]>([]);
   const [kvNamespaces, setKvNamespaces] = useState<KVNamespace[]>([]);
   const [r2Buckets, setR2Buckets] = useState<R2Bucket[]>([]);
   const [pages, setPages] = useState<PagesProject[]>([]);
+  const [d1Dbs, setD1Dbs] = useState<D1Database[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [errors, setErrors] = useState<ServiceError>({});
@@ -52,11 +55,12 @@ export default function ServicesScreen() {
 
     const newErrors: ServiceError = {};
 
-    const [wRes, kvRes, r2Res, pRes] = await Promise.allSettled([
+    const [wRes, kvRes, r2Res, pRes, d1Res] = await Promise.allSettled([
       api.getWorkerScripts(accountId),
       api.getKVNamespaces(accountId),
       api.getR2Buckets(accountId),
       api.getPagesProjects(accountId),
+      api.getD1Databases(accountId),
     ]);
 
     if (wRes.status === 'fulfilled') {
@@ -89,6 +93,14 @@ export default function ServicesScreen() {
     } else {
       newErrors.pages = getErrorMsg(pRes.reason);
       console.log('[CF] Pages error:', pRes.reason?.response?.data ?? pRes.reason?.message);
+    }
+
+    if (d1Res.status === 'fulfilled') {
+      const result = d1Res.value.result;
+      setD1Dbs(Array.isArray(result) ? result : []);
+    } else {
+      newErrors.d1 = getErrorMsg(d1Res.reason);
+      console.log('[CF] D1 error:', d1Res.reason?.response?.data ?? d1Res.reason?.message);
     }
 
     setErrors(newErrors);
@@ -166,6 +178,7 @@ export default function ServicesScreen() {
         {perms.kv && <ServiceCard icon="database" iconColor={colors.warning} title="KV" count={kvNamespaces.length} error={errors.kv} />}
         {perms.r2 && <ServiceCard icon="cloud-upload" iconColor={colors.success} title="R2" count={r2Buckets.length} error={errors.r2} />}
         {perms.pages && <ServiceCard icon="monitor" iconColor={colors.error} title="Pages" count={pages.length} error={errors.pages} />}
+        {perms.d1 && <ServiceCard icon="database" iconColor="#8B5CF6" title="D1" count={d1Dbs.length} error={errors.d1} />}
       </View>
 
       {/* Workers List */}
@@ -212,15 +225,57 @@ export default function ServicesScreen() {
             <EmptyState icon="database" title={t('services.no_kv')} />
           ) : (
             kvNamespaces.map((ns) => (
-              <Card key={ns.id} style={styles.itemCard}>
-                <View style={styles.itemRow}>
-                  <Icon name="database" size={20} color={colors.warning} />
-                  <View style={{ flex: 1 }}>
-                    <Text style={[styles.itemName, { color: colors.text }]}>{ns.title}</Text>
-                    <Text style={[styles.itemMeta, { color: colors.textTertiary }]} numberOfLines={1}>{ns.id}</Text>
+              <TouchableOpacity
+                key={ns.id}
+                activeOpacity={0.7}
+                onPress={() => router.push({ pathname: '/kv/[ns]' as any, params: { ns: ns.id, name: ns.title } })}
+              >
+                <Card style={styles.itemCard}>
+                  <View style={styles.itemRow}>
+                    <Icon name="database" size={20} color={colors.warning} />
+                    <View style={{ flex: 1 }}>
+                      <Text style={[styles.itemName, { color: colors.text }]}>{ns.title}</Text>
+                      <Text style={[styles.itemMeta, { color: colors.textSecondary }]} numberOfLines={1}>
+                        {t('services.tap_keys')}
+                      </Text>
+                    </View>
+                    <Icon name="chevron-right" size={16} color={colors.textTertiary} />
                   </View>
-                </View>
-              </Card>
+                </Card>
+              </TouchableOpacity>
+            ))
+          )}
+        </>
+      )}
+
+      {/* D1 Databases */}
+      {perms.d1 && (
+        <>
+          <SectionHeader title="D1 Databases" />
+          {errors.d1 ? (
+            <ErrorBanner message={errors.d1} />
+          ) : d1Dbs.length === 0 ? (
+            <EmptyState icon="database" title={t('services.no_d1')} />
+          ) : (
+            d1Dbs.map((db) => (
+              <TouchableOpacity
+                key={db.uuid}
+                activeOpacity={0.7}
+                onPress={() => router.push({ pathname: '/d1/[db]' as any, params: { db: db.uuid, name: db.name } })}
+              >
+                <Card style={styles.itemCard}>
+                  <View style={styles.itemRow}>
+                    <Icon name="database" size={20} color="#8B5CF6" />
+                    <View style={{ flex: 1 }}>
+                      <Text style={[styles.itemName, { color: colors.text }]}>{db.name}</Text>
+                      <Text style={[styles.itemMeta, { color: colors.textSecondary }]} numberOfLines={1}>
+                        {db.file_size ? `${(db.file_size / 1024).toFixed(0)} KB · ` : ''}{t('services.tap_query')}
+                      </Text>
+                    </View>
+                    <Icon name="chevron-right" size={16} color={colors.textTertiary} />
+                  </View>
+                </Card>
+              </TouchableOpacity>
             ))
           )}
         </>

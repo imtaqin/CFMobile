@@ -235,7 +235,10 @@
     "no_account": "Nenhuma Conta Encontrada",
     "no_account_message": "Não foi possível recuperar sua conta Cloudflare. Verifique as permissões do seu token de API.",
     "tap_tail": "Toque para logs ao vivo",
-    "tap_browse": "Toque para navegar pelos arquivos"
+    "tap_browse": "Toque para navegar pelos arquivos",
+    "tap_keys": "Toque para navegar pelas chaves",
+    "tap_query": "Toque para navegar e consultar",
+    "no_d1": "Nenhum Banco de Dados D1"
   },
   "email": {
     "title": "Encaminhamento de E-mail",
@@ -431,5 +434,39 @@
     "oss_title": "Código aberto",
     "oss_body": "Leia o código, registre um problema ou marque o projeto no GitHub.",
     "oss_cta": "Ver projeto"
+  },
+  "d1": {
+    "title": "Banco de Dados D1",
+    "tables": "Tabelas",
+    "sql": "SQL",
+    "no_tables": "Nenhuma tabela",
+    "no_tables_message": "Este banco de dados ainda não possui tabelas.",
+    "row_count": "{{count}} linhas",
+    "unknown_rows": "Contagem de linhas indisponível",
+    "empty_table": "Tabela vazia",
+    "empty_table_message": "Nenhuma linha para exibir.",
+    "prev": "Anterior",
+    "next": "Próximo",
+    "run": "Executar query",
+    "result_meta": "{{rows}} linhas · {{ms}} ms",
+    "changes": "{{n}} alterado(s)",
+    "write_title": "Esta query escreve dados",
+    "write_body": "Esta instrução pode modificar ou excluir dados em seu banco de dados. Executar mesmo assim?",
+    "run_anyway": "Executar mesmo assim"
+  },
+  "kv": {
+    "title": "Namespace KV",
+    "search": "Buscar chaves...",
+    "key_count": "{{count}} chaves",
+    "no_keys": "Nenhuma chave",
+    "no_keys_message": "Este namespace está vazio. Toque em + para adicionar uma chave.",
+    "key": "Chave",
+    "value": "Valor",
+    "new_key": "Nova chave",
+    "edit_key": "Editar chave",
+    "key_required": "O nome da chave é obrigatório.",
+    "expires": "Expira em {{date}}",
+    "delete_title": "Excluir chave",
+    "delete_confirm": "Excluir \"{{key}}\" permanentemente?"
   }
 }
