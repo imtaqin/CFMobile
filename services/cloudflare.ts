@@ -670,19 +670,34 @@ export interface EmailRoutingSettings {
   status: string;
 }
 
+/** Cloudflare only matches on the recipient, so `field` is always "to". */
+export type EmailMatcher = { type: 'all' | 'literal'; field?: 'to'; value?: string };
+/** forward → value is a list of verified destinations, worker → script names. */
+export type EmailActionType = 'forward' | 'worker' | 'drop';
+export type EmailAction = { type: EmailActionType; value?: string[] };
+
 export interface EmailRoutingRule {
   id: string;
   name: string;
   enabled: boolean;
   priority: number;
-  matchers: { type: string; field?: string; value?: string }[];
-  actions: { type: string; value?: string[] }[];
+  matchers: EmailMatcher[];
+  actions: EmailAction[];
 }
 
 export interface DestinationAddress {
   id: string;
   email: string;
   verified: string | null;
+}
+
+/** One MX/TXT record Cloudflare needs in the zone for routing to work. */
+export interface EmailRoutingDnsRecord {
+  type: string;
+  name: string;
+  content: string;
+  priority?: number;
+  ttl?: number;
 }
 
 export async function getEmailRoutingSettings(zoneId: string): Promise<CFResponse<EmailRoutingSettings>> {

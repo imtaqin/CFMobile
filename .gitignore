@@ -44,3 +44,6 @@ ai-worker/
 .claude/
 .agents/
 skills-lock.json
+
+# Cloudflare OpenAPI source for docs/cf-api (23 MB, fetch with npm run cf:schema)
+.cf-openapi.json

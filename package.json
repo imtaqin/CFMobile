@@ -8,7 +8,9 @@
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
-    "lint": "expo lint"
+    "lint": "expo lint",
+    "cf:docs": "node scripts/gen-cf-api-docs.js .cf-openapi.json docs/cf-api",
+    "cf:schema": "curl -sL -o .cf-openapi.json https://raw.githubusercontent.com/cloudflare/api-schemas/main/openapi.json"
   },
   "dependencies": {
     "@dicebear/core": "^10.3.0",
