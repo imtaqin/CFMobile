@@ -63,6 +63,29 @@ async function installId(): Promise<string> {
   return v;
 }
 
+type UsageListener = () => void;
+const usageListeners = new Set<UsageListener>();
+
+/**
+ * Fires whenever a request may have moved the server-side counter. The quota
+ * store subscribes to this so the numbers on screen follow the worker instead
+ * of going stale until the next app launch.
+ */
+export function onUsageChanged(fn: UsageListener): () => void {
+  usageListeners.add(fn);
+  return () => { usageListeners.delete(fn); };
+}
+
+function usageChanged() {
+  for (const fn of usageListeners) {
+    try {
+      fn();
+    } catch {
+      // a bad listener must never break an AI call
+    }
+  }
+}
+
 async function post<T>(path: string, body: unknown): Promise<T> {
   let res: Response;
   try {
@@ -79,6 +102,7 @@ async function post<T>(path: string, body: unknown): Promise<T> {
   }
 
   if (res.status === 402 || res.status === 429) {
+    usageChanged();
     throw new AiError('quota', 'AI quota exhausted for this month');
   }
   if (res.status === 401 || res.status === 403) {
@@ -87,7 +111,10 @@ async function post<T>(path: string, body: unknown): Promise<T> {
   if (!res.ok) {
     throw new AiError('server', `AI service error (${res.status})`);
   }
-  return (await res.json()) as T;
+
+  const json = (await res.json()) as T;
+  usageChanged();
+  return json;
 }
 
 export async function getQuota(): Promise<AiQuota | null> {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Platform } from 'react-native';
 import Constants from 'expo-constants';
-import { getQuota, AiQuota } from './ai';
+import { getQuota, onUsageChanged, AiQuota } from './ai';
 import { isBillingAvailable } from './premium';
 
 export const AI_SUB_SKU = 'cfmobile_ai_monthly';
@@ -125,6 +125,12 @@ export async function refreshQuota(): Promise<AiQuota | null> {
 export function currentQuota(): AiQuota | null {
   return cachedQuota;
 }
+
+// Every AI request spends quota on the worker, so pull the new numbers back
+// instead of leaving the counter on screen stale until the next launch.
+onUsageChanged(() => {
+  refreshQuota().catch(() => {});
+});
 
 /** Reactive AI quota for components. */
 export function useAiQuota(): { quota: AiQuota | null; refresh: () => Promise<void> } {
