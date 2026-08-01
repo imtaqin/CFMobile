@@ -334,17 +334,109 @@ export async function deleteFirewallRule(zoneId: string, ruleId: string): Promis
   return del(`/zones/${zoneId}/firewall/rules/${ruleId}`);
 }
 
-export async function getIPAccessRules(zoneId: string, page = 1): Promise<CFResponse<any[]>> {
+export type IPAccessMode = 'block' | 'challenge' | 'whitelist' | 'js_challenge' | 'managed_challenge';
+
+export interface IPAccessRule {
+  id: string;
+  mode: IPAccessMode;
+  notes?: string;
+  configuration: { target: string; value: string };
+  created_on?: string;
+}
+
+export async function getIPAccessRules(zoneId: string, page = 1): Promise<CFResponse<IPAccessRule[]>> {
   return get(`/zones/${zoneId}/firewall/access_rules/rules`, { page, per_page: 50 });
 }
 
-// WAF Custom Rules (modern Rulesets API)
-export async function getWAFCustomRules(zoneId: string): Promise<CFResponse<any>> {
-  return get(`/zones/${zoneId}/rulesets/phases/http_request_firewall_custom/entrypoint`);
+export async function createIPAccessRule(zoneId: string, rule: {
+  mode: IPAccessMode;
+  configuration: { target: string; value: string };
+  notes?: string;
+}): Promise<CFResponse<IPAccessRule>> {
+  return post(`/zones/${zoneId}/firewall/access_rules/rules`, rule);
 }
 
-export async function getZoneRulesets(zoneId: string): Promise<CFResponse<any[]>> {
+export async function updateIPAccessRule(zoneId: string, ruleId: string, data: {
+  mode?: IPAccessMode;
+  notes?: string;
+}): Promise<CFResponse<IPAccessRule>> {
+  return patch(`/zones/${zoneId}/firewall/access_rules/rules/${ruleId}`, data);
+}
+
+export async function deleteIPAccessRule(zoneId: string, ruleId: string): Promise<CFResponse<{ id: string }>> {
+  return del(`/zones/${zoneId}/firewall/access_rules/rules/${ruleId}`);
+}
+
+// ─── WAF Custom Rules (Rulesets API) ─────────────────────────────────────────
+
+export const WAF_CUSTOM_PHASE = 'http_request_firewall_custom';
+
+export type RulesetAction =
+  | 'block' | 'challenge' | 'js_challenge' | 'managed_challenge' | 'log' | 'skip';
+
+export interface RulesetRule {
+  id: string;
+  version?: string;
+  action: RulesetAction;
+  expression: string;
+  description?: string;
+  enabled: boolean;
+  ref?: string;
+}
+
+export interface Ruleset {
+  id: string;
+  name: string;
+  phase: string;
+  kind: string;
+  rules?: RulesetRule[];
+}
+
+export async function getWAFCustomRules(zoneId: string): Promise<CFResponse<Ruleset>> {
+  return get(`/zones/${zoneId}/rulesets/phases/${WAF_CUSTOM_PHASE}/entrypoint`);
+}
+
+export async function getZoneRulesets(zoneId: string): Promise<CFResponse<Ruleset[]>> {
   return get(`/zones/${zoneId}/rulesets`);
+}
+
+export async function getZoneRuleset(zoneId: string, rulesetId: string): Promise<CFResponse<Ruleset>> {
+  return get(`/zones/${zoneId}/rulesets/${rulesetId}`);
+}
+
+export async function createRulesetRule(zoneId: string, rulesetId: string, rule: {
+  action: RulesetAction;
+  expression: string;
+  description?: string;
+  enabled?: boolean;
+}): Promise<CFResponse<Ruleset>> {
+  return post(`/zones/${zoneId}/rulesets/${rulesetId}/rules`, rule);
+}
+
+export async function updateRulesetRule(zoneId: string, rulesetId: string, ruleId: string, rule: {
+  action?: RulesetAction;
+  expression?: string;
+  description?: string;
+  enabled?: boolean;
+}): Promise<CFResponse<Ruleset>> {
+  return patch(`/zones/${zoneId}/rulesets/${rulesetId}/rules/${ruleId}`, rule);
+}
+
+export async function deleteRulesetRule(zoneId: string, rulesetId: string, ruleId: string): Promise<CFResponse<Ruleset>> {
+  return del(`/zones/${zoneId}/rulesets/${rulesetId}/rules/${ruleId}`);
+}
+
+/**
+ * A zone that has never had a custom rule has no entrypoint ruleset, and the
+ * rules endpoint 404s until one exists. Writing the phase entrypoint creates it.
+ */
+export async function createWAFEntrypoint(zoneId: string): Promise<CFResponse<Ruleset>> {
+  return put(`/zones/${zoneId}/rulesets/phases/${WAF_CUSTOM_PHASE}/entrypoint`, {
+    name: 'Custom rules',
+    kind: 'zone',
+    phase: WAF_CUSTOM_PHASE,
+    rules: [],
+  });
 }
 
 // ─── Page Rules ──────────────────────────────────────────────────────────────
