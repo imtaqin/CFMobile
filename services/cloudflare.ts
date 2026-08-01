@@ -708,6 +708,16 @@ export async function enableEmailRouting(zoneId: string): Promise<CFResponse<Ema
   return post(`/zones/${zoneId}/email/routing/enable`);
 }
 
+/** Also strips the MX records Cloudflare added when routing was turned on. */
+export async function disableEmailRouting(zoneId: string): Promise<CFResponse<EmailRoutingSettings>> {
+  return post(`/zones/${zoneId}/email/routing/disable`);
+}
+
+/** The MX/TXT records the zone needs before routing can deliver anything. */
+export async function getEmailRoutingDns(zoneId: string): Promise<CFResponse<EmailRoutingDnsRecord[]>> {
+  return get(`/zones/${zoneId}/email/routing/dns`);
+}
+
 export async function getEmailRoutingRules(zoneId: string, page = 1): Promise<CFResponse<EmailRoutingRule[]>> {
   return get(`/zones/${zoneId}/email/routing/rules`, { page, per_page: 50 });
 }
@@ -715,8 +725,9 @@ export async function getEmailRoutingRules(zoneId: string, page = 1): Promise<CF
 export async function createEmailRoutingRule(zoneId: string, rule: {
   name: string;
   enabled: boolean;
-  matchers: { type: string; field?: string; value?: string }[];
-  actions: { type: string; value?: string[] }[];
+  matchers: EmailMatcher[];
+  actions: EmailAction[];
+  priority?: number;
 }): Promise<CFResponse<EmailRoutingRule>> {
   return post(`/zones/${zoneId}/email/routing/rules`, rule);
 }
@@ -735,8 +746,8 @@ export async function getEmailCatchAll(zoneId: string): Promise<CFResponse<Email
 
 export async function updateEmailCatchAll(zoneId: string, rule: {
   enabled: boolean;
-  matchers: { type: string }[];
-  actions: { type: string; value?: string[] }[];
+  matchers: EmailMatcher[];
+  actions: EmailAction[];
 }): Promise<CFResponse<EmailRoutingRule>> {
   return put(`/zones/${zoneId}/email/routing/rules/catch_all`, rule);
 }

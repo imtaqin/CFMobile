@@ -10,9 +10,9 @@ export type IconName =
   // Zone management
   | 'dns' | 'lock' | 'shield' | 'layers' | 'chart-line' | 'route' | 'zap' | 'rule'
   // Actions
-  | 'search' | 'plus' | 'edit' | 'trash' | 'refresh' | 'cached'
+  | 'search' | 'plus' | 'edit' | 'trash' | 'refresh' | 'cached' | 'copy' | 'power'
   // Arrows / Navigation
-  | 'chevron-right' | 'chevron-down' | 'arrow-left'
+  | 'chevron-right' | 'chevron-down' | 'chevron-up' | 'arrow-left'
   // Status
   | 'check-circle' | 'warning' | 'error-circle' | 'info' | 'shield-check'
   // Objects
@@ -210,6 +210,12 @@ export function Icon({ name, size = 24, color, strokeWidth = 2 }: IconProps) {
         'M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16',
         'M16 16h5v5',
       ]} />;
+    case 'copy':
+      return <LucideIcon size={size} color={c} sw={sw} paths={[
+        'M15 3H5a2 2 0 0 0-2 2v10',
+      ]} rects={[{ x: 9, y: 9, w: 12, h: 12, rx: 2 }]} />;
+    case 'power':
+      return <LucideIcon size={size} color={c} sw={sw} paths={['M12 2v10', 'M18.4 6.6a9 9 0 1 1-12.77.04']} />;
     case 'delete-sweep':
       return <LucideIcon size={size} color={c} sw={sw} paths={[
         'M3 6h18', 'M8 6V4h8v2',
@@ -222,6 +228,8 @@ export function Icon({ name, size = 24, color, strokeWidth = 2 }: IconProps) {
       return <LucideIcon size={size} color={c} sw={sw} paths={['m9 18 6-6-6-6']} />;
     case 'chevron-down':
       return <LucideIcon size={size} color={c} sw={sw} paths={['m6 9 6 6 6-6']} />;
+    case 'chevron-up':
+      return <LucideIcon size={size} color={c} sw={sw} paths={['m18 15-6-6-6 6']} />;
     case 'arrow-left':
       return <LucideIcon size={size} color={c} sw={sw} paths={['m12 19-7-7 7-7', 'M19 12H5']} />;
 
