@@ -1,0 +1,2 @@
+Masuk dengan Cloudflare, tanpa perlu menyalin API token. Masuk dengan API Token dan Global API Key tetap ada, di bagian Lanjutan.
+Versi ini tanpa iklan dan tanpa layanan Google Play.
