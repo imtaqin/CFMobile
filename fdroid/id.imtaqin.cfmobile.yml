@@ -1,6 +1,6 @@
 # Draft build recipe for https://gitlab.com/fdroid/fdroiddata
 # (metadata/id.imtaqin.cfmobile.yml). Kept here so it is versioned with the
-# branch it builds. It has not been run on F-Droid's build server yet.
+# branch it builds. Submitted as https://gitlab.com/fdroid/fdroiddata/-/merge_requests/51555.
 
 Categories:
   - Internet
@@ -38,5 +38,6 @@ Builds:
 
 AutoUpdateMode: Version
 UpdateCheckMode: Tags ^v[0-9.]+-foss$
+UpdateCheckData: app.json|"versionCode":\s(\d+)|.|"version":\s"([^"]+)"
 CurrentVersion: 1.7.0
 CurrentVersionCode: 45
