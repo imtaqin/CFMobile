@@ -1,0 +1,2 @@
+Sign in with Cloudflare, with no API token to copy. API Token and Global API Key sign-in are still there, under Advanced.
+This build has no ads and no Google Play services.

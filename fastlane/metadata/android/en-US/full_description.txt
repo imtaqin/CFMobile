@@ -1,0 +1,44 @@
+CloudFlare Mobile is a fast, clean Cloudflare manager for Android. Edit DNS records, switch on Under Attack Mode, check traffic and manage Workers from your phone, without opening a laptop.
+
+It is an unofficial client that talks directly to the official Cloudflare API with your own API token.
+
+DNS MANAGER
+• Search, filter and edit DNS records: A, AAAA, CNAME, MX, TXT and more
+• Turn the Cloudflare proxy on or off with one tap
+• DNS templates for common setups
+• Find any zone or record with global search
+
+SECURITY AND FIREWALL
+• Under Attack Mode, Development Mode and Pause Zone on top of every zone
+• Create, edit and toggle WAF custom rules
+• Block, challenge or allow IP addresses and ranges
+• SSL/TLS mode, Always Use HTTPS and minimum TLS version
+
+ANALYTICS
+• Requests, cached vs uncached, bandwidth and threats
+• Cache hit rate at a glance
+• 1 day, 7 day and 30 day views
+
+AI ASSISTANT
+• AI security audit: a score for your zone and the fixes that raise it
+• Ask in plain language: "add an A record for shop pointing to 203.0.113.50"
+• Every change is shown first. Nothing runs until you approve it
+
+DEVELOPER PLATFORM
+• Workers with live logs
+• KV namespaces, R2 buckets and D1 databases
+• Pages projects
+
+MORE
+• Email Routing, cache purge and page rules
+• Account audit logs
+• Multiple accounts and profiles
+• Light and dark theme
+• 12 languages
+
+PRIVACY
+Your API token is stored encrypted on your device and is sent only to Cloudflare. AI features send the zone configuration needed for the answer, never your token.
+
+Purging cache at midnight, blocking an attack from the train, or fixing a DNS record before a launch: CloudFlare Mobile keeps your Cloudflare dashboard in your pocket.
+
+CloudFlare Mobile is an independent app. It is not affiliated with, endorsed by or sponsored by Cloudflare, Inc. Cloudflare is a trademark of Cloudflare, Inc.
