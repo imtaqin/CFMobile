@@ -5,11 +5,9 @@ export const PREMIUM_SKU = 'premium_remove_ads';
 const CACHE_KEY = 'cf_premium';
 
 /**
- * Development builds run with everything unlocked so premium screens can be
- * worked on without a Play purchase. __DEV__ is false in release builds, so
- * this never reaches a store build.
+ * FOSS build: there is no store to buy from, so every feature is unlocked.
  */
-const DEV_UNLOCK = __DEV__;
+const DEV_UNLOCK = true;
 
 let premium = DEV_UNLOCK;
 let initialized = false;
@@ -49,8 +47,10 @@ export function isPremium(): boolean {
   return premium;
 }
 
-function iap() {
-  return require('react-native-iap');
+// FOSS build: Play billing is not linked. Throwing here leaves billingReady
+// false, and every purchase entry point already checks that first.
+function iap(): any {
+  throw new Error('billing-unavailable');
 }
 
 async function ownsPremium(): Promise<boolean> {

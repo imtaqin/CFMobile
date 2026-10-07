@@ -26,6 +26,9 @@ DNS, firewall, analytics, Workers and an AI assistant in one clean Android app.
 
 </div>
 
+> [!IMPORTANT]
+> **This is the `foss` branch.** It builds the same app without ads, without Google Play billing and without any Google Play services library. Every feature is unlocked, and usage signals are off unless you turn them on. It is the branch used for GitHub Releases and F-Droid; the Play Store build comes from `main`.
+
 > [!NOTE]
 > CloudFlare Mobile is an independent, unofficial client. It is not affiliated with, endorsed by or sponsored by Cloudflare, Inc. It talks to the official Cloudflare API with your own API token.
 

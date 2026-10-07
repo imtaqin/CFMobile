@@ -27,8 +27,9 @@ function emit(q: AiQuota | null) {
   listeners.forEach((l) => l(cachedQuota));
 }
 
-function iap() {
-  return require('react-native-iap');
+// FOSS build: Play billing is not linked, so the AI subscription cannot be bought here.
+function iap(): any {
+  throw new Error('billing-unavailable');
 }
 
 async function installId(): Promise<string> {

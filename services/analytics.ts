@@ -41,7 +41,8 @@ async function installId(): Promise<string> {
 
 export async function isAnalyticsEnabled(): Promise<boolean> {
   if (optedOut === null) {
-    optedOut = (await storage.get(OPT_OUT_KEY).catch(() => null)) === 'true';
+    // FOSS build: usage signals are opt-in, so nothing is sent unless the user turns them on.
+    optedOut = (await storage.get(OPT_OUT_KEY).catch(() => null)) !== 'false';
   }
   return !optedOut;
 }
