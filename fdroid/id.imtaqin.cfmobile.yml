@@ -1,0 +1,42 @@
+# Draft build recipe for https://gitlab.com/fdroid/fdroiddata
+# (metadata/id.imtaqin.cfmobile.yml). Kept here so it is versioned with the
+# branch it builds. It has not been run on F-Droid's build server yet.
+
+Categories:
+  - Internet
+  - System
+License: MIT
+AuthorName: imtaqin
+WebSite: https://github.com/imtaqin/CFMobile
+SourceCode: https://github.com/imtaqin/CFMobile
+IssueTracker: https://github.com/imtaqin/CFMobile/issues
+
+AutoName: CloudFlare Mobile
+
+RepoType: git
+Repo: https://github.com/imtaqin/CFMobile.git
+
+Builds:
+  - versionName: 1.7.0
+    versionCode: 45
+    commit: v1.7.0-foss
+    subdir: android/app
+    sudo:
+      - apt-get update
+      - apt-get install -y npm
+    # android/ is generated, not committed: create it before F-Droid looks for it.
+    init:
+      - npm ci
+      - npx expo prebuild --platform android --no-install
+    gradle:
+      - yes
+    scanignore:
+      - node_modules
+    antifeatures:
+      NonFreeNet:
+        en-US: The app is a client for Cloudflare, and its optional AI features use a hosted backend whose source is not public.
+
+AutoUpdateMode: Version
+UpdateCheckMode: Tags ^v[0-9.]+-foss$
+CurrentVersion: 1.7.0
+CurrentVersionCode: 45
