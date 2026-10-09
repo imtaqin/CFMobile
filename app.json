@@ -56,7 +56,6 @@
           }
         }
       ],
-      "expo-background-task",
       "./plugins/with-r8-full-mode"
     ],
     "experiments": {
