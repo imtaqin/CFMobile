@@ -710,7 +710,8 @@
     "legal": "Google Playを通じて請求されます。キャンセルされるまで毎月更新されます — Play Storeでいつでも管理またはキャンセルできます。",
     "upsell_compact": "CF Mobile AI — 100回のAIアクションをアンロック",
     "upgrade": "アップグレード",
-    "active_title": "CF Mobile AIがアクティブ"
+    "active_title": "CF Mobile AIがアクティブ",
+    "foss_note": "このビルドには購入はありません。無料の AI アクションは毎月初めにリセットされます。有料AIプランはGoogle Play版のみでご利用いただけます。"
   },
   "accounts": {
     "title": "Cloudflareアカウント",

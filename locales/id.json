@@ -710,7 +710,8 @@
     "legal": "Ditagih melalui Google Play. Diperpanjang tiap bulan sampai dibatalkan — kelola atau batalkan kapan saja di Play Store.",
     "upsell_compact": "CF Mobile AI — buka 100 aksi AI",
     "upgrade": "Upgrade",
-    "active_title": "CF Mobile AI aktif"
+    "active_title": "CF Mobile AI aktif",
+    "foss_note": "Versi ini tidak punya pembelian. Kuota AI gratis direset setiap awal bulan. Paket AI berbayar hanya tersedia di versi Google Play."
   },
   "accounts": {
     "title": "Akun Cloudflare",

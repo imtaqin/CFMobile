@@ -86,6 +86,8 @@ function TypingDots({ color }: { color: string }) {
   );
 }
 
+const CHAT_LOCKED: boolean = false;
+
 export default function AiChatScreen() {
   const { zoneId, zoneName } = useLocalSearchParams<{ zoneId?: string; zoneName?: string }>();
   const { t } = useTranslation();
@@ -143,7 +145,6 @@ export default function AiChatScreen() {
   const send = async (override?: string) => {
     const text = (override ?? input).trim();
     if (!text || sending) return;
-    if (quota?.tier !== 'pro') { setShowPaywall(true); return; }
 
     const userItem: ChatItem = { id: nextId(), role: 'user', content: text };
     const history = [...items, userItem];
@@ -275,7 +276,8 @@ export default function AiChatScreen() {
     );
   };
 
-  if (quota?.tier !== 'pro') {
+  // FOSS build: there is no plan to buy, so the chat is never locked.
+  if (CHAT_LOCKED) {
     return (
       <>
         <View style={[styles.lockedContainer, { backgroundColor: colors.background }]}>

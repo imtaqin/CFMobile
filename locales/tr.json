@@ -710,7 +710,8 @@
     "legal": "Google Play üzerinden faturalandırılır. İptal edilene kadar aylık olarak yenilenir — istediğiniz zaman Play Store'da yönetin veya iptal edin.",
     "upsell_compact": "CF Mobile AI — 100 AI eyleminin kilidini açın",
     "upgrade": "Yükselt",
-    "active_title": "CF Mobile AI aktif"
+    "active_title": "CF Mobile AI aktif",
+    "foss_note": "Bu yapının satın alma işlemi yok. Ücretsiz AI eylemleri her ayın başında sıfırlanır. Ücretli AI planı yalnızca Google Play sürümünde mevcuttur."
   },
   "accounts": {
     "title": "Cloudflare hesapları",

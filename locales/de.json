@@ -710,7 +710,8 @@
     "legal": "Abrechnung über Google Play. Verlängert sich monatlich bis zur Kündigung – jederzeit im Play Store verwalten oder kündigen.",
     "upsell_compact": "CF Mobile AI – 100 AI-Aktionen freischalten",
     "upgrade": "Upgrade",
-    "active_title": "CF Mobile AI aktiv"
+    "active_title": "CF Mobile AI aktiv",
+    "foss_note": "Für diesen Build gibt es keine Käufe. Die kostenlosen KI-Aktionen werden zu Beginn jedes Monats zurückgesetzt. Der kostenpflichtige AI-Plan ist nur in der Google Play-Version verfügbar."
   },
   "accounts": {
     "title": "Cloudflare-Konten",

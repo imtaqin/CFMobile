@@ -199,60 +199,15 @@ export default function SettingsScreen() {
         />
       </Card>
 
-      {/* Premium */}
-      {premium ? (
-        <Group style={styles.planCard}>
-          <ListRow icon="check-circle" iconTone="success" title={t('premium.active_title')} />
-        </Group>
-      ) : (
-        <Card style={[styles.planCard, styles.plan]}>
-          <View style={styles.planTop}>
-            <IconCircle name="zap" />
-            <Text style={[styles.planTitle, { color: colors.text }]}>{t('premium.upsell_compact')}</Text>
-          </View>
-          <View style={styles.planActions}>
-            <TouchableOpacity
-              onPress={handleRestorePremium}
-              disabled={premiumBusy}
-              hitSlop={8}
-              style={styles.planLinkWrap}
-              accessibilityRole="button"
-            >
-              <Text style={[styles.planLink, { color: colors.textSecondary }]}>{t('premium.restore')}</Text>
-            </TouchableOpacity>
-            <Button
-              title={premiumPrice ?? t('premium.buy')}
-              onPress={handleBuyPremium}
-              disabled={premiumBusy}
-              size="sm"
-            />
-          </View>
-        </Card>
-      )}
-
-      {/* CF Mobile AI plan */}
-      {aiPro ? (
+      {/* FOSS build: nothing is sold here, so the AI block only reports usage. */}
+      {!!aiQuota && (
         <Group style={styles.planCard}>
           <ListRow
-            icon="check-circle"
-            iconTone="success"
-            title={t('ai_plan.active_title')}
-            subtitle={aiQuota ? t('ai_plan.usage', { used: aiQuota.used, limit: aiQuota.limit }) : undefined}
+            icon="sparkles"
+            title={t('ai_plan.title')}
+            subtitle={t('ai_plan.usage', { used: aiQuota.used, limit: aiQuota.limit })}
           />
         </Group>
-      ) : (
-        <Card style={[styles.planCard, styles.plan]} onPress={() => setShowAiPaywall(true)}>
-          <View style={styles.planTop}>
-            <IconCircle name="sparkles" />
-            <Text style={[styles.planTitle, { color: colors.text }]}>{t('ai_plan.upsell_compact')}</Text>
-          </View>
-          <View style={styles.planActions}>
-            <Text style={[styles.planUsage, { color: colors.textTertiary }]} numberOfLines={2}>
-              {aiQuota ? t('ai_plan.usage', { used: aiQuota.used, limit: aiQuota.limit }) : ''}
-            </Text>
-            <Button title={t('ai_plan.upgrade')} onPress={() => setShowAiPaywall(true)} size="sm" />
-          </View>
-        </Card>
       )}
 
       {/* Stored Cloudflare logins */}

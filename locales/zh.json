@@ -710,7 +710,8 @@
     "legal": "通过Google Play计费。每月续订直至取消 — 随时在Play Store中管理或取消。",
     "upsell_compact": "CF Mobile AI — 解锁100次AI操作",
     "upgrade": "升级",
-    "active_title": "CF Mobile AI 已激活"
+    "active_title": "CF Mobile AI 已激活",
+    "foss_note": "此版本没有购买。免费 AI 操作会在每个月初重置。付费 AI 计划仅在 Google Play 版本中提供。"
   },
   "accounts": {
     "title": "Cloudflare 账户",

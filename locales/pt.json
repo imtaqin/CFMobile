@@ -710,7 +710,8 @@
     "legal": "Cobrado via Google Play. Renova mensalmente até ser cancelado — gerencie ou cancele a qualquer momento na Play Store.",
     "upsell_compact": "CF Mobile AI — desbloqueie 100 ações de IA",
     "upgrade": "Fazer upgrade",
-    "active_title": "CF Mobile AI ativo"
+    "active_title": "CF Mobile AI ativo",
+    "foss_note": "Esta compilação não tem compras. As ações gratuitas de IA são redefinidas no início de cada mês. O plano pago de IA está disponível apenas na versão Google Play."
   },
   "accounts": {
     "title": "Contas Cloudflare",

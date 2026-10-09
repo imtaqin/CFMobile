@@ -710,7 +710,8 @@
     "legal": "Thanh toán qua Google Play. Tự động gia hạn hàng tháng cho đến khi hủy — quản lý hoặc hủy bất cứ lúc nào trong Play Store.",
     "upsell_compact": "CF Mobile AI — mở khóa 100 hành động AI",
     "upgrade": "Nâng cấp",
-    "active_title": "CF Mobile AI đang hoạt động"
+    "active_title": "CF Mobile AI đang hoạt động",
+    "foss_note": "Bản dựng này không có giao dịch mua nào. Các hành động AI miễn phí được đặt lại vào đầu mỗi tháng. Gói AI trả phí chỉ có trong phiên bản Google Play."
   },
   "accounts": {
     "title": "Tài khoản Cloudflare",

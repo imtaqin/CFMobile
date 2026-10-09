@@ -710,7 +710,8 @@
     "legal": "Billed through Google Play. Renews monthly until cancelled — manage or cancel anytime in the Play Store.",
     "upsell_compact": "CF Mobile AI — unlock 100 AI actions",
     "upgrade": "Upgrade",
-    "active_title": "CF Mobile AI active"
+    "active_title": "CF Mobile AI active",
+    "foss_note": "This build has no purchases. The free AI actions reset at the start of each month. The paid AI plan is only available in the Google Play version."
   },
   "accounts": {
     "title": "Cloudflare accounts",
