@@ -199,16 +199,7 @@ export default function SettingsScreen() {
         />
       </Card>
 
-      {/* FOSS build: nothing is sold here, so the AI block only reports usage. */}
-      {!!aiQuota && (
-        <Group style={styles.planCard}>
-          <ListRow
-            icon="sparkles"
-            title={t('ai_plan.title')}
-            subtitle={t('ai_plan.usage', { used: aiQuota.used, limit: aiQuota.limit })}
-          />
-        </Group>
-      )}
+      {/* FOSS build: no premium or AI plan section; nothing is sold here. */}
 
       {/* Stored Cloudflare logins */}
       <SectionHeader title={t('settings.accounts_section')} />
