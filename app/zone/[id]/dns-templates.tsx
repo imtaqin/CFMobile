@@ -18,6 +18,7 @@ function BrandLogo({ template, size }: { template: DnsTemplate; size: number }) 
   const { colors } = useTheme();
   const [failed, setFailed] = useState(false);
   const inner = Math.round(size * 0.6);
+  const logo = template.domain ? brandLogoUrl(template.domain) : null;
   return (
     <View
       style={{
@@ -29,9 +30,9 @@ function BrandLogo({ template, size }: { template: DnsTemplate; size: number }) 
         backgroundColor: colors.surfaceSecondary,
       }}
     >
-      {template.domain && !failed ? (
+      {logo && !failed ? (
         <Image
-          source={{ uri: brandLogoUrl(template.domain) }}
+          source={{ uri: logo }}
           style={{ width: inner, height: inner, borderRadius: inner / 4 }}
           onError={() => setFailed(true)}
         />

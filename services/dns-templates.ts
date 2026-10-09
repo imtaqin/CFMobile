@@ -43,8 +43,12 @@ export interface DnsTemplate {
   docs?: string;
 }
 
-export function brandLogoUrl(domain: string): string {
-  return `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
+/**
+ * FOSS build: provider logos would come from a third-party favicon service,
+ * so this build does not fetch them and the templates show their own icon.
+ */
+export function brandLogoUrl(_domain: string): string | null {
+  return null;
 }
 
 // Sources verified against:
