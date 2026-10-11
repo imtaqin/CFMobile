@@ -46,13 +46,13 @@
           }
         }
       ],
-      "expo-video",
       [
         "expo-build-properties",
         {
           "android": {
             "enableProguardInReleaseBuilds": true,
-            "enableShrinkResourcesInReleaseBuilds": true
+            "enableShrinkResourcesInReleaseBuilds": true,
+            "useLegacyPackaging": true
           }
         }
       ],

@@ -71,7 +71,8 @@
     "oauth_failed": "Đăng nhập bằng Cloudflare chưa hoàn tất.",
     "oauth_retry": "Quay lại để đăng nhập",
     "advanced": "Tùy chọn nâng cao",
-    "advanced_hint": "Đăng nhập bằng mã thông báo API hoặc Global API Key"
+    "advanced_hint": "Đăng nhập bằng mã thông báo API hoặc Global API Key",
+    "guide_hint": "Hướng dẫn từng bước trong tài liệu của Cloudflare"
   },
   "dashboard": {
     "welcome": "Chào mừng trở lại,",

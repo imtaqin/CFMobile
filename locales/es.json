@@ -71,7 +71,8 @@
     "oauth_failed": "El inicio de sesión con Cloudflare no se completó.",
     "oauth_retry": "Volver para iniciar sesión",
     "advanced": "Opciones avanzadas",
-    "advanced_hint": "Inicie sesión con un token API o Global API Key"
+    "advanced_hint": "Inicie sesión con un token API o Global API Key",
+    "guide_hint": "Guía paso a paso en los documentos de Cloudflare"
   },
   "dashboard": {
     "welcome": "Bienvenido de nuevo,",

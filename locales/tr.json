@@ -71,7 +71,8 @@
     "oauth_failed": "Cloudflare ile oturum açma işlemi tamamlanmadı.",
     "oauth_retry": "Oturum açmak için geri dön",
     "advanced": "Gelişmiş seçenekler",
-    "advanced_hint": "API belirteci veya Global API Key ile oturum açın"
+    "advanced_hint": "API belirteci veya Global API Key ile oturum açın",
+    "guide_hint": "Cloudflare'nin belgelerindeki adım adım kılavuz"
   },
   "dashboard": {
     "welcome": "Tekrar hoş geldiniz,",

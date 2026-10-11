@@ -71,7 +71,8 @@
     "oauth_failed": "Login dengan Cloudflare tidak selesai.",
     "oauth_retry": "Kembali ke halaman masuk",
     "advanced": "Lanjutan",
-    "advanced_hint": "Masuk dengan API token atau Global API Key"
+    "advanced_hint": "Masuk dengan API token atau Global API Key",
+    "guide_hint": "Panduan langkah demi langkah di dokumentasi Cloudflare"
   },
   "dashboard": {
     "welcome": "Selamat datang,",

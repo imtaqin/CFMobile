@@ -1,13 +1,12 @@
 import { useState } from 'react';
 import {
   StyleSheet, View, Text, ScrollView, TouchableOpacity, KeyboardAvoidingView,
-  Platform, Alert, Modal, Linking,
+  Platform, Alert, Linking,
 } from 'react-native';
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router, useLocalSearchParams } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useTranslation } from 'react-i18next';
-import { useVideoPlayer, VideoView } from 'expo-video';
 import * as WebBrowser from 'expo-web-browser';
 import { beginOAuth, OAUTH_APP_RETURN } from '@/services/oauth';
 import { useAuth } from '@/contexts/auth';
@@ -20,8 +19,6 @@ import { Banner, Field, Group, ListRow } from '@/components/ui/kit';
 import { Spacing, FontSize, Radius } from '@/constants/theme';
 import { AuthMethod } from '@/services/types';
 
-const VIDEO_TOKEN = require('@/assets/video/generate-api-token.mp4');
-const VIDEO_GLOBAL = require('@/assets/video/get-global-api-key.mp4');
 
 interface FeaturePoint {
   icon: IconName;
@@ -32,6 +29,10 @@ const METHODS: { value: AuthMethod; label: string }[] = [
   { value: 'token', label: 'API Token' },
   { value: 'global_key', label: 'Global Key' },
 ];
+
+// Cloudflare's own guides for the two manual sign-in methods.
+const GUIDE_TOKEN = 'https://developers.cloudflare.com/fundamentals/api/get-started/create-token/';
+const GUIDE_GLOBAL = 'https://developers.cloudflare.com/fundamentals/api/get-started/keys/';
 
 export default function LoginScreen() {
   const { t } = useTranslation();
@@ -46,7 +47,6 @@ export default function LoginScreen() {
   const [globalKey, setGlobalKey] = useState('');
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
-  const [showVideo, setShowVideo] = useState(false);
   const [oauthLoading, setOauthLoading] = useState(false);
   // Token and Global Key sign-in stay available, folded away behind "Advanced".
   const [showAdvanced, setShowAdvanced] = useState(false);
@@ -62,21 +62,6 @@ export default function LoginScreen() {
     } finally {
       setOauthLoading(false);
     }
-  };
-
-  const player = useVideoPlayer(method === 'token' ? VIDEO_TOKEN : VIDEO_GLOBAL, (p) => {
-    p.loop = true;
-    p.muted = false;
-  });
-
-  const openVideo = () => {
-    setShowVideo(true);
-    player.play();
-  };
-
-  const closeVideo = () => {
-    player.pause();
-    setShowVideo(false);
   };
 
   const handleLogin = async () => {
@@ -270,9 +255,9 @@ export default function LoginScreen() {
             <Group>
               <ListRow
                 icon="pageview"
-                title={t('auth.watch_tutorial')}
-                subtitle={t('auth.tutorial_hint')}
-                onPress={openVideo}
+                title={method === 'token' ? t('auth.tutorial_token') : t('auth.tutorial_global')}
+                subtitle={t('auth.guide_hint')}
+                onPress={() => Linking.openURL(method === 'token' ? GUIDE_TOKEN : GUIDE_GLOBAL)}
               />
               <ListRow
                 icon="link"
@@ -300,38 +285,6 @@ export default function LoginScreen() {
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
-
-      {/* Video tutorial: a full-screen player, always on black */}
-      <Modal
-        visible={showVideo}
-        animationType="slide"
-        onRequestClose={closeVideo}
-        transparent={false}
-      >
-        <SafeAreaView style={styles.videoRoot}>
-          <View style={styles.videoHeader}>
-            <Text style={styles.videoTitle} numberOfLines={1}>
-              {method === 'token' ? t('auth.tutorial_token') : t('auth.tutorial_global')}
-            </Text>
-            <TouchableOpacity
-              onPress={closeVideo}
-              style={styles.videoClose}
-              hitSlop={10}
-              accessibilityRole="button"
-              accessibilityLabel="Close"
-            >
-              <Icon name="close" size={22} color="#FFF" />
-            </TouchableOpacity>
-          </View>
-          <VideoView
-            player={player}
-            style={styles.video}
-            contentFit="contain"
-            allowsFullscreen
-            allowsPictureInPicture
-          />
-        </SafeAreaView>
-      </Modal>
     </View>
   );
 }
@@ -453,16 +406,4 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.xl,
     marginTop: Spacing.lg,
   },
-
-  // Video modal
-  videoRoot: { flex: 1, backgroundColor: '#000' },
-  videoHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: Spacing.lg,
-    paddingVertical: Spacing.md,
-  },
-  videoTitle: { flex: 1, color: '#FFF', fontSize: FontSize.lg, fontWeight: '500' },
-  videoClose: { padding: Spacing.sm },
-  video: { flex: 1, width: '100%' },
 });
