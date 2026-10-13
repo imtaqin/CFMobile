@@ -1,3 +1,4 @@
+import { AI_ENABLED } from '@/constants/features';
 import { useEffect, useState } from 'react';
 import { Platform } from 'react-native';
 import Constants from 'expo-constants';
@@ -128,6 +129,7 @@ export async function handlePurchase(purchase: any): Promise<boolean> {
 }
 
 export async function refreshQuota(): Promise<AiQuota | null> {
+  if (!AI_ENABLED) return null;
   const q = await getQuota();
   emit(q);
   return cachedQuota;

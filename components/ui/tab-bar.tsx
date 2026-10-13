@@ -4,6 +4,7 @@ import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '@/hooks/use-theme';
 import { CF, Radius } from '@/constants/theme';
+import { AI_ENABLED } from '@/constants/features';
 
 /** The tab that gets the raised gradient button in the middle of the bar. */
 const FEATURED_ROUTE = 'ai-chat';
@@ -35,6 +36,7 @@ export function FloatingTabBar({ state, descriptors, navigation }: BottomTabBarP
           const { options } = descriptors[route.key];
           const focused = state.index === index;
           const featured = route.name === FEATURED_ROUTE;
+          if (featured && !AI_ENABLED) return null;
 
           const onPress = () => {
             const event = navigation.emit({ type: 'tabPress', target: route.key, canPreventDefault: true });

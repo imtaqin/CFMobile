@@ -12,6 +12,7 @@ import { SectionHeader } from '@/components/ui/section-header';
 import { Group, IconCircle, ListRow, StatCard, ToggleRow } from '@/components/ui/kit';
 import { useAuth } from '@/contexts/auth';
 import { Spacing, FontSize, Radius } from '@/constants/theme';
+import { AI_ENABLED } from '@/constants/features';
 import * as api from '@/services/cloudflare';
 import { Zone } from '@/services/types';
 
@@ -150,13 +151,13 @@ export default function ZoneDetailScreen() {
         tile(true, 'mail', t('zone.email_routing'), 'email'),
       ],
     },
-    {
+    ...(AI_ENABLED ? [{
       title: t('zone.group_ai'),
       tiles: [
         tile(true, 'shield-check', t('zone.ai_audit'), 'ai-audit'),
         tile(true, 'sparkles', t('zone.ai_chat'), '__ai-chat'),
       ],
-    },
+    }] : []),
     {
       title: t('zone.group_traffic'),
       tiles: [

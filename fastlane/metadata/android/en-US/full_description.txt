@@ -19,11 +19,6 @@ ANALYTICS
 • Cache hit rate at a glance
 • 1 day, 7 day and 30 day views
 
-AI ASSISTANT
-• AI security audit: a score for your zone and the fixes that raise it
-• Ask in plain language: "add an A record for shop pointing to 203.0.113.50"
-• Every change is shown first. Nothing runs until you approve it
-
 DEVELOPER PLATFORM
 • Workers with live logs
 • KV namespaces, R2 buckets and D1 databases
@@ -37,7 +32,7 @@ MORE
 • 12 languages
 
 PRIVACY
-Your API token is stored encrypted on your device and is sent only to Cloudflare. AI features send the zone configuration needed for the answer, never your token.
+Your API token is stored encrypted on your device and is sent only to Cloudflare.
 
 Purging cache at midnight, blocking an attack from the train, or fixing a DNS record before a launch: CloudFlare Mobile keeps your Cloudflare dashboard in your pocket.
 

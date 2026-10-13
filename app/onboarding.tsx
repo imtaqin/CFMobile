@@ -12,6 +12,7 @@ import { useTheme } from '@/hooks/use-theme';
 import { Button } from '@/components/ui/button';
 import { BrandGradient, BrandMark } from '@/components/ui/brand';
 import { Spacing, FontSize, Radius } from '@/constants/theme';
+import { AI_ENABLED } from '@/constants/features';
 
 const ONBOARDING_KEY = 'cf_onboarding_done';
 
@@ -25,7 +26,7 @@ async function markOnboardingDone() {
 }
 
 // Illustrations are rendered from store/icon/illus.html.
-const SLIDES = [
+const ALL_SLIDES = [
   {
     key: '1',
     image: require('@/assets/images/onboarding-1.png'),
@@ -51,6 +52,9 @@ const SLIDES = [
     descKey: 'onboarding.slide4_desc',
   },
 ];
+
+// Slide 4 introduces the AI assistant.
+const SLIDES = AI_ENABLED ? ALL_SLIDES : ALL_SLIDES.filter((s) => s.key !== '4');
 
 export default function OnboardingScreen() {
   const { t } = useTranslation();

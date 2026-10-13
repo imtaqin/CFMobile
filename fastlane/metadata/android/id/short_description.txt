@@ -1,1 +1,1 @@
-Kelola DNS, firewall, analitik & Workers Cloudflare dari HP, dibantu AI.
+Kelola DNS, firewall, analitik & Workers Cloudflare dari HP.

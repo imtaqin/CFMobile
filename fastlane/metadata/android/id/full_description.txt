@@ -19,11 +19,6 @@ ANALITIK
 • Cache hit rate sekilas pandang
 • Tampilan 1 hari, 7 hari, dan 30 hari
 
-ASISTEN AI
-• Audit keamanan dengan AI: skor keamanan zona beserta langkah perbaikannya
-• Cukup tulis dengan bahasa sehari-hari: "tambah record A untuk shop ke 203.0.113.50"
-• Setiap perubahan ditampilkan dulu. Tidak ada yang dijalankan tanpa persetujuanmu
-
 DEVELOPER PLATFORM
 • Workers dengan log langsung
 • KV namespace, bucket R2, dan database D1
@@ -37,7 +32,7 @@ LAINNYA
 • 12 bahasa, termasuk Bahasa Indonesia
 
 PRIVASI
-API token disimpan terenkripsi di perangkatmu dan hanya dikirim ke Cloudflare. Fitur AI hanya mengirim konfigurasi zona yang dibutuhkan untuk menjawab, tidak pernah token milikmu.
+API token disimpan terenkripsi di perangkatmu dan hanya dikirim ke Cloudflare.
 
 Purge cache tengah malam, blokir serangan dari perjalanan, atau perbaiki record DNS sebelum rilis: CloudFlare Mobile membuat dashboard Cloudflare selalu ada di genggamanmu.
 

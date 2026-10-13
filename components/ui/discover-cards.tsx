@@ -8,6 +8,7 @@ import { usePremium } from '@/services/premium';
 import { openReview } from '@/services/review-prompt';
 import * as monitoring from '@/services/monitoring';
 import { Spacing, FontSize, Radius, CF } from '@/constants/theme';
+import { AI_ENABLED } from '@/constants/features';
 
 interface DiscoverCard {
   key: string;
@@ -37,7 +38,7 @@ export function DiscoverCards({ firstZoneId }: { firstZoneId?: string }) {
   const cards: DiscoverCard[] = [];
 
   // AI audit — the most impressive thing to try first
-  cards.push({
+  if (AI_ENABLED) cards.push({
     key: 'ai',
     icon: 'shield-check',
     color: CF.orange,
