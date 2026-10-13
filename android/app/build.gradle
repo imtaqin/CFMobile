@@ -99,8 +99,8 @@ android {
         applicationId 'id.imtaqin.cfmobile'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 45 * 10 + abiVersionCode
-        versionName "1.7.0"
+        versionCode 46 * 10 + abiVersionCode
+        versionName "1.7.1"
 
         buildConfigField "String", "REACT_NATIVE_RELEASE_LEVEL", "\"${findProperty('reactNativeReleaseLevel') ?: 'stable'}\""
     }

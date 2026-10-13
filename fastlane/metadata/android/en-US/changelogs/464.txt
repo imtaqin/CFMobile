@@ -1,0 +1,3 @@
+Smaller download: the tutorial videos are replaced by links to the Cloudflare guides.
+No AI assistant in this build.
+Fewer permissions: nothing runs in the background.
