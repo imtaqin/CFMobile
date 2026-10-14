@@ -28,6 +28,9 @@ const PENDING_TTL_MS = 15 * 60 * 1000;
  * dashboard, or the authorization request is refused.
  */
 export const OAUTH_SCOPES = [
+  // A refresh token, so the sign-in outlives the short-lived access token.
+  // Needs the refresh_token grant on the OAuth client.
+  'offline_access',
   // Who is signed in, and which accounts
   'user-details.read', 'account-settings.read', 'memberships.read',
   // Zones and DNS
