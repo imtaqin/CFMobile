@@ -71,7 +71,9 @@
     "oauth_failed": "Die Anmeldung mit Cloudflare wurde nicht abgeschlossen.",
     "oauth_retry": "Zurück zur Anmeldung",
     "advanced": "Erweiterte Optionen",
-    "advanced_hint": "Melden Sie sich mit einem API-Token oder Global API Key an"
+    "advanced_hint": "Melden Sie sich mit einem API-Token oder Global API Key an",
+    "offline_title": "Cloudflare kann nicht erreicht werden",
+    "offline_message": "Überprüfen Sie Ihre Verbindung und versuchen Sie es erneut. Sie sind noch angemeldet."
   },
   "dashboard": {
     "welcome": "Willkommen zurück,",

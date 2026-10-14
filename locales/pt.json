@@ -71,7 +71,9 @@
     "oauth_failed": "O login com Cloudflare não foi concluído.",
     "oauth_retry": "Voltar para fazer login",
     "advanced": "Opções avançadas",
-    "advanced_hint": "Faça login com um token de API ou Global API Key"
+    "advanced_hint": "Faça login com um token de API ou Global API Key",
+    "offline_title": "Não foi possível conectar ao Cloudflare",
+    "offline_message": "Verifique sua conexão e tente novamente. Você ainda está conectado."
   },
   "dashboard": {
     "welcome": "Bem-vindo(a) de volta,",

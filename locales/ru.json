@@ -71,7 +71,9 @@
     "oauth_failed": "Вход с номером Cloudflare не завершен.",
     "oauth_retry": "Вернуться для входа в систему",
     "advanced": "Расширенные параметры",
-    "advanced_hint": "Войдите в систему с помощью токена API или Global API Key."
+    "advanced_hint": "Войдите в систему с помощью токена API или Global API Key.",
+    "offline_title": "Не удаётся подключиться к Cloudflare",
+    "offline_message": "Проверьте подключение и повторите попытку. Вы все еще вошли в систему."
   },
   "dashboard": {
     "welcome": "С возвращением,",

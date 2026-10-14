@@ -19,6 +19,8 @@ interface AuthState {
   accounts: CFAccount[];
   authConfig: AuthConfig | null;
   permissions: CF.Permissions | null;
+  /** Cloudflare could not be reached when the session was loaded; the login is kept. */
+  connectionError: boolean;
   /** every stored Cloudflare login */
   profiles: Profile[];
   activeProfileId: string | null;
@@ -28,6 +30,8 @@ interface AuthContextValue extends AuthState {
   login: (config: AuthConfig) => Promise<void>;
   logout: () => Promise<void>;
   refreshUser: () => Promise<void>;
+  /** Load the session again after a connection error. */
+  retrySession: () => Promise<void>;
   switchAccount: (accountId: string) => void;
   switchProfile: (id: string) => Promise<void>;
   removeProfile: (id: string) => Promise<void>;
@@ -51,6 +55,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     accounts: [],
     authConfig: null,
     permissions: null,
+    connectionError: false,
     profiles: [],
     activeProfileId: null,
   });
@@ -60,18 +65,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     let accounts: CFAccount[] = [];
     let zoneSample: any = null;
     let zonesAccessible = false;
+    // HTTP status of each failed call; 0 when there was no response at all.
+    const failures: number[] = [];
+    const noteFailure = (e: any) => failures.push(e?.response?.status ?? 0);
 
     try {
       const userRes = await CF.getUser();
       user = userRes.result;
-    } catch {
+    } catch (e) {
+      noteFailure(e);
       // Token doesn't have User:Read permission — that's fine
     }
 
     try {
       const accountsRes = await CF.getAccounts();
       accounts = accountsRes.result ?? [];
-    } catch {
+    } catch (e) {
+      noteFailure(e);
       // Token doesn't have Account:Read — try to derive accounts from zones
     }
 
@@ -96,12 +106,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           accounts = Array.from(accountMap.values());
         }
       }
-    } catch {
+    } catch (e) {
+      noteFailure(e);
       // No zones access either
     }
 
     // Token is usable if: has user, has accounts, OR zones API is accessible (even if empty)
     if (!user && accounts.length === 0 && !zonesAccessible) {
+      // No connection, a Cloudflare outage or rate limiting says nothing about the login itself:
+      // keep it and let the user retry. Only an answer that rejects the credentials signs out.
+      const rejected = failures.some((s) => s >= 400 && s < 500 && s !== 429);
+      if (!rejected) {
+        setState((s) => ({ ...s, isLoading: false, isAuthenticated: false, connectionError: true }));
+        return;
+      }
       await CF.clearAuth();
       setState((s) => ({ ...s, isLoading: false, isAuthenticated: false, user: null, accountId: null, authConfig: null, accounts: [], permissions: null }));
       return;
@@ -145,6 +163,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       accounts,
       isAuthenticated: true,
       isLoading: false,
+      connectionError: false,
       permissions,
       profiles: list,
       activeProfileId: activeAfter?.id ?? s.activeProfileId,
@@ -226,7 +245,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       await CF.clearAuth();
       setState({
         isLoading: false, isAuthenticated: false, user: null, accountId: null,
-        accounts: [], authConfig: null, permissions: null, profiles: [], activeProfileId: null,
+        accounts: [], authConfig: null, permissions: null, connectionError: false, profiles: [], activeProfileId: null,
       });
       return;
     }
@@ -246,7 +265,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     await CF.clearAuth();
     setState({
       isLoading: false, isAuthenticated: false, user: null, accountId: null,
-      accounts: [], authConfig: null, permissions: null, profiles: [], activeProfileId: null,
+      accounts: [], authConfig: null, permissions: null, connectionError: false, profiles: [], activeProfileId: null,
     });
   }, []);
 
@@ -258,9 +277,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     await fetchUser();
   }, [fetchUser]);
 
+  const retrySession = useCallback(async () => {
+    setState((s) => ({ ...s, isLoading: true, connectionError: false }));
+    await fetchUser();
+  }, [fetchUser]);
+
   return (
     <AuthContext.Provider
-      value={{ ...state, login, logout, refreshUser, switchAccount, switchProfile, removeProfile, renameProfile }}
+      value={{ ...state, login, logout, refreshUser, retrySession, switchAccount, switchProfile, removeProfile, renameProfile }}
     >
       {children}
     </AuthContext.Provider>

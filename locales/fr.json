@@ -71,7 +71,9 @@
     "oauth_failed": "La connexion avec Cloudflare n’a pas été effectuée.",
     "oauth_retry": "Retour pour vous connecter",
     "advanced": "Options avancées",
-    "advanced_hint": "Connectez-vous avec un jeton API ou Global API Key"
+    "advanced_hint": "Connectez-vous avec un jeton API ou Global API Key",
+    "offline_title": "Impossible de joindre Cloudflare",
+    "offline_message": "Vérifiez votre connexion et réessayez. Vous êtes toujours connecté."
   },
   "dashboard": {
     "welcome": "Bienvenue, ",

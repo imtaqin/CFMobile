@@ -71,7 +71,9 @@
     "oauth_failed": "Sign-in with Cloudflare did not complete.",
     "oauth_retry": "Back to sign in",
     "advanced": "Advanced",
-    "advanced_hint": "Sign in with an API token or Global API Key"
+    "advanced_hint": "Sign in with an API token or Global API Key",
+    "offline_title": "Can't reach Cloudflare",
+    "offline_message": "Check your connection and try again. You are still signed in."
   },
   "dashboard": {
     "welcome": "Welcome back,",

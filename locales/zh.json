@@ -71,7 +71,9 @@
     "oauth_failed": "使用 Cloudflare 登录未完成。",
     "oauth_retry": "返回登录",
     "advanced": "高级选项",
-    "advanced_hint": "使用 API 令牌或 Global API Key 登录"
+    "advanced_hint": "使用 API 令牌或 Global API Key 登录",
+    "offline_title": "无法连接到 Cloudflare",
+    "offline_message": "检查您的连接并重试。您仍处于登录状态。"
   },
   "dashboard": {
     "welcome": "欢迎回来，",

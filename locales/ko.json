@@ -71,7 +71,9 @@
     "oauth_failed": "Cloudflare로 로그인이 완료되지 않았습니다.",
     "oauth_retry": "로그인으로 돌아가기",
     "advanced": "고급 옵션",
-    "advanced_hint": "API 토큰 또는 Global API Key로 로그인하세요."
+    "advanced_hint": "API 토큰 또는 Global API Key로 로그인하세요.",
+    "offline_title": "Cloudflare에 연결할 수 없습니다",
+    "offline_message": "연결을 확인하고 다시 시도하세요. 아직 로그인되어 있습니다."
   },
   "dashboard": {
     "welcome": "다시 오신 것을 환영합니다,",

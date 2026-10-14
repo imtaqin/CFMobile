@@ -71,7 +71,9 @@
     "oauth_failed": "Cloudflare でのサインインは完了しませんでした。",
     "oauth_retry": "サインインに戻る",
     "advanced": "詳細オプション",
-    "advanced_hint": "API トークンまたは Global API Key を使用してサインインします。"
+    "advanced_hint": "API トークンまたは Global API Key を使用してサインインします。",
+    "offline_title": "Cloudflare に到達できません",
+    "offline_message": "接続を確認して、もう一度試してください。まだサインインしています。"
   },
   "dashboard": {
     "welcome": "おかえりなさい、",

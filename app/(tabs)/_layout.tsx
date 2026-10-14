@@ -9,6 +9,8 @@ import { Colors, Spacing } from '@/constants/theme';
 import { useThemeContext } from '@/contexts/theme';
 import { useAuth } from '@/contexts/auth';
 import { Loading } from '@/components/ui/loading';
+import { EmptyState } from '@/components/ui/empty-state';
+import { Button } from '@/components/ui/button';
 
 const ONBOARDING_KEY = 'cf_onboarding_done';
 
@@ -23,7 +25,7 @@ export default function TabLayout() {
   const { resolved } = useThemeContext();
   const colors = Colors[resolved];
   const { t } = useTranslation();
-  const { isLoading, isAuthenticated } = useAuth();
+  const { isLoading, isAuthenticated, connectionError, retrySession } = useAuth();
   const [onboardingChecked, setOnboardingChecked] = useState(Platform.OS === 'web');
   const [onboardingDone, setOnboardingDone] = useState(getOnboardingDone);
 
@@ -39,6 +41,14 @@ export default function TabLayout() {
 
   if (isLoading || !onboardingChecked) return <Loading />;
   if (!onboardingDone) return <Redirect href="/onboarding" />;
+  if (!isAuthenticated && connectionError) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', padding: Spacing.xl, backgroundColor: colors.background }}>
+        <EmptyState icon="globe" title={t('auth.offline_title')} message={t('auth.offline_message')} />
+        <Button title={t('common.retry')} onPress={retrySession} size="lg" />
+      </View>
+    );
+  }
   if (!isAuthenticated) return <Redirect href="/login" />;
 
   const headerActions = () => (
