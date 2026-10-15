@@ -10,6 +10,7 @@ import { SectionHeader } from '@/components/ui/section-header';
 import { ChipRow, Group, ListRow, ToggleRow } from '@/components/ui/kit';
 import { Spacing } from '@/constants/theme';
 import * as api from '@/services/cloudflare';
+import { logSetting } from '@/services/change-history';
 
 const SSL_MODES: { value: string; icon: IconName }[] = [
   { value: 'off', icon: 'lock-open' },
@@ -53,6 +54,7 @@ export default function SSLScreen() {
     setSslMode(value);
     try {
       await api.updateSSLSetting(id, value);
+      logSetting(id, 'ssl', prev, value);
     } catch {
       setSslMode(prev);
       Alert.alert(t('common.error'), t('ssl.update_error'));
@@ -64,6 +66,7 @@ export default function SSLScreen() {
     setAlwaysHttps(value);
     try {
       await api.updateAlwaysUseHTTPS(id, value ? 'on' : 'off');
+      logSetting(id, 'always_use_https', prev ? 'on' : 'off', value ? 'on' : 'off');
     } catch {
       setAlwaysHttps(prev);
       Alert.alert(t('common.error'), t('ssl.update_error'));
@@ -75,6 +78,7 @@ export default function SSLScreen() {
     setMinTls(value);
     try {
       await api.updateMinTLSVersion(id, value);
+      logSetting(id, 'min_tls_version', prev, value);
     } catch {
       setMinTls(prev);
       Alert.alert(t('common.error'), t('ssl.update_error'));

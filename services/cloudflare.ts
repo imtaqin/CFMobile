@@ -371,6 +371,10 @@ export async function getZoneSettings(zoneId: string): Promise<CFResponse<ZoneSe
   return get(`/zones/${zoneId}/settings`);
 }
 
+export async function getZoneSetting(zoneId: string, settingId: string): Promise<CFResponse<ZoneSetting>> {
+  return get(`/zones/${zoneId}/settings/${settingId}`);
+}
+
 export async function updateZoneSetting(zoneId: string, settingId: string, value: any): Promise<CFResponse<ZoneSetting>> {
   return patch(`/zones/${zoneId}/settings/${settingId}`, { value });
 }
@@ -2777,46 +2781,133 @@ export async function runLogExplorerQuery(zoneId: string, query: string): Promis
 
 // ─── Observatory ─────────────────────────────────────────────────────────────
 
-export interface ObservatoryPage {
-  id: string;
-  url: string;
-  region: { label: string; value: string };
-  scheduleFrequency?: string;
-  tests: ObservatoryTest[];
+/** Paths take the tested URL as one path segment, so it is always encoded. */
+const speedUrl = (url: string) => encodeURIComponent(url);
+
+export interface ObservatoryRegion {
+  label: string;
+  value: string;
+}
+
+export type ObservatoryDevice = 'DESKTOP' | 'MOBILE';
+export type ObservatoryFrequency = 'DAILY' | 'WEEKLY';
+
+export interface ObservatoryReport {
+  cls?: number;
+  fcp?: number;
+  lcp?: number;
+  si?: number;
+  tbt?: number;
+  ttfb?: number;
+  tti?: number;
+  performanceScore?: number;
+  state?: 'RUNNING' | 'COMPLETE' | 'FAILED';
+  deviceType?: ObservatoryDevice;
+  jsonReportUrl?: string;
+  error?: {
+    code?: 'NOT_REACHABLE' | 'DNS_FAILURE' | 'NOT_HTML' | 'LIGHTHOUSE_TIMEOUT' | 'UNKNOWN';
+    detail?: string;
+    finalDisplayedUrl?: string;
+  };
 }
 
 export interface ObservatoryTest {
   id: string;
   date: string;
+  url: string;
+  region: ObservatoryRegion;
+  scheduleFrequency?: ObservatoryFrequency;
   desktopReport?: ObservatoryReport;
   mobileReport?: ObservatoryReport;
 }
 
-export interface ObservatoryReport {
-  cls: number;
-  fcp: number;
-  lcp: number;
-  si: number;
-  tbt: number;
-  ttfb: number;
-  tti: number;
-  performanceScore: number;
-  state: string;
-  deviceType: string;
-  jsonReportUrl?: string;
-  error?: any;
+export interface ObservatoryPage {
+  url: string;
+  region: ObservatoryRegion;
+  scheduleFrequency?: ObservatoryFrequency;
+  tests: ObservatoryTest[];
+}
+
+export interface ObservatoryAvailability {
+  quota?: {
+    plan?: string;
+    remainingSchedules?: number;
+    remainingTests?: number;
+  };
+  regions?: ObservatoryRegion[];
+}
+
+export interface ObservatoryTrend {
+  cls?: number[];
+  fcp?: number[];
+  lcp?: number[];
+  performanceScore?: number[];
+  si?: number[];
+  tbt?: number[];
+  ttfb?: number[];
+  tti?: number[];
+}
+
+export interface ObservatorySchedule {
+  frequency: ObservatoryFrequency;
+  region: string;
+  url: string;
+}
+
+export async function getObservatoryAvailabilities(zoneId: string): Promise<CFResponse<ObservatoryAvailability>> {
+  return get(`/zones/${zoneId}/speed_api/availabilities`);
 }
 
 export async function getObservatoryPages(zoneId: string): Promise<CFResponse<ObservatoryPage[]>> {
   return get(`/zones/${zoneId}/speed_api/pages`);
 }
 
-export async function runObservatoryTest(zoneId: string, url: string, region?: string): Promise<CFResponse<any>> {
-  return post(`/zones/${zoneId}/speed_api/tests`, { url, region });
+export async function getObservatoryTests(zoneId: string, url: string, params?: {
+  page?: number;
+  per_page?: number;
+  region?: string;
+}): Promise<CFResponse<ObservatoryTest[]>> {
+  return get(`/zones/${zoneId}/speed_api/pages/${speedUrl(url)}/tests`, params);
 }
 
-export async function deleteObservatoryPage(zoneId: string, pageId: string): Promise<CFResponse<any>> {
-  return del(`/zones/${zoneId}/speed_api/pages/${pageId}`);
+export async function runObservatoryTest(zoneId: string, url: string, region?: string): Promise<CFResponse<ObservatoryTest>> {
+  return post(`/zones/${zoneId}/speed_api/pages/${speedUrl(url)}/tests`, region ? { region } : {});
+}
+
+export async function getObservatoryTest(zoneId: string, url: string, testId: string): Promise<CFResponse<ObservatoryTest>> {
+  return get(`/zones/${zoneId}/speed_api/pages/${speedUrl(url)}/tests/${testId}`);
+}
+
+export async function deleteObservatoryTests(zoneId: string, url: string, region?: string): Promise<CFResponse<{ count: number }>> {
+  const query = region ? `?region=${encodeURIComponent(region)}` : '';
+  return del(`/zones/${zoneId}/speed_api/pages/${speedUrl(url)}/tests${query}`);
+}
+
+export async function getObservatoryTrend(zoneId: string, url: string, params: {
+  region: string;
+  deviceType: ObservatoryDevice;
+  start: string;
+  end?: string;
+  tz: string;
+  metrics: string;
+}): Promise<CFResponse<ObservatoryTrend>> {
+  return get(`/zones/${zoneId}/speed_api/pages/${speedUrl(url)}/trend`, params);
+}
+
+export async function getObservatorySchedule(zoneId: string, url: string, region?: string): Promise<CFResponse<ObservatorySchedule>> {
+  return get(`/zones/${zoneId}/speed_api/schedule/${speedUrl(url)}`, region ? { region } : undefined);
+}
+
+export async function createObservatorySchedule(zoneId: string, url: string, region: string, frequency: ObservatoryFrequency): Promise<CFResponse<{
+  schedule?: ObservatorySchedule;
+  test?: ObservatoryTest;
+}>> {
+  return post(`/zones/${zoneId}/speed_api/schedule/${speedUrl(url)}?region=${encodeURIComponent(region)}&frequency=${frequency}`);
+}
+
+export async function deleteObservatorySchedule(zoneId: string, url: string, region?: string): Promise<CFResponse<{ count: number }>> {
+  const query = region ? `?region=${encodeURIComponent(region)}` : '';
+  return del(`/zones/${zoneId}/speed_api/schedule/${speedUrl(url)}${query}`);
 }
 
 // ─── Durable Objects ─────────────────────────────────────────────────────────
@@ -3399,42 +3490,6 @@ export async function deleteAccessApp(accountId: string, appId: string): Promise
   return del(`/accounts/${accountId}/access/apps/${appId}`);
 }
 
-// ─── Access Identity Providers ───────────────────────────────────────────────
-
-export interface AccessIdP {
-  id: string;
-  name: string;
-  type: string;
-  config?: any;
-}
-
-export async function getAccessIdPs(accountId: string): Promise<CFResponse<AccessIdP[]>> {
-  return get(`/accounts/${accountId}/access/identity_providers`);
-}
-
-export async function deleteAccessIdP(accountId: string, idpId: string): Promise<CFResponse<any>> {
-  return del(`/accounts/${accountId}/access/identity_providers/${idpId}`);
-}
-
-// ─── Access Service Tokens ───────────────────────────────────────────────────
-
-export interface AccessToken {
-  id: string;
-  name: string;
-  duration: string;
-  expires_at: string;
-  created_at: string;
-  updated_at: string;
-}
-
-export async function getAccessTokens(accountId: string): Promise<CFResponse<AccessToken[]>> {
-  return get(`/accounts/${accountId}/access/service_tokens`);
-}
-
-export async function deleteAccessToken(accountId: string, tokenId: string): Promise<CFResponse<any>> {
-  return del(`/accounts/${accountId}/access/service_tokens/${tokenId}`);
-}
-
 // ─── Workers for Platforms ───────────────────────────────────────────────────
 
 export interface DispatchNamespace {
@@ -3653,4 +3708,317 @@ export async function updateGatewayRule(accountId: string, ruleId: string, rule:
 
 export async function deleteGatewayRule(accountId: string, ruleId: string): Promise<CFResponse<any>> {
   return del(`/accounts/${accountId}/gateway/rules/${ruleId}`);
+}
+
+// ─── Access Identity Providers ───────────────────────────────────────────────
+
+export type AccessIdentityProviderType =
+  | 'onetimepin' | 'azureAD' | 'saml' | 'centrify' | 'facebook' | 'github'
+  | 'google-apps' | 'google' | 'linkedin' | 'oidc' | 'duo' | 'okta'
+  | 'onelogin' | 'pingone' | 'yandex' | 'cloudflare' | 'passkeys';
+
+/**
+ * Union of every per-type `config` field the schema lists. Each provider type
+ * uses its own subset (e.g. `okta_account` only for okta, `sso_target_url`
+ * only for saml); none are marked required in the schema.
+ */
+export interface AccessIdentityProviderConfig {
+  client_id?: string;
+  client_secret?: string;
+  claims?: string[];
+  email_claim_name?: string;
+  // azureAD
+  conditional_access_enabled?: boolean;
+  directory_id?: string;
+  support_groups?: boolean;
+  // azureAD accepts login/select_account/none, google-apps accepts none/consent/select_account
+  prompt?: 'login' | 'select_account' | 'none' | 'consent';
+  // centrify
+  centrify_account?: string;
+  centrify_app_id?: string;
+  // google-apps
+  apps_domain?: string;
+  use_login_hint?: boolean;
+  // oidc
+  auth_url?: string;
+  certs_url?: string;
+  pkce_enabled?: boolean;
+  scopes?: string[];
+  token_url?: string;
+  // duo, saml
+  issuer_url?: string;
+  // okta
+  authorization_server_id?: string;
+  okta_account?: string;
+  // onelogin
+  onelogin_account?: string;
+  // pingone
+  ping_env_id?: string;
+  // saml
+  attributes?: string[];
+  email_attribute_name?: string;
+  enable_encryption?: boolean;
+  force_authn?: boolean;
+  header_attributes?: { attribute_name?: string; header_name?: string }[];
+  idp_public_certs?: string[];
+  max_sso_url_length?: number;
+  sign_request?: boolean;
+  sso_target_url?: string;
+  // onetimepin, cloudflare, passkeys (read-only)
+  redirect_url?: string;
+  // cloudflare
+  restrict_to_account_members?: boolean;
+  // passkeys
+  login_page_auto_prompt?: boolean;
+}
+
+export interface AccessIdentityProviderScimConfig {
+  enabled?: boolean;
+  identity_update_behavior?: 'automatic' | 'reauth' | 'no_action';
+  scim_base_url?: string;
+  seat_deprovision?: boolean;
+  secret?: string;
+  user_deprovision?: boolean;
+}
+
+export interface AccessSamlCertificate {
+  uid: string;
+  public_certificate: string;
+  not_after: string;
+  is_current: boolean;
+}
+
+export interface AccessSamlCertificateSet {
+  uid: string;
+  created_at: string;
+  updated_at: string;
+  current_certificate?: AccessSamlCertificate;
+  previous_certificate?: AccessSamlCertificate | null;
+}
+
+export interface AccessIdentityProvider {
+  id?: string;
+  name: string;
+  type: AccessIdentityProviderType;
+  config: AccessIdentityProviderConfig;
+  read_only?: boolean;
+  saml_certificate_set?: AccessSamlCertificateSet;
+  saml_certificate_set_id?: string;
+  scim_config?: AccessIdentityProviderScimConfig;
+}
+
+export interface AccessScimMeta {
+  created?: string;
+  lastModified?: string;
+}
+
+export interface AccessScimGroup {
+  id?: string;
+  displayName?: string;
+  externalId?: string;
+  meta?: AccessScimMeta;
+  schemas?: string[];
+}
+
+export interface AccessScimUser {
+  id?: string;
+  active?: boolean;
+  displayName?: string;
+  emails?: { primary?: boolean; type?: string; value?: string }[];
+  externalId?: string;
+  meta?: AccessScimMeta;
+  schemas?: string[];
+}
+
+export async function getAccessIdentityProviders(accountId: string, params?: {
+  scim_enabled?: string;
+  page?: number;
+  per_page?: number;
+}): Promise<CFResponse<AccessIdentityProvider[]>> {
+  return get(`/accounts/${accountId}/access/identity_providers`, params);
+}
+
+export async function getAccessIdentityProvider(accountId: string, idpId: string): Promise<CFResponse<AccessIdentityProvider>> {
+  return get(`/accounts/${accountId}/access/identity_providers/${idpId}`);
+}
+
+export async function createAccessIdentityProvider(accountId: string, idp: {
+  name: string;
+  type: AccessIdentityProviderType;
+  config: AccessIdentityProviderConfig;
+  scim_config?: AccessIdentityProviderScimConfig;
+  saml_certificate_set_id?: string;
+}): Promise<CFResponse<AccessIdentityProvider>> {
+  return post(`/accounts/${accountId}/access/identity_providers`, idp);
+}
+
+/** PUT replaces the provider: `name`, `type` and `config` are all required. */
+export async function updateAccessIdentityProvider(accountId: string, idpId: string, idp: {
+  name: string;
+  type: AccessIdentityProviderType;
+  config: AccessIdentityProviderConfig;
+  scim_config?: AccessIdentityProviderScimConfig;
+  saml_certificate_set_id?: string;
+}): Promise<CFResponse<AccessIdentityProvider>> {
+  return put(`/accounts/${accountId}/access/identity_providers/${idpId}`, idp);
+}
+
+export async function deleteAccessIdentityProvider(accountId: string, idpId: string): Promise<CFResponse<{ id: string }>> {
+  return del(`/accounts/${accountId}/access/identity_providers/${idpId}`);
+}
+
+export async function createAccessIdpSamlCertificate(accountId: string, idpId: string): Promise<CFResponse<AccessSamlCertificateSet>> {
+  return post(`/accounts/${accountId}/access/identity_providers/${idpId}/saml_certificate`);
+}
+
+export async function getAccessIdpScimGroups(accountId: string, idpId: string, params?: {
+  cf_resource_id?: string;
+  idp_resource_id?: string;
+  name?: string;
+  page?: number;
+  per_page?: number;
+}): Promise<CFResponse<AccessScimGroup[]>> {
+  return get(`/accounts/${accountId}/access/identity_providers/${idpId}/scim/groups`, params);
+}
+
+export async function getAccessIdpScimUsers(accountId: string, idpId: string, params?: {
+  cf_resource_id?: string;
+  idp_resource_id?: string;
+  username?: string;
+  email?: string;
+  name?: string;
+  page?: number;
+  per_page?: number;
+}): Promise<CFResponse<AccessScimUser[]>> {
+  return get(`/accounts/${accountId}/access/identity_providers/${idpId}/scim/users`, params);
+}
+
+// ─── Access Service Tokens ───────────────────────────────────────────────────
+
+export interface AccessServiceToken {
+  id: string;
+  name: string;
+  client_id: string;
+  duration?: string;
+  expires_at?: string;
+  last_seen_at?: string;
+  created_at?: string;
+  updated_at?: string;
+}
+
+/** Returned by create and rotate only, the one time `client_secret` is visible. */
+export interface AccessServiceTokenWithSecret {
+  id: string;
+  name: string;
+  client_id: string;
+  client_secret: string;
+  duration?: string;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export async function getAccessServiceTokens(accountId: string, params?: {
+  name?: string;
+  search?: string;
+  page?: number;
+  per_page?: number;
+}): Promise<CFResponse<AccessServiceToken[]>> {
+  return get(`/accounts/${accountId}/access/service_tokens`, params);
+}
+
+export async function getAccessServiceToken(accountId: string, tokenId: string): Promise<CFResponse<AccessServiceToken>> {
+  return get(`/accounts/${accountId}/access/service_tokens/${tokenId}`);
+}
+
+export async function createAccessServiceToken(accountId: string, token: {
+  name: string;
+  duration?: string;
+  client_secret_version?: number;
+  previous_client_secret_expires_at?: string;
+}): Promise<CFResponse<AccessServiceTokenWithSecret>> {
+  return post(`/accounts/${accountId}/access/service_tokens`, token);
+}
+
+export async function updateAccessServiceToken(accountId: string, tokenId: string, token: {
+  name?: string;
+  duration?: string;
+  client_secret_version?: number;
+  previous_client_secret_expires_at?: string;
+}): Promise<CFResponse<AccessServiceToken>> {
+  return put(`/accounts/${accountId}/access/service_tokens/${tokenId}`, token);
+}
+
+export async function deleteAccessServiceToken(accountId: string, tokenId: string): Promise<CFResponse<AccessServiceToken>> {
+  return del(`/accounts/${accountId}/access/service_tokens/${tokenId}`);
+}
+
+/** Extends the token's expiry by its `duration`; the secret is unchanged. */
+export async function refreshAccessServiceToken(accountId: string, tokenId: string): Promise<CFResponse<AccessServiceToken>> {
+  return post(`/accounts/${accountId}/access/service_tokens/${tokenId}/refresh`);
+}
+
+/** Issues a new `client_secret`. The previous one stays valid until `previous_client_secret_expires_at` (defaults to now). */
+export async function rotateAccessServiceToken(accountId: string, tokenId: string, body?: {
+  previous_client_secret_expires_at?: string;
+}): Promise<CFResponse<AccessServiceTokenWithSecret>> {
+  return post(`/accounts/${accountId}/access/service_tokens/${tokenId}/rotate`, body ?? {});
+}
+
+// ─── Access mTLS Authentication ──────────────────────────────────────────────
+
+export interface AccessMtlsCertificate {
+  id: string;
+  name: string;
+  associated_hostnames?: string[];
+  fingerprint?: string;
+  expires_on?: string;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface AccessMtlsHostnameSettings {
+  hostname: string;
+  china_network: boolean;
+  client_certificate_forwarding: boolean;
+}
+
+export async function getAccessMtlsCertificates(accountId: string, params?: {
+  page?: number;
+  per_page?: number;
+}): Promise<CFResponse<AccessMtlsCertificate[]>> {
+  return get(`/accounts/${accountId}/access/certificates`, params);
+}
+
+export async function getAccessMtlsCertificate(accountId: string, certId: string): Promise<CFResponse<AccessMtlsCertificate>> {
+  return get(`/accounts/${accountId}/access/certificates/${certId}`);
+}
+
+export async function createAccessMtlsCertificate(accountId: string, cert: {
+  name: string;
+  certificate: string;
+  associated_hostnames?: string[];
+}): Promise<CFResponse<AccessMtlsCertificate>> {
+  return post(`/accounts/${accountId}/access/certificates`, cert);
+}
+
+export async function updateAccessMtlsCertificate(accountId: string, certId: string, cert: {
+  associated_hostnames: string[];
+  name?: string;
+}): Promise<CFResponse<AccessMtlsCertificate>> {
+  return put(`/accounts/${accountId}/access/certificates/${certId}`, cert);
+}
+
+export async function deleteAccessMtlsCertificate(accountId: string, certId: string): Promise<CFResponse<{ id: string }>> {
+  return del(`/accounts/${accountId}/access/certificates/${certId}`);
+}
+
+export async function getAccessMtlsHostnameSettings(accountId: string): Promise<CFResponse<AccessMtlsHostnameSettings[]>> {
+  return get(`/accounts/${accountId}/access/certificates/settings`);
+}
+
+/** Replaces the full hostname-settings list. */
+export async function updateAccessMtlsHostnameSettings(accountId: string, body: {
+  settings: AccessMtlsHostnameSettings[];
+}): Promise<CFResponse<AccessMtlsHostnameSettings[]>> {
+  return put(`/accounts/${accountId}/access/certificates/settings`, body);
 }

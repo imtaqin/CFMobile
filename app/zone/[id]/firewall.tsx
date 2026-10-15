@@ -19,6 +19,7 @@ import {
 } from '@/components/ui/kit';
 import { Spacing, FontSize, Radius } from '@/constants/theme';
 import * as api from '@/services/cloudflare';
+import { logIpRule, logWafRule } from '@/services/change-history';
 import { RulesetRule, RulesetAction, IPAccessRule, IPAccessMode } from '@/services/cloudflare';
 
 const WAF_ACTIONS: RulesetAction[] = ['block', 'managed_challenge', 'js_challenge', 'challenge', 'log', 'skip'];
@@ -151,7 +152,16 @@ export default function FirewallScreen() {
         ? await api.updateRulesetRule(id, target, editing.id, payload)
         : await api.createRulesetRule(id, target, payload);
       // Both endpoints return the whole ruleset back, so trust that over local state.
-      setWafRules(res.result?.rules ?? []);
+      const rules = res.result?.rules ?? [];
+      if (editing) {
+        logWafRule(id, target, 'update', editing.id,
+          { action: editing.action, expression: editing.expression, description: editing.description ?? '', enabled: editing.enabled !== false },
+          payload);
+      } else {
+        const added = rules.find((r) => !wafRules.some((w) => w.id === r.id));
+        logWafRule(id, target, 'create', added?.id, null, payload);
+      }
+      setWafRules(rules);
       setShowWaf(false);
     } catch (e: any) {
       Alert.alert(t('common.error'), errMsg(e));
@@ -165,6 +175,9 @@ export default function FirewallScreen() {
     setWafRules((prev) => prev.map((x) => (x.id === r.id ? { ...x, enabled: value } : x)));
     try {
       const res = await api.updateRulesetRule(id, rulesetId, r.id, { enabled: value });
+      logWafRule(id, rulesetId, 'update', r.id,
+        { action: r.action, expression: r.expression, description: r.description ?? '', enabled: !value },
+        { action: r.action, expression: r.expression, description: r.description ?? '', enabled: value });
       setWafRules(res.result?.rules ?? []);
     } catch (e: any) {
       setWafRules((prev) => prev.map((x) => (x.id === r.id ? { ...x, enabled: !value } : x)));
@@ -182,6 +195,8 @@ export default function FirewallScreen() {
         onPress: async () => {
           try {
             const res = await api.deleteRulesetRule(id, rulesetId, r.id);
+            logWafRule(id, rulesetId, 'delete', r.id,
+              { action: r.action, expression: r.expression, description: r.description ?? '', enabled: r.enabled !== false }, null);
             setWafRules(res.result?.rules ?? []);
           } catch (e: any) {
             Alert.alert(t('firewall.delete_error'), errMsg(e));
@@ -240,7 +255,10 @@ export default function FirewallScreen() {
         configuration: { target, value: target === 'country' ? value.toUpperCase() : value },
         notes: ipNotes.trim() || undefined,
       });
-      if (res.result) setIpRules((prev) => [res.result, ...prev]);
+      if (res.result) {
+        logIpRule(id, 'create', res.result.id, { mode: res.result.mode, configuration: res.result.configuration, notes: res.result.notes || undefined });
+        setIpRules((prev) => [res.result, ...prev]);
+      }
       setShowIp(false);
       setIpValue('');
       setIpNotes('');
@@ -260,6 +278,7 @@ export default function FirewallScreen() {
         onPress: async () => {
           try {
             await api.deleteIPAccessRule(id, r.id);
+            logIpRule(id, 'delete', r.id, { mode: r.mode, configuration: r.configuration, notes: r.notes || undefined });
             setIpRules((prev) => prev.filter((x) => x.id !== r.id));
           } catch (e: any) {
             Alert.alert(t('firewall.delete_error'), errMsg(e));

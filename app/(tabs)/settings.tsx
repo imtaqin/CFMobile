@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { StyleSheet, View, Text, ScrollView, Alert, TouchableOpacity, DevSettings } from 'react-native';
-import { router } from 'expo-router';
+import { router, useFocusEffect } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/contexts/auth';
 import { useThemeContext, ThemeMode } from '@/contexts/theme';
@@ -67,8 +67,7 @@ export default function SettingsScreen() {
   const currentLang = i18n.language;
   const [langOpen, setLangOpen] = useState(false);
   const [showSensitive, setShowSensitive] = useState(false);
-  const [lockAvailable, setLockAvailable] = useState(false);
-  const [lockEnabled, setLockEnabledState] = useState(false);
+  const [lockSummary, setLockSummary] = useState<appLock.LockMethod | 'biometric' | null>(null);
   const premium = usePremium();
   const [premiumPrice, setPremiumPrice] = useState<string | null>(null);
   const [premiumBusy, setPremiumBusy] = useState(false);
@@ -85,12 +84,10 @@ export default function SettingsScreen() {
     await setAnalyticsEnabled(value);
   };
 
-  useEffect(() => {
-    (async () => {
-      setLockAvailable(await appLock.isLockAvailable());
-      setLockEnabledState(await appLock.isLockEnabled());
-    })();
-  }, []);
+  // Re-read on focus: the Security screen changes it.
+  useFocusEffect(useCallback(() => {
+    appLock.getLockSettings().then((s) => setLockSummary(s.method !== 'none' ? s.method : s.biometric ? 'biometric' : 'none')).catch(() => {});
+  }, []));
 
   useEffect(() => {
     if (!premium) {
@@ -127,16 +124,6 @@ export default function SettingsScreen() {
     } finally {
       setPremiumBusy(false);
     }
-  };
-
-  const toggleLock = async (value: boolean) => {
-    if (value) {
-      // Verify biometric works before enabling
-      const ok = await appLock.authenticate(t('lock.prompt'));
-      if (!ok) return;
-    }
-    setLockEnabledState(value);
-    await appLock.setLockEnabled(value);
   };
 
   const dots = '••••';
@@ -312,13 +299,17 @@ export default function SettingsScreen() {
       {/* Security */}
       <SectionHeader title={t('settings.security')} />
       <Group>
-        <ToggleRow
+        <ListRow
+          icon="widgets"
+          title={t('shortcuts.title')}
+          subtitle={t('shortcuts.settings_sub')}
+          onPress={() => router.push('/shortcuts' as any)}
+        />
+        <ListRow
           icon="enhanced-encryption"
-          title={t('settings.biometric_lock')}
-          subtitle={lockAvailable ? t('settings.biometric_lock_sub') : t('settings.biometric_unavailable')}
-          value={lockEnabled}
-          onValueChange={toggleLock}
-          disabled={!lockAvailable}
+          title={t('security.title')}
+          subtitle={lockSummary ? t(`security.summary_${lockSummary}`) : undefined}
+          onPress={() => router.push('/security' as any)}
         />
         <ListRow
           icon="clock"
@@ -409,6 +400,24 @@ export default function SettingsScreen() {
           title={t('settings.access_apps')}
           subtitle={t('settings.access_apps_sub')}
           onPress={() => router.push('/access-apps' as any)}
+        />
+        <ListRow
+          icon="users"
+          title={t('settings.access_idps')}
+          subtitle={t('settings.access_idps_sub')}
+          onPress={() => router.push('/access-idps' as any)}
+        />
+        <ListRow
+          icon="key"
+          title={t('settings.access_tokens')}
+          subtitle={t('settings.access_tokens_sub')}
+          onPress={() => router.push('/access-service-tokens' as any)}
+        />
+        <ListRow
+          icon="fingerprint"
+          title={t('settings.access_mtls')}
+          subtitle={t('settings.access_mtls_sub')}
+          onPress={() => router.push('/access-mtls' as any)}
         />
         <ListRow
           icon="server"

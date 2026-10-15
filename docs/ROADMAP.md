@@ -51,7 +51,7 @@ work because the navigation is already there.
 | 16 | Load Balancers | done | 15/38. Pools CRUD, monitors CRUD, load balancers CRUD with tabbed UI |
 | 17 | Waiting Room | done | 6/24. Room list, get, create, update, delete, status |
 | 18 | Web Analytics | done | 5/15. Site list, get, create, update, delete |
-| 19 | Observatory | todo | 10 | Lighthouse-style speed tests and trends per page |
+| 19 | Observatory | done | 10/10 | Pages list, run test (region), test history, single test, delete tests, 30-day score trend, schedule get/create/delete (daily/weekly), availabilities/quota. The old screen called paths that are not in the schema and has been rewritten |
 | 20 | Notification policies + webhooks | done | 8/8 + 5/5 | Policy list, toggle, delete; webhook destination CRUD. New-policy creation out of scope — filter shape differs per alert type, no good picker for mobile |
 | 21 | Custom Hostnames (SaaS) | done | 4/8 | List, create (Cloudflare-managed cert), delete, ownership-verification record display. Certificate-pack cert management (2 endpoints) and bring-your-own-cert upload (part of create) out of scope |
 | 22 | Page Shield | done | 9/13 | Settings toggle, connections list, cookies list, policy CRUD. Single-item detail GETs (connection/cookie/policy by id) skipped — list responses already carry every field |
@@ -97,8 +97,8 @@ work because the navigation is already there.
 | # | Batch | Status | Endpoints | Scope |
 |---|-------|--------|-----------|-------|
 | 49 | Access applications | done | 7/9 (account only) | List/get/create/update/delete app (self_hosted type: name/domain/session_duration/app_launcher_visible), revoke tokens, settings toggle (allow_iframe/skip_interstitial). `policies` sub-object and user_policy_checks test endpoint out of scope — policies need a group-reference picker, same complexity class as Zaraz's per-tool configs. Zone-level Access applications (separate 9-endpoint product) not touched |
-| 50 | Access identity providers | todo | 8 | IdP list and config |
-| 51 | Access service tokens / mTLS | todo | 7 + 8 | Token and certificate management |
+| 50 | Access identity providers | done | 8/8 | List/get/create/update/delete IdP, generate/rotate SAML encryption certificate, read-only SCIM users + groups lists. Create/edit covers all 17 provider types with each type's plain string fields (client id/secret, tenant/account/environment ids, OIDC auth/token/JWKS URLs + scopes, SAML issuer/SSO URL/signing certs/email attribute) and one boolean where the schema has one (Entra groups, OIDC PKCE, SAML sign request, Cloudflare account-members-only, passkey auto-prompt). Out of scope: custom `claims`, SAML `attributes`/`header_attributes` mappings, `prompt`, `conditional_access_enabled`, `enable_encryption`/`force_authn`/`max_sso_url_length`, `use_login_hint`, and editing `scim_config` — these are preserved untouched on edit, not cleared |
+| 51 | Access service tokens / mTLS | done | 7/7 + 7/7 | Service tokens: list/get/create/edit (name, duration)/delete, refresh (extend expiry), rotate (revoke old secret now or keep it 24h); client id + secret shown once with copy-as-headers. mTLS: list/get/add (name, PEM, hostnames)/edit (name, hostnames)/delete root certificates, plus per-hostname client-certificate-forwarding and China-network toggles. The roadmap's "7 + 8" was a miscount — the mTLS product has 7 endpoints. Zone-level Access mTLS (separate 7-endpoint product) not touched |
 | 52 | Gateway rules & lists | done | 5/9 | List/get/create rule (name/description/action/filters/traffic-expression/enabled); update limited to name/description/enabled/precedence — the API's own PATCH only accepts those 4 fields, action/filters/traffic/identity/device_posture are create-time only; delete. `rule_settings` (30+ type-specific fields: browser isolation, DLP, egress, DNS resolvers, block pages) and bulk-patch-multiple out of scope, same complexity class as AI Search. "Lists" half not found as a distinct product — reuses the account-level Lists product from batch 11 |
 | 53 | Zero Trust accounts / users / devices | todo | 13 + 10 + 26 | Org config, user list, enrolled devices |
 | 54 | Infrastructure Access targets | done | 5/8 | List/get/create/update/delete target (hostname + IPv4/IPv6). Batch create/delete and deprecated batch-delete out of scope — redundant with single delete for mobile one-off management |
@@ -714,6 +714,42 @@ scope, same call as batch 29's Logpush split.
       `zone.log_explorer_desc` across all 12 locales via
       `scripts/i18n-translate.js`. Corruption re-check clean
 - [x] `npx tsc --noEmit` fully clean
+
+---
+
+## Batches 50 + 51 — Access identity providers, service tokens, mTLS (done)
+
+Done together in one pass because the old unlinked `app/access.tsx` covered
+all three read-only. It was replaced, not extended: apps already live in
+batch 49's `app/access-apps.tsx`, so `access.tsx` and its route were
+deleted and split into three dedicated writable screens.
+
+- [x] API (appended at the end of `services/cloudflare.ts`): sections
+      Access Identity Providers, Access Service Tokens, Access mTLS
+      Authentication — 22 functions, every endpoint in
+      `access-identity-providers.md`, `access-service-tokens.md`,
+      `access-mtls-authentication.md`. The IdP doc only shows the first of 15
+      config variants, so `AccessIdentityProviderConfig` was built from the
+      full OpenAPI schema (union of every per-type field, all optional as the
+      schema has them)
+- [x] Removed the old read-only stubs `AccessIdP`/`getAccessIdPs`/
+      `deleteAccessIdP` and `AccessToken`/`getAccessTokens`/
+      `deleteAccessToken` (only `access.tsx` used them). Left the old
+      `AccessApp`/`getAccessApps`/`deleteAccessApp` in place (now unused;
+      batch 49's code uses `AccessApplication`) and the old `access.*`
+      locale keys (now unused) for a later cleanup pass
+- [x] New screens `app/access-idps.tsx`, `app/access-service-tokens.tsx`,
+      `app/access-mtls.tsx` (premium-gated like the other Zero Trust
+      screens), routes in `app/_layout.tsx`, three rows in
+      `app/(tabs)/settings.tsx` under Access applications
+- [x] IdP edit sends the existing config back with the form's changes so
+      unshown fields survive the PUT; a blank client secret is omitted
+      (the API redacts it on read). Not verified against a live account
+- [x] English strings: `access_idps.*` (58), `access_tokens.*` (33),
+      `access_mtls.*` (23), `settings.access_idps*`/`access_tokens*`/
+      `access_mtls*` (6). Written to `C:gtmpeatagent-*.json` for a
+      separate translation pass — **locales not yet updated by this batch**
+- [x] `npx tsc --noEmit` clean
 
 ---
 

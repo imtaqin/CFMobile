@@ -74,10 +74,18 @@ function restorePlaceholders(text, holders) {
   return text.replace(new RegExp(`${MARK_PREFIX}(\\d+)${MARK_SUFFIX}`, 'g'), (_, i) => holders[Number(i)]);
 }
 
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
 async function translate(text, targetLang) {
   const { protected_, holders } = protectPlaceholders(text);
   const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=${targetLang}&dt=t&q=${encodeURIComponent(protected_)}`;
-  const res = await fetch(url);
+  // The public endpoint answers 429 when asked too fast: pace the requests and back off.
+  let res;
+  for (let attempt = 0; ; attempt++) {
+    await sleep(attempt === 0 ? 1200 : Math.min(5000 * 2 ** (attempt - 1), 120000));
+    res = await fetch(url);
+    if (res.status !== 429 || attempt >= 8) break;
+  }
   if (!res.ok) throw new Error(`translate ${targetLang} failed: ${res.status}`);
   const json = await res.json();
   const translated = json[0].map((seg) => seg[0]).join('');

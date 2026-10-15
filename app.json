@@ -2,7 +2,7 @@
   "expo": {
     "name": "CloudFlare Mobile",
     "slug": "cloudflare-mobile",
-    "version": "1.7.0",
+    "version": "1.8.0",
     "orientation": "default",
     "icon": "./assets/images/icon.png",
     "scheme": "cfmobile",
@@ -12,7 +12,7 @@
       "supportsTablet": true
     },
     "android": {
-      "versionCode": 46,
+      "versionCode": 47,
       "adaptiveIcon": {
         "backgroundColor": "#F6821F",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
@@ -61,7 +61,27 @@
         }
       ],
       "expo-background-task",
-      "./plugins/with-r8-full-mode"
+      "./plugins/with-r8-full-mode",
+      [
+        "react-native-android-widget",
+        {
+          "widgets": [
+            {
+              "name": "ZoneStatus",
+              "label": "Cloudflare zone",
+              "description": "Under Attack Mode and Development Mode for one zone",
+              "minWidth": "250dp",
+              "minHeight": "110dp",
+              "targetCellWidth": 4,
+              "targetCellHeight": 2,
+              "maxResizeWidth": "420dp",
+              "maxResizeHeight": "220dp",
+              "resizeMode": "horizontal|vertical",
+              "updatePeriodMillis": 1800000
+            }
+          ]
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,

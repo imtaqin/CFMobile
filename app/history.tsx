@@ -14,7 +14,7 @@ import { Banner } from '@/components/ui/kit';
 import { FontSize, Radius, Spacing } from '@/constants/theme';
 import * as api from '@/services/cloudflare';
 import {
-  ChangeEntry, clearHistory, diffFields, getHistory, markReverted,
+  ChangeEntry, IpRuleSnapshot, SETTING_LABELS, WafRuleSnapshot, clearHistory, entryChanges, getHistory, markReverted,
 } from '@/services/change-history';
 
 const ACTION_KEYS: Record<ChangeEntry['action'], string> = {
@@ -23,7 +23,7 @@ const ACTION_KEYS: Record<ChangeEntry['action'], string> = {
   delete: 'history.deleted',
 };
 
-/** DNS changes made from this app on this device, newest first, each with an undo. */
+/** Changes made from this app on this device, newest first, each with an undo. */
 export default function HistoryScreen() {
   const { t } = useTranslation();
   const { colors } = useTheme();
@@ -38,7 +38,20 @@ export default function HistoryScreen() {
   const undo = async (entry: ChangeEntry) => {
     setBusyId(entry.id);
     try {
-      if (entry.action === 'update' && entry.recordId && entry.before) {
+      const kind = entry.kind ?? 'dns';
+      const waf = entry.valueBefore as WafRuleSnapshot | null;
+      if (kind === 'setting' && entry.target) {
+        await api.updateZoneSetting(entry.zoneId, entry.target, entry.valueBefore);
+      } else if (kind === 'waf_rule' && entry.rulesetId) {
+        if (entry.action === 'create' && entry.target) await api.deleteRulesetRule(entry.zoneId, entry.rulesetId, entry.target);
+        else if (entry.action === 'update' && entry.target && waf) await api.updateRulesetRule(entry.zoneId, entry.rulesetId, entry.target, waf as any);
+        else if (entry.action === 'delete' && waf) await api.createRulesetRule(entry.zoneId, entry.rulesetId, waf as any);
+        else throw new Error(t('history.undo_failed'));
+      } else if (kind === 'ip_rule') {
+        if (entry.action === 'create' && entry.target) await api.deleteIPAccessRule(entry.zoneId, entry.target);
+        else if (entry.action === 'delete' && entry.valueBefore) await api.createIPAccessRule(entry.zoneId, entry.valueBefore as IpRuleSnapshot as any);
+        else throw new Error(t('history.undo_failed'));
+      } else if (entry.action === 'update' && entry.recordId && entry.before) {
         await api.updateDnsRecord(entry.zoneId, entry.recordId, entry.before);
       } else if (entry.action === 'delete' && entry.before) {
         await api.createDnsRecord(entry.zoneId, entry.before);
@@ -57,7 +70,7 @@ export default function HistoryScreen() {
   };
 
   const confirmUndo = (entry: ChangeEntry) => {
-    Alert.alert(t('history.undo_title'), t(`history.undo_${entry.action}`, { name: (entry.after ?? entry.before)?.name ?? '' }), [
+    Alert.alert(t('history.undo_title'), t(`history.undo_${entry.action}`, { name: titleOf(entry) }), [
       { text: t('common.cancel'), style: 'cancel' },
       { text: t('history.undo'), style: entry.action === 'create' ? 'destructive' : 'default', onPress: () => undo(entry) },
     ]);
@@ -68,6 +81,22 @@ export default function HistoryScreen() {
       { text: t('common.cancel'), style: 'cancel' },
       { text: t('history.clear'), style: 'destructive', onPress: async () => { await clearHistory(); await load(); } },
     ]);
+  };
+
+  /** One line naming what changed. */
+  const titleOf = (entry: ChangeEntry): string => {
+    const kind = entry.kind ?? 'dns';
+    if (kind === 'setting') return SETTING_LABELS[entry.target ?? ''] ? t(SETTING_LABELS[entry.target!]) : entry.target ?? '';
+    if (kind === 'waf_rule') {
+      const r = (entry.valueAfter ?? entry.valueBefore) as WafRuleSnapshot | null;
+      return `${t('history.kind_waf')}: ${r?.description || r?.expression || ''}`;
+    }
+    if (kind === 'ip_rule') {
+      const r = (entry.valueAfter ?? entry.valueBefore) as IpRuleSnapshot | null;
+      return `${t('history.kind_ip')}: ${r?.mode ?? ''} ${r?.configuration?.value ?? ''}`;
+    }
+    const record = entry.after ?? entry.before;
+    return `${record?.type ?? ''} ${record?.name ?? ''}`;
   };
 
   if (entries === null) return <Loading />;
@@ -88,7 +117,6 @@ export default function HistoryScreen() {
         ListHeaderComponent={<View style={styles.note}><Banner tone="info" message={t('history.note')} /></View>}
         ListEmptyComponent={<EmptyState icon="clock" title={t('history.empty')} message={t('history.empty_sub')} />}
         renderItem={({ item }) => {
-          const record = item.after ?? item.before;
           const reverted = !!item.revertedAt;
           return (
             <View style={[styles.card, { backgroundColor: colors.surface, borderColor: colors.borderLight }]}>
@@ -101,11 +129,11 @@ export default function HistoryScreen() {
                 <Text style={[styles.time, { color: colors.textTertiary }]}>{new Date(item.at).toLocaleString()}</Text>
               </View>
               <Text style={[styles.name, { color: colors.text }]} numberOfLines={2}>
-                {record?.type} {record?.name}
+                {titleOf(item)}
               </Text>
               {!!item.zoneName && <Text style={[styles.zone, { color: colors.textSecondary }]}>{item.zoneName}</Text>}
               <View style={styles.diff}>
-                <ChangeDiff changes={diffFields(item.before, item.after)} />
+                <ChangeDiff changes={entryChanges(item)} />
               </View>
               {!reverted && (
                 <Button

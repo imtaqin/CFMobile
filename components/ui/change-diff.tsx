@@ -5,7 +5,7 @@ import { useTheme } from '@/hooks/use-theme';
 import { FontSize, Radius, Spacing } from '@/constants/theme';
 import { FieldChange } from '@/services/change-history';
 
-const LABEL_KEYS: Record<FieldChange['field'], string> = {
+const LABEL_KEYS: Record<string, string> = {
   type: 'dns.type',
   name: 'dns.name',
   content: 'dns.content',
@@ -32,7 +32,7 @@ export function ChangeDiff({ changes }: { changes: FieldChange[] }) {
     <View style={[styles.box, { backgroundColor: colors.surface, borderColor: colors.borderLight }]}>
       {changes.map((c, i) => (
         <View key={c.field} style={[styles.row, i > 0 && { borderTopWidth: 1, borderTopColor: colors.borderLight }]}>
-          <Text style={[styles.label, { color: colors.textSecondary }]}>{t(LABEL_KEYS[c.field])}</Text>
+          <Text style={[styles.label, { color: colors.textSecondary }]}>{t(c.label ?? LABEL_KEYS[c.field] ?? c.field)}</Text>
           <View style={styles.values}>
             {c.before !== null && (
               <Text style={[styles.before, { color: colors.textTertiary }]} selectable>{value(c.before)}</Text>

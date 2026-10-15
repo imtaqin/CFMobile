@@ -52,3 +52,33 @@ describe('change history diff', () => {
     });
   });
 });
+
+describe('history beyond DNS', () => {
+  const { entryChanges } = require('@/services/change-history');
+  const base = { id: 'x', at: '2026-10-14T00:00:00Z', zoneId: 'z', before: null, after: null };
+
+  it('shows a setting change as one value row', () => {
+    expect(entryChanges({ ...base, kind: 'setting', action: 'update', target: 'ssl', valueBefore: 'flexible', valueAfter: 'strict' }))
+      .toEqual([{ field: 'value', label: 'history.value', before: 'flexible', after: 'strict' }]);
+  });
+
+  it('lists only the WAF rule fields that changed', () => {
+    const rule = { action: 'block', expression: 'ip.src eq 203.0.113.9', description: 'bad bot', enabled: true };
+    expect(entryChanges({ ...base, kind: 'waf_rule', action: 'update', valueBefore: rule, valueAfter: { ...rule, enabled: false } }))
+      .toEqual([{ field: 'enabled', label: 'history.rule_enabled', before: 'on', after: 'off' }]);
+  });
+
+  it('shows a removed IP rule on the before side', () => {
+    const rule = { mode: 'block', configuration: { target: 'ip', value: '203.0.113.9' } };
+    expect(entryChanges({ ...base, kind: 'ip_rule', action: 'delete', valueBefore: rule, valueAfter: null })).toEqual([
+      { field: 'mode', label: 'history.rule_action', before: 'block', after: null },
+      { field: 'value', label: 'history.rule_target', before: '203.0.113.9', after: null },
+    ]);
+  });
+
+  it('still reads old DNS entries that have no kind', () => {
+    const record = { type: 'A', name: 'a.example.com', content: '203.0.113.1', ttl: 1, proxied: true };
+    expect(entryChanges({ ...base, action: 'update', before: record, after: { ...record, content: '203.0.113.2' } }))
+      .toEqual([{ field: 'content', before: '203.0.113.1', after: '203.0.113.2' }]);
+  });
+});

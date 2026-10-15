@@ -19,7 +19,7 @@ export type IconName =
   | 'cloud' | 'cloud-off' | 'cloud-upload' | 'key' | 'link' | 'code'
   | 'database' | 'server' | 'monitor' | 'mail' | 'user' | 'users'
   | 'languages' | 'activity' | 'network' | 'lock-open' | 'lock-outline'
-  | 'enhanced-encryption'
+  | 'enhanced-encryption' | 'fingerprint' | 'grid' | 'eye-off'
   // Theme
   | 'sun' | 'moon' | 'smartphone'
   // UI
@@ -131,6 +131,29 @@ export function Icon({ name, size = 24, color, strokeWidth = 2 }: IconProps) {
       return <LucideIcon size={size} color={c} sw={sw} paths={[
         'M7 11V7a5 5 0 0 1 10 0v4',
       ]} rects={[{ x: 3, y: 11, w: 18, h: 11, rx: 2 }]} />;
+    case 'fingerprint':
+      return <LucideIcon size={size} color={c} sw={sw} paths={[
+        'M12 10a2 2 0 0 0-2 2c0 1.02-.1 2.51-.26 4',
+        'M14 13.12c0 2.38 0 6.38-1 8.88',
+        'M17.29 21.02c.12-.6.43-2.3.5-3.02',
+        'M2 12a10 10 0 0 1 18-6',
+        'M2 16h.01',
+        'M21.8 16c.2-2 .131-5.354 0-6',
+        'M5 19.5C5.5 18 6 15 6 12a6 6 0 0 1 .34-2',
+        'M8.65 22c.21-.66.45-1.32.57-2',
+        'M9 6.8a6 6 0 0 1 9 5.2v2',
+      ]} />;
+    case 'grid':
+      return <LucideIcon size={size} color={c} sw={sw} paths={[
+        'M3 9h18', 'M3 15h18', 'M9 3v18', 'M15 3v18',
+      ]} rects={[{ x: 3, y: 3, w: 18, h: 18, rx: 2 }]} />;
+    case 'eye-off':
+      return <LucideIcon size={size} color={c} sw={sw} paths={[
+        'M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49',
+        'M14.084 14.158a3 3 0 0 1-4.242-4.242',
+        'M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143',
+        'm2 2 20 20',
+      ]} />;
     case 'lock-open':
       return <LucideIcon size={size} color={c} sw={sw} paths={[
         'M8 11V7a4 4 0 0 1 8 0',

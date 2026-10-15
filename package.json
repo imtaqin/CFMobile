@@ -1,6 +1,6 @@
 {
   "name": "my-app",
-  "main": "expo-router/entry",
+  "main": "index.js",
   "version": "1.0.0",
   "scripts": {
     "start": "expo start",
@@ -51,6 +51,7 @@
     "react-dom": "19.1.0",
     "react-i18next": "^17.0.1",
     "react-native": "0.81.5",
+    "react-native-android-widget": "^0.22.1",
     "react-native-gesture-handler": "~2.28.0",
     "react-native-google-mobile-ads": "^16.3.3",
     "react-native-iap": "^15.5.2",

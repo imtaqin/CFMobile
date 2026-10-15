@@ -13,6 +13,8 @@ import { Group, IconCircle, ListRow, StatCard, ToggleRow } from '@/components/ui
 import { useAuth } from '@/contexts/auth';
 import { Spacing, FontSize, Radius } from '@/constants/theme';
 import * as api from '@/services/cloudflare';
+import { logSetting } from '@/services/change-history';
+import { refreshShortcuts } from '@/widgets/sync';
 import { Zone } from '@/services/types';
 
 const maskName = (name: string) => {
@@ -78,6 +80,8 @@ export default function ZoneDetailScreen() {
     setDevMode(value);
     try {
       await api.toggleDevMode(id, value ? 'on' : 'off');
+      logSetting(id, 'development_mode', value ? 'off' : 'on', value ? 'on' : 'off', zone?.name);
+      refreshShortcuts().catch(() => {});
     } catch {
       setDevMode(!value);
       Alert.alert(t('common.error'), t('zone.dev_mode_error'));
@@ -88,6 +92,8 @@ export default function ZoneDetailScreen() {
     setUnderAttack(value);
     try {
       await api.updateSecurityLevel(id, value ? 'under_attack' : prevSecLevel);
+      logSetting(id, 'security_level', value ? prevSecLevel : 'under_attack', value ? 'under_attack' : prevSecLevel, zone?.name);
+      refreshShortcuts().catch(() => {});
     } catch {
       setUnderAttack(!value);
       Alert.alert(t('common.error'), t('zone.under_attack_error'));

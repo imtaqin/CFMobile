@@ -9,6 +9,7 @@ import { SectionHeader } from '@/components/ui/section-header';
 import { Banner, ChipRow, Group, ListRow, ToggleRow } from '@/components/ui/kit';
 import { Spacing } from '@/constants/theme';
 import * as api from '@/services/cloudflare';
+import { logSetting } from '@/services/change-history';
 
 interface SettingItem {
   id: string;
@@ -99,6 +100,7 @@ export default function ZoneSettingsScreen() {
     );
     try {
       await api.updateZoneSetting(id, settingId, newValue);
+      logSetting(id, settingId, current, newValue);
     } catch {
       setSettings((prev) =>
         prev.map((s) => (s.id === settingId ? { ...s, value: current } : s))
@@ -112,6 +114,7 @@ export default function ZoneSettingsScreen() {
     setBrowserCacheTtl(ttl);
     try {
       await api.updateZoneSetting(id, 'browser_cache_ttl', ttl);
+      logSetting(id, 'browser_cache_ttl', prev, ttl);
     } catch {
       setBrowserCacheTtl(prev);
       Alert.alert(t('common.error'), t('zone_settings.update_error'));

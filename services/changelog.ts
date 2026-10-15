@@ -7,6 +7,22 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '1.8.0',
+    date: '2026-10-15',
+    highlights: [
+      'App lock with a PIN, a pattern or your fingerprint, plus a switch to block screenshots',
+      'Home-screen widget and Quick Settings tile for Under Attack Mode and Development Mode',
+      'Change history and Undo now cover SSL, security level, zone settings, WAF rules and IP rules',
+      'Observatory: page speed tests, a 30-day score trend and automatic daily or weekly tests',
+      'Zero Trust: identity providers, service tokens and mTLS certificates',
+      'Review DNS changes before applying them',
+    ],
+    fixes: [
+      'Sign in with Cloudflare now renews itself instead of signing you out',
+      'Opening the app offline no longer signs you out',
+    ],
+  },
+  {
     version: '1.7.0',
     date: '2026-07-31',
     highlights: [
