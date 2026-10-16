@@ -239,7 +239,15 @@
     "ns_ttl": "NS TTL",
     "zone_mode": "Chế độ vùng",
     "ns_type": "Loại máy chủ tên",
-    "more_actions": "Thêm hành động"
+    "more_actions": "Thêm hành động",
+    "srv_target": "Mục tiêu",
+    "srv_port": "Cảng",
+    "srv_weight": "Cân nặng",
+    "srv_fields_required": "Mục tiêu và cổng là bắt buộc đối với bản ghi SRV.",
+    "caa_tag": "Nhãn",
+    "caa_value": "Giá trị",
+    "caa_flags": "Cờ",
+    "caa_fields_required": "Một giá trị là bắt buộc đối với bản ghi CAA."
   },
   "ssl": {
     "title": "SSL/TLS",

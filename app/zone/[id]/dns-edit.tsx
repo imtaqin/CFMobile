@@ -7,16 +7,22 @@ import { useTheme } from '@/hooks/use-theme';
 import { Button } from '@/components/ui/button';
 import { Loading } from '@/components/ui/loading';
 import { SectionHeader } from '@/components/ui/section-header';
-import { ChipRow, Field, Group, ListRow, ToggleRow } from '@/components/ui/kit';
+import { ChipRow, Field, FieldLabel, Group, ListRow, ToggleRow } from '@/components/ui/kit';
 import { Sheet } from '@/components/ui/sheet';
 import { ChangeDiff } from '@/components/ui/change-diff';
 import { Spacing, FontSize } from '@/constants/theme';
 import * as api from '@/services/cloudflare';
 import { recordHappyMoment } from '@/services/review-prompt';
-import { DNSRecordType, DNSRecordInput } from '@/services/types';
+import { DNSRecordType, DNSRecordInput, DNSRecordData } from '@/services/types';
 import { addChange, diffFields, DnsSnapshot, FieldChange, snapshot } from '@/services/change-history';
 
 const RECORD_TYPES: DNSRecordType[] = ['A', 'AAAA', 'CNAME', 'MX', 'TXT', 'NS', 'SRV', 'CAA'];
+
+type CaaTag = 'issue' | 'issuewild' | 'iodef';
+const CAA_TAGS: CaaTag[] = ['issue', 'issuewild', 'iodef'];
+
+/** Cloudflare makes `content` read-only for these and reads `data` instead. */
+const DATA_TYPES: DNSRecordType[] = ['SRV', 'CAA'];
 
 const TYPE_DESCRIPTIONS: Partial<Record<DNSRecordType, string>> = {
   A: 'IPv4 address',
@@ -41,6 +47,13 @@ export default function DNSEditScreen() {
   const [ttl, setTtl] = useState('1');
   const [proxied, setProxied] = useState(true);
   const [priority, setPriority] = useState('10');
+  // SRV and CAA send these through `data` instead of `content`.
+  const [weight, setWeight] = useState('1');
+  const [port, setPort] = useState('');
+  const [target, setTarget] = useState('');
+  const [caaFlags, setCaaFlags] = useState('0');
+  const [caaTag, setCaaTag] = useState<CaaTag>('issue');
+  const [caaValue, setCaaValue] = useState('');
   const [comment, setComment] = useState('');
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(isEdit);
@@ -63,6 +76,14 @@ export default function DNSEditScreen() {
           setTtl(String(r.ttl));
           setProxied(r.proxied);
           if (r.priority !== undefined) setPriority(String(r.priority));
+          const d = r.data ?? {};
+          if (d.priority !== undefined) setPriority(String(d.priority));
+          if (d.weight !== undefined) setWeight(String(d.weight));
+          if (d.port !== undefined) setPort(String(d.port));
+          if (d.target !== undefined) setTarget(String(d.target));
+          if (d.flags !== undefined) setCaaFlags(String(d.flags));
+          if (d.tag !== undefined) setCaaTag(d.tag as CaaTag);
+          if (d.value !== undefined) setCaaValue(String(d.value));
           if (r.comment) setComment(r.comment);
         } catch {
           Alert.alert(t('common.error'), t('dns.fetch_error'));
@@ -74,9 +95,40 @@ export default function DNSEditScreen() {
     }
   }, [id, recordId, isEdit, t]);
 
+  /** The `data` map for the type being edited, with the numbers coerced. */
+  const buildData = (): DNSRecordData => {
+    if (type === 'SRV') {
+      return {
+        priority: parseInt(priority) || 0,
+        weight: parseInt(weight) || 0,
+        port: parseInt(port) || 0,
+        target: target.trim(),
+      };
+    }
+    return {
+      flags: parseInt(caaFlags) || 0,
+      tag: caaTag,
+      value: caaValue.trim(),
+    };
+  };
+
   // Save does not write anything yet: it opens a sheet with exactly what will change.
   const handleSave = () => {
-    if (!name.trim() || !content.trim()) {
+    const dataType = DATA_TYPES.includes(type);
+
+    if (!name.trim()) {
+      Alert.alert(t('common.error'), t('dns.fields_required'));
+      return;
+    }
+    if (type === 'SRV' && (!target.trim() || !port.trim())) {
+      Alert.alert(t('common.error'), t('dns.srv_fields_required'));
+      return;
+    }
+    if (type === 'CAA' && !caaValue.trim()) {
+      Alert.alert(t('common.error'), t('dns.caa_fields_required'));
+      return;
+    }
+    if (!dataType && !content.trim()) {
       Alert.alert(t('common.error'), t('dns.fields_required'));
       return;
     }
@@ -84,12 +136,17 @@ export default function DNSEditScreen() {
     const record: DNSRecordInput = {
       type,
       name: name.trim(),
-      content: content.trim(),
       ttl: parseInt(ttl) || 1,
       proxied: ['A', 'AAAA', 'CNAME'].includes(type) ? proxied : false,
       comment: comment.trim() || undefined,
     };
-    if (['MX', 'SRV'].includes(type)) {
+    if (dataType) {
+      record.data = buildData();
+    } else {
+      record.content = content.trim();
+    }
+    // MX keeps the top-level field; for SRV the priority rides along in `data`.
+    if (type === 'MX') {
       record.priority = parseInt(priority) || 10;
     }
 
@@ -134,6 +191,7 @@ export default function DNSEditScreen() {
 
   const showProxyToggle = ['A', 'AAAA', 'CNAME'].includes(type);
   const showPriority = ['MX', 'SRV'].includes(type);
+  const usesData = DATA_TYPES.includes(type);
 
   const placeholderForType = (t: DNSRecordType): string => {
     switch (t) {
@@ -194,16 +252,73 @@ export default function DNSEditScreen() {
             autoCorrect={false}
             mono
           />
-          <Field
-            label={t('dns.content')}
-            placeholder={placeholderForType(type)}
-            value={content}
-            onChangeText={setContent}
-            autoCapitalize="none"
-            autoCorrect={false}
-            multiline={type === 'TXT'}
-            mono
-          />
+          {!usesData && (
+            <Field
+              label={t('dns.content')}
+              placeholder={placeholderForType(type)}
+              value={content}
+              onChangeText={setContent}
+              autoCapitalize="none"
+              autoCorrect={false}
+              multiline={type === 'TXT'}
+              mono
+            />
+          )}
+
+          {type === 'SRV' && (
+            <>
+              <Field
+                label={t('dns.srv_target')}
+                placeholder="server.example.com"
+                value={target}
+                onChangeText={setTarget}
+                autoCapitalize="none"
+                autoCorrect={false}
+                mono
+              />
+              <Field
+                label={t('dns.srv_port')}
+                placeholder="8806"
+                value={port}
+                onChangeText={setPort}
+                keyboardType="numeric"
+              />
+              <Field
+                label={t('dns.srv_weight')}
+                placeholder="1"
+                value={weight}
+                onChangeText={setWeight}
+                keyboardType="numeric"
+              />
+            </>
+          )}
+
+          {type === 'CAA' && (
+            <>
+              <FieldLabel>{t('dns.caa_tag')}</FieldLabel>
+              <ChipRow
+                options={CAA_TAGS.map((tag) => ({ value: tag, label: tag }))}
+                value={caaTag}
+                onChange={setCaaTag}
+              />
+              <Field
+                label={t('dns.caa_value')}
+                placeholder={caaTag === 'iodef' ? 'mailto:security@example.com' : 'letsencrypt.org'}
+                value={caaValue}
+                onChangeText={setCaaValue}
+                autoCapitalize="none"
+                autoCorrect={false}
+                mono
+              />
+              <Field
+                label={t('dns.caa_flags')}
+                placeholder="0"
+                value={caaFlags}
+                onChangeText={setCaaFlags}
+                keyboardType="numeric"
+              />
+            </>
+          )}
         </View>
 
         {/* Advanced */}

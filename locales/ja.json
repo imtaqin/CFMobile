@@ -239,7 +239,15 @@
     "ns_ttl": "NS TTL",
     "zone_mode": "ゾーンモード",
     "ns_type": "ネームサーバーの種類",
-    "more_actions": "さらなるアクション"
+    "more_actions": "さらなるアクション",
+    "srv_target": "ターゲット",
+    "srv_port": "ポート",
+    "srv_weight": "重さ",
+    "srv_fields_required": "SRV レコードにはターゲットとポートが必要です。",
+    "caa_tag": "タグ",
+    "caa_value": "価値",
+    "caa_flags": "フラグ",
+    "caa_fields_required": "CAA レコードには値が必要です。"
   },
   "ssl": {
     "title": "SSL/TLS",

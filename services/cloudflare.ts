@@ -1,5 +1,6 @@
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosInstance, InternalAxiosRequestConfig } from 'axios';
 import { logError } from './error-log';
+import * as rateLimit from './rate-limit';
 import { isExpired, refreshOAuth } from './oauth';
 import { updateActiveConfig } from './profiles';
 import { Platform } from 'react-native';
@@ -62,6 +63,19 @@ async function ensureFreshToken(): Promise<void> {
   await refreshing;
 }
 
+/** Requests carry whether they took a rate-limit slot, and how often they were retried. */
+type GatedConfig = InternalAxiosRequestConfig & { _cfGated?: boolean; _cfRetries?: number };
+
+/** How often one request may be sent again after a 429. */
+const MAX_RETRIES = 2;
+
+/** Give back the slot this request took, exactly once. */
+function releaseSlot(config?: GatedConfig): void {
+  if (!config?._cfGated) return;
+  config._cfGated = false;
+  rateLimit.release();
+}
+
 function createClient(config: AuthConfig): AxiosInstance {
   const instance = axios.create({
     baseURL: API_BASE,
@@ -85,25 +99,47 @@ function createClient(config: AuthConfig): AxiosInstance {
       req.headers['X-Auth-Email'] = config.email.replace(/\s+/g, '');
       req.headers['X-Auth-Key'] = config.globalKey.replace(/\s+/g, '');
     }
+    // Last step before the wire: wait for a free slot and for any 429 cooldown.
+    await rateLimit.acquire();
+    (req as GatedConfig)._cfGated = true;
     return req;
   });
 
   instance.interceptors.response.use(
-    (res) => res,
+    (res) => {
+      releaseSlot(res.config as GatedConfig);
+      return res;
+    },
     (error) => {
+      releaseSlot(error.config as GatedConfig | undefined);
+      const status = error.response?.status;
+      const cfg = error.config as GatedConfig | undefined;
+
+      // A rate limit holds every request back, then this one goes out again.
+      // Nothing is logged while a retry is still coming: a limit the app rides
+      // out is not something the user needs to see in a bug report.
+      if (status === 429) {
+        const header = error.response.headers['retry-after'];
+        // Cloudflare usually sends Retry-After; a few seconds is a sane guess when it doesn't.
+        const seconds = header ? parseInt(header, 10) : 5;
+        error.retryAfter = seconds;
+        rateLimit.noteRateLimit(seconds);
+
+        if (cfg && (cfg._cfRetries ?? 0) < MAX_RETRIES) {
+          cfg._cfRetries = (cfg._cfRetries ?? 0) + 1;
+          // Going back through the request interceptor waits out the cooldown just set.
+          return instance.request(cfg);
+        }
+      }
+
       // Method, path and Cloudflare's own message only — never headers or bodies.
       const cfMessage = error.response?.data?.errors?.[0]?.message;
       // 403/404 are routine with scoped tokens (permission probing), so they are not worth reporting.
-      const status = error.response?.status;
       if (status !== 403 && status !== 404) logError(
         'api',
         cfMessage ?? error.message ?? 'request failed',
-        `${String(error.config?.method ?? 'get').toUpperCase()} ${String(error.config?.url ?? '').split('?')[0]} -> ${error.response?.status ?? 'no response'}`
+        `${String(cfg?.method ?? 'get').toUpperCase()} ${String(cfg?.url ?? '').split('?')[0]} -> ${status ?? 'no response'}`
       );
-      if (error.response?.status === 429) {
-        const retryAfter = error.response.headers['retry-after'];
-        error.retryAfter = retryAfter ? parseInt(retryAfter, 10) : 60;
-      }
       return Promise.reject(error);
     }
   );

@@ -87,14 +87,33 @@ export type DNSRecordType =
   | 'CAA' | 'CERT' | 'DNSKEY' | 'DS' | 'HTTPS' | 'LOC'
   | 'NAPTR' | 'PTR' | 'SMIMEA' | 'SSHFP' | 'SVCB' | 'TLSA' | 'URI';
 
+/**
+ * The value parts of an SRV or CAA record. Cloudflare marks `content`
+ * read-only for both types, so these go up in `data` instead; leaving them
+ * out is what gets the record rejected with "weight is a required data field".
+ */
+export interface DNSRecordData {
+  /** SRV */
+  priority?: number;
+  weight?: number;
+  port?: number;
+  target?: string;
+  /** CAA */
+  flags?: number;
+  tag?: string;
+  value?: string;
+}
+
 export interface DNSRecordInput {
   type: DNSRecordType;
   name: string;
-  content: string;
+  /** Omitted for SRV and CAA, which carry their value in `data`. */
+  content?: string;
   ttl?: number;
   proxied?: boolean;
   priority?: number;
   comment?: string;
+  data?: DNSRecordData;
 }
 
 export interface SSLSetting {

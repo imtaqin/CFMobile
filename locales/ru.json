@@ -239,7 +239,15 @@
     "ns_ttl": "НС ТТЛ",
     "zone_mode": "Зональный режим",
     "ns_type": "Тип сервера имен",
-    "more_actions": "Дополнительные действия"
+    "more_actions": "Дополнительные действия",
+    "srv_target": "Цель",
+    "srv_port": "Порт",
+    "srv_weight": "Масса",
+    "srv_fields_required": "Для записи SRV необходимы цель и порт.",
+    "caa_tag": "Ярлык",
+    "caa_value": "Ценить",
+    "caa_flags": "Флаги",
+    "caa_fields_required": "Для записи CAA требуется значение."
   },
   "ssl": {
     "title": "SSL/TLS",

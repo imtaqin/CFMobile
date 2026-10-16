@@ -239,7 +239,15 @@
     "ns_ttl": "NS TTL",
     "zone_mode": "Bölge Modu",
     "ns_type": "Ad Sunucusu Türü",
-    "more_actions": "Daha fazla işlem"
+    "more_actions": "Daha fazla işlem",
+    "srv_target": "Hedef",
+    "srv_port": "Liman",
+    "srv_weight": "Ağırlık",
+    "srv_fields_required": "SRV kaydı için hedef ve port gereklidir.",
+    "caa_tag": "Etiket",
+    "caa_value": "Değer",
+    "caa_flags": "Bayraklar",
+    "caa_fields_required": "CAA kaydı için bir değer gereklidir."
   },
   "ssl": {
     "title": "SSL/TLS",

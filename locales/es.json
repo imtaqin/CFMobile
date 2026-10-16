@@ -239,7 +239,15 @@
     "ns_ttl": "NS TTL",
     "zone_mode": "Modo de zona",
     "ns_type": "Tipo de servidor de nombres",
-    "more_actions": "Más acciones"
+    "more_actions": "Más acciones",
+    "srv_target": "Objetivo",
+    "srv_port": "Puerto",
+    "srv_weight": "Peso",
+    "srv_fields_required": "Se requieren destino y puerto para un registro SRV.",
+    "caa_tag": "Etiqueta",
+    "caa_value": "Valor",
+    "caa_flags": "Banderas",
+    "caa_fields_required": "Se requiere un valor para un registro CAA."
   },
   "ssl": {
     "title": "SSL/TLS",

@@ -1,6 +1,6 @@
 import { Platform } from 'react-native';
 import * as FileSystem from 'expo-file-system/legacy';
-import { DNSRecord, DNSRecordInput } from './types';
+import { DNSRecord, DNSRecordInput, DNSRecordType } from './types';
 
 /**
  * A log of the changes made from this app (DNS records, zone settings, WAF
@@ -70,11 +70,31 @@ export interface FieldChange {
 const FIELDS = ['type', 'name', 'content', 'ttl', 'proxied', 'priority', 'comment'] as const;
 
 /** The editable part of a record, in a stable shape. */
+/**
+ * SRV and CAA keep their value in `data`, and Cloudflare makes `content`
+ * read-only for them, so a record on its way out has no content to show.
+ * Spell the parts out in the order the dashboard uses, so the review sheet
+ * and the history read the same way for every type.
+ */
+function describeData(type: DNSRecordType, data?: Record<string, any>): string {
+  if (!data) return '';
+  if (type === 'SRV') {
+    const parts = [data.priority, data.weight, data.port, data.target];
+    if (parts.every((v) => v === undefined || v === '')) return '';
+    return parts.map((v) => (v === undefined || v === '' ? '?' : v)).join(' ');
+  }
+  if (type === 'CAA') {
+    if (data.tag === undefined && data.value === undefined) return '';
+    return `${data.flags ?? 0} ${data.tag ?? '?'} "${data.value ?? ''}"`;
+  }
+  return '';
+}
+
 export function snapshot(record: DNSRecord | DNSRecordInput): DnsSnapshot {
   return {
     type: record.type,
     name: record.name,
-    content: record.content,
+    content: record.content || describeData(record.type, record.data),
     ttl: record.ttl,
     proxied: record.proxied,
     priority: record.priority,

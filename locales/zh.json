@@ -239,7 +239,15 @@
     "ns_ttl": "NS TTL",
     "zone_mode": "区域模式",
     "ns_type": "名称服务器类型",
-    "more_actions": "更多行动"
+    "more_actions": "更多行动",
+    "srv_target": "目标",
+    "srv_port": "港口",
+    "srv_weight": "重量",
+    "srv_fields_required": "SRV 记录需要目标和端口。",
+    "caa_tag": "标签",
+    "caa_value": "价值",
+    "caa_flags": "旗帜",
+    "caa_fields_required": "CAA 记录需要一个值。"
   },
   "ssl": {
     "title": "SSL/TLS",

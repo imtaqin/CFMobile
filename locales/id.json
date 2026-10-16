@@ -239,7 +239,15 @@
     "ns_ttl": "NS TTL",
     "zone_mode": "Modus Zona",
     "ns_type": "Jenis server nama",
-    "more_actions": "Aksi lainnya"
+    "more_actions": "Aksi lainnya",
+    "srv_target": "Target",
+    "srv_port": "Pelabuhan",
+    "srv_weight": "Berat",
+    "srv_fields_required": "Target dan port diperlukan untuk catatan SRV.",
+    "caa_tag": "Menandai",
+    "caa_value": "Nilai",
+    "caa_flags": "Bendera",
+    "caa_fields_required": "Nilai diperlukan untuk catatan CAA."
   },
   "ssl": {
     "title": "SSL/TLS",

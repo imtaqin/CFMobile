@@ -239,7 +239,15 @@
     "ns_ttl": "NS TTL",
     "zone_mode": "존 모드",
     "ns_type": "네임서버 유형",
-    "more_actions": "추가 작업"
+    "more_actions": "추가 작업",
+    "srv_target": "목표",
+    "srv_port": "포트",
+    "srv_weight": "무게",
+    "srv_fields_required": "SRV 레코드에는 대상과 포트가 필요합니다.",
+    "caa_tag": "꼬리표",
+    "caa_value": "값",
+    "caa_flags": "플래그",
+    "caa_fields_required": "CAA 레코드에는 값이 필요합니다."
   },
   "ssl": {
     "title": "SSL/TLS",
