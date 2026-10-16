@@ -12,6 +12,7 @@ import { LockGate } from '@/components/ui/lock-gate';
 import { applyScreenshotBlock } from '@/services/app-lock';
 import { refreshShortcuts } from '@/widgets/sync';
 import { initPremium } from '@/services/premium';
+import { initAdReward } from '@/services/ad-reward';
 import { refreshQuota } from '@/services/ai-subscription';
 import { syncMonitoring } from '@/services/monitor-task';
 import { track } from '@/services/analytics';
@@ -139,6 +140,8 @@ export default function RootLayout() {
     applyScreenshotBlock().catch(() => {});
     loadLanguage().catch(() => {});
     initPremium();
+    // Day passes earned from rewarded ads, so a gated screen knows at once.
+    initAdReward().catch(() => {});
     // Also loads the quota store, which subscribes to AI usage events.
     refreshQuota().catch(() => {});
     checkPlayUpdate();

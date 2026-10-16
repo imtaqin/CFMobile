@@ -1885,5 +1885,11 @@
     "hostnames_hint": "Un par ligne ou séparés par des virgules. L'enregistrement remplace toute la liste.",
     "delete_title": "Supprimer le certificat",
     "delete_confirm": "Supprimer \"{{name}}\" ? Les noms d'hôte qui l'utilisent n'exigeront plus de certificat client."
+  },
+  "reward": {
+    "watch_for_day": "Regarder une publicité – débloquer pendant 24 heures",
+    "watch_for_actions": "Regardez une publicité pour plus d'actions d'IA",
+    "pass_note": "Un pass journalier conserve les annonces. Premium les supprime définitivement.",
+    "unavailable": "Aucune annonce n'est disponible pour le moment. Veuillez réessayer dans un instant."
   }
 }

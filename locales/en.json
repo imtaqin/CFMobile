@@ -1885,5 +1885,11 @@
     "hostnames_hint": "One per line or separated by commas. Saving replaces the full list.",
     "delete_title": "Delete certificate",
     "delete_confirm": "Delete \"{{name}}\"? Hostnames using it will stop requiring client certificates."
+  },
+  "reward": {
+    "watch_for_day": "Watch an ad — unlock for 24 hours",
+    "watch_for_actions": "Watch an ad for more AI actions",
+    "pass_note": "A day pass keeps the ads. Premium removes them for good.",
+    "unavailable": "No ad is available right now. Please try again in a moment."
   }
 }

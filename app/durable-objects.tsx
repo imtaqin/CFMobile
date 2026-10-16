@@ -11,14 +11,14 @@ import { useAuth } from '@/contexts/auth';
 import { Spacing, Radius } from '@/constants/theme';
 import * as api from '@/services/cloudflare';
 import { DurableObjectNamespace } from '@/services/cloudflare';
-import { usePremium } from '@/services/premium';
+import { useUnlocked } from '@/services/ad-reward';
 import { PremiumPaywall } from '@/components/ui/premium-gate';
 
 export default function DurableObjectsScreen() {
   const { t } = useTranslation();
   const { colors } = useTheme();
   const { accountId } = useAuth();
-  const premium = usePremium();
+  const premium = useUnlocked('durable-objects');
 
   const [namespaces, setNamespaces] = useState<DurableObjectNamespace[]>([]);
   const [loading, setLoading] = useState(true);
@@ -59,7 +59,7 @@ export default function DurableObjectsScreen() {
     return (
       <>
         <Stack.Screen options={{ title: t('durable_objects.title') }} />
-        <PremiumPaywall />
+        <PremiumPaywall feature="durable-objects" />
       </>
     );
   }

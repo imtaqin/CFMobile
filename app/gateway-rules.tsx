@@ -16,7 +16,7 @@ import { useAuth } from '@/contexts/auth';
 import { Spacing, Radius } from '@/constants/theme';
 import * as api from '@/services/cloudflare';
 import { GatewayRule } from '@/services/cloudflare';
-import { usePremium } from '@/services/premium';
+import { useUnlocked } from '@/services/ad-reward';
 import { PremiumPaywall } from '@/components/ui/premium-gate';
 
 const ACTIONS: GatewayRule['action'][] = ['allow', 'block', 'scan', 'noscan', 'safesearch', 'ytrestricted', 'on', 'off'];
@@ -27,7 +27,7 @@ export default function GatewayRulesScreen() {
   const { colors } = useTheme();
   const insets = useSafeAreaInsets();
   const { accountId } = useAuth();
-  const premium = usePremium();
+  const premium = useUnlocked('gateway-rules');
 
   const [rules, setRules] = useState<GatewayRule[]>([]);
   const [loading, setLoading] = useState(true);
@@ -147,7 +147,7 @@ export default function GatewayRulesScreen() {
     return (
       <>
         <Stack.Screen options={{ title: t('gateway_rules.title') }} />
-        <PremiumPaywall />
+        <PremiumPaywall feature="gateway-rules" />
       </>
     );
   }

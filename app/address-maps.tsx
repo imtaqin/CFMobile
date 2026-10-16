@@ -11,14 +11,14 @@ import { useAuth } from '@/contexts/auth';
 import { Spacing, Radius } from '@/constants/theme';
 import * as api from '@/services/cloudflare';
 import { AddressMap } from '@/services/cloudflare';
-import { usePremium } from '@/services/premium';
+import { useUnlocked } from '@/services/ad-reward';
 import { PremiumPaywall } from '@/components/ui/premium-gate';
 
 export default function AddressMapsScreen() {
   const { t } = useTranslation();
   const { colors } = useTheme();
   const { accountId } = useAuth();
-  const premium = usePremium();
+  const premium = useUnlocked('address-maps');
   const [items, setItems] = useState<AddressMap[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -46,7 +46,7 @@ export default function AddressMapsScreen() {
     return (
       <>
         <Stack.Screen options={{ title: t('addr.title') }} />
-        <PremiumPaywall />
+        <PremiumPaywall feature="address-maps" />
       </>
     );
   }

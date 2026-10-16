@@ -12,14 +12,14 @@ import { useAuth } from '@/contexts/auth';
 import { Spacing, Radius } from '@/constants/theme';
 import * as api from '@/services/cloudflare';
 import { AIGateway } from '@/services/cloudflare';
-import { usePremium } from '@/services/premium';
+import { useUnlocked } from '@/services/ad-reward';
 import { PremiumPaywall } from '@/components/ui/premium-gate';
 
 export default function AIGatewayScreen() {
   const { t } = useTranslation();
   const { colors } = useTheme();
   const { accountId } = useAuth();
-  const premium = usePremium();
+  const premium = useUnlocked('ai-gateway');
 
   const [gateways, setGateways] = useState<AIGateway[]>([]);
   const [loading, setLoading] = useState(true);
@@ -86,7 +86,7 @@ export default function AIGatewayScreen() {
     return (
       <>
         <Stack.Screen options={{ title: t('aigw.title') }} />
-        <PremiumPaywall />
+        <PremiumPaywall feature="ai-gateway" />
       </>
     );
   }

@@ -7,17 +7,29 @@ import { useTheme } from '@/hooks/use-theme';
 import { Spacing, FontSize, Radius } from '@/constants/theme';
 import * as premiumService from '@/services/premium';
 import { usePremium } from '@/services/premium';
+import { useUnlocked } from '@/services/ad-reward';
+import { RewardedButton } from '@/components/ui/rewarded-button';
 
 interface PremiumGateProps {
   children: React.ReactNode;
+  /** Screen key, so a rewarded day pass can open this one on its own. */
+  feature?: string;
 }
 
-export function PremiumGate({ children }: PremiumGateProps) {
-  const premium = usePremium();
-  return premium ? <>{children}</> : <PremiumPaywall />;
+export function PremiumGate({ children, feature }: PremiumGateProps) {
+  const unlocked = useUnlocked(feature ?? '');
+  return unlocked ? <>{children}</> : <PremiumPaywall feature={feature} />;
 }
 
-export function PremiumPaywall() {
+interface PremiumPaywallProps {
+  /**
+   * Screen this paywall stands in front of. Given one, the wall also offers a
+   * rewarded ad for a day of that screen; without one it only sells premium.
+   */
+  feature?: string;
+}
+
+export function PremiumPaywall({ feature }: PremiumPaywallProps) {
   const { t } = useTranslation();
   const { colors } = useTheme();
   const [price, setPrice] = useState<string | null>(null);
@@ -56,6 +68,10 @@ export function PremiumPaywall() {
         loading={busy}
         style={{ marginTop: Spacing.lg, alignSelf: 'stretch' }}
       />
+      {!!feature && <RewardedButton feature={feature} />}
+      {!!feature && (
+        <Text style={[styles.note, { color: colors.textSecondary }]}>{t('reward.pass_note')}</Text>
+      )}
     </View>
   );
 }
@@ -85,5 +101,10 @@ const styles = StyleSheet.create({
     fontSize: FontSize.md,
     textAlign: 'center',
     lineHeight: 22,
+  },
+  note: {
+    fontSize: FontSize.sm,
+    textAlign: 'center',
+    marginTop: Spacing.sm,
   },
 });

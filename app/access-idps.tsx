@@ -22,7 +22,7 @@ import type {
   AccessScimGroup,
   AccessScimUser,
 } from '@/services/cloudflare';
-import { usePremium } from '@/services/premium';
+import { useUnlocked } from '@/services/ad-reward';
 import { PremiumPaywall } from '@/components/ui/premium-gate';
 
 // Config fields per provider type, taken from the schema's 17 type variants.
@@ -104,7 +104,7 @@ export default function AccessIdpsScreen() {
   const { colors } = useTheme();
   const insets = useSafeAreaInsets();
   const { accountId } = useAuth();
-  const premium = usePremium();
+  const premium = useUnlocked('access');
 
   const [idps, setIdps] = useState<AccessIdentityProvider[]>([]);
   const [loading, setLoading] = useState(true);
@@ -291,7 +291,7 @@ export default function AccessIdpsScreen() {
     return (
       <>
         <Stack.Screen options={{ title: t('access_idps.title') }} />
-        <PremiumPaywall />
+        <PremiumPaywall feature="access" />
       </>
     );
   }

@@ -1885,5 +1885,11 @@
     "hostnames_hint": "每行一个或用逗号分隔。保存后会替换整个列表。",
     "delete_title": "删除证书",
     "delete_confirm": "删除“{{name}}”？使用它的主机名将不再要求客户端证书。"
+  },
+  "reward": {
+    "watch_for_day": "观看广告 — 24 小时解锁",
+    "watch_for_actions": "观看广告了解更多 AI 操作",
+    "pass_note": "一日通行证保留广告。高级版将永久删除它们。",
+    "unavailable": "目前没有广告。请稍后重试。"
   }
 }

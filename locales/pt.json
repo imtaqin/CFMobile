@@ -1885,5 +1885,11 @@
     "hostnames_hint": "Um por linha ou separados por vírgula. Salvar substitui a lista inteira.",
     "delete_title": "Excluir certificado",
     "delete_confirm": "Excluir \"{{name}}\"? Os hostnames que o usam deixarão de exigir certificados de cliente."
+  },
+  "reward": {
+    "watch_for_day": "Assista a um anúncio – desbloqueie por 24 horas",
+    "watch_for_actions": "Assista a um anúncio para mais ações de IA",
+    "pass_note": "Um passe diário mantém os anúncios. Premium os remove para sempre.",
+    "unavailable": "Nenhum anúncio está disponível no momento. Por favor, tente novamente em alguns instantes."
   }
 }

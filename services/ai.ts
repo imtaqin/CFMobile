@@ -46,8 +46,11 @@ export class AiError extends Error {
   }
 }
 
-/** Anonymous, stable per-install id so the worker can meter usage. */
-async function installId(): Promise<string> {
+/**
+ * Anonymous, stable per-install id so the worker can meter usage. Exported so
+ * rewarded ads can name the install in their AdMob verification callback.
+ */
+export async function installId(): Promise<string> {
   const KEY = 'cf_install_id';
   if (Platform.OS === 'web') {
     let v = localStorage.getItem(KEY);

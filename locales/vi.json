@@ -1885,5 +1885,11 @@
     "hostnames_hint": "Mỗi dòng một hostname hoặc ngăn cách bằng dấu phẩy. Lưu sẽ thay thế toàn bộ danh sách.",
     "delete_title": "Xóa chứng chỉ",
     "delete_confirm": "Xóa \"{{name}}\"? Các hostname đang dùng nó sẽ không còn yêu cầu chứng chỉ máy khách."
+  },
+  "reward": {
+    "watch_for_day": "Xem quảng cáo - mở khóa trong 24 giờ",
+    "watch_for_actions": "Xem quảng cáo để biết thêm hành động AI",
+    "pass_note": "Một ngày trôi qua giữ các quảng cáo. Premium sẽ loại bỏ chúng vĩnh viễn.",
+    "unavailable": "Không có quảng cáo có sẵn ngay bây giờ. Vui lòng thử lại sau giây lát."
   }
 }

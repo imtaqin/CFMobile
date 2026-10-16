@@ -11,14 +11,14 @@ import { ListRow } from '@/components/ui/kit';
 import { Spacing, Radius } from '@/constants/theme';
 import * as api from '@/services/cloudflare';
 import { Web3Hostname } from '@/services/cloudflare';
-import { usePremium } from '@/services/premium';
+import { useUnlocked } from '@/services/ad-reward';
 import { PremiumPaywall } from '@/components/ui/premium-gate';
 
 export default function Web3Screen() {
   const { id: zoneId } = useLocalSearchParams<{ id: string }>();
   const { t } = useTranslation();
   const { colors } = useTheme();
-  const premium = usePremium();
+  const premium = useUnlocked('web3');
   const [items, setItems] = useState<Web3Hostname[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -45,7 +45,7 @@ export default function Web3Screen() {
     return (
       <>
         <Stack.Screen options={{ title: t('web3.title') }} />
-        <PremiumPaywall />
+        <PremiumPaywall feature="web3" />
       </>
     );
   }

@@ -11,14 +11,14 @@ import { useAuth } from '@/contexts/auth';
 import { Spacing, Radius } from '@/constants/theme';
 import * as api from '@/services/cloudflare';
 import { AIModel } from '@/services/cloudflare';
-import { usePremium } from '@/services/premium';
+import { useUnlocked } from '@/services/ad-reward';
 import { PremiumPaywall } from '@/components/ui/premium-gate';
 
 export default function WorkersAIScreen() {
   const { t } = useTranslation();
   const { colors } = useTheme();
   const { accountId } = useAuth();
-  const premium = usePremium();
+  const premium = useUnlocked('workers-ai');
 
   const [models, setModels] = useState<AIModel[]>([]);
   const [loading, setLoading] = useState(true);
@@ -60,7 +60,7 @@ export default function WorkersAIScreen() {
     return (
       <>
         <Stack.Screen options={{ title: t('ai_models.title') }} />
-        <PremiumPaywall />
+        <PremiumPaywall feature="workers-ai" />
       </>
     );
   }

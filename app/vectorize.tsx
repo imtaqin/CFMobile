@@ -15,7 +15,7 @@ import { useAuth } from '@/contexts/auth';
 import { Spacing } from '@/constants/theme';
 import * as api from '@/services/cloudflare';
 import { VectorizeIndex } from '@/services/cloudflare';
-import { usePremium } from '@/services/premium';
+import { useUnlocked } from '@/services/ad-reward';
 import { PremiumPaywall } from '@/components/ui/premium-gate';
 
 const METRICS = ['cosine', 'euclidean', 'dot-product'] as const;
@@ -25,7 +25,7 @@ export default function VectorizeScreen() {
   const { colors } = useTheme();
   const insets = useSafeAreaInsets();
   const { accountId } = useAuth();
-  const premium = usePremium();
+  const premium = useUnlocked('vectorize');
 
   const [indexes, setIndexes] = useState<VectorizeIndex[]>([]);
   const [loading, setLoading] = useState(true);
@@ -109,7 +109,7 @@ export default function VectorizeScreen() {
     return (
       <>
         <Stack.Screen options={{ title: t('vectorize.title') }} />
-        <PremiumPaywall />
+        <PremiumPaywall feature="vectorize" />
       </>
     );
   }

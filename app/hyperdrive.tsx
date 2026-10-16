@@ -12,14 +12,14 @@ import { useAuth } from '@/contexts/auth';
 import { Spacing, Radius } from '@/constants/theme';
 import * as api from '@/services/cloudflare';
 import { HyperdriveConfig } from '@/services/cloudflare';
-import { usePremium } from '@/services/premium';
+import { useUnlocked } from '@/services/ad-reward';
 import { PremiumPaywall } from '@/components/ui/premium-gate';
 
 export default function HyperdriveScreen() {
   const { t } = useTranslation();
   const { colors } = useTheme();
   const { accountId } = useAuth();
-  const premium = usePremium();
+  const premium = useUnlocked('hyperdrive');
 
   const [configs, setConfigs] = useState<HyperdriveConfig[]>([]);
   const [loading, setLoading] = useState(true);
@@ -108,7 +108,7 @@ export default function HyperdriveScreen() {
     return (
       <>
         <Stack.Screen options={{ title: t('hyperdrive.title') }} />
-        <PremiumPaywall />
+        <PremiumPaywall feature="hyperdrive" />
       </>
     );
   }

@@ -1885,5 +1885,11 @@
     "hostnames_hint": "Einer pro Zeile oder durch Kommas getrennt. Beim Speichern wird die ganze Liste ersetzt.",
     "delete_title": "Zertifikat löschen",
     "delete_confirm": "\"{{name}}\" löschen? Hostnamen, die es nutzen, verlangen dann keine Client-Zertifikate mehr."
+  },
+  "reward": {
+    "watch_for_day": "Sehen Sie sich eine Anzeige an – 24 Stunden lang freischalten",
+    "watch_for_actions": "Sehen Sie sich eine Anzeige für weitere KI-Aktionen an",
+    "pass_note": "Eine Tageskarte behält die Werbung. Premium entfernt sie endgültig.",
+    "unavailable": "Im Moment ist keine Anzeige verfügbar. Bitte versuchen Sie es gleich noch einmal."
   }
 }

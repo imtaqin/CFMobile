@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { Icon } from '@/components/ui/icon';
 import { useTheme } from '@/hooks/use-theme';
 import * as aiSub from '@/services/ai-subscription';
+import { RewardedButton } from '@/components/ui/rewarded-button';
 import { track } from '@/services/analytics';
 import { Spacing, FontSize, Radius, CF } from '@/constants/theme';
 
@@ -52,6 +53,16 @@ export function AiPaywall({ visible, onClose, reason = 'browse', onSubscribed }:
     } finally {
       setBusy(false);
     }
+  };
+
+  /**
+   * The reward is credited by the worker from AdMob's own callback, not by
+   * us, so the new quota is not there the instant the ad closes. Read it
+   * again shortly after as well.
+   */
+  const rewardEarned = () => {
+    aiSub.refreshQuota().catch(() => {});
+    setTimeout(() => { aiSub.refreshQuota().catch(() => {}); }, 2500);
   };
 
   const restore = async () => {
@@ -134,6 +145,10 @@ export function AiPaywall({ visible, onClose, reason = 'browse', onSubscribed }:
                 <Text style={styles.ctaText}>{t('ai_plan.subscribe')}</Text>
               )}
             </TouchableOpacity>
+
+            {reason === 'quota' && (
+              <RewardedButton feature="ai" onEarned={rewardEarned} />
+            )}
 
             <TouchableOpacity onPress={restore} disabled={busy} hitSlop={8}>
               <Text style={[styles.restore, { color: colors.textSecondary }]}>{t('ai_plan.restore')}</Text>

@@ -16,7 +16,7 @@ import { useAuth } from '@/contexts/auth';
 import { Spacing, Radius } from '@/constants/theme';
 import * as api from '@/services/cloudflare';
 import { AccessApplication } from '@/services/cloudflare';
-import { usePremium } from '@/services/premium';
+import { useUnlocked } from '@/services/ad-reward';
 import { PremiumPaywall } from '@/components/ui/premium-gate';
 
 export default function AccessAppsScreen() {
@@ -24,7 +24,7 @@ export default function AccessAppsScreen() {
   const { colors } = useTheme();
   const insets = useSafeAreaInsets();
   const { accountId } = useAuth();
-  const premium = usePremium();
+  const premium = useUnlocked('access');
 
   const [apps, setApps] = useState<AccessApplication[]>([]);
   const [loading, setLoading] = useState(true);
@@ -100,7 +100,7 @@ export default function AccessAppsScreen() {
     return (
       <>
         <Stack.Screen options={{ title: t('access_apps.title') }} />
-        <PremiumPaywall />
+        <PremiumPaywall feature="access" />
       </>
     );
   }

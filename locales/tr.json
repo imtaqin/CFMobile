@@ -1885,5 +1885,11 @@
     "hostnames_hint": "Her satıra bir tane veya virgülle ayır. Kaydetmek tüm listeyi değiştirir.",
     "delete_title": "Sertifikayı sil",
     "delete_confirm": "\"{{name}}\" silinsin mi? Onu kullanan ana bilgisayar adları artık istemci sertifikası istemez."
+  },
+  "reward": {
+    "watch_for_day": "Bir reklam izleyin — 24 saat boyunca kilidi açın",
+    "watch_for_actions": "Daha fazla AI eylemi için bir reklam izleyin",
+    "pass_note": "Bir günlük geçiş reklamları tutar. Premium bunları tamamen ortadan kaldırır.",
+    "unavailable": "Şu anda herhangi bir reklam mevcut değil. Lütfen kısa bir süre sonra tekrar deneyin."
   }
 }

@@ -15,7 +15,7 @@ import { useAuth } from '@/contexts/auth';
 import { Spacing, FontSize } from '@/constants/theme';
 import * as api from '@/services/cloudflare';
 import { SecretsStore, SecretsStoreQuota } from '@/services/cloudflare';
-import { usePremium } from '@/services/premium';
+import { useUnlocked } from '@/services/ad-reward';
 import { PremiumPaywall } from '@/components/ui/premium-gate';
 
 export default function SecretsStoreScreen() {
@@ -23,7 +23,7 @@ export default function SecretsStoreScreen() {
   const { colors } = useTheme();
   const insets = useSafeAreaInsets();
   const { accountId } = useAuth();
-  const premium = usePremium();
+  const premium = useUnlocked('secrets-store');
 
   const [stores, setStores] = useState<SecretsStore[]>([]);
   const [quota, setQuota] = useState<SecretsStoreQuota | null>(null);
@@ -101,7 +101,7 @@ export default function SecretsStoreScreen() {
     return (
       <>
         <Stack.Screen options={{ title: t('secrets_store.title') }} />
-        <PremiumPaywall />
+        <PremiumPaywall feature="secrets-store" />
       </>
     );
   }

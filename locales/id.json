@@ -1885,5 +1885,11 @@
     "hostnames_hint": "Satu per baris atau pisahkan dengan koma. Menyimpan akan mengganti seluruh daftar.",
     "delete_title": "Hapus sertifikat",
     "delete_confirm": "Hapus \"{{name}}\"? Hostname yang memakainya tidak lagi mewajibkan sertifikat klien."
+  },
+  "reward": {
+    "watch_for_day": "Tonton iklan — buka kunci selama 24 jam",
+    "watch_for_actions": "Tonton iklan untuk tindakan AI lainnya",
+    "pass_note": "Tiket harian tetap menampilkan iklan. Premium menghilangkannya selamanya.",
+    "unavailable": "Tidak ada iklan yang tersedia saat ini. Silakan coba lagi sebentar lagi."
   }
 }

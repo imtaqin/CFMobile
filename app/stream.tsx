@@ -12,7 +12,7 @@ import { useAuth } from '@/contexts/auth';
 import { Spacing, Radius } from '@/constants/theme';
 import * as api from '@/services/cloudflare';
 import { StreamVideo } from '@/services/cloudflare';
-import { usePremium } from '@/services/premium';
+import { useUnlocked } from '@/services/ad-reward';
 import { PremiumPaywall } from '@/components/ui/premium-gate';
 
 function formatDuration(seconds: number): string {
@@ -33,7 +33,7 @@ export default function StreamScreen() {
   const { t } = useTranslation();
   const { colors } = useTheme();
   const { accountId } = useAuth();
-  const premium = usePremium();
+  const premium = useUnlocked('stream');
 
   const [videos, setVideos] = useState<StreamVideo[]>([]);
   const [loading, setLoading] = useState(true);
@@ -103,7 +103,7 @@ export default function StreamScreen() {
     return (
       <>
         <Stack.Screen options={{ title: t('stream.title') }} />
-        <PremiumPaywall />
+        <PremiumPaywall feature="stream" />
       </>
     );
   }

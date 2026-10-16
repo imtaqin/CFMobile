@@ -16,7 +16,7 @@ import { useAuth } from '@/contexts/auth';
 import { Spacing } from '@/constants/theme';
 import * as api from '@/services/cloudflare';
 import { DispatchNamespace } from '@/services/cloudflare';
-import { usePremium } from '@/services/premium';
+import { useUnlocked } from '@/services/ad-reward';
 import { PremiumPaywall } from '@/components/ui/premium-gate';
 
 export default function WorkersForPlatformsScreen() {
@@ -24,7 +24,7 @@ export default function WorkersForPlatformsScreen() {
   const { colors } = useTheme();
   const insets = useSafeAreaInsets();
   const { accountId } = useAuth();
-  const premium = usePremium();
+  const premium = useUnlocked('workers-for-platforms');
 
   const [namespaces, setNamespaces] = useState<DispatchNamespace[]>([]);
   const [loading, setLoading] = useState(true);
@@ -99,7 +99,7 @@ export default function WorkersForPlatformsScreen() {
     return (
       <>
         <Stack.Screen options={{ title: t('wfp.title') }} />
-        <PremiumPaywall />
+        <PremiumPaywall feature="workers-for-platforms" />
       </>
     );
   }
