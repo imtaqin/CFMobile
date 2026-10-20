@@ -2,7 +2,7 @@
   "expo": {
     "name": "CloudFlare Mobile",
     "slug": "cloudflare-mobile",
-    "version": "1.9.0",
+    "version": "1.10.0",
     "orientation": "default",
     "icon": "./assets/images/icon.png",
     "scheme": "cfmobile",
@@ -12,7 +12,7 @@
       "supportsTablet": true
     },
     "android": {
-      "versionCode": 48,
+      "versionCode": 49,
       "adaptiveIcon": {
         "backgroundColor": "#F6821F",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
@@ -78,6 +78,19 @@
               "maxResizeHeight": "220dp",
               "resizeMode": "horizontal|vertical",
               "updatePeriodMillis": 1800000
+            },
+            {
+              "name": "ZoneTraffic",
+              "label": "Cloudflare traffic",
+              "description": "Seven days of requests for one zone",
+              "minWidth": "250dp",
+              "minHeight": "110dp",
+              "targetCellWidth": 4,
+              "targetCellHeight": 2,
+              "maxResizeWidth": "420dp",
+              "maxResizeHeight": "220dp",
+              "resizeMode": "horizontal|vertical",
+              "updatePeriodMillis": 3600000
             }
           ]
         }

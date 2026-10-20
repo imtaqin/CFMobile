@@ -1,5 +1,6 @@
 import { Platform } from 'react-native';
 import * as api from './cloudflare';
+import { fetchAllRecords } from './dns-snapshot';
 
 export interface MonitorConfig {
   enabled: boolean;
@@ -10,6 +11,8 @@ export interface MonitorConfig {
   spikeMultiplier: number;
   /** alert this many days before a certificate expires */
   sslDaysBefore: number;
+  /** alert when a DNS record is added, changed or removed */
+  dnsDrift: boolean;
 }
 
 export const DEFAULT_CONFIG: MonitorConfig = {
@@ -18,11 +21,12 @@ export const DEFAULT_CONFIG: MonitorConfig = {
   errorRatePct: 20,
   spikeMultiplier: 3,
   sslDaysBefore: 14,
+  dnsDrift: true,
 };
 
 export interface MonitorAlert {
   id: string;
-  kind: 'down' | 'spike' | 'ssl' | 'threats';
+  kind: 'down' | 'spike' | 'ssl' | 'threats' | 'dns';
   zoneName: string;
   title: string;
   body: string;
@@ -77,6 +81,8 @@ async function pushHistory(alerts: MonitorAlert[]): Promise<void> {
 /** Per-zone dedupe state so the same condition doesn't notify every cycle. */
 interface ZoneState {
   lastAlertAt?: Record<string, string>;
+  /** One fingerprint per DNS record at the last check, sorted. */
+  dnsPrints?: string[];
 }
 
 async function getState(): Promise<Record<string, ZoneState>> {
@@ -92,11 +98,15 @@ async function setState(state: Record<string, ZoneState>): Promise<void> {
   await storage.set(STATE_KEY, JSON.stringify(state));
 }
 
+/** Pages of 100 records the drift check will read per zone per cycle. */
+const DNS_PRINT_PAGE_LIMIT = 5;
+
 const COOLDOWN_MS: Record<MonitorAlert['kind'], number> = {
   down: 60 * 60 * 1000,        // 1 hour
   spike: 3 * 60 * 60 * 1000,   // 3 hours
   threats: 6 * 60 * 60 * 1000, // 6 hours
   ssl: 24 * 60 * 60 * 1000,    // once a day
+  dns: 30 * 60 * 1000,         // 30 minutes
 };
 
 function cooledDown(state: Record<string, ZoneState>, zoneId: string, kind: MonitorAlert['kind'], nowMs: number): boolean {
@@ -164,6 +174,46 @@ async function fetchCertDaysLeft(zoneId: string): Promise<number | null> {
 }
 
 /**
+ * One line per DNS record, holding every field a silent edit would touch.
+ * Sorted, so the comparison does not depend on the order the API returns.
+ */
+async function fetchDnsPrints(zoneId: string): Promise<string[] | null> {
+  try {
+    // A background task gets seconds, not minutes. Past this the zone is too
+    // big to fingerprint here and drift is skipped for it rather than guessed.
+    const records = await fetchAllRecords(zoneId, DNS_PRINT_PAGE_LIMIT);
+    return records
+      .map((r) => {
+        const value = r.data && Object.keys(r.data).length > 0
+          ? JSON.stringify(Object.entries(r.data).sort())
+          : (r.content ?? '');
+        return `${r.type} ${r.name} ${value} ttl=${r.ttl} proxied=${r.proxied ? 1 : 0}`;
+      })
+      .sort();
+  } catch {
+    // No DNS read permission, or a network hiccup — say nothing rather than
+    // reporting every record as removed.
+    return null;
+  }
+}
+
+/** Added and removed lines between two fingerprint lists. An edit shows up as one of each. */
+function printsDiff(before: string[], after: string[]): { added: string[]; removed: string[] } {
+  const b = new Set(before);
+  const a = new Set(after);
+  return {
+    added: after.filter((x) => !b.has(x)),
+    removed: before.filter((x) => !a.has(x)),
+  };
+}
+
+/** The record name out of a fingerprint line, for a readable notification. */
+function printName(line: string): string {
+  const parts = line.split(' ');
+  return `${parts[0]} ${parts[1]}`;
+}
+
+/**
  * Run one monitoring cycle over the configured zones.
  * Returns the alerts that should be shown as notifications (already deduped).
  */
@@ -188,6 +238,33 @@ export async function runChecks(): Promise<MonitorAlert[]> {
 
   for (const zoneId of config.zoneIds) {
     const zoneName = zoneNames[zoneId] ?? zoneId.slice(0, 8);
+
+    // 0. DNS drift. First, because it is the only check that works on a token
+    // without analytics access — the rest of the loop gives up without it.
+    if (config.dnsDrift) {
+      const prints = await fetchDnsPrints(zoneId);
+      if (prints) {
+        const before = state[zoneId]?.dnsPrints;
+        if (before) {
+          const { added, removed } = printsDiff(before, prints);
+          if ((added.length || removed.length) && cooledDown(state, zoneId, 'dns', nowMs)) {
+            // One line in and one out on the same name is an edit, not a pair.
+            const names = [...new Set([...added, ...removed].map(printName))];
+            alerts.push({
+              id: `${zoneId}-dns-${nowMs}`,
+              kind: 'dns',
+              zoneName,
+              title: `✏️ DNS changed on ${zoneName}`,
+              body: `${names.slice(0, 3).join(', ')}${names.length > 3 ? ` and ${names.length - 3} more` : ''}. ${added.length} added, ${removed.length} removed or edited.`,
+              at: nowIso,
+            });
+            markAlert(state, zoneId, 'dns', nowIso);
+          }
+        }
+        state[zoneId] = { ...(state[zoneId] ?? {}), dnsPrints: prints };
+      }
+    }
+
     let hourly: { requests: number; errors: number; threats: number }[] = [];
     try {
       hourly = await fetchHourly(zoneId);

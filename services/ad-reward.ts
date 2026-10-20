@@ -180,6 +180,35 @@ export function useUnlocked(feature: FeatureKey): boolean {
   return premium || value;
 }
 
+function snapshot(features: FeatureKey[]): Record<string, boolean> {
+  const out: Record<string, boolean> = {};
+  for (const f of features) out[f] = isUnlocked(f);
+  return out;
+}
+
+/**
+ * Reactive `isUnlocked` for several screens at once, so an index listing every
+ * product takes one subscription instead of a hook per row. Unlike
+ * `useUnlocked` it does not set a timer per pass — on an index a stale lock
+ * badge is cosmetic, and the screen behind it re-checks on its own.
+ */
+export function useUnlockedMap(features: FeatureKey[]): Record<FeatureKey, boolean> {
+  const premium = usePremium();
+  // Join the list so an inline array literal does not resubscribe every render.
+  const key = features.join(',');
+  const [value, setValue] = useState<Record<string, boolean>>(() => snapshot(features));
+
+  useEffect(() => {
+    const list = key ? key.split(',') : [];
+    const update = () => setValue(snapshot(list));
+    update();
+    listeners.add(update);
+    return () => { listeners.delete(update); };
+  }, [key, premium]);
+
+  return value;
+}
+
 /** Test seam: forget every pass and today's count. */
 export function reset(): void {
   state = { day: today(), views: 0, passes: {} };

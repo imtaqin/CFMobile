@@ -100,9 +100,11 @@ export default function MonitoringScreen() {
   if (loading || !config) return <Loading />;
 
   const alertIcon = (kind: MonitorAlert['kind']): IconName =>
-    kind === 'down' ? 'error-circle' : kind === 'ssl' ? 'lock' : kind === 'threats' ? 'shield' : 'chart-line';
+    kind === 'down' ? 'error-circle' : kind === 'ssl' ? 'lock' : kind === 'threats' ? 'shield'
+      : kind === 'dns' ? 'dns' : 'chart-line';
   const alertTone = (kind: MonitorAlert['kind']): Tone =>
-    kind === 'down' ? 'error' : kind === 'ssl' ? 'warning' : kind === 'threats' ? 'error' : 'neutral';
+    kind === 'down' ? 'error' : kind === 'ssl' ? 'warning' : kind === 'threats' ? 'error'
+      : kind === 'dns' ? 'warning' : 'neutral';
 
   // Text here can run long, so these rows do not clip lines the way ListRow does.
   const infoRow = (key: string, icon: IconName, tone: Tone, title: string, sub: string, meta?: string) => (
@@ -122,6 +124,8 @@ export default function MonitoringScreen() {
     { icon: 'shield', title: t('monitor.check_threats'), sub: t('monitor.check_threats_sub') },
     { icon: 'lock', title: t('monitor.check_ssl'), sub: t('monitor.check_ssl_sub', { days: config.sslDaysBefore }) },
   ];
+
+  const toggleDnsDrift = (value: boolean) => config && save({ ...config, dnsDrift: value });
 
   return (
     <>
@@ -154,6 +158,17 @@ export default function MonitoringScreen() {
         <SectionHeader title={t('monitor.watching')} />
         <Group>
           {checks.map((row) => infoRow(row.title, row.icon, 'neutral', row.title, row.sub))}
+        </Group>
+
+        {/* The one check that works without analytics access, so it gets its own switch. */}
+        <Group style={{ marginTop: Spacing.sm }}>
+          <ToggleRow
+            icon="dns"
+            title={t('monitor.check_dns')}
+            subtitle={t('monitor.check_dns_sub')}
+            value={config.dnsDrift}
+            onValueChange={toggleDnsDrift}
+          />
         </Group>
 
         {/* Zone picker */}

@@ -13,6 +13,12 @@ export type WidgetTexts = {
   noZone: string;
   failed: string;
   working: string;
+  purge: string;
+  purgeArm: string;
+  purged: string;
+  requests: string;
+  cached: string;
+  threats: string;
 };
 
 type Palette = { bg: ColorProp; card: ColorProp; text: ColorProp; muted: ColorProp; border: ColorProp };
@@ -24,7 +30,8 @@ const RED: ColorProp = '#EF4444';
 const GREEN: ColorProp = '#10B981';
 
 export type WidgetState =
-  | { kind: 'status'; status: ZoneStatus }
+  /** `note` replaces the "updated" line once, to confirm an action. */
+  | { kind: 'status'; status: ZoneStatus; note?: string }
   | { kind: 'message'; text: string; zoneName?: string };
 
 function Toggle({ label, on, action, texts, p, alert }: {
@@ -88,10 +95,29 @@ function Body({ state, texts, p }: { state: WidgetState; texts: WidgetTexts; p: 
       )}
 
       {state.kind === 'status' && (
-        <TextWidget
-          text={`${texts.updated} ${new Date(state.status.at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`}
-          style={{ fontSize: 11, color: p.muted, marginTop: 8 }}
-        />
+        <FlexWidget style={{ flexDirection: 'row', alignItems: 'center', width: 'match_parent', marginTop: 8 }}>
+          <FlexWidget style={{ flex: 1 }}>
+            <TextWidget
+              text={state.note ?? `${texts.updated} ${new Date(state.status.at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`}
+              maxLines={1}
+              truncate="END"
+              style={{ fontSize: 11, color: state.note ? p.text : p.muted }}
+            />
+          </FlexWidget>
+          {/* A widget cannot show a dialog, so purging asks for a second tap. */}
+          <TextWidget
+            text={state.status.purgeArmed ? texts.purgeArm : texts.purge}
+            clickAction="PURGE"
+            accessibilityLabel={texts.purge}
+            maxLines={1}
+            style={{
+              fontSize: 11,
+              fontWeight: state.status.purgeArmed ? '600' : '400',
+              color: state.status.purgeArmed ? RED : p.muted,
+              paddingLeft: 10,
+            }}
+          />
+        </FlexWidget>
       )}
     </FlexWidget>
   );

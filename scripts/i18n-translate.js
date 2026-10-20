@@ -33,6 +33,10 @@ const BRAND_NAMES = [
   'Zero Trust', 'App Launcher', 'Cloudflare Access', 'Access Applications',
   'Infrastructure Access Targets', 'IPv4', 'IPv6', 'Gateway Rules', 'AI Chat',
   'Under Attack Mode', 'Global API Key',
+  // "Secrets" came back as "Misterios" (es) and "기미" (ko) — a Workers secret
+  // is a stored credential, not a hidden fact. "Compute" and "Run" are here for
+  // the same reason: one-word labels get read as the wrong part of speech.
+  'Secrets', 'Compute',
 ];
 
 const [, , namespace, sourcePath] = process.argv;

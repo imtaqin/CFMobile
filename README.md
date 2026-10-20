@@ -10,6 +10,9 @@ DNS, firewall, analytics, Workers and an AI assistant in one clean Android app.
 <a href="https://play.google.com/store/apps/details?id=id.imtaqin.cfmobile">
   <img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" height="72" />
 </a>
+<a href="https://f-droid.org/packages/id.imtaqin.cfmobile/">
+  <img alt="Get it on F-Droid" src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" height="72" />
+</a>
 
 <br/>
 
@@ -17,6 +20,7 @@ DNS, firewall, analytics, Workers and an AI assistant in one clean Android app.
 ![Expo SDK 54](https://img.shields.io/badge/Expo-SDK%2054-000020?logo=expo&logoColor=white)
 ![React Native 0.81](https://img.shields.io/badge/React%20Native-0.81-61DAFB?logo=react&logoColor=black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=white)
+![F-Droid](https://img.shields.io/f-droid/v/id.imtaqin.cfmobile?logo=fdroid&logoColor=white&label=F-Droid&color=1976D2)
 ![Languages](https://img.shields.io/badge/languages-12-F6821F)
 ![License](https://img.shields.io/badge/license-MIT-7C5CF0)
 

@@ -10,6 +10,8 @@ import { Loading } from '@/components/ui/loading';
 import { Badge } from '@/components/ui/badge';
 import { SectionHeader } from '@/components/ui/section-header';
 import { Group, IconCircle, ListRow, StatCard, ToggleRow } from '@/components/ui/kit';
+import { HeaderButton } from '@/components/ui/header-button';
+import * as zoneTiles from '@/services/zone-tiles';
 import { useAuth } from '@/contexts/auth';
 import { Spacing, FontSize, Radius } from '@/constants/theme';
 import * as api from '@/services/cloudflare';
@@ -35,6 +37,9 @@ export default function ZoneDetailScreen() {
   const { colors } = useTheme();
   const { permissions } = useAuth();
   const perms = permissions ?? { dns: true, ssl: true, firewall: true, cache: true, analytics: true, pageRules: true } as any;
+
+  const hiddenTiles = zoneTiles.useHiddenTiles();
+  const [editing, setEditing] = useState(false);
 
   const [zone, setZone] = useState<Zone | null>(null);
   const [loading, setLoading] = useState(true);
@@ -149,6 +154,7 @@ export default function ZoneDetailScreen() {
       title: t('zone.group_core'),
       tiles: [
         tile(perms.dns, 'dns', t('zone.dns_records'), 'dns'),
+        tile(perms.dns, 'download', t('dns_backup.title'), 'dns-backup'),
         tile(perms.ssl, 'lock', t('zone.ssl_tls'), 'ssl'),
         tile(perms.firewall, 'shield', t('zone.firewall'), 'firewall'),
         tile(perms.cache, 'cached', t('zone.cache'), 'cache'),
@@ -171,6 +177,8 @@ export default function ZoneDetailScreen() {
         tile(true, 'route', t('zone.worker_routes'), 'worker-routes'),
         tile(true, 'code', t('zone.snippets'), 'snippets'),
         tile(true, 'globe', t('zone.custom_hostnames'), 'custom-hostnames'),
+        tile(true, 'network', t('spectrum.title'), 'spectrum'),
+        tile(true, 'link', t('web3.title'), 'web3'),
         tile(true, 'clock', t('zone.waiting_room'), 'waiting-room'),
         tile(true, 'activity', t('zone.health_checks'), 'health-checks'),
         tile(true, 'widgets', t('zone.zaraz'), 'zaraz'),
@@ -199,17 +207,34 @@ export default function ZoneDetailScreen() {
       ],
     },
   ]
-    .map((g) => ({ title: g.title, tiles: g.tiles.filter(Boolean) as Tile[] }))
+    .map((g) => ({
+      title: g.title,
+      tiles: (g.tiles.filter(Boolean) as Tile[]).filter((x) => editing || !hiddenTiles.has(x.path)),
+    }))
     .filter((g) => g.tiles.length > 0);
 
   const open = (path: string) =>
     path === '__ai-chat'
       ? router.push({ pathname: '/ai-chat', params: { zoneId: id, zoneName: zone.name } } as any)
-      : router.push(`/zone/${id}/${path}` as any);
+      // The snapshot file is named after the zone, so the name travels with it.
+      : path === 'dns-backup'
+        ? router.push({ pathname: `/zone/${id}/dns-backup`, params: { name: zone.name } } as any)
+        : router.push(`/zone/${id}/${path}` as any);
 
   return (
     <>
-      <Stack.Screen options={{ title: zone.name }} />
+      <Stack.Screen
+        options={{
+          title: zone.name,
+          headerRight: () => (
+            <HeaderButton
+              icon={editing ? 'check-circle' : 'edit'}
+              label={t(editing ? 'common.done' : 'zone.customize')}
+              onPress={() => setEditing((v) => !v)}
+            />
+          ),
+        }}
+      />
       <ScrollView
         style={[styles.container, { backgroundColor: colors.background }]}
         contentContainerStyle={styles.content}
@@ -282,20 +307,42 @@ export default function ZoneDetailScreen() {
           <View key={g.title}>
             <SectionHeader title={g.title} />
             <View style={styles.tileGrid}>
-              {g.tiles.map((item) => (
-                <TouchableOpacity
-                  key={item.path}
-                  style={[styles.tile, { backgroundColor: colors.surface, borderColor: colors.borderLight }]}
-                  onPress={() => open(item.path)}
-                  activeOpacity={0.7}
-                >
-                  <IconCircle name={item.icon} size={34} />
-                  <Text style={[styles.tileTitle, { color: colors.text }]} numberOfLines={2}>{item.title}</Text>
-                </TouchableOpacity>
-              ))}
+              {g.tiles.map((item) => {
+                const off = editing && hiddenTiles.has(item.path);
+                return (
+                  <TouchableOpacity
+                    key={item.path}
+                    style={[
+                      styles.tile,
+                      { backgroundColor: colors.surface, borderColor: colors.borderLight },
+                      off && styles.tileOff,
+                    ]}
+                    onPress={() => (editing ? zoneTiles.toggle(item.path) : open(item.path))}
+                    activeOpacity={0.7}
+                    accessibilityRole="button"
+                    accessibilityState={editing ? { selected: !off } : undefined}
+                  >
+                    <IconCircle name={editing ? (off ? 'plus' : 'close') : item.icon} size={34} />
+                    <Text style={[styles.tileTitle, { color: off ? colors.textTertiary : colors.text }]} numberOfLines={2}>
+                      {item.title}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
             </View>
           </View>
         ))}
+
+        {editing && (
+          <Group style={{ marginTop: Spacing.md }}>
+            <ListRow
+              icon="refresh"
+              title={t('zone.show_all_tiles')}
+              subtitle={t('zone.hidden_count', { count: hiddenTiles.size })}
+              onPress={() => zoneTiles.showAll()}
+            />
+          </Group>
+        )}
 
         {/* Nameservers */}
         <SectionHeader title={t('zone.nameservers')} />
@@ -315,6 +362,8 @@ export default function ZoneDetailScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1 },
   content: { padding: Spacing.lg, paddingBottom: Spacing.xxxl },
+
+  tileOff: { opacity: 0.4 },
 
   hero: {
     flexDirection: 'row',

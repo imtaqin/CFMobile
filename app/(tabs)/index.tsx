@@ -8,7 +8,7 @@ import { useAuth } from '@/contexts/auth';
 import { Icon, IconName } from '@/components/ui/icon';
 import { useTheme } from '@/hooks/use-theme';
 import { Badge } from '@/components/ui/badge';
-import { Loading } from '@/components/ui/loading';
+import { SkeletonHeading, SkeletonRows, SkeletonStats, SkeletonTiles } from '@/components/ui/skeleton';
 import { UpdateBanner } from '@/components/ui/update-banner';
 import { AdBanner } from '@/components/ui/ad-banner';
 import { DiceBearAvatar } from '@/components/ui/dicebear-avatar';
@@ -107,10 +107,29 @@ export default function DashboardScreen() {
     { icon: 'chart-line', label: t('dashboard.analytics'), onPress: () => openWithZonePicker('analytics'), gate: permissions?.analytics ?? true },
     { icon: 'shield', label: t('dashboard.firewall'), onPress: () => openWithZonePicker('firewall'), gate: permissions?.firewall ?? true },
     { icon: 'lock', label: 'SSL/TLS', onPress: () => openWithZonePicker('ssl'), gate: permissions?.ssl ?? true },
+    { icon: 'layers', label: t('bulk.title'), onPress: () => router.push('/bulk' as any), gate: zones.length > 1 },
   ];
   const actions: QuickAction[] = allActions.filter((a) => a.gate);
 
-  if (loading) return <Loading message={t('common.loading')} />;
+  // Mirrors the real layout below: profile card, zone counts, actions, zones.
+  if (loading) {
+    return (
+      <ScrollView
+        style={[styles.container, { backgroundColor: colors.background }]}
+        contentContainerStyle={styles.content}
+        scrollEnabled={false}
+        accessibilityLabel={t('common.loading')}
+      >
+        <SkeletonRows count={1} />
+        <View style={{ height: Spacing.md }} />
+        <SkeletonStats count={3} />
+        <SkeletonHeading />
+        <SkeletonTiles count={6} />
+        <SkeletonHeading width={130} />
+        <SkeletonRows count={5} />
+      </ScrollView>
+    );
+  }
 
   const statusColor = (status: string) =>
     status === 'active' ? colors.success : status === 'pending' ? colors.warning : colors.error;

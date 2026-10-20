@@ -8,7 +8,7 @@ schema — `npm run cf:schema && npm run cf:docs`). Coverage was measured by
 comparing those paths against the request templates in
 `services/cloudflare.ts`.
 
-Status: `todo` · `wip` · `done`
+Status: `todo` · `wip` · `part` · `done`
 
 Goal: cover every Cloudflare product a zone/account owner would want to manage
 from a phone. Radar, Magic Transit/WAN, DEX, brand-protection and the internal
@@ -102,6 +102,23 @@ work because the navigation is already there.
 | 52 | Gateway rules & lists | done | 5/9 | List/get/create rule (name/description/action/filters/traffic-expression/enabled); update limited to name/description/enabled/precedence — the API's own PATCH only accepts those 4 fields, action/filters/traffic/identity/device_posture are create-time only; delete. `rule_settings` (30+ type-specific fields: browser isolation, DLP, egress, DNS resolvers, block pages) and bulk-patch-multiple out of scope, same complexity class as AI Search. "Lists" half not found as a distinct product — reuses the account-level Lists product from batch 11 |
 | 53 | Zero Trust accounts / users / devices | todo | 13 + 10 + 26 | Org config, user list, enrolled devices |
 | 54 | Infrastructure Access targets | done | 5/8 | List/get/create/update/delete target (hostname + IPv4/IPv6). Batch create/delete and deprecated batch-delete out of scope — redundant with single delete for mobile one-off management |
+
+## Tier 6 — navigation, UX and tools that are not API coverage
+
+Batches here add no Cloudflare endpoints. They came out of an audit on
+2026-10-19 that found a third of the built screens had no way in.
+
+| # | Batch | Status | Scope |
+|---|-------|--------|-------|
+| 56 | Product index + reachable screens | done | `app/products.tsx` groups all ~30 account-level products into nine sections with a search filter, reached from the Services tab and from Settings. Thirteen screens that were registered routes with no link anywhere are now reachable: `queues`, `workflows`, `pipelines`, `stream`, `images`, `dns-firewall`, `address-maps`, `workers-ai`, `ai-gateway`, `load-balancers`, `web-analytics`, plus `web3` (moved from the top level into `app/zone/[id]/`, where its `id` param belongs) and `zone/[id]/spectrum`. Nine of them are premium-gated, so nine paywalls were unreachable too. Settings lost the 19 product rows that had been dumped under its "Security" heading |
+| 57 | Zone tile customization | done | `services/zone-tiles.ts` + edit mode on the zone screen. The zone index offers 25 tiles and only 6 were permission-checked; the rest showed regardless of whether the account uses the product. Probing 17 more products at login was not worth the requests, so tiles can be hidden per device instead. Nothing is hidden by default |
+| 58 | Services tab: search and section limits | done | The tab used to fetch and render Workers, KV, D1, R2 and Pages as five fully expanded lists in one scroll. Now five rows per section with "show all", and a search box across all of them once there is more than one page worth |
+| 59 | DNS snapshots: backup, compare, restore | done | `services/dns-snapshot.ts` + `app/zone/[id]/dns-backup.tsx`. Distinct from the BIND export already on the DNS screen: BIND is a one-way bulk add that drops the proxy flag and comments and cannot report a deletion. A snapshot keeps every field the API takes back, the compare step names each record that moved, and the restore is one `dns_records/batch` call with per-category opt-in (create missing / correct changed / delete added). Deleting is off by default. Premium key `dns-backup`. Covered by `__tests__/services/dns-snapshot.test.ts` |
+| 60 | DNS drift alerts | done | `monitor.dnsDrift` in `services/monitoring.ts`. Fingerprints every record each cycle and notifies when one is added, edited or removed, including changes made in the dashboard or by a teammate. Runs before the analytics fetch, so it is the one check that still works on a token without analytics access |
+| 61 | Bulk actions across zones | done | `app/bulk.tsx`. Purge everything, Under Attack on/off, Development Mode on/off and Always Use HTTPS, over any set of zones, with a per-zone result list and only the successes written to the local change history. Premium key `bulk`. Reached from the dashboard quick actions, shown once an account has more than one zone |
+| 62 | Loading skeletons | part | `components/ui/skeleton.tsx` (`Skeleton`, `SkeletonRows`, `SkeletonStats`, `SkeletonTiles`, `SkeletonHeading`) on the React Native `Animated` API, not Reanimated — one looping opacity needs no worklets. Applied to the dashboard, zones and services tabs, where each placeholder mirrors the real layout so nothing jumps when the data lands. The other ~40 screens still return `<Loading />`; finishing them is mechanical but wide |
+| 63 | More home-screen widgets | done | Purge-cache on the status widget, behind an arm-then-confirm: a widget cannot show a dialog, so the first tap arms the button (`armPurge` / `isPurgeArmed`, ten-second window) and only the second tap calls the API. It sits on the "updated" line, so it costs no height at the widget's smallest size, and the same line becomes the confirmation afterwards. Plus a second widget, `ZoneTraffic` (`widgets/traffic-widget.tsx`), drawing seven days of requests as bars with cache hit rate and threats — read-only, so nothing on it can be mis-tapped. Registered in `app.json`, offered from Settings → Widget & quick tile, dispatched by the existing single task handler. Covered by `__tests__/services/shortcuts-purge.test.ts` and `__tests__/services/traffic-widget-format.test.ts`. **Needs a rebuild**: a new widget means a new provider in the generated Android manifest, so it cannot appear on an already-installed build |
+| 64 | Unused AdMob native unit | todo | `ca-app-pub-9117362819301000/6559125363` is a Native advanced unit created in AdMob and referenced nowhere. Native ads pay better than the one banner and would fit between rows in a list such as the zones tab |
 
 ## Explicitly out of scope
 
@@ -841,6 +858,12 @@ afterward. Never leave a locale short.
 
 **Checks.** `npx tsc --noEmit` must be clean before a batch is considered done.
 Do not build an APK or AAB unless the user explicitly asks.
+
+**A batch is not done until the screen can be opened.** Grep for a
+`router.push` to the new route before marking it `done` — a `Stack.Screen` in
+`app/_layout.tsx` registers a route, it does not create a way in. Thirteen
+screens sat unreachable this way until 2026-10-19 (batch 56), nine of them
+behind a paywall nobody could reach either.
 
 ---
 

@@ -11,6 +11,15 @@ import { logSetting } from './change-history';
 const ZONE_KEY = 'cf_shortcut_zone';
 /** Security level to return to when Under Attack Mode is switched off from a shortcut. */
 const PREV_LEVEL_KEY = 'cf_shortcut_prev_level';
+/** When the purge button was armed, so a stray tap cannot empty the cache. */
+const PURGE_ARMED_KEY = 'cf_shortcut_purge_armed';
+
+/**
+ * How long an armed purge stays armed. A widget cannot put up a confirmation
+ * dialog, so the button asks for a second tap instead — long enough to mean
+ * it, short enough that a pocket tap tomorrow does not count.
+ */
+const PURGE_ARM_MS = 10_000;
 
 export interface ShortcutZone {
   id: string;
@@ -22,6 +31,19 @@ export interface ZoneStatus {
   underAttack: boolean;
   devMode: boolean;
   /** When this was read, for the "updated" line. */
+  at: number;
+  /** The purge button has been tapped once and is waiting for the second. */
+  purgeArmed?: boolean;
+}
+
+export interface ZoneTraffic {
+  zone: ShortcutZone;
+  /** Requests per day over the window, oldest first. */
+  daily: number[];
+  requests: number;
+  /** Share of requests served from cache, 0-100. */
+  cachedPct: number;
+  threats: number;
   at: number;
 }
 
@@ -103,3 +125,52 @@ export async function toggleDevMode(zone: ShortcutZone): Promise<ZoneStatus> {
   await logSetting(zone.id, 'development_mode', status.devMode ? 'on' : 'off', next, zone.name);
   return { ...status, devMode: !status.devMode, at: Date.now() };
 }
+
+// ─── Purge, behind a second tap ──────────────────────────────────────────────
+
+/** Remember that the purge button was tapped once. */
+export async function armPurge(): Promise<void> {
+  await storage.set(PURGE_ARMED_KEY, String(Date.now()));
+}
+
+/** Is a purge still waiting for its confirming tap? */
+export async function isPurgeArmed(): Promise<boolean> {
+  const raw = await storage.get(PURGE_ARMED_KEY);
+  const at = raw ? Number(raw) : 0;
+  return !!at && Date.now() - at < PURGE_ARM_MS;
+}
+
+export async function disarmPurge(): Promise<void> {
+  await storage.set(PURGE_ARMED_KEY, '0');
+}
+
+/** Empty the zone's cache. Only called after the second tap. */
+export async function purgeCache(zone: ShortcutZone): Promise<void> {
+  await CF.purgeAllCache(zone.id);
+  await disarmPurge();
+}
+
+// ─── Traffic ─────────────────────────────────────────────────────────────────
+
+/** Days of history the traffic widget draws. */
+const TRAFFIC_DAYS = 7;
+
+function isoDate(d: Date): string {
+  return d.toISOString().slice(0, 10);
+}
+
+export async function getTraffic(zone: ShortcutZone): Promise<ZoneTraffic> {
+  const end = new Date();
+  const start = new Date(end.getTime() - (TRAFFIC_DAYS - 1) * 24 * 60 * 60 * 1000);
+  const res = await CF.getZoneAnalytics(zone.id, isoDate(start), isoDate(end));
+  const requests = res.totals.requests.all;
+  return {
+    zone,
+    daily: res.timeseries.map((d) => d.requests),
+    requests,
+    cachedPct: requests > 0 ? Math.round((res.totals.requests.cached / requests) * 100) : 0,
+    threats: res.totals.threats.all,
+    at: Date.now(),
+  };
+}
+

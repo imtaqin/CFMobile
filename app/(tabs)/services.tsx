@@ -7,15 +7,26 @@ import { IconName } from '@/components/ui/icon';
 import { useTheme } from '@/hooks/use-theme';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Loading } from '@/components/ui/loading';
+import { SkeletonHeading, SkeletonRows, SkeletonStats } from '@/components/ui/skeleton';
 import { EmptyState } from '@/components/ui/empty-state';
 import { SectionHeader } from '@/components/ui/section-header';
 import { ProportionBar } from '@/components/ui/mini-chart';
-import { Banner, Group, IconCircle, ListRow } from '@/components/ui/kit';
+import { Banner, Group, IconCircle, ListRow, SearchBar } from '@/components/ui/kit';
 import { Spacing, FontSize, Radius } from '@/constants/theme';
 import * as api from '@/services/cloudflare';
 import { WorkerScript, KVNamespace, R2Bucket, PagesProject } from '@/services/types';
 import { D1Database } from '@/services/cloudflare';
+
+/** One product's list on this tab: shown five at a time, searchable, collapsible. */
+interface Section {
+  key: string;
+  title: string;
+  allowed: boolean;
+  error?: string;
+  emptyIcon: IconName;
+  emptyTitle: string;
+  items: { key: string; node: React.ReactNode }[];
+}
 
 interface ServiceError {
   workers?: string;
@@ -24,6 +35,9 @@ interface ServiceError {
   pages?: string;
   d1?: string;
 }
+
+/** Rows shown per section before "show all". */
+const PREVIEW = 5;
 
 export default function ServicesScreen() {
   const { t } = useTranslation();
@@ -39,6 +53,8 @@ export default function ServicesScreen() {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [errors, setErrors] = useState<ServiceError>({});
+  const [query, setQuery] = useState('');
+  const [expanded, setExpanded] = useState<Set<string>>(new Set());
 
   const getErrorMsg = (e: any): string => {
     return e?.response?.data?.errors?.[0]?.message
@@ -112,7 +128,24 @@ export default function ServicesScreen() {
 
   const onRefresh = () => { setRefreshing(true); fetchAll(); };
 
-  if (loading) return <Loading message={t('common.loading')} />;
+  if (loading) {
+    return (
+      <ScrollView
+        style={[styles.container, { backgroundColor: colors.background }]}
+        contentContainerStyle={styles.content}
+        scrollEnabled={false}
+        accessibilityLabel={t('common.loading')}
+      >
+        <SkeletonRows count={1} />
+        <View style={{ height: Spacing.md }} />
+        <SkeletonStats count={2} />
+        <SkeletonHeading />
+        <SkeletonRows count={4} />
+        <SkeletonHeading width={95} />
+        <SkeletonRows count={3} />
+      </ScrollView>
+    );
+  }
 
   if (!accountId) {
     return (
@@ -158,11 +191,123 @@ export default function ServicesScreen() {
     </View>
   );
 
+  const hit = (text: string) => !query || text.toLowerCase().includes(query.trim().toLowerCase());
+
+  const sections: Section[] = [
+    {
+      key: 'workers',
+      title: t('services.workers'),
+      allowed: !!perms.workers,
+      error: errors.workers,
+      emptyIcon: 'code',
+      emptyTitle: t('services.no_workers'),
+      items: workers.filter((w) => hit(w.id)).map((w) => ({
+        key: w.id,
+        node: (
+          <ListRow
+            key={w.id}
+            icon="code"
+            title={w.id}
+            subtitle={`${t('services.modified')}: ${new Date(w.modified_on).toLocaleDateString()} · ${t('services.tap_tail')}`}
+            trailing={<Badge label={w.usage_model || 'bundled'} />}
+            chevron
+            onPress={() => router.push({ pathname: '/worker/[script]' as any, params: { script: w.id } })}
+          />
+        ),
+      })),
+    },
+    {
+      key: 'kv',
+      title: 'KV Namespaces',
+      allowed: !!perms.kv,
+      error: errors.kv,
+      emptyIcon: 'database',
+      emptyTitle: t('services.no_kv'),
+      items: kvNamespaces.filter((ns) => hit(ns.title)).map((ns) => ({
+        key: ns.id,
+        node: (
+          <ListRow
+            key={ns.id}
+            icon="database"
+            title={ns.title}
+            subtitle={t('services.tap_keys')}
+            onPress={() => router.push({ pathname: '/kv/[ns]' as any, params: { ns: ns.id, name: ns.title } })}
+          />
+        ),
+      })),
+    },
+    {
+      key: 'd1',
+      title: 'D1 Databases',
+      allowed: !!perms.d1,
+      error: errors.d1,
+      emptyIcon: 'database',
+      emptyTitle: t('services.no_d1'),
+      items: d1Dbs.filter((db) => hit(db.name)).map((db) => ({
+        key: db.uuid,
+        node: (
+          <ListRow
+            key={db.uuid}
+            icon="database"
+            title={db.name}
+            subtitle={`${db.file_size ? `${(db.file_size / 1024).toFixed(0)} KB · ` : ''}${t('services.tap_query')}`}
+            onPress={() => router.push({ pathname: '/d1/[db]' as any, params: { db: db.uuid, name: db.name } })}
+          />
+        ),
+      })),
+    },
+    {
+      key: 'r2',
+      title: 'R2 Buckets',
+      allowed: !!perms.r2,
+      error: errors.r2,
+      emptyIcon: 'cloud-upload',
+      emptyTitle: t('services.no_r2'),
+      items: r2Buckets.filter((b) => hit(b.name)).map((b) => ({
+        key: b.name,
+        node: (
+          <ListRow
+            key={b.name}
+            icon="cloud-upload"
+            title={b.name}
+            subtitle={`${t('services.created')}: ${new Date(b.creation_date).toLocaleDateString()} · ${t('services.tap_browse')}`}
+            trailing={b.location ? <Badge label={b.location} /> : undefined}
+            chevron
+            onPress={() => router.push({ pathname: '/r2/[bucket]' as any, params: { bucket: b.name } })}
+          />
+        ),
+      })),
+    },
+    {
+      key: 'pages',
+      title: 'Pages Projects',
+      allowed: !!perms.pages,
+      error: errors.pages,
+      emptyIcon: 'monitor',
+      emptyTitle: t('services.no_pages'),
+      items: pages.filter((pr) => hit(`${pr.name} ${pr.subdomain}`)).map((pr) => ({
+        key: pr.id,
+        node: (
+          <ListRow
+            key={pr.id}
+            icon="monitor"
+            title={pr.name}
+            subtitle={`${pr.subdomain} · ${pr.production_branch}`}
+            onPress={() => router.push({ pathname: '/pages/[project]' as any, params: { project: pr.name } })}
+          />
+        ),
+      })),
+    },
+  ];
+
+  const total = workers.length + kvNamespaces.length + d1Dbs.length + r2Buckets.length + pages.length;
+
   return (
     <ScrollView
       style={[styles.container, { backgroundColor: colors.background }]}
       contentContainerStyle={styles.content}
       refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colors.primary} />}
+      keyboardShouldPersistTaps="handled"
       showsVerticalScrollIndicator={false}
     >
       {/* Which account these resources belong to */}
@@ -212,129 +357,59 @@ export default function ServicesScreen() {
         {perms.d1 && serviceTile('database', 'D1', d1Dbs.length, errors.d1)}
       </View>
 
-      {/* Workers */}
-      {perms.workers && (
-        <>
-          <SectionHeader title={t('services.workers')} />
-          {errors.workers ? (
-            <Banner message={errors.workers} />
-          ) : workers.length === 0 ? (
-            <EmptyState icon="code" title={t('services.no_workers')} />
-          ) : (
-            <Group>
-              {workers.map((w) => (
-                <ListRow
-                  key={w.id}
-                  icon="code"
-                  title={w.id}
-                  subtitle={`${t('services.modified')}: ${new Date(w.modified_on).toLocaleDateString()} · ${t('services.tap_tail')}`}
-                  trailing={<Badge label={w.usage_model || 'bundled'} />}
-                  chevron
-                  onPress={() => router.push({ pathname: '/worker/[script]' as any, params: { script: w.id } })}
-                />
-              ))}
-            </Group>
-          )}
-        </>
+      {/* The other ~30 account-level products, which have no browser of their own here. */}
+      <Group style={{ marginTop: Spacing.md }}>
+        <ListRow
+          icon="grid"
+          title={t('products.all')}
+          subtitle={t('products.all_sub')}
+          onPress={() => router.push('/products' as any)}
+        />
+      </Group>
+
+      {/* One long scroll of five full lists was the old shape of this screen. */}
+      {total > PREVIEW && (
+        <SearchBar
+          value={query}
+          onChangeText={setQuery}
+          placeholder={t('services.search')}
+          style={{ marginTop: Spacing.md }}
+        />
       )}
 
-      {/* KV Namespaces */}
-      {perms.kv && (
-        <>
-          <SectionHeader title="KV Namespaces" />
-          {errors.kv ? (
-            <Banner message={errors.kv} />
-          ) : kvNamespaces.length === 0 ? (
-            <EmptyState icon="database" title={t('services.no_kv')} />
-          ) : (
-            <Group>
-              {kvNamespaces.map((ns) => (
-                <ListRow
-                  key={ns.id}
-                  icon="database"
-                  title={ns.title}
-                  subtitle={t('services.tap_keys')}
-                  onPress={() => router.push({ pathname: '/kv/[ns]' as any, params: { ns: ns.id, name: ns.title } })}
-                />
-              ))}
-            </Group>
-          )}
-        </>
-      )}
+      {sections.map((section) => {
+        if (!section.allowed) return null;
+        // While searching, a section with no hits is noise.
+        if (query && section.items.length === 0 && !section.error) return null;
 
-      {/* D1 Databases */}
-      {perms.d1 && (
-        <>
-          <SectionHeader title="D1 Databases" />
-          {errors.d1 ? (
-            <Banner message={errors.d1} />
-          ) : d1Dbs.length === 0 ? (
-            <EmptyState icon="database" title={t('services.no_d1')} />
-          ) : (
-            <Group>
-              {d1Dbs.map((db) => (
-                <ListRow
-                  key={db.uuid}
-                  icon="database"
-                  title={db.name}
-                  subtitle={`${db.file_size ? `${(db.file_size / 1024).toFixed(0)} KB · ` : ''}${t('services.tap_query')}`}
-                  onPress={() => router.push({ pathname: '/d1/[db]' as any, params: { db: db.uuid, name: db.name } })}
-                />
-              ))}
-            </Group>
-          )}
-        </>
-      )}
+        const open = !!query || expanded.has(section.key);
+        const shown = open ? section.items : section.items.slice(0, PREVIEW);
+        const rest = section.items.length - shown.length;
 
-      {/* R2 Buckets */}
-      {perms.r2 && (
-        <>
-          <SectionHeader title="R2 Buckets" />
-          {errors.r2 ? (
-            <Banner message={errors.r2} />
-          ) : r2Buckets.length === 0 ? (
-            <EmptyState icon="cloud-upload" title={t('services.no_r2')} />
-          ) : (
-            <Group>
-              {r2Buckets.map((b) => (
-                <ListRow
-                  key={b.name}
-                  icon="cloud-upload"
-                  title={b.name}
-                  subtitle={`${t('services.created')}: ${new Date(b.creation_date).toLocaleDateString()} · ${t('services.tap_browse')}`}
-                  trailing={b.location ? <Badge label={b.location} /> : undefined}
-                  chevron
-                  onPress={() => router.push({ pathname: '/r2/[bucket]' as any, params: { bucket: b.name } })}
-                />
-              ))}
-            </Group>
-          )}
-        </>
-      )}
-
-      {/* Pages */}
-      {perms.pages && (
-        <>
-          <SectionHeader title="Pages Projects" />
-          {errors.pages ? (
-            <Banner message={errors.pages} />
-          ) : pages.length === 0 ? (
-            <EmptyState icon="monitor" title={t('services.no_pages')} />
-          ) : (
-            <Group>
-              {pages.map((p) => (
-                <ListRow
-                  key={p.id}
-                  icon="monitor"
-                  title={p.name}
-                  subtitle={`${p.subdomain} · ${p.production_branch}`}
-                  onPress={() => router.push({ pathname: '/pages/[project]' as any, params: { project: p.name } })}
-                />
-              ))}
-            </Group>
-          )}
-        </>
-      )}
+        return (
+          <View key={section.key}>
+            <SectionHeader title={section.title} />
+            {section.error ? (
+              <Banner message={section.error} />
+            ) : section.items.length === 0 ? (
+              <EmptyState icon={section.emptyIcon} title={section.emptyTitle} />
+            ) : (
+              <Group>
+                {[
+                  ...shown.map((item) => item.node),
+                  rest > 0 ? (
+                    <ListRow
+                      key="more"
+                      title={t('services.show_all', { count: section.items.length })}
+                      onPress={() => setExpanded((prev) => new Set(prev).add(section.key))}
+                    />
+                  ) : null,
+                ].filter(Boolean)}
+              </Group>
+            )}
+          </View>
+        );
+      })}
 
       {!perms.workers && !perms.kv && !perms.r2 && !perms.pages && (
         <EmptyState icon="lock" title="No access" message="Your token does not have permission for any service. Create a new token with Account level permissions." />

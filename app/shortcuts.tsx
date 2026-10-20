@@ -13,7 +13,7 @@ import { Banner, Group, ListRow, SearchBar } from '@/components/ui/kit';
 import { FontSize, Spacing } from '@/constants/theme';
 import * as api from '@/services/cloudflare';
 import { getShortcutZone, setShortcutZone, ShortcutZone } from '@/services/shortcuts';
-import { refreshShortcuts } from '@/widgets/sync';
+import { refreshShortcuts, refreshTraffic } from '@/widgets/sync';
 
 /** Pick the zone the home-screen widget and the Quick Settings tile work on. */
 export default function ShortcutsScreen() {
@@ -50,10 +50,11 @@ export default function ShortcutsScreen() {
     await setShortcutZone(zone);
     setCurrent(zone);
     refreshShortcuts();
+    refreshTraffic();
   };
 
-  const addWidget = async () => {
-    const ok = await requestPinWidget({ widgetName: 'ZoneStatus' }).catch(() => false);
+  const addWidget = async (widgetName: 'ZoneStatus' | 'ZoneTraffic') => {
+    const ok = await requestPinWidget({ widgetName }).catch(() => false);
     if (!ok) Alert.alert(t('shortcuts.add_widget'), t('shortcuts.add_widget_manual'));
   };
 
@@ -64,7 +65,16 @@ export default function ShortcutsScreen() {
       <Text style={[styles.intro, { color: colors.textSecondary }]}>{t('shortcuts.intro')}</Text>
 
       {Platform.OS === 'android' && (
-        <Button title={t('shortcuts.add_widget')} onPress={addWidget} style={styles.add} />
+        <>
+          <Button title={t('shortcuts.add_widget')} onPress={() => addWidget('ZoneStatus')} style={styles.add} />
+          <Button
+            title={t('shortcuts.add_traffic_widget')}
+            variant="secondary"
+            onPress={() => addWidget('ZoneTraffic')}
+            style={styles.add}
+          />
+          <Text style={[styles.intro, { color: colors.textTertiary }]}>{t('shortcuts.traffic_widget_sub')}</Text>
+        </>
       )}
 
       <SectionHeader title={t('shortcuts.tile_title')} />

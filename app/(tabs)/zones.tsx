@@ -8,7 +8,7 @@ import { useTheme } from '@/hooks/use-theme';
 import { Icon } from '@/components/ui/icon';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Loading } from '@/components/ui/loading';
+import { SkeletonRows } from '@/components/ui/skeleton';
 import { EmptyState } from '@/components/ui/empty-state';
 import { Spacing, FontSize, Radius } from '@/constants/theme';
 import * as api from '@/services/cloudflare';
@@ -109,7 +109,13 @@ export default function ZonesScreen() {
     );
   };
 
-  if (loading) return <Loading message={t('common.loading')} />;
+  if (loading) {
+    return (
+      <View style={[styles.container, { backgroundColor: colors.background, padding: Spacing.lg }]}>
+        <SkeletonRows count={7} />
+      </View>
+    );
+  }
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>

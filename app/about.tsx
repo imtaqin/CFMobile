@@ -40,6 +40,7 @@ const OTHER_APPS: OtherApp[] = [
 
 const APP_LINKS: LinkItem[] = [
   { icon: 'code', label: 'Source code', value: 'github.com/imtaqin/CFMobile', url: 'https://github.com/imtaqin/CFMobile' },
+  { icon: 'download', label: 'F-Droid', value: 'Ad-free build', url: 'https://f-droid.org/packages/id.imtaqin.cfmobile/' },
   { icon: 'shield', label: 'Privacy Policy', value: 'imtaqin.id', url: 'https://imtaqin.id/page/-privacy-policy-cloudflare-mobile' },
   { icon: 'info', label: 'License', value: 'MIT', url: 'https://opensource.org/licenses/MIT' },
 ];

@@ -296,6 +296,17 @@ export default function SettingsScreen() {
         />
       </Group>
 
+      {/* Products */}
+      <SectionHeader title={t('products.title')} />
+      <Group>
+        <ListRow
+          icon="grid"
+          title={t('products.all')}
+          subtitle={t('products.all_sub')}
+          onPress={() => router.push('/products' as any)}
+        />
+      </Group>
+
       {/* Security */}
       <SectionHeader title={t('settings.security')} />
       <Group>
@@ -316,120 +327,6 @@ export default function SettingsScreen() {
           title={t('history.title')}
           subtitle={t('history.settings_sub')}
           onPress={() => router.push('/history' as any)}
-        />
-        <ListRow
-          icon="activity"
-          title={t('settings.audit_logs')}
-          subtitle={t('settings.audit_logs_sub')}
-          onPress={() => router.push('/audit-logs' as any)}
-        />
-        <ListRow
-          icon="layers"
-          title={t('settings.lists')}
-          subtitle={t('settings.lists_sub')}
-          onPress={() => router.push('/lists' as any)}
-        />
-        <ListRow
-          icon="globe"
-          title={t('settings.registrar')}
-          subtitle={t('settings.registrar_sub')}
-          onPress={() => router.push('/registrar' as any)}
-        />
-        <ListRow
-          icon="shield-check"
-          title={t('settings.turnstile')}
-          subtitle={t('settings.turnstile_sub')}
-          onPress={() => router.push('/turnstile' as any)}
-        />
-        <ListRow
-          icon="users"
-          title={t('settings.account_members')}
-          subtitle={t('settings.account_members_sub')}
-          onPress={() => router.push('/account-members' as any)}
-        />
-        <ListRow
-          icon="key"
-          title={t('settings.api_tokens')}
-          subtitle={t('settings.api_tokens_sub')}
-          onPress={() => router.push('/api-tokens' as any)}
-        />
-        <ListRow
-          icon="bell"
-          title={t('settings.notifications')}
-          subtitle={t('settings.notifications_sub')}
-          onPress={() => router.push('/notifications' as any)}
-        />
-        <ListRow
-          icon="widgets"
-          title={t('settings.durable_objects')}
-          subtitle={t('settings.durable_objects_sub')}
-          onPress={() => router.push('/durable-objects' as any)}
-        />
-        <ListRow
-          icon="database"
-          title={t('settings.hyperdrive')}
-          subtitle={t('settings.hyperdrive_sub')}
-          onPress={() => router.push('/hyperdrive' as any)}
-        />
-        <ListRow
-          icon="database"
-          title={t('settings.vectorize')}
-          subtitle={t('settings.vectorize_sub')}
-          onPress={() => router.push('/vectorize' as any)}
-        />
-        <ListRow
-          icon="search"
-          title={t('settings.autorag')}
-          subtitle={t('settings.autorag_sub')}
-          onPress={() => router.push('/autorag' as any)}
-        />
-        <ListRow
-          icon="lock"
-          title={t('settings.secrets_store')}
-          subtitle={t('settings.secrets_store_sub')}
-          onPress={() => router.push('/secrets-store' as any)}
-        />
-        <ListRow
-          icon="code"
-          title={t('settings.wfp')}
-          subtitle={t('settings.wfp_sub')}
-          onPress={() => router.push('/workers-for-platforms' as any)}
-        />
-        <ListRow
-          icon="shield"
-          title={t('settings.access_apps')}
-          subtitle={t('settings.access_apps_sub')}
-          onPress={() => router.push('/access-apps' as any)}
-        />
-        <ListRow
-          icon="users"
-          title={t('settings.access_idps')}
-          subtitle={t('settings.access_idps_sub')}
-          onPress={() => router.push('/access-idps' as any)}
-        />
-        <ListRow
-          icon="key"
-          title={t('settings.access_tokens')}
-          subtitle={t('settings.access_tokens_sub')}
-          onPress={() => router.push('/access-service-tokens' as any)}
-        />
-        <ListRow
-          icon="fingerprint"
-          title={t('settings.access_mtls')}
-          subtitle={t('settings.access_mtls_sub')}
-          onPress={() => router.push('/access-mtls' as any)}
-        />
-        <ListRow
-          icon="server"
-          title={t('settings.infra_targets')}
-          subtitle={t('settings.infra_targets_sub')}
-          onPress={() => router.push('/infra-targets' as any)}
-        />
-        <ListRow
-          icon="shield"
-          title={t('settings.gateway_rules')}
-          subtitle={t('settings.gateway_rules_sub')}
-          onPress={() => router.push('/gateway-rules' as any)}
         />
         <ToggleRow
           icon="pageview"

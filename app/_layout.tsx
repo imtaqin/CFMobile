@@ -13,6 +13,7 @@ import { applyScreenshotBlock } from '@/services/app-lock';
 import { refreshShortcuts } from '@/widgets/sync';
 import { initPremium } from '@/services/premium';
 import { initAdReward } from '@/services/ad-reward';
+import { initZoneTiles } from '@/services/zone-tiles';
 import { refreshQuota } from '@/services/ai-subscription';
 import { syncMonitoring } from '@/services/monitor-task';
 import { track } from '@/services/analytics';
@@ -89,6 +90,8 @@ function AppContent() {
           <Stack.Screen name="account-members" options={{ animation: 'slide_from_right', headerShown: true }} />
           <Stack.Screen name="api-tokens" options={{ animation: 'slide_from_right', headerShown: true }} />
           <Stack.Screen name="notifications" options={{ animation: 'slide_from_right', headerShown: true }} />
+          <Stack.Screen name="products" options={{ animation: 'slide_from_right', headerShown: true }} />
+          <Stack.Screen name="bulk" options={{ animation: 'slide_from_right', headerShown: true }} />
           <Stack.Screen name="load-balancers" options={{ animation: 'slide_from_right', headerShown: true }} />
           <Stack.Screen name="web-analytics" options={{ animation: 'slide_from_right', headerShown: true }} />
           <Stack.Screen name="queues" options={{ animation: 'slide_from_right', headerShown: true }} />
@@ -98,7 +101,6 @@ function AppContent() {
           <Stack.Screen name="stream" options={{ animation: 'slide_from_right', headerShown: true }} />
           <Stack.Screen name="images" options={{ animation: 'slide_from_right', headerShown: true }} />
           <Stack.Screen name="pipelines" options={{ animation: 'slide_from_right', headerShown: true }} />
-          <Stack.Screen name="web3" options={{ animation: 'slide_from_right', headerShown: true }} />
           <Stack.Screen name="dns-firewall" options={{ animation: 'slide_from_right', headerShown: true }} />
           <Stack.Screen name="address-maps" options={{ animation: 'slide_from_right', headerShown: true }} />
           <Stack.Screen name="tunnels" options={{ animation: 'slide_from_right', headerShown: true }} />
@@ -142,6 +144,7 @@ export default function RootLayout() {
     initPremium();
     // Day passes earned from rewarded ads, so a gated screen knows at once.
     initAdReward().catch(() => {});
+    initZoneTiles().catch(() => {});
     // Also loads the quota store, which subscribes to AI usage events.
     refreshQuota().catch(() => {});
     checkPlayUpdate();
