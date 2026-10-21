@@ -1,0 +1,124 @@
+name: Play release
+
+# Builds the signed AAB on a runner and uploads it to Google Play.
+#
+# Manual only, and never on a push: a release to production is not something a
+# commit should be able to trigger by accident, and the version code is tracked
+# by hand. Pick the track when you run it.
+
+on:
+  workflow_dispatch:
+    inputs:
+      track:
+        description: Play track to release on
+        type: choice
+        options: [internal, alpha, beta, production]
+        default: internal
+      draft:
+        description: Upload as a draft instead of releasing
+        type: boolean
+        default: false
+      rollout:
+        description: Staged rollout fraction, e.g. 0.1 (blank = full)
+        type: string
+        default: ''
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Read version
+        id: version
+        run: |
+          node -e '
+            const a = require("./app.json").expo;
+            console.log(`name=${a.version}`);
+            console.log(`code=${a.android.versionCode}`);
+          ' >> "$GITHUB_OUTPUT"
+
+      - name: Typecheck
+        run: npx tsc --noEmit
+
+      - name: Test
+        run: npm test
+
+      - name: Expo prebuild
+        run: npx expo prebuild --platform android --no-install
+
+      # The widget providers are written into the generated manifest by the
+      # react-native-android-widget config plugin, so a widget only exists in a
+      # build that ran prebuild. Fail loudly rather than ship a missing widget.
+      - name: Verify widget providers
+        run: |
+          manifest=android/app/src/main/AndroidManifest.xml
+          for widget in ZoneStatus ZoneTraffic; do
+            grep -q "\.widget\.$widget" "$manifest" || { echo "::error::$widget provider missing from $manifest"; exit 1; }
+            echo "$widget provider present"
+          done
+
+      - name: Decode keystore
+        run: echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > android/app/upload.jks
+
+      - name: Apply release signing
+        run: node scripts/ci/apply-signing.js
+
+      - name: Build AAB
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew bundleRelease --no-daemon
+
+      # Gradle can treat the JS bundle as up to date when only JS changed, which
+      # ships an old bundle inside a new version code. Check a string that only
+      # exists in this release.
+      - name: Verify the bundle is current
+        run: |
+          bundle=$(find android/app/build/generated/assets -name 'index.android.bundle' | head -1)
+          test -n "$bundle" || { echo "::error::no JS bundle found"; exit 1; }
+          grep -q 'dns_backup' "$bundle" || { echo "::error::bundle predates this release"; exit 1; }
+          echo "bundle contains this release's strings"
+
+      - name: Keep a copy of the AAB
+        uses: actions/upload-artifact@v4
+        with:
+          name: cfmobile-${{ steps.version.outputs.name }}-${{ steps.version.outputs.code }}-aab
+          path: android/app/build/outputs/bundle/release/app-release.aab
+          retention-days: 30
+
+      - name: Upload to Google Play
+        env:
+          PLAY_SA: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+          TRACK: ${{ inputs.track }}
+          DRAFT: ${{ inputs.draft }}
+          ROLLOUT: ${{ inputs.rollout }}
+          NAME: ${{ steps.version.outputs.name }} (${{ steps.version.outputs.code }})
+        run: |
+          # Through a file and an env var, so the key never lands in a command line.
+          printf '%s' "$PLAY_SA" > "$RUNNER_TEMP/play-sa.json"
+          args=(release --track "$TRACK" --name "$NAME")
+          [ "$DRAFT" = "true" ] && args+=(--draft)
+          [ -n "$ROLLOUT" ] && args+=(--rollout "$ROLLOUT")
+          PLAY_SERVICE_ACCOUNT_FILE="$RUNNER_TEMP/play-sa.json" node scripts/play-release.js "${args[@]}"
+          rm -f "$RUNNER_TEMP/play-sa.json"
