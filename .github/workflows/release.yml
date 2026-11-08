@@ -81,6 +81,11 @@ jobs:
         if: steps.tag.outputs.exists == 'false'
         uses: softprops/action-gh-release@v2
         with:
+          # Create the tag as RELEASE_PAT (not the default GITHUB_TOKEN) so the
+          # new `v*` tag triggers the Play release workflow. Falls back to the
+          # default token if the PAT isn't set — then the tag still lands, but
+          # play-release must be run manually.
+          token: ${{ secrets.RELEASE_PAT || secrets.GITHUB_TOKEN }}
           tag_name: v${{ steps.version.outputs.version }}
           name: CloudFlare Mobile v${{ steps.version.outputs.version }}
           body_path: release-notes.md
