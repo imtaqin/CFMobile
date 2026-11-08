@@ -34,14 +34,6 @@ const TEMPLATES: { key: string; expression: string }[] = [
   { key: 'threat', expression: '(cf.threat_score gt 14)' },
 ];
 
-interface LegacyRule {
-  id: string;
-  description: string;
-  action: string;
-  expression: string;
-  enabled: boolean;
-}
-
 export default function FirewallScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { t } = useTranslation();
@@ -50,7 +42,6 @@ export default function FirewallScreen() {
 
   const [rulesetId, setRulesetId] = useState<string | null>(null);
   const [wafRules, setWafRules] = useState<RulesetRule[]>([]);
-  const [legacy, setLegacy] = useState<LegacyRule[]>([]);
   const [ipRules, setIpRules] = useState<IPAccessRule[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -85,19 +76,6 @@ export default function FirewallScreen() {
       if (e?.response?.status !== 404) firstError = errMsg(e);
       setRulesetId(null);
       setWafRules([]);
-    }
-
-    try {
-      const res = await api.getFirewallRules(id);
-      setLegacy((res.result ?? []).map((r: any) => ({
-        id: r.id,
-        description: r.description ?? r.filter?.description ?? '',
-        action: r.action,
-        expression: r.filter?.expression ?? '',
-        enabled: !r.paused,
-      })));
-    } catch {
-      setLegacy([]);
     }
 
     try {
@@ -198,36 +176,6 @@ export default function FirewallScreen() {
             logWafRule(id, rulesetId, 'delete', r.id,
               { action: r.action, expression: r.expression, description: r.description ?? '', enabled: r.enabled !== false }, null);
             setWafRules(res.result?.rules ?? []);
-          } catch (e: any) {
-            Alert.alert(t('firewall.delete_error'), errMsg(e));
-          }
-        },
-      },
-    ]);
-  };
-
-  // ─── Legacy firewall rules ─────────────────────────────────────────────────
-
-  const toggleLegacy = async (r: LegacyRule, value: boolean) => {
-    setLegacy((prev) => prev.map((x) => (x.id === r.id ? { ...x, enabled: value } : x)));
-    try {
-      await api.updateFirewallRule(id, r.id, { paused: !value } as any);
-    } catch (e: any) {
-      setLegacy((prev) => prev.map((x) => (x.id === r.id ? { ...x, enabled: !value } : x)));
-      Alert.alert(t('common.error'), errMsg(e));
-    }
-  };
-
-  const deleteLegacy = (r: LegacyRule) => {
-    Alert.alert(t('firewall.delete_title'), t('firewall.delete_confirm'), [
-      { text: t('common.cancel'), style: 'cancel' },
-      {
-        text: t('common.delete'),
-        style: 'destructive',
-        onPress: async () => {
-          try {
-            await api.deleteFirewallRule(id, r.id);
-            setLegacy((prev) => prev.filter((x) => x.id !== r.id));
           } catch (e: any) {
             Alert.alert(t('firewall.delete_error'), errMsg(e));
           }
@@ -401,23 +349,6 @@ export default function FirewallScreen() {
                 />
               ))}
             </Group>
-          )}
-
-          {/* Legacy firewall rules — only shown when the zone still has some */}
-          {legacy.length > 0 && (
-            <>
-              <SectionHeader title={t('firewall.legacy_rules')} />
-              <Text style={[styles.hint, { color: colors.textTertiary }]}>{t('firewall.legacy_hint')}</Text>
-              {legacy.map((r) => ruleCard(r.id, {
-                badge: r.action,
-                action: r.action,
-                description: r.description,
-                expression: r.expression,
-                enabled: r.enabled,
-                onToggle: (v) => toggleLegacy(r, v),
-                onDelete: () => deleteLegacy(r),
-              }))}
-            </>
           )}
         </ScrollView>
 

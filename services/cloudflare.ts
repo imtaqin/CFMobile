@@ -6,7 +6,7 @@ import { updateActiveConfig } from './profiles';
 import { Platform } from 'react-native';
 import {
   CFResponse, AuthConfig, CFUser, Zone, DNSRecord, DNSRecordInput,
-  FirewallRule, PageRule, WorkerScript, KVNamespace, R2Bucket, PagesProject,
+  PageRule, WorkerScript, KVNamespace, R2Bucket, PagesProject,
   ZoneAnalyticsDashboard, ZoneSetting, AccountMember,
 } from './types';
 
@@ -249,7 +249,7 @@ export async function probePermissions(zoneId?: string, accountId?: string): Pro
     checks.push(
       probe(() => get(`/zones/${zoneId}/dns_records`, { per_page: 1 })).then((v) => ['dns', v] as [keyof Permissions, boolean]),
       probe(() => get(`/zones/${zoneId}/settings/ssl`)).then((v) => ['ssl', v] as [keyof Permissions, boolean]),
-      probe(() => get(`/zones/${zoneId}/firewall/rules`, { per_page: 1 })).then((v) => ['firewall', v] as [keyof Permissions, boolean]),
+      probe(() => get(`/zones/${zoneId}/rulesets/phases/http_request_firewall_custom/entrypoint`)).then((v) => ['firewall', v] as [keyof Permissions, boolean]),
       probe(() => get(`/zones/${zoneId}/settings/cache_level`)).then((v) => ['cache', v] as [keyof Permissions, boolean]),
       probe(async () => {
         const res = await getClient().post('https://api.cloudflare.com/client/v4/graphql', {
@@ -585,18 +585,9 @@ export async function updateMinTLSVersion(zoneId: string, value: string): Promis
 }
 
 // ─── Firewall ────────────────────────────────────────────────────────────────
-
-export async function getFirewallRules(zoneId: string, page = 1): Promise<CFResponse<FirewallRule[]>> {
-  return get(`/zones/${zoneId}/firewall/rules`, { page, per_page: 50 });
-}
-
-export async function updateFirewallRule(zoneId: string, ruleId: string, data: Partial<FirewallRule>): Promise<CFResponse<FirewallRule>> {
-  return put(`/zones/${zoneId}/firewall/rules/${ruleId}`, data);
-}
-
-export async function deleteFirewallRule(zoneId: string, ruleId: string): Promise<CFResponse<{ id: string }>> {
-  return del(`/zones/${zoneId}/firewall/rules/${ruleId}`);
-}
+// Legacy Firewall Rules (/zones/{id}/firewall/rules) were removed by Cloudflare
+// and now return 410 Gone — custom rules live in the Rulesets API below
+// (http_request_firewall_custom). IP Access Rules remain their own endpoint.
 
 export type IPAccessMode = 'block' | 'challenge' | 'whitelist' | 'js_challenge' | 'managed_challenge';
 

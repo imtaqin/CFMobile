@@ -123,22 +123,6 @@ export interface SSLSetting {
   editable: boolean;
 }
 
-export interface FirewallRule {
-  id: string;
-  paused: boolean;
-  description: string;
-  action: string;
-  priority: number;
-  filter: {
-    id: string;
-    expression: string;
-    paused: boolean;
-    description: string;
-  };
-  created_on: string;
-  modified_on: string;
-}
-
 export interface PageRule {
   id: string;
   targets: { target: string; constraint: { operator: string; value: string } }[];
