@@ -2,11 +2,16 @@ name: Play release
 
 # Builds the signed AAB on a runner and uploads it to Google Play.
 #
-# Manual only, and never on a push: a release to production is not something a
-# commit should be able to trigger by accident, and the version code is tracked
-# by hand. Pick the track when you run it.
+# Two ways in:
+#   - a version tag `v*` (created by release.yml when app.json's version bumps):
+#     auto-releases to the production track at full rollout.
+#   - manual dispatch: pick the track, draft and rollout yourself.
+# The version code is still tracked by hand in app.json — a tag only ships what
+# that commit already declares.
 
 on:
+  push:
+    tags: ['v*']
   workflow_dispatch:
     inputs:
       track:
@@ -107,12 +112,27 @@ jobs:
           path: android/app/build/outputs/bundle/release/app-release.aab
           retention-days: 30
 
+      # A tag push carries no inputs, so pick safe production defaults; a manual
+      # run uses whatever was chosen in the dispatch form.
+      - name: Resolve release params
+        id: params
+        run: |
+          if [ "${{ github.event_name }}" = "push" ]; then
+            echo "track=production" >> "$GITHUB_OUTPUT"
+            echo "draft=false" >> "$GITHUB_OUTPUT"
+            echo "rollout=" >> "$GITHUB_OUTPUT"
+          else
+            echo "track=${{ inputs.track }}" >> "$GITHUB_OUTPUT"
+            echo "draft=${{ inputs.draft }}" >> "$GITHUB_OUTPUT"
+            echo "rollout=${{ inputs.rollout }}" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Upload to Google Play
         env:
           PLAY_SA: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
-          TRACK: ${{ inputs.track }}
-          DRAFT: ${{ inputs.draft }}
-          ROLLOUT: ${{ inputs.rollout }}
+          TRACK: ${{ steps.params.outputs.track }}
+          DRAFT: ${{ steps.params.outputs.draft }}
+          ROLLOUT: ${{ steps.params.outputs.rollout }}
           NAME: ${{ steps.version.outputs.name }} (${{ steps.version.outputs.code }})
         run: |
           # Through a file and an env var, so the key never lands in a command line.
