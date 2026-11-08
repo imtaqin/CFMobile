@@ -96,14 +96,15 @@ jobs:
           ./gradlew bundleRelease --no-daemon
 
       # Gradle can treat the JS bundle as up to date when only JS changed, which
-      # ships an old bundle inside a new version code. Check a string that only
-      # exists in this release.
+      # ships an old bundle inside a new version code. Expo embeds the app
+      # version (Constants.expoConfig.version) into the bundle, so a stale bundle
+      # from a previous release won't contain the current version string.
       - name: Verify the bundle is current
         run: |
           bundle=$(find android/app/build/generated/assets -name 'index.android.bundle' | head -1)
           test -n "$bundle" || { echo "::error::no JS bundle found"; exit 1; }
-          grep -q 'dns_backup' "$bundle" || { echo "::error::bundle predates this release"; exit 1; }
-          echo "bundle contains this release's strings"
+          grep -q '${{ steps.version.outputs.name }}' "$bundle" || { echo "::error::bundle predates this release (version ${{ steps.version.outputs.name }} not found)"; exit 1; }
+          echo "bundle contains version ${{ steps.version.outputs.name }}"
 
       - name: Keep a copy of the AAB
         uses: actions/upload-artifact@v4
