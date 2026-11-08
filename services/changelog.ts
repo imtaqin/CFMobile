@@ -7,6 +7,16 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '1.11.0',
+    date: '2026-11-08',
+    highlights: [
+      'Edit Worker code in the app — type it or load a .js file; your bindings, variables and secrets are kept',
+    ],
+    fixes: [
+      'Firewall screen is reachable again after Cloudflare retired the legacy Firewall Rules API',
+    ],
+  },
+  {
     version: '1.8.0',
     date: '2026-10-15',
     highlights: [
