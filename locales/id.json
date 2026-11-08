@@ -794,7 +794,15 @@
     "deploy": "Deploy",
     "deploy_version_confirm": "Alihkan 100% trafik ke versi #{{number}}? Ini menggantikan versi yang sedang aktif.",
     "deploy_success": "Versi berhasil di-deploy.",
-    "view_logs": "Lihat Log Realtime"
+    "view_logs": "Lihat Log Realtime",
+    "edit_code": "Sunting kode",
+    "load_file": "Muat dari file",
+    "module_syntax": "Sintaks modul ES",
+    "module_syntax_hint": "Aktif untuk Workers yang menggunakan default ekspor; nonaktif untuk gaya addEventListener('fetch') yang lebih lama.",
+    "save_code": "Simpan kode?",
+    "save_code_confirm": "Hanya kodenya yang diganti — binding, variabel, dan rahasia Anda disimpan.",
+    "code_saved": "Kode diperbarui.",
+    "multi_module_note": "Worker ini mempunyai beberapa modul, sehingga tidak dapat diedit di sini. Terapkan dari rantai alat Anda."
   },
   "health_checks": {
     "title": "Health Check",

@@ -794,7 +794,15 @@
     "deploy": "Dağıt",
     "deploy_version_confirm": "Trafiğin %100'ü #{{number}} sürümüne yönlendirilsin mi? Bu, şu anda dağıtılmış sürümün yerini alır.",
     "deploy_success": "Sürüm dağıtıldı.",
-    "view_logs": "Canlı Günlükleri Görüntüle"
+    "view_logs": "Canlı Günlükleri Görüntüle",
+    "edit_code": "Kodu düzenle",
+    "load_file": "Dosyadan yükle",
+    "module_syntax": "ES modülü sözdizimi",
+    "module_syntax_hint": "Dışa aktarma varsayılanını kullanan Workers için açık; eski addEventListener('fetch') stili için kapalı.",
+    "save_code": "Kod kaydedilsin mi?",
+    "save_code_confirm": "Yalnızca kod değiştirilir; bağlantılarınız, değişkenleriniz ve sırlarınız korunur.",
+    "code_saved": "Kod güncellendi.",
+    "multi_module_note": "Bu İşçinin çeşitli modülleri olduğundan burada düzenlenemez. Araç zincirinizden dağıtın."
   },
   "health_checks": {
     "title": "Sağlık Kontrolleri",

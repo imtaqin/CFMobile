@@ -794,7 +794,15 @@
     "deploy": "Desplegar",
     "deploy_version_confirm": "¿Enrutar el 100% del tráfico a la versión #{{number}}? Esto reemplaza la versión actualmente desplegada.",
     "deploy_success": "Versión desplegada.",
-    "view_logs": "Ver registros en vivo"
+    "view_logs": "Ver registros en vivo",
+    "edit_code": "Editar código",
+    "load_file": "Cargar desde archivo",
+    "module_syntax": "Sintaxis del módulo ES",
+    "module_syntax_hint": "Activado para Workers que utilizan la exportación predeterminada; desactivado para el estilo anterior addEventListener('fetch').",
+    "save_code": "¿Guardar código?",
+    "save_code_confirm": "Sólo se reemplaza el código: se conservan sus enlaces, variables y secretos.",
+    "code_saved": "Código actualizado.",
+    "multi_module_note": "Este trabajador tiene varios módulos, por lo que no se puede editar aquí. Implementarlo desde su cadena de herramientas."
   },
   "health_checks": {
     "title": "Comprobaciones de estado",

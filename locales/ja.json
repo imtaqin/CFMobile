@@ -794,7 +794,15 @@
     "deploy": "デプロイ",
     "deploy_version_confirm": "トラフィックの 100% をバージョン #{{number}} に振り分けますか？現在デプロイ中のバージョンが置き換わります。",
     "deploy_success": "バージョンをデプロイしました。",
-    "view_logs": "ライブログを見る"
+    "view_logs": "ライブログを見る",
+    "edit_code": "コードを編集する",
+    "load_file": "ファイルからロード",
+    "module_syntax": "ESモジュールの構文",
+    "module_syntax_hint": "エクスポートのデフォルトを使用する Workers の場合はオン。古い addEventListener('fetch') スタイルの場合はオフ。",
+    "save_code": "コードを保存しますか?",
+    "save_code_confirm": "コードのみが置き換えられ、バインディング、変数、シークレットは保持されます。",
+    "code_saved": "コードが更新されました。",
+    "multi_module_note": "このワーカーには複数のモジュールがあるため、ここでは編集できません。ツールチェーンからデプロイします。"
   },
   "health_checks": {
     "title": "ヘルスチェック",

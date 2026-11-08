@@ -794,7 +794,15 @@
     "deploy": "Triển khai",
     "deploy_version_confirm": "Định tuyến 100% lưu lượng đến phiên bản #{{number}}? Thao tác này thay thế phiên bản đang triển khai.",
     "deploy_success": "Đã triển khai phiên bản.",
-    "view_logs": "Xem log trực tiếp"
+    "view_logs": "Xem log trực tiếp",
+    "edit_code": "Chỉnh sửa mã",
+    "load_file": "Tải từ tập tin",
+    "module_syntax": "Cú pháp mô-đun ES",
+    "module_syntax_hint": "Bật cho Workers sử dụng mặc định xuất; tắt đối với kiểu addEventListener('fetch') cũ hơn.",
+    "save_code": "Lưu mã?",
+    "save_code_confirm": "Chỉ có mã được thay thế - các ràng buộc, biến và bí mật của bạn được giữ nguyên.",
+    "code_saved": "Đã cập nhật mã.",
+    "multi_module_note": "Worker này có nhiều module nên không thể chỉnh sửa ở đây. Triển khai nó từ chuỗi công cụ của bạn."
   },
   "health_checks": {
     "title": "Kiểm tra tình trạng",

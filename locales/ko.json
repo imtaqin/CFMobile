@@ -794,7 +794,15 @@
     "deploy": "배포",
     "deploy_version_confirm": "트래픽의 100%를 버전 #{{number}}(으)로 라우팅할까요? 현재 배포된 버전을 대체합니다.",
     "deploy_success": "버전이 배포되었습니다.",
-    "view_logs": "실시간 로그 보기"
+    "view_logs": "실시간 로그 보기",
+    "edit_code": "코드 편집",
+    "load_file": "파일에서 로드",
+    "module_syntax": "ES 모듈 구문",
+    "module_syntax_hint": "내보내기 기본값을 사용하는 Workers의 경우 켜집니다. 이전 addEventListener('fetch') 스타일의 경우 꺼졌습니다.",
+    "save_code": "코드를 저장하시겠습니까?",
+    "save_code_confirm": "코드만 교체되며 바인딩, 변수 및 비밀은 유지됩니다.",
+    "code_saved": "코드가 업데이트되었습니다.",
+    "multi_module_note": "이 작업자에는 여러 모듈이 있으므로 여기서 편집할 수 없습니다. 도구 체인에서 배포하세요."
   },
   "health_checks": {
     "title": "상태 확인",
