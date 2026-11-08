@@ -794,7 +794,15 @@
     "deploy": "部署",
     "deploy_version_confirm": "将 100% 流量路由到版本 #{{number}}？这将替换当前已部署的版本。",
     "deploy_success": "版本已部署。",
-    "view_logs": "查看实时日志"
+    "view_logs": "查看实时日志",
+    "edit_code": "编辑代码",
+    "load_file": "从文件加载",
+    "module_syntax": "ES模块语法",
+    "module_syntax_hint": "为 Workers，使用导出默认值；关闭旧的 addEventListener('fetch') 样式。",
+    "save_code": "保存代码？",
+    "save_code_confirm": "仅替换代码 - 您的绑定、变量和秘密都被保留。",
+    "code_saved": "代码已更新。",
+    "multi_module_note": "这个Worker有几个模块，所以这里不能编辑。从您的工具链部署它。"
   },
   "health_checks": {
     "title": "健康检查",

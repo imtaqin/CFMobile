@@ -974,6 +974,35 @@ export async function getWorkerContent(accountId: string, scriptName: string): P
   return typeof res.data === 'string' ? res.data : String(res.data ?? '');
 }
 
+/**
+ * Replace a Worker's code while keeping everything else. This writes the
+ * `/content` sub-resource rather than re-uploading the whole script, so the
+ * Worker's bindings, secrets, variables, routes, cron triggers and settings are
+ * all preserved — only the code changes. Single-module Workers only (the common
+ * case); multi-module Workers are built from a toolchain, not edited by hand.
+ *
+ * `fileUri` points at a local file holding the new code (written by the caller);
+ * `moduleSyntax` picks ES-module (`export default`) over service-worker
+ * (`addEventListener('fetch', …)`), which decides the metadata key Cloudflare
+ * needs and the module's content type.
+ */
+export async function updateWorkerContent(accountId: string, scriptName: string, part: {
+  fileUri: string;
+  fileName: string;
+  moduleSyntax: boolean;
+}): Promise<void> {
+  const type = part.moduleSyntax ? 'application/javascript+module' : 'application/javascript';
+  const metadata = part.moduleSyntax ? { main_module: part.fileName } : { body_part: part.fileName };
+  const form = new FormData();
+  form.append('metadata', JSON.stringify(metadata));
+  form.append(part.fileName, { uri: part.fileUri, name: part.fileName, type } as any);
+  await getClient().put(
+    `/accounts/${accountId}/workers/scripts/${scriptName}/content`,
+    form,
+    { headers: { 'Content-Type': 'multipart/form-data' } }
+  );
+}
+
 export async function getWorkerSettings(accountId: string, scriptName: string): Promise<CFResponse<WorkerSettings>> {
   return get(`/accounts/${accountId}/workers/scripts/${scriptName}/settings`);
 }

@@ -794,7 +794,15 @@
     "deploy": "Déployer",
     "deploy_version_confirm": "Router 100 % du trafic vers la version #{{number}} ? Cela remplace la version actuellement déployée.",
     "deploy_success": "Version déployée.",
-    "view_logs": "Voir les journaux en direct"
+    "view_logs": "Voir les journaux en direct",
+    "edit_code": "Modifier le code",
+    "load_file": "Charger à partir d'un fichier",
+    "module_syntax": "Syntaxe du module ES",
+    "module_syntax_hint": "Activé pour Workers qui utilisent l'exportation par défaut ; désactivé pour l'ancien style addEventListener('fetch').",
+    "save_code": "Enregistrer le code ?",
+    "save_code_confirm": "Seul le code est remplacé — vos liaisons, variables et secrets sont conservés.",
+    "code_saved": "Code mis à jour.",
+    "multi_module_note": "Ce Worker comporte plusieurs modules, il ne peut donc pas être modifié ici. Déployez-le à partir de votre chaîne d'outils."
   },
   "health_checks": {
     "title": "Vérifications de santé",

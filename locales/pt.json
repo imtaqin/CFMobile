@@ -794,7 +794,15 @@
     "deploy": "Implantar",
     "deploy_version_confirm": "Rotear 100% do tráfego para a versão #{{number}}? Isso substitui a versão implantada atualmente.",
     "deploy_success": "Versão implantada.",
-    "view_logs": "Ver logs em tempo real"
+    "view_logs": "Ver logs em tempo real",
+    "edit_code": "Editar código",
+    "load_file": "Carregar do arquivo",
+    "module_syntax": "Sintaxe do módulo ES",
+    "module_syntax_hint": "Ativado para Workers que usam o padrão de exportação; off para o estilo addEventListener('fetch') mais antigo.",
+    "save_code": "Salvar código?",
+    "save_code_confirm": "Apenas o código é substituído — suas ligações, variáveis ​​e segredos são mantidos.",
+    "code_saved": "Código atualizado.",
+    "multi_module_note": "Este Worker possui vários módulos, portanto não pode ser editado aqui. Implante-o a partir de seu conjunto de ferramentas."
   },
   "health_checks": {
     "title": "Verificações de integridade",

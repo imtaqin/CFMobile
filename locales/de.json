@@ -794,7 +794,15 @@
     "deploy": "Deployen",
     "deploy_version_confirm": "100 % des Traffics auf Version #{{number}} umleiten? Dies ersetzt die aktuell deployte Version.",
     "deploy_success": "Version deployt.",
-    "view_logs": "Live-Logs ansehen"
+    "view_logs": "Live-Logs ansehen",
+    "edit_code": "Code bearbeiten",
+    "load_file": "Aus Datei laden",
+    "module_syntax": "Syntax des ES-Moduls",
+    "module_syntax_hint": "Ein für Workers, die den Exportstandard verwenden; für den älteren addEventListener('fetch')-Stil deaktiviert.",
+    "save_code": "Code speichern?",
+    "save_code_confirm": "Nur der Code wird ersetzt – Ihre Bindungen, Variablen und Geheimnisse bleiben erhalten.",
+    "code_saved": "Code aktualisiert.",
+    "multi_module_note": "Dieser Worker verfügt über mehrere Module und kann daher hier nicht bearbeitet werden. Stellen Sie es über Ihre Toolchain bereit."
   },
   "health_checks": {
     "title": "Health Checks",

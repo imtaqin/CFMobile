@@ -1,6 +1,8 @@
 import { useEffect, useState, useCallback } from 'react';
 import { StyleSheet, View, Text, ScrollView, RefreshControl, TouchableOpacity, Alert } from 'react-native';
 import * as Clipboard from 'expo-clipboard';
+import * as DocumentPicker from 'expo-document-picker';
+import * as FileSystem from 'expo-file-system/legacy';
 import { useLocalSearchParams, useRouter, Stack } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { Icon } from '@/components/ui/icon';
@@ -24,6 +26,14 @@ import {
 /** A cron expression has exactly 5 whitespace-separated fields. */
 const isValidCron = (s: string) => s.trim().split(/\s+/).length === 5;
 
+/** A multi-module Worker comes back as a multipart body — not editable inline. */
+const isMultiModule = (c: string) => /Content-Disposition:\s*form-data/i.test(c);
+
+/** ES-module Workers export a default handler; service-worker ones add a fetch listener. */
+const detectModuleSyntax = (c: string) =>
+  /\bexport\s+(default|\{|async|function|const|let|var|class)/.test(c) ||
+  !/addEventListener\s*\(\s*['"](fetch|scheduled)['"]/.test(c);
+
 export default function WorkerDetailScreen() {
   const { script } = useLocalSearchParams<{ script: string }>();
   const router = useRouter();
@@ -45,6 +55,10 @@ export default function WorkerDetailScreen() {
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [showCode, setShowCode] = useState(false);
+
+  const [showEditor, setShowEditor] = useState(false);
+  const [draftCode, setDraftCode] = useState('');
+  const [moduleSyntax, setModuleSyntax] = useState(true);
 
   const [showSecret, setShowSecret] = useState(false);
   const [secretName, setSecretName] = useState('');
@@ -100,6 +114,55 @@ export default function WorkerDetailScreen() {
     if (!content) return;
     await Clipboard.setStringAsync(content);
     Alert.alert(t('common.success'), t('worker.code_copied'));
+  };
+
+  const openEditor = () => {
+    if (content == null) return;
+    setDraftCode(content);
+    setModuleSyntax(detectModuleSyntax(content));
+    setShowEditor(true);
+  };
+
+  const pickFile = async () => {
+    try {
+      const res = await DocumentPicker.getDocumentAsync({
+        type: ['application/javascript', 'text/javascript', 'application/octet-stream', 'text/plain', '*/*'],
+        copyToCacheDirectory: true,
+      });
+      if (res.canceled || !res.assets?.[0]) return;
+      const text = await FileSystem.readAsStringAsync(res.assets[0].uri);
+      setDraftCode(text);
+      setModuleSyntax(detectModuleSyntax(text));
+    } catch (e: any) {
+      Alert.alert(t('common.error'), errMsg(e));
+    }
+  };
+
+  const saveCode = () => {
+    if (!accountId || !script || !draftCode.trim()) return;
+    // Reassure: this writes only the code, so bindings and secrets stay put.
+    Alert.alert(t('worker.save_code'), t('worker.save_code_confirm'), [
+      { text: t('common.cancel'), style: 'cancel' },
+      { text: t('common.save'), onPress: doSaveCode },
+    ]);
+  };
+
+  const doSaveCode = async () => {
+    if (!accountId || !script) return;
+    setSaving(true);
+    const fileUri = `${FileSystem.cacheDirectory}cf-worker-${Date.now()}.js`;
+    try {
+      await FileSystem.writeAsStringAsync(fileUri, draftCode);
+      await api.updateWorkerContent(accountId, script, { fileUri, fileName: 'worker.js', moduleSyntax });
+      setContent(draftCode);
+      setShowEditor(false);
+      Alert.alert(t('common.success'), t('worker.code_saved'));
+    } catch (e: any) {
+      Alert.alert(t('common.error'), errMsg(e));
+    } finally {
+      await FileSystem.deleteAsync(fileUri, { idempotent: true }).catch(() => {});
+      setSaving(false);
+    }
   };
 
   const toggleSubdomain = async (enabled: boolean) => {
@@ -294,14 +357,27 @@ export default function WorkerDetailScreen() {
           <Loading fullScreen={false} />
         ) : (
           <Card style={styles.codeCard}>
-            <Button
-              title={t('common.copy')}
-              variant="secondary"
-              size="sm"
-              icon={<Icon name="copy" size={14} color={colors.text} />}
-              onPress={copyCode}
-              style={styles.copyBtn}
-            />
+            <View style={styles.codeActions}>
+              {!isMultiModule(content) && (
+                <Button
+                  title={t('worker.edit_code')}
+                  variant="secondary"
+                  size="sm"
+                  icon={<Icon name="code" size={14} color={colors.text} />}
+                  onPress={openEditor}
+                />
+              )}
+              <Button
+                title={t('common.copy')}
+                variant="secondary"
+                size="sm"
+                icon={<Icon name="copy" size={14} color={colors.text} />}
+                onPress={copyCode}
+              />
+            </View>
+            {isMultiModule(content) && (
+              <Text style={[styles.multiNote, { color: colors.textTertiary }]}>{t('worker.multi_module_note')}</Text>
+            )}
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
               <Text style={[styles.code, { color: colors.text, backgroundColor: colors.surfaceSecondary }]}>
                 {content}
@@ -451,6 +527,52 @@ export default function WorkerDetailScreen() {
           mono
         />
       </Sheet>
+
+      {/* Edit code */}
+      <Sheet
+        visible={showEditor}
+        onClose={() => setShowEditor(false)}
+        title={t('worker.edit_code')}
+        footer={
+          <Button
+            title={t('common.save')}
+            onPress={saveCode}
+            loading={saving}
+            disabled={!draftCode.trim()}
+          />
+        }
+      >
+        <View style={styles.editorActions}>
+          <Button
+            title={t('worker.load_file')}
+            variant="secondary"
+            size="sm"
+            icon={<Icon name="cloud-upload" size={14} color={colors.text} />}
+            onPress={pickFile}
+          />
+        </View>
+        <Group>
+          <ToggleRow
+            title={t('worker.module_syntax')}
+            subtitle={t('worker.module_syntax_hint')}
+            value={moduleSyntax}
+            onValueChange={setModuleSyntax}
+          />
+        </Group>
+        <Field
+          label={t('worker.code')}
+          value={draftCode}
+          onChangeText={setDraftCode}
+          autoCapitalize="none"
+          autoCorrect={false}
+          spellCheck={false}
+          textAlignVertical="top"
+          multiline
+          mono
+          style={styles.editor}
+        />
+        <Text style={[styles.editorHint, { color: colors.textTertiary }]}>{t('worker.save_code_confirm')}</Text>
+      </Sheet>
     </>
   );
 }
@@ -471,7 +593,11 @@ const styles = StyleSheet.create({
   bindingName: { fontSize: 12, fontFamily: 'monospace' },
   bindingType: { fontSize: FontSize.xs },
   codeCard: { gap: Spacing.sm },
-  copyBtn: { alignSelf: 'flex-end' },
+  codeActions: { flexDirection: 'row', justifyContent: 'flex-end', gap: Spacing.sm },
+  multiNote: { fontSize: FontSize.xs },
+  editorActions: { flexDirection: 'row', justifyContent: 'flex-end', marginBottom: Spacing.sm },
+  editor: { minHeight: 300, fontSize: 12 },
+  editorHint: { fontSize: FontSize.xs, marginTop: Spacing.sm },
   code: {
     fontSize: 12,
     fontFamily: 'monospace',
