@@ -3265,6 +3265,30 @@ export async function deleteAIGateway(accountId: string, gatewayId: string): Pro
   return del(`/accounts/${accountId}/ai-gateway/gateways/${gatewayId}`);
 }
 
+export interface WebSearchResult {
+  title: string;
+  url: string;
+  description?: string;
+  faviconUrl?: string;
+  imageUrl?: string;
+  lastModifiedDate?: string;
+}
+
+export interface WebSearchResponse {
+  items: WebSearchResult[];
+  metadata: { latencyMs: number; query: string; requestId: string };
+}
+
+/** Run a live web search through an AI Gateway (billed to the gateway's AI credits). */
+export async function aiGatewayWebSearch(accountId: string, gatewayId: string, query: string, opts?: { limit?: number; provider?: string }): Promise<CFResponse<WebSearchResponse>> {
+  return post(`/accounts/${accountId}/ai/websearch`, {
+    query,
+    options: { gateway: { id: gatewayId } },
+    ...(opts?.limit ? { limit: opts.limit } : {}),
+    ...(opts?.provider ? { provider: opts.provider } : {}),
+  });
+}
+
 // ─── AI Search (AutoRAG) ─────────────────────────────────────────────────────
 
 export interface AISearchInstance {

@@ -1410,7 +1410,12 @@
     "rate_limit": "请求/分钟",
     "delete_title": "删除网关",
     "delete_confirm": "删除网关“{{id}}”？",
-    "delete_error": "删除网关失败。"
+    "delete_error": "删除网关失败。",
+    "web_search": "网页搜索",
+    "web_search_query": "询问",
+    "web_search_placeholder": "搜索网络...",
+    "search": "搜索",
+    "no_results": "没有结果"
   },
   "autorag": {
     "title": "人工智能搜索",

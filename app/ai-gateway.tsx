@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
-import { StyleSheet, View, FlatList, RefreshControl, TouchableOpacity, Alert } from 'react-native';
+import { StyleSheet, View, Text, FlatList, RefreshControl, TouchableOpacity, Alert, Linking } from 'react-native';
 import { Stack } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { Icon } from '@/components/ui/icon';
@@ -7,11 +7,13 @@ import { useTheme } from '@/hooks/use-theme';
 import { Loading } from '@/components/ui/loading';
 import { EmptyState } from '@/components/ui/empty-state';
 import { Badge } from '@/components/ui/badge';
-import { ListRow } from '@/components/ui/kit';
+import { Button } from '@/components/ui/button';
+import { Sheet } from '@/components/ui/sheet';
+import { Field, ListRow } from '@/components/ui/kit';
 import { useAuth } from '@/contexts/auth';
-import { Spacing, Radius } from '@/constants/theme';
+import { Spacing, Radius, FontSize } from '@/constants/theme';
 import * as api from '@/services/cloudflare';
-import { AIGateway } from '@/services/cloudflare';
+import { AIGateway, WebSearchResult } from '@/services/cloudflare';
 import { useUnlocked } from '@/services/ad-reward';
 import { PremiumPaywall } from '@/components/ui/premium-gate';
 
@@ -25,6 +27,33 @@ export default function AIGatewayScreen() {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const [searchGw, setSearchGw] = useState<AIGateway | null>(null);
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState<WebSearchResult[]>([]);
+  const [searching, setSearching] = useState(false);
+  const [searched, setSearched] = useState(false);
+
+  const openSearch = (gw: AIGateway) => {
+    setSearchGw(gw);
+    setQuery('');
+    setResults([]);
+    setSearched(false);
+  };
+
+  const runSearch = async () => {
+    if (!accountId || !searchGw || !query.trim()) return;
+    setSearching(true);
+    try {
+      const res = await api.aiGatewayWebSearch(accountId, searchGw.id, query.trim(), { limit: 10 });
+      setResults(res.result?.items ?? []);
+      setSearched(true);
+    } catch (e: any) {
+      Alert.alert(t('common.error'), e?.response?.data?.errors?.[0]?.message ?? e?.message ?? 'Error');
+    } finally {
+      setSearching(false);
+    }
+  };
 
   const fetchGateways = useCallback(async () => {
     if (!accountId || !premium) { setLoading(false); return; }
@@ -61,6 +90,7 @@ export default function AIGatewayScreen() {
           icon="zap"
           title={item.id}
           subtitle={`${item.collect_logs ? t('aigw.logging_on') : t('aigw.logging_off')} · ${t('aigw.cache')} ${item.cache_ttl}s`}
+          onPress={() => openSearch(item)}
           trailing={
             <TouchableOpacity
               onPress={() => handleDelete(item)}
@@ -106,11 +136,46 @@ export default function AIGatewayScreen() {
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => { setRefreshing(true); fetchGateways(); }} tintColor={colors.primary} />}
         ListEmptyComponent={<EmptyState icon="zap" title={error ? t('common.error') : t('aigw.no_gateways')} message={error ?? t('aigw.no_gateways_message')} />}
       />
+
+      <Sheet visible={!!searchGw} onClose={() => setSearchGw(null)} title={t('aigw.web_search')}>
+        <Field
+          label={t('aigw.web_search_query')}
+          placeholder={t('aigw.web_search_placeholder')}
+          value={query}
+          onChangeText={setQuery}
+          autoCapitalize="none"
+          autoCorrect={false}
+          returnKeyType="search"
+          onSubmitEditing={runSearch}
+        />
+        <Button title={t('aigw.search')} onPress={runSearch} loading={searching} disabled={!query.trim()} style={styles.searchBtn} />
+        {searched && results.length === 0 ? (
+          <Text style={[styles.noResults, { color: colors.textTertiary }]}>{t('aigw.no_results')}</Text>
+        ) : (
+          results.map((r, i) => (
+            <TouchableOpacity
+              key={`${r.url}-${i}`}
+              style={[styles.result, { borderColor: colors.borderLight }]}
+              onPress={() => Linking.openURL(r.url)}
+            >
+              <Text style={[styles.resultTitle, { color: colors.text }]} numberOfLines={2}>{r.title}</Text>
+              {!!r.description && <Text style={[styles.resultDesc, { color: colors.textSecondary }]} numberOfLines={3}>{r.description}</Text>}
+              <Text style={[styles.resultUrl, { color: colors.primary }]} numberOfLines={1}>{r.url}</Text>
+            </TouchableOpacity>
+          ))
+        )}
+      </Sheet>
     </>
   );
 }
 
 const styles = StyleSheet.create({
+  searchBtn: { marginTop: Spacing.sm, marginBottom: Spacing.md },
+  noResults: { fontSize: FontSize.sm, textAlign: 'center', paddingVertical: Spacing.lg },
+  result: { borderTopWidth: 1, paddingVertical: Spacing.md, gap: 3 },
+  resultTitle: { fontSize: FontSize.md, fontWeight: '600' },
+  resultDesc: { fontSize: FontSize.sm, lineHeight: 18 },
+  resultUrl: { fontSize: FontSize.xs },
   list: { padding: Spacing.lg, paddingBottom: Spacing.xxxl },
   item: { borderRadius: Radius.lg, borderWidth: 1, marginBottom: Spacing.sm, overflow: 'hidden' },
   // Lines up with the row text: row padding + icon circle + gap.

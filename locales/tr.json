@@ -1410,7 +1410,12 @@
     "rate_limit": "talep/dak",
     "delete_title": "Ağ Geçidini Sil",
     "delete_confirm": "\"{{id}}\" ağ geçidi silinsin mi?",
-    "delete_error": "Ağ geçidi silinemedi."
+    "delete_error": "Ağ geçidi silinemedi.",
+    "web_search": "Web araması",
+    "web_search_query": "Sorgu",
+    "web_search_placeholder": "Web'de arama yapın…",
+    "search": "Aramak",
+    "no_results": "Sonuç yok"
   },
   "autorag": {
     "title": "Yapay Zeka Arama",

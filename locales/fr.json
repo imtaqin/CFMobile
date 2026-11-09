@@ -1410,7 +1410,12 @@
     "rate_limit": "demande/min",
     "delete_title": "Supprimer la passerelle",
     "delete_confirm": "Supprimer la passerelle \"{{id}}\" ?",
-    "delete_error": "Échec de la suppression de la passerelle."
+    "delete_error": "Échec de la suppression de la passerelle.",
+    "web_search": "Recherche sur le Web",
+    "web_search_query": "Requête",
+    "web_search_placeholder": "Rechercher sur le Web…",
+    "search": "Recherche",
+    "no_results": "Aucun résultat"
   },
   "autorag": {
     "title": "Recherche IA",

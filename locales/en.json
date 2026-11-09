@@ -1410,7 +1410,12 @@
     "rate_limit": "req/min",
     "delete_title": "Delete Gateway",
     "delete_confirm": "Delete gateway \"{{id}}\"?",
-    "delete_error": "Failed to delete gateway."
+    "delete_error": "Failed to delete gateway.",
+    "web_search": "Web search",
+    "web_search_query": "Query",
+    "web_search_placeholder": "Search the web…",
+    "search": "Search",
+    "no_results": "No results"
   },
   "autorag": {
     "title": "AI Search",
