@@ -802,7 +802,10 @@
     "save_code": "Simpan kode?",
     "save_code_confirm": "Hanya kodenya yang diganti — binding, variabel, dan rahasia Anda disimpan.",
     "code_saved": "Kode diperbarui.",
-    "multi_module_note": "Worker ini mempunyai beberapa modul, sehingga tidak dapat diedit di sini. Terapkan dari rantai alat Anda."
+    "multi_module_note": "Worker ini mempunyai beberapa modul, sehingga tidak dapat diedit di sini. Terapkan dari rantai alat Anda.",
+    "add_secrets_bulk": "Tambahkan rahasia",
+    "bulk_secrets": "Tempelkan beberapa sekaligus",
+    "bulk_secrets_hint": "Satu KEY=nilai per baris"
   },
   "health_checks": {
     "title": "Health Check",

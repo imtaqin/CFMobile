@@ -802,7 +802,10 @@
     "save_code": "Code speichern?",
     "save_code_confirm": "Nur der Code wird ersetzt – Ihre Bindungen, Variablen und Geheimnisse bleiben erhalten.",
     "code_saved": "Code aktualisiert.",
-    "multi_module_note": "Dieser Worker verfügt über mehrere Module und kann daher hier nicht bearbeitet werden. Stellen Sie es über Ihre Toolchain bereit."
+    "multi_module_note": "Dieser Worker verfügt über mehrere Module und kann daher hier nicht bearbeitet werden. Stellen Sie es über Ihre Toolchain bereit.",
+    "add_secrets_bulk": "Geheimnisse hinzufügen",
+    "bulk_secrets": "Mehrere auf einmal einfügen",
+    "bulk_secrets_hint": "Ein KEY=Wert pro Zeile"
   },
   "health_checks": {
     "title": "Health Checks",

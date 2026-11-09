@@ -802,7 +802,10 @@
     "save_code": "コードを保存しますか?",
     "save_code_confirm": "コードのみが置き換えられ、バインディング、変数、シークレットは保持されます。",
     "code_saved": "コードが更新されました。",
-    "multi_module_note": "このワーカーには複数のモジュールがあるため、ここでは編集できません。ツールチェーンからデプロイします。"
+    "multi_module_note": "このワーカーには複数のモジュールがあるため、ここでは編集できません。ツールチェーンからデプロイします。",
+    "add_secrets_bulk": "シークレットの追加",
+    "bulk_secrets": "複数を一度に貼り付ける",
+    "bulk_secrets_hint": "1 行に 1 つの KEY=value"
   },
   "health_checks": {
     "title": "ヘルスチェック",

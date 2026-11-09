@@ -802,7 +802,10 @@
     "save_code": "保存代码？",
     "save_code_confirm": "仅替换代码 - 您的绑定、变量和秘密都被保留。",
     "code_saved": "代码已更新。",
-    "multi_module_note": "这个Worker有几个模块，所以这里不能编辑。从您的工具链部署它。"
+    "multi_module_note": "这个Worker有几个模块，所以这里不能编辑。从您的工具链部署它。",
+    "add_secrets_bulk": "添加秘密",
+    "bulk_secrets": "一次粘贴多个",
+    "bulk_secrets_hint": "每行一个 KEY=值"
   },
   "health_checks": {
     "title": "健康检查",

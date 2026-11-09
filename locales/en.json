@@ -802,7 +802,10 @@
     "save_code": "Save code?",
     "save_code_confirm": "Only the code is replaced — your bindings, variables and secrets are kept.",
     "code_saved": "Code updated.",
-    "multi_module_note": "This Worker has several modules, so it can't be edited here. Deploy it from your toolchain."
+    "multi_module_note": "This Worker has several modules, so it can't be edited here. Deploy it from your toolchain.",
+    "add_secrets_bulk": "Add secrets",
+    "bulk_secrets": "Paste several at once",
+    "bulk_secrets_hint": "One KEY=value per line"
   },
   "health_checks": {
     "title": "Health Checks",
