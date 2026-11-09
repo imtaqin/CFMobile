@@ -2033,5 +2033,29 @@
     "unavailable_title": "請求データは利用できません",
     "unavailable_message": "このアカウントまたは API トークンは、請求可能な使用量を読み取ることができません。これはアルファ版 Cloudflare API であるため、まだ有効になっていない可能性があります。",
     "note": "数値は Cloudflare の請求可能使用量 API (アルファ) からのものであり、請求書とは異なる場合があります。"
+  },
+  "devices": {
+    "title": "デバイス",
+    "subtitle": "WARP 登録済み Zero Trust デバイス",
+    "unavailable_title": "Zero Trust 利用できません",
+    "unavailable_message": "このアカウントまたは API トークンは、登録されたデバイスを読み取ることができません。 Zero Trust を有効にするか、デバイス アクセスでトークンを使用します。",
+    "empty_title": "デバイスがありません",
+    "empty_message": "このアカウントにはまだ WARP デバイスが登録されていません。",
+    "enrolled": "{{count}} 登録済み",
+    "last_seen": "見た {{date}}",
+    "last_seen_label": "最後に見た",
+    "revoke": "登録の取り消し",
+    "revoke_confirm": "アクティブな登録を取り消して、{{name}} に署名して WARP から除外しますか?",
+    "delete": "デバイスの削除",
+    "delete_confirm": "{{name}} をこのアカウントから削除しますか?これを元に戻すことはできません。",
+    "type": "タイプ",
+    "model": "モデル",
+    "manufacturer": "メーカー",
+    "os": "OSバージョン",
+    "client": "WARPクライアント",
+    "serial": "シリアルナンバー",
+    "mac": "MACアドレス",
+    "user": "最後のユーザー",
+    "active_registrations": "アクティブな登録"
   }
 }

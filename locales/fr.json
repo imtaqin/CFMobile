@@ -2033,5 +2033,29 @@
     "unavailable_title": "Données de facturation non disponibles",
     "unavailable_message": "Ce compte ou ce jeton API ne peut pas lire l'utilisation facturable. Il s'agit d'une API alpha Cloudflare et elle n'est peut-être pas encore activée pour vous.",
     "note": "Les chiffres proviennent de l'API d'utilisation facturable (alpha) du Cloudflare et peuvent différer de votre facture."
+  },
+  "devices": {
+    "title": "Appareils",
+    "subtitle": "Appareils Zero Trust inscrits au WARP",
+    "unavailable_title": "Zero Trust non disponible",
+    "unavailable_message": "Ce compte ou jeton API ne peut pas lire les appareils inscrits. Activez Zero Trust ou utilisez un jeton avec accès à l'appareil.",
+    "empty_title": "Aucun appareil",
+    "empty_message": "Aucun appareil WARP n'est encore inscrit dans ce compte.",
+    "enrolled": "{{count}} inscrits",
+    "last_seen": "Vu {{date}}",
+    "last_seen_label": "Vu pour la dernière fois",
+    "revoke": "Révoquer les inscriptions",
+    "revoke_confirm": "Signer {{name}} hors de WARP en révoquant ses enregistrements actifs ?",
+    "delete": "Supprimer l'appareil",
+    "delete_confirm": "Supprimer {{name}} de ce compte ? Cela ne peut pas être annulé.",
+    "type": "Taper",
+    "model": "Modèle",
+    "manufacturer": "Fabricant",
+    "os": "Version du système d'exploitation",
+    "client": "Client WARP",
+    "serial": "Numéro de série",
+    "mac": "Adresse MAC",
+    "user": "Dernier utilisateur",
+    "active_registrations": "Inscriptions actives"
   }
 }

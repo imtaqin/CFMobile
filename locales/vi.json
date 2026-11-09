@@ -2033,5 +2033,29 @@
     "unavailable_title": "Dữ liệu thanh toán không có sẵn",
     "unavailable_message": "Tài khoản hoặc mã thông báo API này không thể đọc được mức sử dụng phải thanh toán. Đây là API alpha Cloudflare và có thể chưa được bật cho bạn.",
     "note": "Số liệu lấy từ API mức sử dụng có thể lập hóa đơn (alpha) của Cloudflare và có thể khác với hóa đơn của bạn."
+  },
+  "devices": {
+    "title": "Thiết bị",
+    "subtitle": "Zero Trust thiết bị đã đăng ký WARP",
+    "unavailable_title": "Zero Trust không có sẵn",
+    "unavailable_message": "Tài khoản hoặc mã thông báo API này không thể đọc các thiết bị đã đăng ký. Kích hoạt Zero Trust hoặc sử dụng mã thông báo có quyền truy cập thiết bị.",
+    "empty_title": "Không có thiết bị",
+    "empty_message": "Chưa có thiết bị WARP nào được đăng ký trong tài khoản này.",
+    "enrolled": "{{count}} đã đăng ký",
+    "last_seen": "Đã xem {{date}}",
+    "last_seen_label": "Nhìn thấy lần cuối",
+    "revoke": "Thu hồi đăng ký",
+    "revoke_confirm": "Đăng {{name}} ra khỏi WARP bằng cách thu hồi đăng ký đang hoạt động của nó?",
+    "delete": "Xóa thiết bị",
+    "delete_confirm": "Xóa {{name}} khỏi tài khoản này? Điều này không thể hoàn tác được.",
+    "type": "Kiểu",
+    "model": "Người mẫu",
+    "manufacturer": "nhà sản xuất",
+    "os": "Phiên bản hệ điều hành",
+    "client": "Ứng dụng khách WARP",
+    "serial": "Số seri",
+    "mac": "Địa chỉ MAC",
+    "user": "Người dùng cuối cùng",
+    "active_registrations": "Đăng ký hoạt động"
   }
 }

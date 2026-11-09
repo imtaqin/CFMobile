@@ -2033,5 +2033,29 @@
     "unavailable_title": "Abrechnungsdaten nicht verfügbar",
     "unavailable_message": "Dieses Konto oder API-Token kann die abrechenbare Nutzung nicht lesen. Es handelt sich um eine Alpha-Cloudflare-API und ist möglicherweise noch nicht für Sie aktiviert.",
     "note": "Die Zahlen stammen aus der abrechenbaren Nutzungs-API (Alpha) von Cloudflare und können von Ihrer Rechnung abweichen."
+  },
+  "devices": {
+    "title": "Geräte",
+    "subtitle": "WARP-registrierte Zero Trust Geräte",
+    "unavailable_title": "Zero Trust nicht verfügbar",
+    "unavailable_message": "Dieses Konto oder API-Token kann registrierte Geräte nicht lesen. Aktivieren Sie Zero Trust oder verwenden Sie ein Token mit Gerätezugriff.",
+    "empty_title": "Keine Geräte",
+    "empty_message": "In diesem Konto sind noch keine WARP-Geräte registriert.",
+    "enrolled": "{{count}} eingeschrieben",
+    "last_seen": "Gesehen {{date}}",
+    "last_seen_label": "Zuletzt gesehen",
+    "revoke": "Registrierungen widerrufen",
+    "revoke_confirm": "{{name}} aus WARP austragen, indem seine aktiven Registrierungen widerrufen werden?",
+    "delete": "Gerät löschen",
+    "delete_confirm": "{{name}} aus diesem Konto entfernen? Dies kann nicht rückgängig gemacht werden.",
+    "type": "Typ",
+    "model": "Modell",
+    "manufacturer": "Hersteller",
+    "os": "Betriebssystemversion",
+    "client": "WARP-Client",
+    "serial": "Seriennummer",
+    "mac": "MAC-Adresse",
+    "user": "Letzter Benutzer",
+    "active_registrations": "Aktive Anmeldungen"
   }
 }

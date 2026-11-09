@@ -2033,5 +2033,29 @@
     "unavailable_title": "Billing data not available",
     "unavailable_message": "This account or API token can't read billable usage. It is an alpha Cloudflare API and may not be enabled for you yet.",
     "note": "Figures are from Cloudflare's billable-usage API (alpha) and may differ from your invoice."
+  },
+  "devices": {
+    "title": "Devices",
+    "subtitle": "WARP-enrolled Zero Trust devices",
+    "unavailable_title": "Zero Trust not available",
+    "unavailable_message": "This account or API token can't read enrolled devices. Enable Zero Trust, or use a token with device access.",
+    "empty_title": "No devices",
+    "empty_message": "No WARP devices are enrolled in this account yet.",
+    "enrolled": "{{count}} enrolled",
+    "last_seen": "Seen {{date}}",
+    "last_seen_label": "Last seen",
+    "revoke": "Revoke registrations",
+    "revoke_confirm": "Sign {{name}} out of WARP by revoking its active registrations?",
+    "delete": "Delete device",
+    "delete_confirm": "Remove {{name}} from this account? This cannot be undone.",
+    "type": "Type",
+    "model": "Model",
+    "manufacturer": "Manufacturer",
+    "os": "OS version",
+    "client": "WARP client",
+    "serial": "Serial number",
+    "mac": "MAC address",
+    "user": "Last user",
+    "active_registrations": "Active registrations"
   }
 }
