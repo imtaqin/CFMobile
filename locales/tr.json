@@ -2024,5 +2024,14 @@
     "done": "Tamamlandı",
     "failed": "Başarısız",
     "clear_result": "Sonuçları temizle"
+  },
+  "billing": {
+    "title": "Faturalandırma ve kullanım",
+    "subtitle": "Hizmete göre maliyet ve tüketim",
+    "period_total": "Bu fatura dönemi",
+    "by_service": "Hizmete göre",
+    "unavailable_title": "Faturalandırma verileri mevcut değil",
+    "unavailable_message": "Bu hesap veya API jetonu faturalandırılabilir kullanımı okuyamıyor. Bu bir alfa Cloudflare API'sidir ve sizin için henüz etkinleştirilmemiş olabilir.",
+    "note": "Rakamlar Cloudflare'nin faturalandırılabilir kullanım API'sinden (alfa) alınmıştır ve sizin faturanızdan farklı olabilir."
   }
 }

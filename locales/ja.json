@@ -2024,5 +2024,14 @@
     "done": "完了",
     "failed": "失敗",
     "clear_result": "明確な結果"
+  },
+  "billing": {
+    "title": "請求と使用量",
+    "subtitle": "サービスごとのコストと消費量",
+    "period_total": "この請求期間",
+    "by_service": "サービス別",
+    "unavailable_title": "請求データは利用できません",
+    "unavailable_message": "このアカウントまたは API トークンは、請求可能な使用量を読み取ることができません。これはアルファ版 Cloudflare API であるため、まだ有効になっていない可能性があります。",
+    "note": "数値は Cloudflare の請求可能使用量 API (アルファ) からのものであり、請求書とは異なる場合があります。"
   }
 }

@@ -120,6 +120,7 @@ export default function ProductsScreen() {
     {
       title: t('products.group_account'),
       products: [
+        { route: 'billing', icon: 'chart-line', title: t('billing.title'), subtitle: t('billing.subtitle') },
         { route: 'registrar', icon: 'globe', title: t('settings.registrar'), subtitle: t('settings.registrar_sub') },
         { route: 'account-members', icon: 'users', title: t('settings.account_members'), subtitle: t('settings.account_members_sub') },
         { route: 'api-tokens', icon: 'key', title: t('settings.api_tokens'), subtitle: t('settings.api_tokens_sub') },

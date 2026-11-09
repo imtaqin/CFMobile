@@ -2024,5 +2024,14 @@
     "done": "Terminé",
     "failed": "Échoué",
     "clear_result": "Des résultats clairs"
+  },
+  "billing": {
+    "title": "Facturation et utilisation",
+    "subtitle": "Coût et consommation par service",
+    "period_total": "Cette période de facturation",
+    "by_service": "Par prestation",
+    "unavailable_title": "Données de facturation non disponibles",
+    "unavailable_message": "Ce compte ou ce jeton API ne peut pas lire l'utilisation facturable. Il s'agit d'une API alpha Cloudflare et elle n'est peut-être pas encore activée pour vous.",
+    "note": "Les chiffres proviennent de l'API d'utilisation facturable (alpha) du Cloudflare et peuvent différer de votre facture."
   }
 }

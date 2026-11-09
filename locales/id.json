@@ -2024,5 +2024,14 @@
     "done": "Selesai",
     "failed": "Gagal",
     "clear_result": "Hasil yang jelas"
+  },
+  "billing": {
+    "title": "Penagihan & penggunaan",
+    "subtitle": "Biaya dan konsumsi berdasarkan layanan",
+    "period_total": "Periode penagihan ini",
+    "by_service": "Berdasarkan layanan",
+    "unavailable_title": "Data penagihan tidak tersedia",
+    "unavailable_message": "Akun atau token API ini tidak dapat membaca penggunaan yang dapat ditagih. Ini adalah API alfa Cloudflare dan mungkin belum diaktifkan untuk Anda.",
+    "note": "Angka berasal dari API penggunaan yang dapat ditagih (alfa) Cloudflare dan mungkin berbeda dari faktur Anda."
   }
 }
