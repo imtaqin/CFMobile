@@ -2024,5 +2024,14 @@
     "done": "완료",
     "failed": "실패",
     "clear_result": "명확한 결과"
+  },
+  "billing": {
+    "title": "청구 및 사용량",
+    "subtitle": "서비스별 비용 및 소비",
+    "period_total": "이번 청구 기간",
+    "by_service": "서비스별",
+    "unavailable_title": "결제 데이터를 사용할 수 없습니다.",
+    "unavailable_message": "이 계정 또는 API 토큰은 청구 가능한 사용량을 읽을 수 없습니다. 이는 알파 Cloudflare API이며 아직 활성화되지 않았을 수 있습니다.",
+    "note": "수치는 Cloudflare의 청구 가능 사용량 API(알파)에서 가져온 것이며 청구서와 다를 수 있습니다."
   }
 }

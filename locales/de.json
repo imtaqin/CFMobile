@@ -2024,5 +2024,14 @@
     "done": "Fertig",
     "failed": "Fehlgeschlagen",
     "clear_result": "Klare Ergebnisse"
+  },
+  "billing": {
+    "title": "Abrechnung und Nutzung",
+    "subtitle": "Kosten und Verbrauch nach Dienst",
+    "period_total": "Dieser Abrechnungszeitraum",
+    "by_service": "Durch Service",
+    "unavailable_title": "Abrechnungsdaten nicht verfügbar",
+    "unavailable_message": "Dieses Konto oder API-Token kann die abrechenbare Nutzung nicht lesen. Es handelt sich um eine Alpha-Cloudflare-API und ist möglicherweise noch nicht für Sie aktiviert.",
+    "note": "Die Zahlen stammen aus der abrechenbaren Nutzungs-API (Alpha) von Cloudflare und können von Ihrer Rechnung abweichen."
   }
 }

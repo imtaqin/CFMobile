@@ -86,6 +86,7 @@ function AppContent() {
           <Stack.Screen name="lists" options={{ animation: 'slide_from_right', headerShown: true }} />
           <Stack.Screen name="lists/[list]" options={{ animation: 'slide_from_right', headerShown: true }} />
           <Stack.Screen name="registrar" options={{ animation: 'slide_from_right', headerShown: true }} />
+          <Stack.Screen name="billing" options={{ animation: 'slide_from_right', headerShown: true }} />
           <Stack.Screen name="turnstile" options={{ animation: 'slide_from_right', headerShown: true }} />
           <Stack.Screen name="account-members" options={{ animation: 'slide_from_right', headerShown: true }} />
           <Stack.Screen name="api-tokens" options={{ animation: 'slide_from_right', headerShown: true }} />

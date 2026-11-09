@@ -331,6 +331,46 @@ export async function removeAccountMember(accountId: string, memberId: string): 
   return del(`/accounts/${accountId}/members/${memberId}`);
 }
 
+// ─── Billing ──────────────────────────────────────────────────────────────────
+// Billable Usage (v1, alpha): a per-service cost + consumption breakdown. The
+// API is alpha and isn't enabled for every account or token scope, so callers
+// must tolerate a 403 or an empty result and show "not available" rather than
+// treating it as a hard error.
+
+export interface BillableUsageRow {
+  ServiceName: string;
+  ServiceFamilyName?: string;
+  ChargeDescription: string;
+  ConsumedQuantity: number;
+  ConsumedUnit: string;
+  EffectiveCost: number;
+  BilledCost: number;
+  ListCost: number;
+  BillingCurrency: string;
+  ChargePeriodStart: string;
+  ChargePeriodEnd: string;
+  ZoneName?: string;
+  SubscriptionId?: string;
+}
+
+export interface BillableUsageInfo {
+  covered: boolean;
+  subscriptions: {
+    id: string;
+    billing_cycle_anchor_timestamp: string;
+    start_timestamp: string;
+    end_timestamp?: string;
+  }[];
+}
+
+export async function getBillableUsage(accountId: string, range?: { from: string; to: string }): Promise<CFResponse<BillableUsageRow[]>> {
+  return get(`/accounts/${accountId}/billable-usage`, range ? { from: range.from, to: range.to } : undefined);
+}
+
+export async function getBillableUsageInfo(accountId: string): Promise<CFResponse<BillableUsageInfo>> {
+  return get(`/accounts/${accountId}/billable-usage/info`);
+}
+
 // ─── Zones ───────────────────────────────────────────────────────────────────
 
 export async function getZones(page = 1, search?: string): Promise<CFResponse<Zone[]>> {

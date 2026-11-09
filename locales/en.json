@@ -2024,5 +2024,14 @@
     "done": "Done",
     "failed": "Failed",
     "clear_result": "Clear results"
+  },
+  "billing": {
+    "title": "Billing & usage",
+    "subtitle": "Cost and consumption by service",
+    "period_total": "This billing period",
+    "by_service": "By service",
+    "unavailable_title": "Billing data not available",
+    "unavailable_message": "This account or API token can't read billable usage. It is an alpha Cloudflare API and may not be enabled for you yet.",
+    "note": "Figures are from Cloudflare's billable-usage API (alpha) and may differ from your invoice."
   }
 }

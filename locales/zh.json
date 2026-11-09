@@ -2024,5 +2024,14 @@
     "done": "完成",
     "failed": "失败",
     "clear_result": "清晰的结果"
+  },
+  "billing": {
+    "title": "计费和使用",
+    "subtitle": "按服务划分的成本和消耗",
+    "period_total": "本计费周期",
+    "by_service": "按服务",
+    "unavailable_title": "账单数据不可用",
+    "unavailable_message": "此帐户或 API 令牌无法读取计费使用情况。它是 alpha Cloudflare API，可能尚未为您启用。",
+    "note": "数字来自 Cloudflare 的计费使用 API (alpha)，可能与您的发票有所不同。"
   }
 }
