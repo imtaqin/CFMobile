@@ -1410,7 +1410,12 @@
     "rate_limit": "kebutuhan/menit",
     "delete_title": "Hapus Gerbang",
     "delete_confirm": "Hapus gerbang \"{{id}}\"?",
-    "delete_error": "Gagal menghapus gerbang."
+    "delete_error": "Gagal menghapus gerbang.",
+    "web_search": "Pencarian web",
+    "web_search_query": "Pertanyaan",
+    "web_search_placeholder": "Telusuri web…",
+    "search": "Mencari",
+    "no_results": "Tidak ada hasil"
   },
   "autorag": {
     "title": "Pencarian AI",

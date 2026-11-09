@@ -1410,7 +1410,12 @@
     "rate_limit": "requerimiento/min",
     "delete_title": "Eliminar puerta de enlace",
     "delete_confirm": "¿Eliminar puerta de enlace \"{{id}}\"?",
-    "delete_error": "No se pudo eliminar la puerta de enlace."
+    "delete_error": "No se pudo eliminar la puerta de enlace.",
+    "web_search": "búsqueda web",
+    "web_search_query": "Consulta",
+    "web_search_placeholder": "Busca en la web…",
+    "search": "Buscar",
+    "no_results": "Sin resultados"
   },
   "autorag": {
     "title": "Búsqueda por IA",

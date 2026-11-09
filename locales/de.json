@@ -1410,7 +1410,12 @@
     "rate_limit": "Anforderung/Min",
     "delete_title": "Gateway löschen",
     "delete_confirm": "Gateway „{{id}}“ löschen?",
-    "delete_error": "Gateway konnte nicht gelöscht werden."
+    "delete_error": "Gateway konnte nicht gelöscht werden.",
+    "web_search": "Websuche",
+    "web_search_query": "Abfrage",
+    "web_search_placeholder": "Durchsuchen Sie das Internet…",
+    "search": "Suchen",
+    "no_results": "Keine Ergebnisse"
   },
   "autorag": {
     "title": "KI-Suche",

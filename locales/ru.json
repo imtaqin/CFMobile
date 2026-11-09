@@ -1410,7 +1410,12 @@
     "rate_limit": "запрос/мин",
     "delete_title": "Удалить шлюз",
     "delete_confirm": "Удалить шлюз «{{id}}»?",
-    "delete_error": "Не удалось удалить шлюз."
+    "delete_error": "Не удалось удалить шлюз.",
+    "web_search": "Веб-поиск",
+    "web_search_query": "Запрос",
+    "web_search_placeholder": "Поиск в Интернете…",
+    "search": "Поиск",
+    "no_results": "Нет результатов"
   },
   "autorag": {
     "title": "AI-поиск",

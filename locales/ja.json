@@ -1410,7 +1410,12 @@
     "rate_limit": "要求/分",
     "delete_title": "ゲートウェイの削除",
     "delete_confirm": "ゲートウェイ「{{id}}」を削除しますか?",
-    "delete_error": "ゲートウェイの削除に失敗しました。"
+    "delete_error": "ゲートウェイの削除に失敗しました。",
+    "web_search": "ウェブ検索",
+    "web_search_query": "クエリ",
+    "web_search_placeholder": "ウェブを検索して…",
+    "search": "検索",
+    "no_results": "結果はありません"
   },
   "autorag": {
     "title": "AI検索",

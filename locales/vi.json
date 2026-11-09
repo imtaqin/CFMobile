@@ -1410,7 +1410,12 @@
     "rate_limit": "yêu cầu/phút",
     "delete_title": "Xóa cổng",
     "delete_confirm": "Xóa cổng \"{{id}}\"?",
-    "delete_error": "Không xóa được cổng."
+    "delete_error": "Không xóa được cổng.",
+    "web_search": "Tìm kiếm trên web",
+    "web_search_query": "Truy vấn",
+    "web_search_placeholder": "Tìm kiếm trên mạng…",
+    "search": "Tìm kiếm",
+    "no_results": "Không có kết quả"
   },
   "autorag": {
     "title": "Tìm kiếm AI",

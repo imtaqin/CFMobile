@@ -1410,7 +1410,12 @@
     "rate_limit": "necessidade/min",
     "delete_title": "Excluir gateway",
     "delete_confirm": "Excluir gateway \"{{id}}\"?",
-    "delete_error": "Falha ao excluir o gateway."
+    "delete_error": "Falha ao excluir o gateway.",
+    "web_search": "Pesquisa na web",
+    "web_search_query": "Consulta",
+    "web_search_placeholder": "Pesquise na web…",
+    "search": "Procurar",
+    "no_results": "Nenhum resultado"
   },
   "autorag": {
     "title": "Pesquisa de IA",
