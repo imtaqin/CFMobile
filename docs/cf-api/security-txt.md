@@ -34,7 +34,6 @@ operationId: `get-security-txt`
 
 **Response** 200 → `result`
 
-(one of 1 variants; showing the first)
 - `acknowledgments`: string[]
   [array]
 - `canonical`: string[]

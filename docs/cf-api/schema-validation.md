@@ -48,7 +48,7 @@ operationId: `schema-validation-delete-schema`
 
 **Response** 200 → `result`
 
-- `id`: string **required** — The ID of the schema that was just deleted
+object
 
 ## GET /zones/{zone_id}/schema_validation/schemas/{schema_id}
 
@@ -67,7 +67,7 @@ operationId: `schema-validation-get-schema` · query: `omit_source`
 
 ## PATCH /zones/{zone_id}/schema_validation/schemas/{schema_id}
 
-Edit details of a schema to enable validation
+Set schema validation state
 
 operationId: `schema-validation-edit-schema`
 
@@ -86,7 +86,7 @@ operationId: `schema-validation-edit-schema`
 
 ## GET /zones/{zone_id}/schema_validation/schemas/{schema_id}/operations
 
-Retrieve all operations from the schema.
+Retrieve all operations from the schema
 
 operationId: `schema-validation-extract-operations-from-schema` · query: `feature`, `host`, `method`, `endpoint`, `page`, `per_page`, `operation_status`
 

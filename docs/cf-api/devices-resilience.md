@@ -4,7 +4,7 @@
 
 ## GET /accounts/{account_id}/devices/resilience/disconnect
 
-Retrieve Global WARP override state
+Get Global Disconnect
 
 operationId: `devices-resilience-retrieve-global-warp-override`
 
@@ -15,7 +15,7 @@ object
 
 ## POST /accounts/{account_id}/devices/resilience/disconnect
 
-Set Global WARP override state
+Set Global Disconnect
 
 operationId: `devices-resilience-set-global-warp-override`
 

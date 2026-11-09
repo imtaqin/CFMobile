@@ -50,6 +50,9 @@ operationId: `stream-live-inputs-create-a-live-input`
 - `keysRotatedAt`: string — The date and time the live input keys were last rotated. Omitted for live inputs that have never had their keys rotated.
 - `meta`: object — A user modifiable key-value store used to reference other systems of record for managing live inputs.
 - `modified`: string — The date and time the live input was last modified.
+- `playback`: object — Details for playing a live input's broadcast using the HLS or DASH manifests. URLs reference the live input ID.
+  - `dash`: string **required** — The DASH manifest URL used to play live video, referencing the live input ID.
+  - `hls`: string **required** — The HLS manifest URL used to play live video, referencing the live input ID.
 - `preferLowLatency`: boolean default: `false` — When enabled, the live stream is delivered using Low-Latency HLS (LL-HLS), reducing glass-to-glass latency for viewers at the cost of reduce
 - `recording`: object — Records the input to a Cloudflare Stream video. Behavior depends on the mode. In most cases, the video will initially be viewable as a live 
   - `allowedOrigins`: string[] — Lists the origins allowed to display videos created with this input. Enter allowed origin domains in an array and use `*` for wildcard subdo
@@ -99,6 +102,9 @@ operationId: `stream-live-inputs-retrieve-a-live-input`
 - `keysRotatedAt`: string — The date and time the live input keys were last rotated. Omitted for live inputs that have never had their keys rotated.
 - `meta`: object — A user modifiable key-value store used to reference other systems of record for managing live inputs.
 - `modified`: string — The date and time the live input was last modified.
+- `playback`: object — Details for playing a live input's broadcast using the HLS or DASH manifests. URLs reference the live input ID.
+  - `dash`: string **required** — The DASH manifest URL used to play live video, referencing the live input ID.
+  - `hls`: string **required** — The HLS manifest URL used to play live video, referencing the live input ID.
 - `preferLowLatency`: boolean default: `false` — When enabled, the live stream is delivered using Low-Latency HLS (LL-HLS), reducing glass-to-glass latency for viewers at the cost of reduce
 - `recording`: object — Records the input to a Cloudflare Stream video. Behavior depends on the mode. In most cases, the video will initially be viewable as a live 
   - `allowedOrigins`: string[] — Lists the origins allowed to display videos created with this input. Enter allowed origin domains in an array and use `*` for wildcard subdo
@@ -157,6 +163,9 @@ operationId: `stream-live-inputs-update-a-live-input`
 - `keysRotatedAt`: string — The date and time the live input keys were last rotated. Omitted for live inputs that have never had their keys rotated.
 - `meta`: object — A user modifiable key-value store used to reference other systems of record for managing live inputs.
 - `modified`: string — The date and time the live input was last modified.
+- `playback`: object — Details for playing a live input's broadcast using the HLS or DASH manifests. URLs reference the live input ID.
+  - `dash`: string **required** — The DASH manifest URL used to play live video, referencing the live input ID.
+  - `hls`: string **required** — The HLS manifest URL used to play live video, referencing the live input ID.
 - `preferLowLatency`: boolean default: `false` — When enabled, the live stream is delivered using Low-Latency HLS (LL-HLS), reducing glass-to-glass latency for viewers at the cost of reduce
 - `recording`: object — Records the input to a Cloudflare Stream video. Behavior depends on the mode. In most cases, the video will initially be viewable as a live 
   - `allowedOrigins`: string[] — Lists the origins allowed to display videos created with this input. Enter allowed origin domains in an array and use `*` for wildcard subdo
@@ -200,6 +209,9 @@ operationId: `stream-live-inputs-disable-a-live-input`
 - `keysRotatedAt`: string — The date and time the live input keys were last rotated. Omitted for live inputs that have never had their keys rotated.
 - `meta`: object — A user modifiable key-value store used to reference other systems of record for managing live inputs.
 - `modified`: string — The date and time the live input was last modified.
+- `playback`: object — Details for playing a live input's broadcast using the HLS or DASH manifests. URLs reference the live input ID.
+  - `dash`: string **required** — The DASH manifest URL used to play live video, referencing the live input ID.
+  - `hls`: string **required** — The HLS manifest URL used to play live video, referencing the live input ID.
 - `preferLowLatency`: boolean default: `false` — When enabled, the live stream is delivered using Low-Latency HLS (LL-HLS), reducing glass-to-glass latency for viewers at the cost of reduce
 - `recording`: object — Records the input to a Cloudflare Stream video. Behavior depends on the mode. In most cases, the video will initially be viewable as a live 
   - `allowedOrigins`: string[] — Lists the origins allowed to display videos created with this input. Enter allowed origin domains in an array and use `*` for wildcard subdo
@@ -243,6 +255,9 @@ operationId: `stream-live-inputs-enable-a-live-input`
 - `keysRotatedAt`: string — The date and time the live input keys were last rotated. Omitted for live inputs that have never had their keys rotated.
 - `meta`: object — A user modifiable key-value store used to reference other systems of record for managing live inputs.
 - `modified`: string — The date and time the live input was last modified.
+- `playback`: object — Details for playing a live input's broadcast using the HLS or DASH manifests. URLs reference the live input ID.
+  - `dash`: string **required** — The DASH manifest URL used to play live video, referencing the live input ID.
+  - `hls`: string **required** — The HLS manifest URL used to play live video, referencing the live input ID.
 - `preferLowLatency`: boolean default: `false` — When enabled, the live stream is delivered using Low-Latency HLS (LL-HLS), reducing glass-to-glass latency for viewers at the cost of reduce
 - `recording`: object — Records the input to a Cloudflare Stream video. Behavior depends on the mode. In most cases, the video will initially be viewable as a live 
   - `allowedOrigins`: string[] — Lists the origins allowed to display videos created with this input. Enter allowed origin domains in an array and use `*` for wildcard subdo
@@ -342,6 +357,9 @@ operationId: `stream-live-inputs-rotate-keys-for-a-live-input`
 - `keysRotatedAt`: string — The date and time the live input keys were last rotated. Omitted for live inputs that have never had their keys rotated.
 - `meta`: object — A user modifiable key-value store used to reference other systems of record for managing live inputs.
 - `modified`: string — The date and time the live input was last modified.
+- `playback`: object — Details for playing a live input's broadcast using the HLS or DASH manifests. URLs reference the live input ID.
+  - `dash`: string **required** — The DASH manifest URL used to play live video, referencing the live input ID.
+  - `hls`: string **required** — The HLS manifest URL used to play live video, referencing the live input ID.
 - `preferLowLatency`: boolean default: `false` — When enabled, the live stream is delivered using Low-Latency HLS (LL-HLS), reducing glass-to-glass latency for viewers at the cost of reduce
 - `recording`: object — Records the input to a Cloudflare Stream video. Behavior depends on the mode. In most cases, the video will initially be viewable as a live 
   - `allowedOrigins`: string[] — Lists the origins allowed to display videos created with this input. Enter allowed origin domains in an array and use `*` for wildcard subdo

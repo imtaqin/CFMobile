@@ -10,7 +10,10 @@ operationId: `listZoneSnippets` · query: `page`, `per_page`
 
 **Response** 200 → `result`
 
-object
+[array of]
+- `created_on`: string **required** — Indicates when the snippet was created.
+- `modified_on`: string — Indicates when the snippet was last modified.
+- `snippet_name`: string **required** — Identify the snippet.
 
 ## DELETE /zones/{zone_id}/snippets/{snippet_name}
 
@@ -30,7 +33,9 @@ operationId: `getZoneSnippet`
 
 **Response** 200 → `result`
 
-object
+- `created_on`: string **required** — Indicates when the snippet was created.
+- `modified_on`: string — Indicates when the snippet was last modified.
+- `snippet_name`: string **required** — Identify the snippet.
 
 ## PUT /zones/{zone_id}/snippets/{snippet_name}
 
@@ -45,7 +50,9 @@ operationId: `updateZoneSnippet`
 
 **Response** 200 → `result`
 
-object
+- `created_on`: string **required** — Indicates when the snippet was created.
+- `modified_on`: string — Indicates when the snippet was last modified.
+- `snippet_name`: string **required** — Identify the snippet.
 
 ## GET /zones/{zone_id}/snippets/{snippet_name}/content
 
@@ -65,7 +72,13 @@ operationId: `deleteZoneSnippetRules`
 
 **Response** 200 → `result`
 
-object
+[array of]
+- `description`: string default: `` — Provide an informative description of the rule.
+- `enabled`: boolean default: `false` — Indicate whether to execute the rule.
+- `expression`: string **required** — Define the expression that determines which traffic matches the rule.
+- `id`: string **required** — Specify the unique ID of the rule.
+- `last_updated`: string **required** — Specify the timestamp of when the rule was last modified.
+- `snippet_name`: string **required** — Identify the snippet.
 
 ## GET /zones/{zone_id}/snippets/snippet_rules
 
@@ -75,7 +88,13 @@ operationId: `listZoneSnippetRules`
 
 **Response** 200 → `result`
 
-object
+[array of]
+- `description`: string default: `` — Provide an informative description of the rule.
+- `enabled`: boolean default: `false` — Indicate whether to execute the rule.
+- `expression`: string **required** — Define the expression that determines which traffic matches the rule.
+- `id`: string **required** — Specify the unique ID of the rule.
+- `last_updated`: string **required** — Specify the timestamp of when the rule was last modified.
+- `snippet_name`: string **required** — Identify the snippet.
 
 ## PUT /zones/{zone_id}/snippets/snippet_rules
 
@@ -96,4 +115,10 @@ operationId: `updateZoneSnippetRules`
 
 **Response** 200 → `result`
 
-object
+[array of]
+- `description`: string default: `` — Provide an informative description of the rule.
+- `enabled`: boolean default: `false` — Indicate whether to execute the rule.
+- `expression`: string **required** — Define the expression that determines which traffic matches the rule.
+- `id`: string **required** — Specify the unique ID of the rule.
+- `last_updated`: string **required** — Specify the timestamp of when the rule was last modified.
+- `snippet_name`: string **required** — Identify the snippet.

@@ -30,7 +30,7 @@ operationId: `token-validation-config-list` · query: `page`, `per_page`
 
 ## POST /zones/{zone_id}/token_validation/config
 
-Create a new Token Validation configuration
+Create a token validation configuration
 
 operationId: `token-validation-config-create`
 
@@ -71,7 +71,7 @@ operationId: `token-validation-config-create`
 
 ## DELETE /zones/{zone_id}/token_validation/config/{config_id}
 
-Delete Token Configuration
+Delete a token validation configuration
 
 operationId: `token-validation-config-delete`
 
@@ -81,7 +81,7 @@ operationId: `token-validation-config-delete`
 
 ## GET /zones/{zone_id}/token_validation/config/{config_id}
 
-Get a single Token Configuration
+Get a token validation configuration
 
 operationId: `token-validation-config-get`
 
@@ -106,7 +106,7 @@ operationId: `token-validation-config-get`
 
 ## PATCH /zones/{zone_id}/token_validation/config/{config_id}
 
-Edit an existing Token Configuration
+Edit a token validation configuration
 
 operationId: `token-validation-config-edit`
 
@@ -127,7 +127,7 @@ operationId: `token-validation-config-edit`
 
 ## PATCH /zones/{zone_id}/token_validation/config/{config_id}/credentials
 
-Edit Token Configuration credentials
+Edit token validation credentials
 
 operationId: `token-validation-config-credentials-edit`
 
@@ -143,21 +143,6 @@ operationId: `token-validation-config-credentials-edit`
 
 **Response** 200 → `result`
 
-- `errors`: object[] **required**
-  [array of]
-  - `code`: integer **required**
-  - `documentation_url`: string
-  - `message`: string **required**
-  - `source`: object
-    - `pointer`: string
-- `messages`: object[] **required**
-  [array of]
-  - `code`: integer **required**
-  - `documentation_url`: string
-  - `message`: string **required**
-  - `source`: object
-    - `pointer`: string
-- `success`: boolean **required** enum: `true` — Whether the API call was successful.
 - `keys`: object[] **required**
   [array of]
   - `kid`: string **required** — Key ID
@@ -168,7 +153,7 @@ operationId: `token-validation-config-credentials-edit`
 
 ## PUT /zones/{zone_id}/token_validation/config/{config_id}/credentials
 
-Update Token Configuration credentials
+Replace token validation credentials
 
 operationId: `token-validation-config-credentials-update`
 
@@ -184,21 +169,6 @@ operationId: `token-validation-config-credentials-update`
 
 **Response** 200 → `result`
 
-- `errors`: object[] **required**
-  [array of]
-  - `code`: integer **required**
-  - `documentation_url`: string
-  - `message`: string **required**
-  - `source`: object
-    - `pointer`: string
-- `messages`: object[] **required**
-  [array of]
-  - `code`: integer **required**
-  - `documentation_url`: string
-  - `message`: string **required**
-  - `source`: object
-    - `pointer`: string
-- `success`: boolean **required** enum: `true` — Whether the API call was successful.
 - `keys`: object[] **required**
   [array of]
   - `kid`: string **required** — Key ID

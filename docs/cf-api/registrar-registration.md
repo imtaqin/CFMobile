@@ -21,33 +21,13 @@ operationId: `sandbox-registrar-domain-registration-create`
 
 **Request** (application/json)
 
-- `acknowledgements`: object — User acknowledgements required by a specific extension or premium
+- `acknowledgements`: object — Provides user acknowledgements for a specific extension or premium
 - `auto_renew`: boolean default: `false` — Enable or disable automatic renewal. Defaults to `false` if omitted.
-- `contact_extensions`: object — Registry-specific contact extension values for the registrant. The
-- `contacts`: object — Contact data for the registration request.
-  - `administrator`: object — Contact data for the domain registration. This information
-    - `email`: string **required** — Email address for the registrant. Used for domain-related
-    - `fax`: string — Fax number in E.164 format (e.g., `+1.5555555555`). Optional.
-    - `phone`: string **required** — Phone number in E.164 format: `+{country_code}.{number}` with no
-    - `postal_info`: object **required** — Postal/mailing information for the contact. The `name` field is the
-  - `billing`: object — Contact data for the domain registration. This information
-    - `email`: string **required** — Email address for the registrant. Used for domain-related
-    - `fax`: string — Fax number in E.164 format (e.g., `+1.5555555555`). Optional.
-    - `phone`: string **required** — Phone number in E.164 format: `+{country_code}.{number}` with no
-    - `postal_info`: object **required** — Postal/mailing information for the contact. The `name` field is the
-  - `registrant`: object — Contact data for the domain registration. This information
-    - `email`: string **required** — Email address for the registrant. Used for domain-related
-    - `fax`: string — Fax number in E.164 format (e.g., `+1.5555555555`). Optional.
-    - `phone`: string **required** — Phone number in E.164 format: `+{country_code}.{number}` with no
-    - `postal_info`: object **required** — Postal/mailing information for the contact. The `name` field is the
-  - `technical`: object — Contact data for the domain registration. This information
-    - `email`: string **required** — Email address for the registrant. Used for domain-related
-    - `fax`: string — Fax number in E.164 format (e.g., `+1.5555555555`). Optional.
-    - `phone`: string **required** — Phone number in E.164 format: `+{country_code}.{number}` with no
-    - `postal_info`: object **required** — Postal/mailing information for the contact. The `name` field is the
-- `domain_name`: string **required** — Fully qualified domain name (FQDN) including the extension
-- `privacy_mode`: string enum: `false`, `redaction` default: `redaction` — WHOIS privacy mode for the registration. Defaults to `redaction`.
-- `years`: integer — Number of years to register (1–10). If omitted, defaults to the
+- `contact_extensions`: object — Provides registry-specific contact extension values for the registrant.
+- `contacts`: object
+- `domain_name`: string **required** — Provides a fully qualified domain name (FQDN), including the extension
+- `privacy_mode`: string enum: `off`, `redaction` default: `redaction` — Sets the WHOIS privacy mode for the registration. Defaults to `redaction`.
+- `years`: integer — Sets the registration term from 1 to 10 years. When omitted, this
 
 **Response** 201 → `result`
 
@@ -121,33 +101,13 @@ operationId: `registrar-domain-registration-create`
 
 **Request** (application/json)
 
-- `acknowledgements`: object — User acknowledgements required by a specific extension or premium
+- `acknowledgements`: object — Provides user acknowledgements for a specific extension or premium
 - `auto_renew`: boolean default: `false` — Enable or disable automatic renewal. Defaults to `false` if omitted.
-- `contact_extensions`: object — Registry-specific contact extension values for the registrant. The
-- `contacts`: object — Contact data for the registration request.
-  - `administrator`: object — Contact data for the domain registration. This information
-    - `email`: string **required** — Email address for the registrant. Used for domain-related
-    - `fax`: string — Fax number in E.164 format (e.g., `+1.5555555555`). Optional.
-    - `phone`: string **required** — Phone number in E.164 format: `+{country_code}.{number}` with no
-    - `postal_info`: object **required** — Postal/mailing information for the contact. The `name` field is the
-  - `billing`: object — Contact data for the domain registration. This information
-    - `email`: string **required** — Email address for the registrant. Used for domain-related
-    - `fax`: string — Fax number in E.164 format (e.g., `+1.5555555555`). Optional.
-    - `phone`: string **required** — Phone number in E.164 format: `+{country_code}.{number}` with no
-    - `postal_info`: object **required** — Postal/mailing information for the contact. The `name` field is the
-  - `registrant`: object — Contact data for the domain registration. This information
-    - `email`: string **required** — Email address for the registrant. Used for domain-related
-    - `fax`: string — Fax number in E.164 format (e.g., `+1.5555555555`). Optional.
-    - `phone`: string **required** — Phone number in E.164 format: `+{country_code}.{number}` with no
-    - `postal_info`: object **required** — Postal/mailing information for the contact. The `name` field is the
-  - `technical`: object — Contact data for the domain registration. This information
-    - `email`: string **required** — Email address for the registrant. Used for domain-related
-    - `fax`: string — Fax number in E.164 format (e.g., `+1.5555555555`). Optional.
-    - `phone`: string **required** — Phone number in E.164 format: `+{country_code}.{number}` with no
-    - `postal_info`: object **required** — Postal/mailing information for the contact. The `name` field is the
-- `domain_name`: string **required** — Fully qualified domain name (FQDN) including the extension
-- `privacy_mode`: string enum: `false`, `redaction` default: `redaction` — WHOIS privacy mode for the registration. Defaults to `redaction`.
-- `years`: integer — Number of years to register (1–10). If omitted, defaults to the
+- `contact_extensions`: object — Provides registry-specific contact extension values for the registrant.
+- `contacts`: object
+- `domain_name`: string **required** — Provides a fully qualified domain name (FQDN), including the extension
+- `privacy_mode`: string enum: `off`, `redaction` default: `redaction` — Sets the WHOIS privacy mode for the registration. Defaults to `redaction`.
+- `years`: integer — Sets the registration term from 1 to 10 years. When omitted, this
 
 **Response** 201 → `result`
 

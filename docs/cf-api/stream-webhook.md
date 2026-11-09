@@ -14,7 +14,7 @@ string
 
 ## GET /accounts/{account_id}/stream/webhook
 
-View webhooks
+View webhook
 
 operationId: `stream-webhook-view-webhooks`
 
@@ -27,13 +27,14 @@ operationId: `stream-webhook-view-webhooks`
 
 ## PUT /accounts/{account_id}/stream/webhook
 
-Create webhooks
+Create VOD webhooks
 
 operationId: `stream-webhook-create-webhooks`
 
 **Request** (application/json)
 
 (one of 2 variants; showing the first)
+object
 
 **Response** 200 → `result`
 

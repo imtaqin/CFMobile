@@ -297,7 +297,7 @@ operationId: `urlscanner-create-scan-v2`
 **Request** (application/json)
 
 - `agentReadiness`: boolean — Enable agent readiness checks.
-- `country`: string enum: `AF`, `AL`, `DZ`, `AD`, `AO`, `AG`, `AR`, `AM` — Country to geo egress from
+- `country`: string enum: `AE`, `AL`, `AM`, `AO`, `AR`, `AT`, `AU`, `AZ` — Country to geo egress from
 - `customHeaders`: object — Set custom headers.
 - `customagent`: string
 - `referer`: string

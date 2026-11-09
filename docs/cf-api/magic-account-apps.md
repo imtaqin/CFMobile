@@ -10,7 +10,8 @@ operationId: `magic-account-apps-list-apps`
 
 **Response** 200 → `result`
 
-[array]
+[array of]
+object
 
 ## POST /accounts/{account_id}/magic/apps
 
@@ -21,6 +22,7 @@ operationId: `magic-account-apps-add-app`
 **Request** (application/json)
 
 (one of 3 variants; showing the first)
+object
 
 **Response** 201 → `result`
 
@@ -45,6 +47,7 @@ operationId: `magic-account-apps-patch-app`
 **Request** (application/json)
 
 (one of 5 variants; showing the first)
+object
 
 **Response** 200 → `result`
 
@@ -59,6 +62,7 @@ operationId: `magic-account-apps-update-app`
 **Request** (application/json)
 
 (one of 5 variants; showing the first)
+object
 
 **Response** 200 → `result`
 

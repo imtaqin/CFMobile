@@ -28,7 +28,7 @@ operationId: `moq-relays-create`
 
 **Response** 201 → `result`
 
-- `config`: object **required**
+- `config`: object **required** — Relay configuration. All sub-objects use whole-object replacement when
   - `upstreams`: object — Upstreams are external MOQT server publishers that a relay falls back
     - `enabled`: boolean default: `false`
     - `upstreams`: object[] default: `` — Ordered list of upstream MOQT server publishers. Each entry is an
@@ -67,7 +67,7 @@ operationId: `moq-relays-get`
 
 **Response** 200 → `result`
 
-- `config`: object **required**
+- `config`: object **required** — Relay configuration. All sub-objects use whole-object replacement when
   - `upstreams`: object — Upstreams are external MOQT server publishers that a relay falls back
     - `enabled`: boolean default: `false`
     - `upstreams`: object[] default: `` — Ordered list of upstream MOQT server publishers. Each entry is an
@@ -85,15 +85,12 @@ operationId: `moq-relays-update`
 
 **Request** (application/json)
 
-- `config`: object
-  - `upstreams`: object — Upstreams are external MOQT server publishers that a relay falls back
-    - `enabled`: boolean default: `false`
-    - `upstreams`: object[] default: `` — Ordered list of upstream MOQT server publishers. Each entry is an
+- `config`: any
 - `name`: string
 
 **Response** 200 → `result`
 
-- `config`: object **required**
+- `config`: object **required** — Relay configuration. All sub-objects use whole-object replacement when
   - `upstreams`: object — Upstreams are external MOQT server publishers that a relay falls back
     - `enabled`: boolean default: `false`
     - `upstreams`: object[] default: `` — Ordered list of upstream MOQT server publishers. Each entry is an

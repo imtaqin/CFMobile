@@ -32,18 +32,7 @@ operationId: `get_all_recordings` · query: `meeting_id`, `page_no`, `per_page`,
   - `status`: string **required** enum: `INVOKED`, `RECORDING`, `UPLOADING`, `UPLOADED`, `ERRORED`, `PAUSED` — Current status of the recording.
   - `stopped_time`: string **required** — Timestamp when this recording was stopped. Optional; is present only when the recording has actually been stopped.
   - `storage_config`: object
-    - `access_key`: string — Access key of the storage medium. Access key is not required for the `gcs` storage media type.
-    - `auth_method`: string enum: `KEY`, `PASSWORD` — Authentication method used for "sftp" type storage medium
-    - `bucket`: string — Name of the storage medium's bucket.
-    - `host`: string — SSH destination server host for SFTP type storage medium
-    - `password`: string — SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the pas
-    - `path`: string — Path relative to the bucket root at which the recording will be placed.
-    - `port`: number — SSH destination server port for SFTP type storage medium
-    - `private_key`: string — Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY"
-    - `region`: string — Region of the storage medium.
-    - `secret`: string — Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
-    - `type`: string **required** enum: `aws`, `azure`, `digitalocean`, `gcs`, `sftp` — Type of storage media.
-    - `username`: string — SSH destination server username for SFTP type storage medium
+    - `type`: any enum: `gcs`
   - `meeting`: object
     - `created_at`: string **required** — Timestamp the object was created at. The time is returned in ISO format.
     - `id`: string **required** — ID of the meeting.
@@ -81,21 +70,10 @@ operationId: `start_recording`
 - `rtmp_out_config`: object
   - `rtmp_url`: string — RTMP URL to stream to
 - `storage_config`: object
-  - `access_key`: string — Access key of the storage medium. Access key is not required for the `gcs` storage media type.
-  - `auth_method`: string enum: `KEY`, `PASSWORD` — Authentication method used for "sftp" type storage medium
-  - `bucket`: string — Name of the storage medium's bucket.
-  - `host`: string — SSH destination server host for SFTP type storage medium
-  - `password`: string — SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the pas
-  - `path`: string — Path relative to the bucket root at which the recording will be placed.
-  - `port`: number — SSH destination server port for SFTP type storage medium
-  - `private_key`: string — Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY"
-  - `region`: string — Region of the storage medium.
-  - `secret`: string — Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
-  - `type`: string **required** enum: `aws`, `azure`, `digitalocean`, `gcs`, `sftp` — Type of storage media.
-  - `username`: string — SSH destination server username for SFTP type storage medium
+  - `type`: any enum: `gcs`
 - `url`: string — Pass a custom url to record arbitary screen
 - `video_config`: object
-  - `codec`: string enum: `H264`, `VP8` default: `H264` — Codec using which the recording will be encoded.
+  - `codec`: string enum: `H264`, `VP8`, `VP9` default: `H264` — Codec using which the recording will be encoded.
   - `export_file`: boolean default: `true` — Controls whether to export video file seperately
   - `height`: integer default: `720` — Height of the recording video in pixels
   - `watermark`: object — Watermark to be added to the recording

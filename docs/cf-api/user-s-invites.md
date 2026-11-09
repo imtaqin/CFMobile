@@ -22,7 +22,7 @@ operationId: `user'-s-invites-list-invitations`
 - `organization_name`: string — Organization name.
 - `roles`: string[] — List of role names the membership has for this account.
   [array]
-- `status`: any enum: `pending`, `accepted`, `rejected`, `expired` — Current status of the invitation.
+- `status`: string enum: `pending`, `accepted`, `rejected`, `expired` — Current status of the invitation.
 
 ## GET /user/invites/{invite_id}
 
@@ -43,7 +43,7 @@ operationId: `user'-s-invites-invitation-details`
 - `organization_name`: string — Organization name.
 - `roles`: string[] — List of role names the membership has for this account.
   [array]
-- `status`: any enum: `pending`, `accepted`, `rejected`, `expired` — Current status of the invitation.
+- `status`: string enum: `pending`, `accepted`, `rejected`, `expired` — Current status of the invitation.
 
 ## PATCH /user/invites/{invite_id}
 
@@ -53,7 +53,7 @@ operationId: `user'-s-invites-respond-to-invitation`
 
 **Request** (application/json)
 
-- `status`: any **required** enum: `accepted`, `rejected` — Status of your response to the invitation (rejected or accepted).
+- `status`: string **required** enum: `accepted`, `rejected` — Status of your response to the invitation (rejected or accepted).
 
 **Response** 200 → `result`
 
@@ -68,4 +68,4 @@ operationId: `user'-s-invites-respond-to-invitation`
 - `organization_name`: string — Organization name.
 - `roles`: string[] — List of role names the membership has for this account.
   [array]
-- `status`: any enum: `pending`, `accepted`, `rejected`, `expired` — Current status of the invitation.
+- `status`: string enum: `pending`, `accepted`, `rejected`, `expired` — Current status of the invitation.

@@ -4,7 +4,7 @@
 
 ## GET /accounts/{account_id}/cloudforce-one/events/attackers
 
-Lists attackers across multiple datasets
+List attackers
 
 operationId: `get_AttackerList` · query: `datasetIds`
 

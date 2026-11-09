@@ -10,11 +10,12 @@ operationId: `listDeployHooks`
 
 **Response** 200 → `result`
 
+(one of 2 variants; showing the first)
 object
 
 ## POST /accounts/{account_id}/builds/workers/{script_name}/deploy_hooks
 
-Create deploy hook
+Create a deploy hook
 
 operationId: `createDeployHook`
 
@@ -25,31 +26,34 @@ operationId: `createDeployHook`
 
 **Response** 200 → `result`
 
+(one of 2 variants; showing the first)
 object
 
 ## DELETE /accounts/{account_id}/builds/workers/{script_name}/deploy_hooks/{deploy_hook_uuid}
 
-Delete deploy hook
+Delete a deploy hook
 
 operationId: `deleteDeployHook`
 
 **Response** 200 → `result`
 
+(one of 2 variants; showing the first)
 object
 
 ## GET /accounts/{account_id}/builds/workers/{script_name}/deploy_hooks/{deploy_hook_uuid}
 
-Get deploy hook
+Get a deploy hook
 
 operationId: `getDeployHook`
 
 **Response** 200 → `result`
 
+(one of 2 variants; showing the first)
 object
 
 ## PUT /accounts/{account_id}/builds/workers/{script_name}/deploy_hooks/{deploy_hook_uuid}
 
-Update deploy hook
+Update a deploy hook
 
 operationId: `updateDeployHook`
 
@@ -60,6 +64,7 @@ operationId: `updateDeployHook`
 
 **Response** 200 → `result`
 
+(one of 2 variants; showing the first)
 object
 
 ## POST /workers/builds/deploy_hooks/{deploy_hook_uuid}
@@ -70,4 +75,5 @@ operationId: `triggerDeployHook`
 
 **Response** 200 → `result`
 
+(one of 2 variants; showing the first)
 object

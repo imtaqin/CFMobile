@@ -40,7 +40,7 @@ operationId: `waf-rule-groups-update-a-waf-rule-group`
 
 **Request** (application/json)
 
-- `mode`: string enum: `on`, `off` default: `on` — Defines the state of the rules contained in the rule group. When `on`, the rules in the group are configurable/usable.
+- `mode`: any
 
 **Response** 200 → `result`
 

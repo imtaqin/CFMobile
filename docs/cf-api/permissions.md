@@ -4,7 +4,7 @@
 
 ## GET /accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/permissions
 
-List permissions for dataset
+List dataset permissions
 
 operationId: `get_PermissionList`
 
@@ -22,7 +22,7 @@ operationId: `get_PermissionList`
 
 ## POST /accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/permissions
 
-Create a permission for dataset
+Grant access to a dataset
 
 operationId: `post_PermissionCreate`
 
@@ -45,7 +45,7 @@ operationId: `post_PermissionCreate`
 
 ## DELETE /accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/permissions/{grant_id}
 
-Delete a permission for dataset
+Revoke access to a dataset
 
 operationId: `delete_PermissionDelete`
 
@@ -56,7 +56,7 @@ operationId: `delete_PermissionDelete`
 
 ## PUT /accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/permissions/{grant_id}
 
-Update a permission for dataset
+Change a dataset permission
 
 operationId: `put_PermissionUpdate`
 

@@ -10,6 +10,7 @@ operationId: `magic-site-app-configs-list-app-configs`
 
 **Response** 200 → `result`
 
+[array of]
 object
 
 ## POST /accounts/{account_id}/magic/sites/{site_id}/app_configs
@@ -23,6 +24,7 @@ operationId: `magic-site-app-configs-add-app-config`
 (one of 2 variants; showing the first)
 - `account_app_id`: string **required** — Magic account app ID.
 (one of 2 variants; showing the first)
+object
 - `breakout`: boolean — Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.
 - `preferred_wans`: string[] — WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).
   [array]

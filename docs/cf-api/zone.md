@@ -1,6 +1,6 @@
 # Zone
 
-8 endpoints.
+10 endpoints.
 
 ## GET /zones
 
@@ -283,6 +283,22 @@ operationId: `put-zones-zone_id-activation_check`
 
 - `id`: string — Identifier.
 
+## POST /zones/{zone_id}/environments/{environment_id}/invalidate_cache
+
+Invalidate Cached Content by Environment
+
+operationId: `zone-environment-invalidate`
+
+**Request** (application/json)
+
+(one of 6 variants; showing the first)
+- `tags`: string[] — Cache tags. Targets all content whose `Cache-Tag` response header contains at least one of these tags. See [Purge cache by cache-tags](https
+  [array]
+
+**Response** 200 → `result`
+
+- `id`: string **required**
+
 ## POST /zones/{zone_id}/environments/{environment_id}/purge_cache
 
 Purge Cached Content by Environment
@@ -292,7 +308,23 @@ operationId: `zone-environment-purge`
 **Request** (application/json)
 
 (one of 6 variants; showing the first)
-- `tags`: string[] — For more information on cache tags and purging by tags, please refer to [purge by cache-tags documentation page](https://developers.cloudfla
+- `tags`: string[] — Cache tags. Targets all content whose `Cache-Tag` response header contains at least one of these tags. See [Purge cache by cache-tags](https
+  [array]
+
+**Response** 200 → `result`
+
+- `id`: string **required**
+
+## POST /zones/{zone_id}/invalidate_cache
+
+Invalidate Cached Content
+
+operationId: `zone-invalidate`
+
+**Request** (application/json)
+
+(one of 6 variants; showing the first)
+- `tags`: string[] — Cache tags. Targets all content whose `Cache-Tag` response header contains at least one of these tags. See [Purge cache by cache-tags](https
   [array]
 
 **Response** 200 → `result`
@@ -308,7 +340,7 @@ operationId: `zone-purge`
 **Request** (application/json)
 
 (one of 6 variants; showing the first)
-- `tags`: string[] — For more information on cache tags and purging by tags, please refer to [purge by cache-tags documentation page](https://developers.cloudfla
+- `tags`: string[] — Cache tags. Targets all content whose `Cache-Tag` response header contains at least one of these tags. See [Purge cache by cache-tags](https
   [array]
 
 **Response** 200 → `result`

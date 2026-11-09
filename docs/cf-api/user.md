@@ -85,20 +85,46 @@ operationId: `User_listUserTenants`
 **Response** 200 → `result`
 
 [array of]
-- `create_time`: string **required**
-- `id`: any **required**
-- `meta`: object **required**
-  - `flags`: any
-  - `hierarchy_tags`: string[] — Ordered chain of organization tags from the root organization down to
-    [array]
-  - `managed_by`: string
-- `name`: string **required**
-- `parent`: object
-  - `id`: string **required**
-  - `name`: string **required**
-- `profile`: object
-  - `business_address`: string **required**
-  - `business_email`: string **required**
-  - `business_name`: string **required**
-  - `business_phone`: string **required**
-  - `external_metadata`: string **required**
+- `cdate`: string **required**
+- `customer_id`: string **required**
+- `edate`: string **required**
+- `tenant_contacts`: object **required**
+  - `email`: string
+  - `website`: string
+- `tenant_labels`: string[] **required**
+  [array]
+- `tenant_metadata`: object **required**
+  - `billing_account_type`: string
+  - `configuration_account`: string
+  - `created_by`: string
+  - `dns`: object
+    - `ns_pool`: object **required**
+  - `flags`: object
+  - `innate_account_entitlements`: object[]
+    [array of]
+    - `allocation`: object **required**
+    - `feature`: object **required**
+  - `tenant_entitlements`: object[]
+    [array of]
+    - `allocation`: object **required**
+    - `feature`: object **required**
+- `tenant_name`: string **required**
+- `tenant_network`: object **required**
+  - `choices`: object
+- `tenant_status`: string **required**
+- `tenant_tag`: string **required**
+- `tenant_type`: string **required**
+- `tenant_units`: object[] **required**
+  [array of]
+  - `unit_memberships`: object[] **required**
+    [array of]
+    - `member_metadata`: object **required**
+    - `member_status`: string **required**
+    - `member_tag`: string **required**
+  - `unit_metadata`: object **required**
+  - `unit_name`: string **required**
+  - `unit_status`: string **required**
+  - `unit_tag`: string **required**
+- `ui_flags`: object **required** — Which top-level dashboard experiences to render for this tenant; both may be true.
+  - `show_orgs_ui`: boolean **required** — Render the Organizations experience for this tenant.
+  - `show_tenants_ui`: boolean **required** — Render the legacy Tenants experience for this tenant.

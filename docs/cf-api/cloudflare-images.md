@@ -1,6 +1,6 @@
 # Cloudflare Images
 
-10 endpoints.
+11 endpoints.
 
 ## GET /accounts/{account_id}/images/v1
 
@@ -132,6 +132,17 @@ operationId: `cloudflare-images-create-authenticated-direct-upload-url-v-2`
 - `id`: string — Optional Image Custom ID. Up to 1024 chars. Can include any number of subpaths, and utf8 characters. Cannot start nor end with a / (forward 
 - `metadata`: object — User modifiable key-value store. Can be used for keeping references to another system of record, for managing images.
 - `requireSignedURLs`: boolean default: `false` — Indicates whether the image requires a signature token to be accessed.
+
+**Response** 200 → `result`
+
+(one of 3 variants; showing the first)
+object
+
+## GET /accounts/{account_id}/images/v2/metadata/keys
+
+List image metadata keys
+
+operationId: `cloudflare-images-list-metadata-keys`
 
 **Response** 200 → `result`
 

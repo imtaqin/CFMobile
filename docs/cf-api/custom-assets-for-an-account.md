@@ -2,7 +2,7 @@
 
 5 endpoints.
 
-## GET /accounts/{account_identifier}/custom_pages/assets
+## GET /accounts/{account_id}/custom_pages/assets
 
 List custom assets
 
@@ -17,7 +17,7 @@ operationId: `custom-assets-for-an-account-list-custom-assets` · query: `page`,
 - `size_bytes`: integer — The size of the asset content in bytes.
 - `url`: string — The URL where the asset content is fetched from.
 
-## POST /accounts/{account_identifier}/custom_pages/assets
+## POST /accounts/{account_id}/custom_pages/assets
 
 Create a custom asset
 
@@ -37,13 +37,13 @@ operationId: `custom-assets-for-an-account-create-a-custom-asset`
 - `size_bytes`: integer — The size of the asset content in bytes.
 - `url`: string — The URL where the asset content is fetched from.
 
-## DELETE /accounts/{account_identifier}/custom_pages/assets/{asset_name}
+## DELETE /accounts/{account_id}/custom_pages/assets/{asset_name}
 
 Delete a custom asset
 
 operationId: `custom-assets-for-an-account-delete-a-custom-asset`
 
-## GET /accounts/{account_identifier}/custom_pages/assets/{asset_name}
+## GET /accounts/{account_id}/custom_pages/assets/{asset_name}
 
 Get a custom asset
 
@@ -57,7 +57,7 @@ operationId: `custom-assets-for-an-account-get-a-custom-asset`
 - `size_bytes`: integer — The size of the asset content in bytes.
 - `url`: string — The URL where the asset content is fetched from.
 
-## PUT /accounts/{account_identifier}/custom_pages/assets/{asset_name}
+## PUT /accounts/{account_id}/custom_pages/assets/{asset_name}
 
 Update a custom asset
 

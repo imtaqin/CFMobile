@@ -4,7 +4,7 @@
 
 ## GET /zones/{zone_id}/api_gateway/configuration
 
-Retrieve information about specific configuration properties
+Get session identifier settings
 
 operationId: `api-shield-settings-retrieve-information-about-specific-configuration-properties` · query: `normalize`
 
@@ -17,7 +17,7 @@ operationId: `api-shield-settings-retrieve-information-about-specific-configurat
 
 ## PUT /zones/{zone_id}/api_gateway/configuration
 
-Update configuration properties
+Update session identifier settings
 
 operationId: `api-shield-settings-set-configuration-properties` · query: `normalize`
 

@@ -26,16 +26,12 @@ operationId: `per-hostname-authenticated-origin-pull-enable-or-disable-a-hostnam
 
 **Request** (application/json)
 
-- `config`: object[] **required**
-  [array of]
-  - `cert_id`: string — Certificate identifier tag.
-  - `enabled`: boolean — Indicates whether hostname-level authenticated origin pulls is enabled. A null value voids the association.
-  - `hostname`: string — The hostname on the origin for which the client certificate uploaded will be used.
+- `config`: any **required**
 
 **Response** 200 → `result`
 
 [array of]
-- `cert_id`: string — Identifier.
+- `cert_id`: string — Certificate identifier tag.
 - `cert_status`: string enum: `initializing`, `pending_deployment`, `pending_deletion`, `active`, `deleted`, `deployment_timed_out`, `deletion_timed_out` — Status of the certificate or the association.
 - `cert_updated_at`: string — The time when the certificate was updated.
 - `cert_uploaded_on`: string — The time when the certificate was uploaded.
@@ -58,7 +54,7 @@ operationId: `per-hostname-authenticated-origin-pull-get-the-hostname-status-for
 
 **Response** 200 → `result`
 
-- `cert_id`: string — Identifier.
+- `cert_id`: string — Certificate identifier tag.
 - `cert_status`: string enum: `initializing`, `pending_deployment`, `pending_deletion`, `active`, `deleted`, `deployment_timed_out`, `deletion_timed_out` — Status of the certificate or the association.
 - `cert_updated_at`: string — The time when the certificate was updated.
 - `cert_uploaded_on`: string — The time when the certificate was uploaded.
@@ -84,7 +80,7 @@ operationId: `per-hostname-authenticated-origin-pull-list-certificates`
 [array of]
 - `certificate`: string — The hostname certificate.
 - `expires_on`: string — The date when the certificate expires.
-- `id`: string — Identifier.
+- `id`: string — Certificate identifier tag.
 - `issuer`: string — The certificate authority that issued the certificate.
 - `serial_number`: string — The serial number on the uploaded certificate.
 - `signature`: string — The type of hash used for the certificate.
@@ -106,7 +102,7 @@ operationId: `per-hostname-authenticated-origin-pull-upload-a-hostname-client-ce
 
 - `certificate`: string — The hostname certificate.
 - `expires_on`: string — The date when the certificate expires.
-- `id`: string — Identifier.
+- `id`: string — Certificate identifier tag.
 - `issuer`: string — The certificate authority that issued the certificate.
 - `serial_number`: string — The serial number on the uploaded certificate.
 - `signature`: string — The type of hash used for the certificate.
@@ -123,7 +119,7 @@ operationId: `per-hostname-authenticated-origin-pull-delete-hostname-client-cert
 
 - `certificate`: string — The hostname certificate.
 - `expires_on`: string — The date when the certificate expires.
-- `id`: string — Identifier.
+- `id`: string — Certificate identifier tag.
 - `issuer`: string — The certificate authority that issued the certificate.
 - `serial_number`: string — The serial number on the uploaded certificate.
 - `signature`: string — The type of hash used for the certificate.
@@ -140,7 +136,7 @@ operationId: `per-hostname-authenticated-origin-pull-get-the-hostname-client-cer
 
 - `certificate`: string — The hostname certificate.
 - `expires_on`: string — The date when the certificate expires.
-- `id`: string — Identifier.
+- `id`: string — Certificate identifier tag.
 - `issuer`: string — The certificate authority that issued the certificate.
 - `serial_number`: string — The serial number on the uploaded certificate.
 - `signature`: string — The type of hash used for the certificate.

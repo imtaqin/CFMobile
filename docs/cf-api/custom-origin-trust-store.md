@@ -13,11 +13,11 @@ operationId: `custom-origin-trust-store-list-details` · query: `page`, `per_pag
 [array of]
 - `certificate`: string **required** — The root CA certificate in PEM format. Only root CA certificates are accepted; intermediate and leaf certificates are not supported.
 - `expires_on`: string **required** — When the certificate expires.
-- `id`: string **required** — Identifier.
+- `id`: string **required** — Certificate identifier tag.
 - `issuer`: string **required** — The certificate authority that issued the certificate.
 - `signature`: string **required** — The type of hash used for the certificate.
 - `status`: string **required** enum: `initializing`, `pending_deployment`, `active`, `pending_deletion`, `deleted`, `expired` — Status of the zone's custom SSL.
-- `updated_at`: string **required** — When the certificate was last modified.
+- `updated_at`: string — When the certificate was last modified. Only returned when uploading a certificate.
 - `uploaded_on`: string **required** — When the certificate was uploaded to Cloudflare.
 
 ## POST /zones/{zone_id}/acm/custom_trust_store
@@ -34,11 +34,11 @@ operationId: `custom-origin-trust-store-create`
 
 - `certificate`: string **required** — The root CA certificate in PEM format. Only root CA certificates are accepted; intermediate and leaf certificates are not supported.
 - `expires_on`: string **required** — When the certificate expires.
-- `id`: string **required** — Identifier.
+- `id`: string **required** — Certificate identifier tag.
 - `issuer`: string **required** — The certificate authority that issued the certificate.
 - `signature`: string **required** — The type of hash used for the certificate.
 - `status`: string **required** enum: `initializing`, `pending_deployment`, `active`, `pending_deletion`, `deleted`, `expired` — Status of the zone's custom SSL.
-- `updated_at`: string **required** — When the certificate was last modified.
+- `updated_at`: string — When the certificate was last modified. Only returned when uploading a certificate.
 - `uploaded_on`: string **required** — When the certificate was uploaded to Cloudflare.
 
 ## DELETE /zones/{zone_id}/acm/custom_trust_store/{custom_origin_trust_store_id}
@@ -49,7 +49,7 @@ operationId: `custom-origin-trust-store-delete`
 
 **Response** 200 → `result`
 
-- `id`: string — Identifier.
+- `id`: string — Certificate identifier tag.
 
 ## GET /zones/{zone_id}/acm/custom_trust_store/{custom_origin_trust_store_id}
 
@@ -61,9 +61,9 @@ operationId: `custom-origin-trust-store-details`
 
 - `certificate`: string **required** — The root CA certificate in PEM format. Only root CA certificates are accepted; intermediate and leaf certificates are not supported.
 - `expires_on`: string **required** — When the certificate expires.
-- `id`: string **required** — Identifier.
+- `id`: string **required** — Certificate identifier tag.
 - `issuer`: string **required** — The certificate authority that issued the certificate.
 - `signature`: string **required** — The type of hash used for the certificate.
 - `status`: string **required** enum: `initializing`, `pending_deployment`, `active`, `pending_deletion`, `deleted`, `expired` — Status of the zone's custom SSL.
-- `updated_at`: string **required** — When the certificate was last modified.
+- `updated_at`: string — When the certificate was last modified. Only returned when uploading a certificate.
 - `uploaded_on`: string **required** — When the certificate was uploaded to Cloudflare.

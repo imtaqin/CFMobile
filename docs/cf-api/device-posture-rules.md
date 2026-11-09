@@ -4,7 +4,7 @@
 
 ## GET /accounts/{account_id}/devices/posture
 
-List device posture rules
+List posture rules
 
 operationId: `device-posture-rules-list-device-posture-rules`
 
@@ -15,7 +15,7 @@ object
 
 ## POST /accounts/{account_id}/devices/posture
 
-Create a device posture rule
+Create posture rule
 
 operationId: `device-posture-rules-create-device-posture-rule`
 
@@ -38,7 +38,7 @@ object
 
 ## DELETE /accounts/{account_id}/devices/posture/{rule_id}
 
-Delete a device posture rule
+Delete posture rule
 
 operationId: `device-posture-rules-delete-device-posture-rule`
 
@@ -49,7 +49,7 @@ object
 
 ## GET /accounts/{account_id}/devices/posture/{rule_id}
 
-Get device posture rule details
+Get posture rule
 
 operationId: `device-posture-rules-device-posture-rules-details`
 
@@ -60,7 +60,7 @@ object
 
 ## PUT /accounts/{account_id}/devices/posture/{rule_id}
 
-Update a device posture rule
+Update posture rule
 
 operationId: `device-posture-rules-update-device-posture-rule`
 

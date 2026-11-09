@@ -4,7 +4,7 @@
 
 ## GET /accounts/{account_id}/ai-gateway/gateways/{gateway_id}/routes
 
-List all AI Gateway Dynamic Routes.
+List dynamic routes
 
 operationId: `aig-config-list-gateway-dynamic-routes` · query: `page`, `per_page`
 
@@ -30,7 +30,7 @@ operationId: `aig-config-list-gateway-dynamic-routes` · query: `page`, `per_pag
 
 ## POST /accounts/{account_id}/ai-gateway/gateways/{gateway_id}/routes
 
-Create a new AI Gateway Dynamic Route.
+Create a dynamic route
 
 operationId: `aig-config-post-gateway-dynamic-route`
 
@@ -70,7 +70,7 @@ operationId: `aig-config-post-gateway-dynamic-route`
 
 ## DELETE /accounts/{account_id}/ai-gateway/gateways/{gateway_id}/routes/{id}
 
-Delete an AI Gateway Dynamic Route.
+Delete a dynamic route
 
 operationId: `aig-config-delete-gateway-dynamic-route`
 
@@ -90,7 +90,7 @@ operationId: `aig-config-delete-gateway-dynamic-route`
 
 ## GET /accounts/{account_id}/ai-gateway/gateways/{gateway_id}/routes/{id}
 
-Get an AI Gateway Dynamic Route.
+Get a dynamic route
 
 operationId: `aig-config-get-gateway-dynamic-route`
 
@@ -120,7 +120,7 @@ operationId: `aig-config-get-gateway-dynamic-route`
 
 ## PATCH /accounts/{account_id}/ai-gateway/gateways/{gateway_id}/routes/{id}
 
-Update an AI Gateway Dynamic Route.
+Rename a dynamic route
 
 operationId: `aig-config-update-gateway-dynamic-route`
 
@@ -156,7 +156,7 @@ operationId: `aig-config-update-gateway-dynamic-route`
 
 ## GET /accounts/{account_id}/ai-gateway/gateways/{gateway_id}/routes/{id}/deployments
 
-List all AI Gateway Dynamic Route Deployments.
+List dynamic route deployments
 
 operationId: `aig-config-list-gateway-dynamic-route-deployments`
 
@@ -176,7 +176,7 @@ operationId: `aig-config-list-gateway-dynamic-route-deployments`
 
 ## POST /accounts/{account_id}/ai-gateway/gateways/{gateway_id}/routes/{id}/deployments
 
-Create a new AI Gateway Dynamic Route Deployment.
+Deploy a dynamic route version
 
 operationId: `aig-config-post-gateway-dynamic-route-deployment`
 
@@ -200,7 +200,7 @@ operationId: `aig-config-post-gateway-dynamic-route-deployment`
 
 ## GET /accounts/{account_id}/ai-gateway/gateways/{gateway_id}/routes/{id}/versions
 
-List all AI Gateway Dynamic Route Versions.
+List dynamic route versions
 
 operationId: `aig-config-list-gateway-dynamic-route-versions`
 
@@ -222,7 +222,7 @@ operationId: `aig-config-list-gateway-dynamic-route-versions`
 
 ## POST /accounts/{account_id}/ai-gateway/gateways/{gateway_id}/routes/{id}/versions
 
-Create a new AI Gateway Dynamic Route Version.
+Create a dynamic route version
 
 operationId: `aig-config-post-gateway-dynamic-route-version`
 
@@ -251,7 +251,7 @@ operationId: `aig-config-post-gateway-dynamic-route-version`
 
 ## GET /accounts/{account_id}/ai-gateway/gateways/{gateway_id}/routes/{id}/versions/{version_id}
 
-Get an AI Gateway Dynamic Route Version.
+Get a dynamic route version
 
 operationId: `aig-config-get-gateway-dynamic-route-version`
 

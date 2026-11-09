@@ -215,7 +215,7 @@ operationId: `stream-videos-update-video-details`
 
 ## GET /accounts/{account_id}/stream/{identifier}/embed
 
-Retrieve embed Code HTML
+Deprecated: Retrieve legacy embed code HTML
 
 operationId: `stream-videos-retreieve-embed-code-html`
 
@@ -260,6 +260,7 @@ operationId: `stream-videos-upload-videos-from-a-url`
 **Request** (application/json)
 
 (one of 2 variants; showing the first)
+object
 
 **Response** 200 → `result`
 

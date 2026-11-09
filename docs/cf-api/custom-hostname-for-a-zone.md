@@ -16,7 +16,7 @@ operationId: `custom-hostname-for-a-zone-list-custom-hostnames` · query: `hostn
 - `custom_origin_server`: string — a valid hostname that’s been added to your DNS zone as an A, AAAA, or CNAME record.
 - `custom_origin_sni`: string — A hostname that will be sent to your custom origin server as SNI for TLS handshake. This can be a valid subdomain of the zone or custom orig
 - `hostname`: string — The custom hostname that will point to your hostname via CNAME.
-- `id`: string — Identifier.
+- `id`: string — Custom hostname identifier tag.
 - `ownership_verification`: object — This is a record which can be placed to activate a hostname.
 - `ownership_verification_http`: object — This presents the token to be served by the given http url to activate a hostname.
 - `ssl`: object — SSL properties for the custom hostname.
@@ -45,7 +45,7 @@ operationId: `custom-hostname-for-a-zone-create-custom-hostname`
 - `custom_origin_server`: string — a valid hostname that’s been added to your DNS zone as an A, AAAA, or CNAME record.
 - `custom_origin_sni`: string — A hostname that will be sent to your custom origin server as SNI for TLS handshake. This can be a valid subdomain of the zone or custom orig
 - `hostname`: string — The custom hostname that will point to your hostname via CNAME.
-- `id`: string — Identifier.
+- `id`: string — Custom hostname identifier tag.
 - `ownership_verification`: object — This is a record which can be placed to activate a hostname.
 - `ownership_verification_http`: object — This presents the token to be served by the given http url to activate a hostname.
 - `ssl`: object — SSL properties for the custom hostname.
@@ -61,7 +61,7 @@ operationId: `custom-hostname-for-a-zone-delete-custom-hostname-(-and-any-issued
 
 **Response** 200 → `result`
 
-- `id`: string — Identifier.
+- `id`: string — Custom hostname identifier tag.
 
 ## GET /zones/{zone_id}/custom_hostnames/{custom_hostname_id}
 
@@ -76,7 +76,7 @@ operationId: `custom-hostname-for-a-zone-custom-hostname-details`
 - `custom_origin_server`: string — a valid hostname that’s been added to your DNS zone as an A, AAAA, or CNAME record.
 - `custom_origin_sni`: string — A hostname that will be sent to your custom origin server as SNI for TLS handshake. This can be a valid subdomain of the zone or custom orig
 - `hostname`: string — The custom hostname that will point to your hostname via CNAME.
-- `id`: string — Identifier.
+- `id`: string — Custom hostname identifier tag.
 - `ownership_verification`: object — This is a record which can be placed to activate a hostname.
 - `ownership_verification_http`: object — This presents the token to be served by the given http url to activate a hostname.
 - `ssl`: object — SSL properties for the custom hostname.
@@ -104,7 +104,7 @@ operationId: `custom-hostname-for-a-zone-edit-custom-hostname`
 - `custom_origin_server`: string — a valid hostname that’s been added to your DNS zone as an A, AAAA, or CNAME record.
 - `custom_origin_sni`: string — A hostname that will be sent to your custom origin server as SNI for TLS handshake. This can be a valid subdomain of the zone or custom orig
 - `hostname`: string — The custom hostname that will point to your hostname via CNAME.
-- `id`: string — Identifier.
+- `id`: string — Custom hostname identifier tag.
 - `ownership_verification`: object — This is a record which can be placed to activate a hostname.
 - `ownership_verification_http`: object — This presents the token to be served by the given http url to activate a hostname.
 - `ssl`: object — SSL properties for the custom hostname.
@@ -120,7 +120,7 @@ operationId: `custom-hostname-for-a-zone-delete_single_certificate_and_key_in_a_
 
 **Response** 202 → `result`
 
-- `id`: string — Identifier.
+- `id`: string — Custom hostname identifier tag.
 
 ## PUT /zones/{zone_id}/custom_hostnames/{custom_hostname_id}/certificate_pack/{certificate_pack_id}/certificates/{certificate_id}
 
@@ -140,7 +140,7 @@ operationId: `custom-hostname-for-a-zone-edit-custom-certificate-custom-hostname
 - `custom_origin_server`: string — a valid hostname that’s been added to your DNS zone as an A, AAAA, or CNAME record.
 - `custom_origin_sni`: string — A hostname that will be sent to your custom origin server as SNI for TLS handshake. This can be a valid subdomain of the zone or custom orig
 - `hostname`: string — The custom hostname that will point to your hostname via CNAME.
-- `id`: string — Identifier.
+- `id`: string — Custom hostname identifier tag.
 - `ownership_verification`: object — This is a record which can be placed to activate a hostname.
 - `ownership_verification_http`: object — This presents the token to be served by the given http url to activate a hostname.
 - `ssl`: object — SSL properties for the custom hostname.

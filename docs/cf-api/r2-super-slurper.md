@@ -19,7 +19,7 @@ operationId: `slurper-list-jobs` · query: `limit`, `offset`
 - `status`: string enum: `running`, `paused`, `aborted`, `completed`
 - `target`: object
   - `bucket`: string
-  - `jurisdiction`: string enum: `default`, `eu`, `fedramp`
+  - `jurisdiction`: any
   - `vendor`: string enum: `r2`
 
 ## POST /accounts/{account_id}/slurper/jobs
@@ -34,7 +34,7 @@ operationId: `slurper-create-job`
 - `source`: object
 - `target`: object
   - `bucket`: string **required**
-  - `jurisdiction`: string enum: `default`, `eu`, `fedramp`
+  - `jurisdiction`: any
   - `secret`: object **required**
     - `accessKeyId`: string **required**
     - `secretAccessKey`: string **required**
@@ -70,7 +70,7 @@ operationId: `slurper-get-job`
 - `status`: string enum: `running`, `paused`, `aborted`, `completed`
 - `target`: object
   - `bucket`: string
-  - `jurisdiction`: string enum: `default`, `eu`, `fedramp`
+  - `jurisdiction`: any
   - `vendor`: string enum: `r2`
 
 ## PUT /accounts/{account_id}/slurper/jobs/{job_id}/abort
@@ -177,7 +177,7 @@ operationId: `slurper-check-target-connectivity`
 **Request** (application/json)
 
 - `bucket`: string **required**
-- `jurisdiction`: string enum: `default`, `eu`, `fedramp`
+- `jurisdiction`: any
 - `secret`: object **required**
   - `accessKeyId`: string **required**
   - `secretAccessKey`: string **required**

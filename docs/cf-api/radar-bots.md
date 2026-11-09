@@ -12,7 +12,11 @@ operationId: `radar-get-bots` · query: `limit`, `offset`, `botCategory`, `botOp
 
 - `bots`: object[] **required**
   [array of]
-  - `category`: string **required** — The category of the bot.
+  - `accessLevel`: string **required** — Who can operate the bot: DIRECT bots reach origins under their own identity, while INTERMEDIARY bots forward requests on behalf of another a
+  - `categories`: string[] **required** — The categories of the bot.
+    [array]
+  - `category`: string **required** — The category of the bot. Deprecated: use `categories`.
+  - `contentUse`: string **required** — How the bot uses the content it fetches (e.g., immediate, reference or full).
   - `description`: string **required** — A summary for the bot (e.g., purpose).
   - `kind`: string **required** — The kind of the bot.
   - `name`: string **required** — The name of the bot.
@@ -30,12 +34,18 @@ operationId: `radar-get-bot-details` · query: `format`
 **Response** 200 → `result`
 
 - `bot`: object **required**
-  - `category`: string **required** — The category of the bot.
+  - `accessLevel`: string **required** — Who can operate the bot: DIRECT bots reach origins under their own identity, while INTERMEDIARY bots forward requests on behalf of another a
+  - `categories`: string[] **required** — The categories of the bot.
+    [array]
+  - `category`: string **required** — The category of the bot. Deprecated: use `categories`.
+  - `contentUse`: string **required** — How the bot uses the content it fetches (e.g., immediate, reference or full).
   - `description`: string **required** — A summary for the bot (e.g., purpose).
+  - `documentationUrl`: string **required** — The link to the bot documentation.
   - `kind`: string **required** — The kind of the bot.
   - `name`: string **required** — The name of the bot.
   - `operator`: string **required** — The organization that owns and operates the bot.
-  - `operatorUrl`: string **required** — The link to the bot documentation.
+  - `operatorUrl`: string **required** — The link to the bot documentation. Deprecated: use `documentationUrl`.
+  - `operatorWebsiteUrl`: string **required** — The link to the operator's website.
   - `signatureAgentUrl`: string — The URL of the agent's [Web Bot Auth](https://blog.cloudflare.com/web-bot-auth/) resource. Null for bots not verified via request signature.
   - `slug`: string **required** — A kebab-case identifier derived from the bot name.
   - `userAgentPatterns`: string[] **required**

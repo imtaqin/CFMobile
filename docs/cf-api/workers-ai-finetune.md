@@ -1,6 +1,6 @@
 # Workers AI Finetune
 
-4 endpoints.
+5 endpoints.
 
 ## GET /accounts/{account_id}/ai/finetunes
 
@@ -40,6 +40,17 @@ operationId: `workers-ai-create-finetune`
 - `name`: string **required**
 - `public`: boolean **required**
 
+## DELETE /accounts/{account_id}/ai/finetunes/{finetune_id}
+
+Delete a Finetune
+
+operationId: `workers-ai-delete-finetune`
+
+**Response** 200 → `result`
+
+- `id`: string **required**
+- `name`: string **required**
+
 ## POST /accounts/{account_id}/ai/finetunes/{finetune_id}/finetune-assets
 
 Upload a Finetune Asset
@@ -48,8 +59,8 @@ operationId: `workers-ai-upload-finetune-asset`
 
 **Request** (multipart/form-data)
 
-- `file`: string **required** — File to upload
-- `file_name`: string **required** — Name of the file (adapter_config.json or adapter_model.safetensors)
+- `file`: string **required** — File to upload.
+- `file_name`: string **required** — Name of the file (adapter_config.json or adapter_model.safetensors).
 
 **Response** 200 → `result`
 

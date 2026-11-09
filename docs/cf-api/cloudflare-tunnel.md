@@ -21,7 +21,7 @@ operationId: `cloudflare-tunnel-create-a-cloudflare-tunnel`
 
 **Request** (application/json)
 
-- `config_src`: string enum: `local`, `cloudflare` default: `local` — Indicates if this is a locally or remotely configured tunnel. If `local`, manage the tunnel using a YAML file on the origin machine. If `clo
+- `config_src`: any
 - `name`: string **required** — A user-friendly name for a tunnel.
 - `tunnel_secret`: string — Sets the password required to run a locally-managed tunnel. Must be at least 32 bytes and encoded as a base64 string.
 
@@ -35,10 +35,6 @@ object
 Delete a Cloudflare Tunnel
 
 operationId: `cloudflare-tunnel-delete-a-cloudflare-tunnel`
-
-**Request** (application/json)
-
-object
 
 **Response** 200 → `result`
 
@@ -77,10 +73,6 @@ object
 Clean up Cloudflare Tunnel connections
 
 operationId: `cloudflare-tunnel-clean-up-cloudflare-tunnel-connections` · query: `client_id`
-
-**Request** (application/json)
-
-object
 
 **Response** 200 → `result`
 
@@ -149,7 +141,7 @@ object
 
 ## GET /accounts/{account_id}/warp_connector
 
-List Warp Connector Tunnels
+List Mesh nodes
 
 operationId: `cloudflare-tunnel-list-warp-connector-tunnels` · query: `name`, `is_deleted`, `existed_at`, `uuid`, `was_active_at`, `was_inactive_at`, `include_prefix`, `exclude_prefix`, `status`, `per_page`, `page`
 
@@ -160,7 +152,7 @@ object
 
 ## POST /accounts/{account_id}/warp_connector
 
-Create a Warp Connector Tunnel
+Create a Mesh node
 
 operationId: `cloudflare-tunnel-create-a-warp-connector-tunnel`
 
@@ -176,13 +168,9 @@ object
 
 ## DELETE /accounts/{account_id}/warp_connector/{tunnel_id}
 
-Delete a Warp Connector Tunnel
+Delete a Mesh node
 
 operationId: `cloudflare-tunnel-delete-a-warp-connector-tunnel`
-
-**Request** (application/json)
-
-object
 
 **Response** 200 → `result`
 
@@ -191,7 +179,7 @@ object
 
 ## GET /accounts/{account_id}/warp_connector/{tunnel_id}
 
-Get a Warp Connector Tunnel
+Get a Mesh node
 
 operationId: `cloudflare-tunnel-get-a-warp-connector-tunnel`
 
@@ -202,7 +190,7 @@ object
 
 ## PATCH /accounts/{account_id}/warp_connector/{tunnel_id}
 
-Update a Warp Connector Tunnel
+Update a Mesh node
 
 operationId: `cloudflare-tunnel-update-a-warp-connector-tunnel`
 
@@ -218,7 +206,7 @@ object
 
 ## GET /accounts/{account_id}/warp_connector/{tunnel_id}/connections
 
-List WARP Connector Tunnel connections
+List Mesh node connections
 
 operationId: `cloudflare-tunnel-list-warp-connector-tunnel-connections`
 
@@ -229,7 +217,7 @@ object
 
 ## GET /accounts/{account_id}/warp_connector/{tunnel_id}/connectors/{connector_id}
 
-Get WARP Connector Tunnel connector
+Get a Mesh node connector
 
 operationId: `cloudflare-tunnel-get-warp-connector-tunnel-connector`
 
@@ -240,13 +228,13 @@ object
 
 ## PUT /accounts/{account_id}/warp_connector/{tunnel_id}/failover
 
-Trigger a manual failover for a WARP Connector Tunnel
+Trigger a manual failover for a Mesh node
 
 operationId: `cloudflare-tunnel-manual-failover-warp-connector-tunnel`
 
 **Request** (application/json)
 
-- `client_id`: string **required** — UUID of the Cloudflare Tunnel connector.
+- `client_id`: any **required**
 
 **Response** 200 → `result`
 
@@ -255,7 +243,7 @@ object
 
 ## GET /accounts/{account_id}/warp_connector/{tunnel_id}/token
 
-Get a Warp Connector Tunnel token
+Get a Mesh node token
 
 operationId: `cloudflare-tunnel-get-a-warp-connector-tunnel-token`
 

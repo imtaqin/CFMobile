@@ -6,7 +6,7 @@
 
 List registrations
 
-operationId: `list-registrations` · query: `user.id`, `seen_after`, `seen_before`, `status`, `per_page`, `search`, `sort_by`, `sort_order`, `cursor`, `id`, `device.id`, `policy.id`, `include`
+operationId: `list-registrations` · query: `user.id`, `seen_after`, `seen_before`, `status`, `registration_type`, `per_page`, `search`, `sort_by`, `sort_order`, `cursor`, `id`, `device.id`, `policy.id`, `include`
 
 **Response** 200 → `result`
 
@@ -27,6 +27,7 @@ operationId: `list-registrations` · query: `user.id`, `seen_after`, `seen_befor
   - `id`: string **required** — The ID of the device settings profile.
   - `name`: string **required** — The name of the device settings profile.
   - `updated_at`: string **required** — The RFC3339 timestamp of when the device settings profile last changed for the registration.
+- `registration_type`: string **required** enum: `warp`, `browser_extension` — The registration client type, derived from device_type.
 - `revoked_at`: string — The RFC3339 timestamp when the registration was revoked.
 - `tunnel_type`: string — Type of the tunnel - wireguard or masque.
 - `updated_at`: string **required** — The RFC3339 timestamp when the registration was last updated.
@@ -71,6 +72,7 @@ operationId: `get-registration` · query: `include`
   - `id`: string **required** — The ID of the device settings profile.
   - `name`: string **required** — The name of the device settings profile.
   - `updated_at`: string **required** — The RFC3339 timestamp of when the device settings profile last changed for the registration.
+- `registration_type`: string **required** enum: `warp`, `browser_extension` — The registration client type, derived from device_type.
 - `revoked_at`: string — The RFC3339 timestamp when the registration was revoked.
 - `tunnel_type`: string — Type of the tunnel - wireguard or masque.
 - `updated_at`: string **required** — The RFC3339 timestamp when the registration was last updated.

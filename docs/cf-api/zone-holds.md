@@ -1,6 +1,6 @@
 # Zone Holds
 
-5 endpoints.
+4 endpoints.
 
 ## DELETE /zones/{zone_id}/hold
 
@@ -50,15 +50,3 @@ operationId: `zones-0-hold-post` · query: `include_subdomains`
 
 (one of 3 variants; showing the first)
 object
-
-## GET /zones/{zone_id}/hold/{zone_name}
-
-Get Zone Hold by Zone Name
-
-operationId: `zones-0-hold-zone-name-get`
-
-**Response** 200 → `result`
-
-- `hold`: boolean — Whether the hostname is currently subject to a zone hold.
-- `hold_after`: string — The RFC3339-formatted timestamp at which the hold will be automatically
-- `include_subdomains`: boolean — Whether the hold extends to block subdomains of the held zone.

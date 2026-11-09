@@ -480,7 +480,7 @@ operationId: `radar-get-attacks-layer7-top-origin-as` · query: `limit`, `name`,
   [array of]
   - `originAsn`: string **required**
   - `originAsnName`: string **required**
-  - `rank`: number **required**
+  - `rank`: integer **required**
   - `value`: string **required**
 
 ## GET /radar/attacks/layer7/top/attacks
@@ -566,7 +566,7 @@ operationId: `radar-get-attacks-layer7-top-origin-location` · query: `limit`, `
   [array of]
   - `originCountryAlpha2`: string **required**
   - `originCountryName`: string **required**
-  - `rank`: number **required**
+  - `rank`: integer **required**
   - `value`: string **required**
 
 ## GET /radar/attacks/layer7/top/locations/target
@@ -593,7 +593,7 @@ operationId: `radar-get-attacks-layer7-top-target-location` · query: `limit`, `
     - `value`: string **required**
 - `top_0`: object[] **required**
   [array of]
-  - `rank`: number **required**
+  - `rank`: integer **required**
   - `targetCountryAlpha2`: string **required**
   - `targetCountryName`: string **required**
   - `value`: string **required**

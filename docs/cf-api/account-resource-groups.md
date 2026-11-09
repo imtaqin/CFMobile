@@ -16,11 +16,7 @@ operationId: `account-resource-group-list` · query: `id`, `name`
   - `key`: string
   - `value`: string
 - `name`: string — Name of the resource group.
-- `scope`: object **required** — A scope is a combination of scope objects which provides additional context.
-  - `key`: any **required** — This is a combination of pre-defined resource name and identifier (like Account ID etc.)
-  - `objects`: object[] **required** — A list of scope objects for additional context.
-    [array of]
-    - `key`: any **required** — This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+- `scope`: any **required** — The scope associated to the resource group
 
 ## POST /accounts/{account_id}/iam/resource_groups
 
@@ -31,11 +27,7 @@ operationId: `account-resource-group-create`
 **Request** (application/json)
 
 - `name`: string **required** — Name of the resource group
-- `scope`: object **required** — A scope is a combination of scope objects which provides additional context.
-  - `key`: any **required** — This is a combination of pre-defined resource name and identifier (like Account ID etc.)
-  - `objects`: object[] **required** — A list of scope objects for additional context. The number of Scope objects should not be zero.
-    [array of]
-    - `key`: any **required** — This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+- `scope`: any **required** — The scope associated to the resource group
 
 **Response** 200 → `result`
 
@@ -44,11 +36,7 @@ operationId: `account-resource-group-create`
   - `key`: string
   - `value`: string
 - `name`: string — Name of the resource group.
-- `scope`: object **required** — A scope is a combination of scope objects which provides additional context.
-  - `key`: any **required** — This is a combination of pre-defined resource name and identifier (like Account ID etc.)
-  - `objects`: object[] **required** — A list of scope objects for additional context.
-    [array of]
-    - `key`: any **required** — This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+- `scope`: any **required** — The scope associated to the resource group
 
 ## DELETE /accounts/{account_id}/iam/resource_groups/{resource_group_id}
 
@@ -73,11 +61,7 @@ operationId: `account-resource-group-details`
   - `key`: string
   - `value`: string
 - `name`: string — Name of the resource group.
-- `scope`: object **required** — A scope is a combination of scope objects which provides additional context.
-  - `key`: any **required** — This is a combination of pre-defined resource name and identifier (like Account ID etc.)
-  - `objects`: object[] **required** — A list of scope objects for additional context.
-    [array of]
-    - `key`: any **required** — This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+- `scope`: any **required** — The scope associated to the resource group
 
 ## PUT /accounts/{account_id}/iam/resource_groups/{resource_group_id}
 
@@ -88,11 +72,7 @@ operationId: `account-resource-group-update`
 **Request** (application/json)
 
 - `name`: string — Name of the resource group
-- `scope`: object — A scope is a combination of scope objects which provides additional context.
-  - `key`: any **required** — This is a combination of pre-defined resource name and identifier (like Account ID etc.)
-  - `objects`: object[] **required** — A list of scope objects for additional context. The number of Scope objects should not be zero.
-    [array of]
-    - `key`: any **required** — This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+- `scope`: any — The scope associated to the resource group
 
 **Response** 200 → `result`
 
@@ -101,8 +81,4 @@ operationId: `account-resource-group-update`
   - `key`: string
   - `value`: string
 - `name`: string — Name of the resource group.
-- `scope`: object **required** — A scope is a combination of scope objects which provides additional context.
-  - `key`: any **required** — This is a combination of pre-defined resource name and identifier (like Account ID etc.)
-  - `objects`: object[] **required** — A list of scope objects for additional context.
-    [array of]
-    - `key`: any **required** — This is a combination of pre-defined resource name and identifier (like Zone ID etc.)
+- `scope`: any **required** — The scope associated to the resource group

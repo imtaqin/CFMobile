@@ -67,6 +67,7 @@ operationId: `magic-sites-patch-site`
 
 - `connector_id`: string — Magic Connector identifier tag.
 - `description`: string
+- `ha_mode`: boolean — Site high availability mode. If set to true, the site can have two connectors and runs in high availability mode.
 - `location`: object — Location of site in latitude and longitude.
   - `lat`: string — Latitude
   - `lon`: string — Longitude
@@ -88,6 +89,7 @@ operationId: `magic-sites-update-site`
 
 - `connector_id`: string — Magic Connector identifier tag.
 - `description`: string
+- `ha_mode`: boolean — Site high availability mode. If set to true, the site can have two connectors and runs in high availability mode.
 - `location`: object — Location of site in latitude and longitude.
   - `lat`: string — Latitude
   - `lon`: string — Longitude

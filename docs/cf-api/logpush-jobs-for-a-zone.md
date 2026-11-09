@@ -21,10 +21,11 @@ operationId: `get-zones-zone_id-logpush-datasets-dataset_id-jobs`
 **Response** 200 → `result`
 
 [array of]
-- `dataset`: string enum: `access_requests`, `audit_logs`, `audit_logs_v2`, `biso_user_actions`, `casb_findings`, `device_posture_results`, `dex_application_tests`, `dex_device_state_events` default: `http_requests` — Name of the dataset. A list of supported datasets can be found on the [Developer Docs](https://developers.cloudflare.com/logs/reference/log-
+- `dataset`: string enum: `access_requests`, `account_abuse_protection_events`, `ai_gateway_events`, `audit_logs`, `audit_logs_v2`, `biso_user_actions`, `casb_findings`, `device_posture_results` default: `http_requests` — Name of the dataset. A list of supported datasets can be found on the [Developer Docs](https://developers.cloudflare.com/logs/reference/log-
 - `destination_conf`: string — Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the desti
 - `enabled`: boolean default: `false` — Flag that indicates if the job is enabled.
 - `error_message`: string — If not null, the job is currently failing. Failures are usually. repetitive (example: no permissions to write to destination bucket). Only t
+- `filter_attack_traffic`: boolean default: `false` — When true, excludes DDoS attack traffic from logs. This option is supported for the `http_requests`, `firewall_events`, and `network_analyti
 - `frequency`: string enum: `high`, `low` default: `high` — This field is deprecated. Please use `max_upload_*` parameters instead. . The frequency at which Cloudflare sends batches of logs to your de
 - `id`: integer — Unique id of the job.
 - `kind`: string enum: ``, `edge` default: `` — The kind parameter (optional) is used to differentiate between Logpush and Edge Log Delivery jobs (when supported by the dataset).
@@ -48,7 +49,7 @@ operationId: `get-zones-zone_id-logpush-datasets-dataset_id-jobs`
   - `record_prefix`: string — String to be prepended before each record.
   - `record_suffix`: string — String to be appended after each record.
   - `record_template`: string — String to use as template for each record instead of the default json key value mapping. All fields used in the template must be present in 
-  - `sample_rate`: number — Floating number to specify sampling rate. Sampling is applied on top of filtering, and regardless of the current `sample_interval` of the da
+  - `sample_rate`: number — Specifies the sampling rate as a floating number greater than 0 and at most 1. Sampling is applied on top of filtering, and regardless of th
   - `timestamp_format`: string enum: `unixnano`, `unix`, `rfc3339`, `rfc3339ms`, `rfc3339ns` — String to specify the format for timestamps, such as `unixnano`, `unix`, `rfc3339`, `rfc3339ms` or `rfc3339ns`.
 
 ## GET /zones/{zone_id}/logpush/jobs
@@ -60,10 +61,11 @@ operationId: `get-zones-zone_id-logpush-jobs`
 **Response** 200 → `result`
 
 [array of]
-- `dataset`: string enum: `access_requests`, `audit_logs`, `audit_logs_v2`, `biso_user_actions`, `casb_findings`, `device_posture_results`, `dex_application_tests`, `dex_device_state_events` default: `http_requests` — Name of the dataset. A list of supported datasets can be found on the [Developer Docs](https://developers.cloudflare.com/logs/reference/log-
+- `dataset`: string enum: `access_requests`, `account_abuse_protection_events`, `ai_gateway_events`, `audit_logs`, `audit_logs_v2`, `biso_user_actions`, `casb_findings`, `device_posture_results` default: `http_requests` — Name of the dataset. A list of supported datasets can be found on the [Developer Docs](https://developers.cloudflare.com/logs/reference/log-
 - `destination_conf`: string — Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the desti
 - `enabled`: boolean default: `false` — Flag that indicates if the job is enabled.
 - `error_message`: string — If not null, the job is currently failing. Failures are usually. repetitive (example: no permissions to write to destination bucket). Only t
+- `filter_attack_traffic`: boolean default: `false` — When true, excludes DDoS attack traffic from logs. This option is supported for the `http_requests`, `firewall_events`, and `network_analyti
 - `frequency`: string enum: `high`, `low` default: `high` — This field is deprecated. Please use `max_upload_*` parameters instead. . The frequency at which Cloudflare sends batches of logs to your de
 - `id`: integer — Unique id of the job.
 - `kind`: string enum: ``, `edge` default: `` — The kind parameter (optional) is used to differentiate between Logpush and Edge Log Delivery jobs (when supported by the dataset).
@@ -87,7 +89,7 @@ operationId: `get-zones-zone_id-logpush-jobs`
   - `record_prefix`: string — String to be prepended before each record.
   - `record_suffix`: string — String to be appended after each record.
   - `record_template`: string — String to use as template for each record instead of the default json key value mapping. All fields used in the template must be present in 
-  - `sample_rate`: number — Floating number to specify sampling rate. Sampling is applied on top of filtering, and regardless of the current `sample_interval` of the da
+  - `sample_rate`: number — Specifies the sampling rate as a floating number greater than 0 and at most 1. Sampling is applied on top of filtering, and regardless of th
   - `timestamp_format`: string enum: `unixnano`, `unix`, `rfc3339`, `rfc3339ms`, `rfc3339ns` — String to specify the format for timestamps, such as `unixnano`, `unix`, `rfc3339`, `rfc3339ms` or `rfc3339ns`.
 
 ## POST /zones/{zone_id}/logpush/jobs
@@ -98,10 +100,11 @@ operationId: `post-zones-zone_id-logpush-jobs`
 
 **Request** (application/json)
 
-- `dataset`: string enum: `access_requests`, `audit_logs`, `audit_logs_v2`, `biso_user_actions`, `casb_findings`, `device_posture_results`, `dex_application_tests`, `dex_device_state_events` default: `http_requests` — Name of the dataset. A list of supported datasets can be found on the [Developer Docs](https://developers.cloudflare.com/logs/reference/log-
+- `dataset`: string enum: `access_requests`, `account_abuse_protection_events`, `ai_gateway_events`, `audit_logs`, `audit_logs_v2`, `biso_user_actions`, `casb_findings`, `device_posture_results` default: `http_requests` — Name of the dataset. A list of supported datasets can be found on the [Developer Docs](https://developers.cloudflare.com/logs/reference/log-
 - `destination_conf`: string **required** — Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the desti
 - `enabled`: boolean default: `false` — Flag that indicates if the job is enabled.
 - `filter`: string — The filters to select the events to include and/or remove from your logs. For more information, refer to [Filters](https://developers.cloudf
+- `filter_attack_traffic`: boolean default: `false` — When true, excludes DDoS attack traffic from logs. This option is supported for the `http_requests`, `firewall_events`, and `network_analyti
 - `frequency`: string enum: `high`, `low` default: `high` — This field is deprecated. Please use `max_upload_*` parameters instead. . The frequency at which Cloudflare sends batches of logs to your de
 - `kind`: string enum: ``, `edge` default: `` — The kind parameter (optional) is used to differentiate between Logpush and Edge Log Delivery jobs (when supported by the dataset).
 - `logpull_options`: string — This field is deprecated. Use `output_options` instead. Configuration string. It specifies things like requested fields and timestamp format
@@ -122,16 +125,17 @@ operationId: `post-zones-zone_id-logpush-jobs`
   - `record_prefix`: string — String to be prepended before each record.
   - `record_suffix`: string — String to be appended after each record.
   - `record_template`: string — String to use as template for each record instead of the default json key value mapping. All fields used in the template must be present in 
-  - `sample_rate`: number — Floating number to specify sampling rate. Sampling is applied on top of filtering, and regardless of the current `sample_interval` of the da
+  - `sample_rate`: number — Specifies the sampling rate as a floating number greater than 0 and at most 1. Sampling is applied on top of filtering, and regardless of th
   - `timestamp_format`: string enum: `unixnano`, `unix`, `rfc3339`, `rfc3339ms`, `rfc3339ns` — String to specify the format for timestamps, such as `unixnano`, `unix`, `rfc3339`, `rfc3339ms` or `rfc3339ns`.
 - `ownership_challenge`: string — Ownership challenge token to prove destination ownership.
 
 **Response** 200 → `result`
 
-- `dataset`: string enum: `access_requests`, `audit_logs`, `audit_logs_v2`, `biso_user_actions`, `casb_findings`, `device_posture_results`, `dex_application_tests`, `dex_device_state_events` default: `http_requests` — Name of the dataset. A list of supported datasets can be found on the [Developer Docs](https://developers.cloudflare.com/logs/reference/log-
+- `dataset`: string enum: `access_requests`, `account_abuse_protection_events`, `ai_gateway_events`, `audit_logs`, `audit_logs_v2`, `biso_user_actions`, `casb_findings`, `device_posture_results` default: `http_requests` — Name of the dataset. A list of supported datasets can be found on the [Developer Docs](https://developers.cloudflare.com/logs/reference/log-
 - `destination_conf`: string — Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the desti
 - `enabled`: boolean default: `false` — Flag that indicates if the job is enabled.
 - `error_message`: string — If not null, the job is currently failing. Failures are usually. repetitive (example: no permissions to write to destination bucket). Only t
+- `filter_attack_traffic`: boolean default: `false` — When true, excludes DDoS attack traffic from logs. This option is supported for the `http_requests`, `firewall_events`, and `network_analyti
 - `frequency`: string enum: `high`, `low` default: `high` — This field is deprecated. Please use `max_upload_*` parameters instead. . The frequency at which Cloudflare sends batches of logs to your de
 - `id`: integer — Unique id of the job.
 - `kind`: string enum: ``, `edge` default: `` — The kind parameter (optional) is used to differentiate between Logpush and Edge Log Delivery jobs (when supported by the dataset).
@@ -155,7 +159,7 @@ operationId: `post-zones-zone_id-logpush-jobs`
   - `record_prefix`: string — String to be prepended before each record.
   - `record_suffix`: string — String to be appended after each record.
   - `record_template`: string — String to use as template for each record instead of the default json key value mapping. All fields used in the template must be present in 
-  - `sample_rate`: number — Floating number to specify sampling rate. Sampling is applied on top of filtering, and regardless of the current `sample_interval` of the da
+  - `sample_rate`: number — Specifies the sampling rate as a floating number greater than 0 and at most 1. Sampling is applied on top of filtering, and regardless of th
   - `timestamp_format`: string enum: `unixnano`, `unix`, `rfc3339`, `rfc3339ms`, `rfc3339ns` — String to specify the format for timestamps, such as `unixnano`, `unix`, `rfc3339`, `rfc3339ms` or `rfc3339ns`.
 
 ## DELETE /zones/{zone_id}/logpush/jobs/{job_id}
@@ -176,10 +180,11 @@ operationId: `get-zones-zone_id-logpush-jobs-job_id`
 
 **Response** 200 → `result`
 
-- `dataset`: string enum: `access_requests`, `audit_logs`, `audit_logs_v2`, `biso_user_actions`, `casb_findings`, `device_posture_results`, `dex_application_tests`, `dex_device_state_events` default: `http_requests` — Name of the dataset. A list of supported datasets can be found on the [Developer Docs](https://developers.cloudflare.com/logs/reference/log-
+- `dataset`: string enum: `access_requests`, `account_abuse_protection_events`, `ai_gateway_events`, `audit_logs`, `audit_logs_v2`, `biso_user_actions`, `casb_findings`, `device_posture_results` default: `http_requests` — Name of the dataset. A list of supported datasets can be found on the [Developer Docs](https://developers.cloudflare.com/logs/reference/log-
 - `destination_conf`: string — Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the desti
 - `enabled`: boolean default: `false` — Flag that indicates if the job is enabled.
 - `error_message`: string — If not null, the job is currently failing. Failures are usually. repetitive (example: no permissions to write to destination bucket). Only t
+- `filter_attack_traffic`: boolean default: `false` — When true, excludes DDoS attack traffic from logs. This option is supported for the `http_requests`, `firewall_events`, and `network_analyti
 - `frequency`: string enum: `high`, `low` default: `high` — This field is deprecated. Please use `max_upload_*` parameters instead. . The frequency at which Cloudflare sends batches of logs to your de
 - `id`: integer — Unique id of the job.
 - `kind`: string enum: ``, `edge` default: `` — The kind parameter (optional) is used to differentiate between Logpush and Edge Log Delivery jobs (when supported by the dataset).
@@ -203,7 +208,7 @@ operationId: `get-zones-zone_id-logpush-jobs-job_id`
   - `record_prefix`: string — String to be prepended before each record.
   - `record_suffix`: string — String to be appended after each record.
   - `record_template`: string — String to use as template for each record instead of the default json key value mapping. All fields used in the template must be present in 
-  - `sample_rate`: number — Floating number to specify sampling rate. Sampling is applied on top of filtering, and regardless of the current `sample_interval` of the da
+  - `sample_rate`: number — Specifies the sampling rate as a floating number greater than 0 and at most 1. Sampling is applied on top of filtering, and regardless of th
   - `timestamp_format`: string enum: `unixnano`, `unix`, `rfc3339`, `rfc3339ms`, `rfc3339ns` — String to specify the format for timestamps, such as `unixnano`, `unix`, `rfc3339`, `rfc3339ms` or `rfc3339ns`.
 
 ## PUT /zones/{zone_id}/logpush/jobs/{job_id}
@@ -217,6 +222,7 @@ operationId: `put-zones-zone_id-logpush-jobs-job_id`
 - `destination_conf`: string — Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the desti
 - `enabled`: boolean default: `false` — Flag that indicates if the job is enabled.
 - `filter`: string — The filters to select the events to include and/or remove from your logs. For more information, refer to [Filters](https://developers.cloudf
+- `filter_attack_traffic`: boolean default: `false` — When true, excludes DDoS attack traffic from logs. This option is supported for the `http_requests`, `firewall_events`, and `network_analyti
 - `frequency`: string enum: `high`, `low` default: `high` — This field is deprecated. Please use `max_upload_*` parameters instead. . The frequency at which Cloudflare sends batches of logs to your de
 - `kind`: string enum: ``, `edge` default: `` — The kind parameter (optional) is used to differentiate between Logpush and Edge Log Delivery jobs (when supported by the dataset).
 - `logpull_options`: string — This field is deprecated. Use `output_options` instead. Configuration string. It specifies things like requested fields and timestamp format
@@ -237,16 +243,17 @@ operationId: `put-zones-zone_id-logpush-jobs-job_id`
   - `record_prefix`: string — String to be prepended before each record.
   - `record_suffix`: string — String to be appended after each record.
   - `record_template`: string — String to use as template for each record instead of the default json key value mapping. All fields used in the template must be present in 
-  - `sample_rate`: number — Floating number to specify sampling rate. Sampling is applied on top of filtering, and regardless of the current `sample_interval` of the da
+  - `sample_rate`: number — Specifies the sampling rate as a floating number greater than 0 and at most 1. Sampling is applied on top of filtering, and regardless of th
   - `timestamp_format`: string enum: `unixnano`, `unix`, `rfc3339`, `rfc3339ms`, `rfc3339ns` — String to specify the format for timestamps, such as `unixnano`, `unix`, `rfc3339`, `rfc3339ms` or `rfc3339ns`.
 - `ownership_challenge`: string — Ownership challenge token to prove destination ownership.
 
 **Response** 200 → `result`
 
-- `dataset`: string enum: `access_requests`, `audit_logs`, `audit_logs_v2`, `biso_user_actions`, `casb_findings`, `device_posture_results`, `dex_application_tests`, `dex_device_state_events` default: `http_requests` — Name of the dataset. A list of supported datasets can be found on the [Developer Docs](https://developers.cloudflare.com/logs/reference/log-
+- `dataset`: string enum: `access_requests`, `account_abuse_protection_events`, `ai_gateway_events`, `audit_logs`, `audit_logs_v2`, `biso_user_actions`, `casb_findings`, `device_posture_results` default: `http_requests` — Name of the dataset. A list of supported datasets can be found on the [Developer Docs](https://developers.cloudflare.com/logs/reference/log-
 - `destination_conf`: string — Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the desti
 - `enabled`: boolean default: `false` — Flag that indicates if the job is enabled.
 - `error_message`: string — If not null, the job is currently failing. Failures are usually. repetitive (example: no permissions to write to destination bucket). Only t
+- `filter_attack_traffic`: boolean default: `false` — When true, excludes DDoS attack traffic from logs. This option is supported for the `http_requests`, `firewall_events`, and `network_analyti
 - `frequency`: string enum: `high`, `low` default: `high` — This field is deprecated. Please use `max_upload_*` parameters instead. . The frequency at which Cloudflare sends batches of logs to your de
 - `id`: integer — Unique id of the job.
 - `kind`: string enum: ``, `edge` default: `` — The kind parameter (optional) is used to differentiate between Logpush and Edge Log Delivery jobs (when supported by the dataset).
@@ -270,7 +277,7 @@ operationId: `put-zones-zone_id-logpush-jobs-job_id`
   - `record_prefix`: string — String to be prepended before each record.
   - `record_suffix`: string — String to be appended after each record.
   - `record_template`: string — String to use as template for each record instead of the default json key value mapping. All fields used in the template must be present in 
-  - `sample_rate`: number — Floating number to specify sampling rate. Sampling is applied on top of filtering, and regardless of the current `sample_interval` of the da
+  - `sample_rate`: number — Specifies the sampling rate as a floating number greater than 0 and at most 1. Sampling is applied on top of filtering, and regardless of th
   - `timestamp_format`: string enum: `unixnano`, `unix`, `rfc3339`, `rfc3339ms`, `rfc3339ns` — String to specify the format for timestamps, such as `unixnano`, `unix`, `rfc3339`, `rfc3339ms` or `rfc3339ns`.
 
 ## POST /zones/{zone_id}/logpush/ownership

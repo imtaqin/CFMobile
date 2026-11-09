@@ -1,6 +1,6 @@
 # ppc_config
 
-5 endpoints.
+6 endpoints.
 
 ## PATCH /accounts/{account_id}/pay-per-crawl/zones_can_be_enabled
 
@@ -10,10 +10,10 @@ operationId: `pay-per-crawl.setZonesCanBeEnabled`
 
 **Request** (application/json)
 
-- `zones`: object[]
+- `zones`: object[] **required**
   [array of]
   - `can_be_enabled`: boolean
-  - `id`: string
+  - `id`: string **required**
 
 **Response** 200 → `result`
 
@@ -27,10 +27,10 @@ operationId: `pay-per-crawl.setZonesCanBeEnabled`
     - `documentation_url`: string
     - `error_chain`: object[]
     - `message`: string
-    - `meta`: any — Meta object containing non-standard meta-information about the error.
+    - `meta`: object — Meta object containing non-standard meta-information about the error.
     - `source`: object
   - `message`: string
-  - `meta`: any — Meta object containing non-standard meta-information about the error.
+  - `meta`: object — Meta object containing non-standard meta-information about the error.
   - `source`: object
     - `parameter`: string — Parameter is a string indicating which URI query parameter caused the error.
     - `parameter_value_index`: integer — ParameterPosition indicates position of parameter value which caused the error,
@@ -45,10 +45,10 @@ operationId: `pay-per-crawl.setZonesCanBeEnabled`
     - `documentation_url`: string
     - `error_chain`: object[]
     - `message`: string
-    - `meta`: any — Meta object containing non-standard meta-information about the error.
+    - `meta`: object — Meta object containing non-standard meta-information about the error.
     - `source`: object
   - `message`: string
-  - `meta`: any — Meta object containing non-standard meta-information about the error.
+  - `meta`: object — Meta object containing non-standard meta-information about the error.
   - `source`: object
     - `parameter`: string — Parameter is a string indicating which URI query parameter caused the error.
     - `parameter_value_index`: integer — ParameterPosition indicates position of parameter value which caused the error,
@@ -69,17 +69,28 @@ operationId: `pay-per-crawl.queryZonesCanBeEnabled`
 
 **Request** (application/json)
 
-- `zones`: object[]
-  [array of]
-  - `can_be_enabled`: boolean
-  - `id`: string
+- `zones`: string[]
+  [array]
 
 **Response** 200 → `result`
 
 - `zones`: object[]
   [array of]
   - `can_be_enabled`: boolean
+  - `enabled`: boolean
   - `id`: string
+
+## GET /zones/{zone_id}/pay-per-crawl/can_be_enabled
+
+Get pay-per-crawl zone eligibility
+
+operationId: `pay-per-crawl.getZoneCanBeEnabled`
+
+**Response** 200 → `result`
+
+- `can_be_enabled`: boolean
+- `enabled`: boolean
+- `id`: string
 
 ## GET /zones/{zone_id}/pay-per-crawl/configuration
 
@@ -122,6 +133,7 @@ operationId: `pay-per-crawl.createConfig`
 - `bot_overrides`: object
 - `enabled`: boolean
 - `price_usd_microcents`: integer — Price in microcents 1 USD = 100,000,000 microcents. Must be 0 or a multiple of 100,000 $0.001. Range: $0.001–$9,999.999.
+object
 
 **Response** 200 → `result`
 

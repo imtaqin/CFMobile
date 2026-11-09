@@ -4,7 +4,7 @@
 
 ## GET /zones/{zone_id}/api_gateway/discovery
 
-Retrieve discovered operations on a zone rendered as OpenAPI schemas
+Export discovered API operations as OpenAPI schemas
 
 operationId: `api-shield-api-discovery-retrieve-discovered-operations-on-a-zone-as-openapi`
 
@@ -16,7 +16,7 @@ operationId: `api-shield-api-discovery-retrieve-discovered-operations-on-a-zone-
 
 ## GET /zones/{zone_id}/api_gateway/discovery/operations
 
-Retrieve discovered operations on a zone
+List discovered web and API operations
 
 operationId: `api-shield-api-discovery-retrieve-discovered-operations-on-a-zone` · query: `page`, `per_page`, `host`, `method`, `endpoint`, `direction`, `order`, `diff`, `origin`, `state`
 
@@ -39,7 +39,7 @@ operationId: `api-shield-api-discovery-retrieve-discovered-operations-on-a-zone`
 
 ## PATCH /zones/{zone_id}/api_gateway/discovery/operations
 
-Patch discovered operations
+Edit discovered web and API operations
 
 operationId: `api-shield-api-patch-discovered-operations`
 
@@ -53,7 +53,7 @@ object
 
 ## GET /zones/{zone_id}/api_gateway/discovery/operations/{discovery_id}
 
-Retrieve a discovered operation
+Get a discovered web or API operation
 
 operationId: `api-shield-api-discovery-retrieve-discovered-operation-by-id`
 
@@ -76,7 +76,7 @@ operationId: `api-shield-api-discovery-retrieve-discovered-operation-by-id`
 
 ## PATCH /zones/{zone_id}/api_gateway/discovery/operations/{discovery_id}
 
-Patch discovered operation
+Edit a discovered web or API operation
 
 operationId: `api-shield-api-patch-discovered-operation`
 

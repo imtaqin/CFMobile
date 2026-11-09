@@ -59,6 +59,9 @@ operationId: `radar-get-ranking-top-internet-services` · query: `serviceCategor
     - `startTime`: string **required** — Adjusted start of date range.
   - `lastUpdated`: string **required** — Timestamp of the last dataset update.
   - `normalization`: string **required** enum: `PERCENTAGE`, `MIN0_MAX`, `MIN_MAX`, `RAW_VALUES`, `PERCENTAGE_CHANGE`, `ROLLING_AVERAGE`, `OVERLAPPED_PERCENTAGE`, `RATIO` — Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization
+  - `top_0`: object **required**
+    - `date`: string **required**
+    - `serviceCategory`: string **required**
   - `units`: object[] **required** — Measurement units for the results.
     [array of]
     - `name`: string **required**

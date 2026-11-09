@@ -2,7 +2,7 @@
 
 3 endpoints.
 
-## GET /tenants/{tenant_tag}/custom_ns
+## GET /tenants/{tenant_id}/custom_ns
 
 List Tenant Custom Nameservers
 
@@ -20,7 +20,7 @@ operationId: `tenant-level-custom-nameservers-list-tenant-custom-nameservers`
 - `status`: string **required** enum: `moved`, `pending`, `verified` — Verification status of the nameserver.
 - `zone_tag`: string **required** — Identifier.
 
-## POST /tenants/{tenant_tag}/custom_ns
+## POST /tenants/{tenant_id}/custom_ns
 
 Add Tenant Custom Nameserver
 
@@ -42,7 +42,7 @@ operationId: `tenant-level-custom-nameservers-add-tenant-custom-nameserver`
 - `status`: string **required** enum: `moved`, `pending`, `verified` — Verification status of the nameserver.
 - `zone_tag`: string **required** — Identifier.
 
-## DELETE /tenants/{tenant_tag}/custom_ns/{custom_ns_id}
+## DELETE /tenants/{tenant_id}/custom_ns/{custom_ns_id}
 
 Delete Tenant Custom Nameserver
 

@@ -28,8 +28,6 @@ operationId: `mconn-connectors-list` · query: `device_type`
 - `last_updated`: string **required**
 - `license_key`: string
 - `notes`: string **required**
-- `primary`: boolean **required** default: `true`
-- `site_id`: string
 - `timezone`: string **required**
 
 ## POST /accounts/{account_id}/magic/connectors
@@ -52,8 +50,6 @@ operationId: `mconn-connectors-create`
   [array]
 - `interrupt_window_hour_of_day`: number
 - `notes`: string
-- `primary`: boolean default: `true`
-- `site_id`: string
 - `timezone`: string
 
 **Response** 200 → `result`
@@ -75,8 +71,6 @@ operationId: `mconn-connectors-create`
 - `last_updated`: string **required**
 - `license_key`: string
 - `notes`: string **required**
-- `primary`: boolean **required** default: `true`
-- `site_id`: string
 - `timezone`: string **required**
 
 ## DELETE /accounts/{account_id}/magic/connectors/{connector_id}
@@ -104,8 +98,6 @@ operationId: `mconn-connectors-delete`
 - `last_updated`: string **required**
 - `license_key`: string
 - `notes`: string **required**
-- `primary`: boolean **required** default: `true`
-- `site_id`: string
 - `timezone`: string **required**
 
 ## GET /accounts/{account_id}/magic/connectors/{connector_id}
@@ -133,8 +125,6 @@ operationId: `mconn-connectors-get`
 - `last_updated`: string **required**
 - `license_key`: string
 - `notes`: string **required**
-- `primary`: boolean **required** default: `true`
-- `site_id`: string
 - `timezone`: string **required**
 
 ## PATCH /accounts/{account_id}/magic/connectors/{connector_id}
@@ -153,8 +143,6 @@ operationId: `mconn-connectors-edit`
   [array]
 - `interrupt_window_hour_of_day`: number
 - `notes`: string
-- `primary`: boolean default: `true`
-- `site_id`: string
 - `timezone`: string
 - `provision_license`: boolean — When true, regenerate license key for the connector.
 
@@ -177,8 +165,6 @@ operationId: `mconn-connectors-edit`
 - `last_updated`: string **required**
 - `license_key`: string
 - `notes`: string **required**
-- `primary`: boolean **required** default: `true`
-- `site_id`: string
 - `timezone`: string **required**
 
 ## PUT /accounts/{account_id}/magic/connectors/{connector_id}
@@ -197,8 +183,6 @@ operationId: `mconn-connectors-update`
   [array]
 - `interrupt_window_hour_of_day`: number
 - `notes`: string
-- `primary`: boolean default: `true`
-- `site_id`: string
 - `timezone`: string
 - `provision_license`: boolean — When true, regenerate license key for the connector.
 
@@ -221,8 +205,6 @@ operationId: `mconn-connectors-update`
 - `last_updated`: string **required**
 - `license_key`: string
 - `notes`: string **required**
-- `primary`: boolean **required** default: `true`
-- `site_id`: string
 - `timezone`: string **required**
 
 ## GET /accounts/{account_id}/magic/connectors/{connector_id}/interrupts
@@ -399,6 +381,8 @@ operationId: `mconn-connector-telemetry-snapshots-get`
 - `ha_value`: number — Numeric value associated with high availability state (0 = disabled, 1 = active, 2 = standby, 3 = stopped, 4 = fault)
 - `interfaces`: object[]
   [array of]
+  - `health_reason`: string — Comma-separated list of reasons for health score
+  - `health_score`: number — Aggregate health score (0-100)
   - `ip_addresses`: object[]
     [array of]
     - `interface_name`: string **required** — Name of the network interface
@@ -510,6 +494,15 @@ operationId: `mconn-connector-telemetry-snapshots-get`
   - `sent_fifo`: number **required** — FIFO overruns
   - `sent_packets`: number **required** — Total packets transmitted
 - `platform`: string — Platform identifier
+- `routes`: object[]
+  [array of]
+  - `destination`: string **required** — Route destination as default or an IPv4 CIDR
+  - `gateway`: string — Gateway address for the next hop
+  - `interface_name`: string **required** — Interface used by the next hop
+  - `kind`: string **required** — Routing decision type: tunnel, breakout, or lan
+  - `metric`: number **required** — Route metric; lower metrics are preferred
+  - `weight`: number — Relative weight within an equal-cost route
+- `site_id`: string — Site identifier
 - `snmp_icmp_in_addr_mask_reps`: number — Number of ICMP Address Mask Reply messages received
 - `snmp_icmp_in_addr_masks`: number — Number of ICMP Address Mask Request messages received
 - `snmp_icmp_in_csum_errors`: number — Number of ICMP messages received with bad checksums
@@ -587,6 +580,8 @@ operationId: `mconn-connector-telemetry-snapshots-get`
   - `health_state`: string **required** — Name of tunnel health state (unknown, healthy, degraded, down)
   - `health_value`: number **required** — Numeric value associated with tunnel state (0 = unknown, 1 = healthy, 2 = degraded, 3 = down)
   - `interface_name`: string **required** — The tunnel interface name (i.e. xfrm1, xfrm3.99, etc.)
+  - `jitter_ms`: number — Tunnel round-trip latency variation in milliseconds
+  - `latency_ms`: number — 50th percentile tunnel round-trip latency in milliseconds
   - `natd_result`: string — Public socket address returned by the NAT detector
   - `natd_state`: number — Numeric NAT detector state (0 = detected, 1 = missing result, 2 = stale result)
   - `natd_target`: string — Target socket address probed by the NAT detector, using the detector source port
@@ -668,6 +663,8 @@ operationId: `mconn-connector-telemetry-snapshots-latest-get`
   - `ha_value`: number — Numeric value associated with high availability state (0 = disabled, 1 = active, 2 = standby, 3 = stopped, 4 = fault)
   - `interfaces`: object[]
     [array of]
+    - `health_reason`: string — Comma-separated list of reasons for health score
+    - `health_score`: number — Aggregate health score (0-100)
     - `ip_addresses`: object[]
     - `name`: string **required** — Name of the network interface
     - `operstate`: string **required** — UP/DOWN state of the network interface
@@ -776,6 +773,15 @@ operationId: `mconn-connector-telemetry-snapshots-latest-get`
     - `sent_fifo`: number **required** — FIFO overruns
     - `sent_packets`: number **required** — Total packets transmitted
   - `platform`: string — Platform identifier
+  - `routes`: object[]
+    [array of]
+    - `destination`: string **required** — Route destination as default or an IPv4 CIDR
+    - `gateway`: string — Gateway address for the next hop
+    - `interface_name`: string **required** — Interface used by the next hop
+    - `kind`: string **required** — Routing decision type: tunnel, breakout, or lan
+    - `metric`: number **required** — Route metric; lower metrics are preferred
+    - `weight`: number — Relative weight within an equal-cost route
+  - `site_id`: string — Site identifier
   - `snmp_icmp_in_addr_mask_reps`: number — Number of ICMP Address Mask Reply messages received
   - `snmp_icmp_in_addr_masks`: number — Number of ICMP Address Mask Request messages received
   - `snmp_icmp_in_csum_errors`: number — Number of ICMP messages received with bad checksums
@@ -853,6 +859,8 @@ operationId: `mconn-connector-telemetry-snapshots-latest-get`
     - `health_state`: string **required** — Name of tunnel health state (unknown, healthy, degraded, down)
     - `health_value`: number **required** — Numeric value associated with tunnel state (0 = unknown, 1 = healthy, 2 = degraded, 3 = down)
     - `interface_name`: string **required** — The tunnel interface name (i.e. xfrm1, xfrm3.99, etc.)
+    - `jitter_ms`: number — Tunnel round-trip latency variation in milliseconds
+    - `latency_ms`: number — 50th percentile tunnel round-trip latency in milliseconds
     - `natd_result`: string — Public socket address returned by the NAT detector
     - `natd_state`: number — Numeric NAT detector state (0 = detected, 1 = missing result, 2 = stale result)
     - `natd_target`: string — Target socket address probed by the NAT detector, using the detector source port

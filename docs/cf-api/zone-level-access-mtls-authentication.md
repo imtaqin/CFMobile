@@ -16,7 +16,7 @@ operationId: `zone-level-access-mtls-authentication-list-mtls-certificates`
 - `created_at`: string
 - `expires_on`: string
 - `fingerprint`: string — The MD5 fingerprint of the certificate.
-- `id`: any — The ID of the application that will use this certificate.
+- `id`: string — The ID of the application that will use this certificate.
 - `name`: string — The name of the certificate.
 - `updated_at`: string
 
@@ -40,7 +40,7 @@ operationId: `zone-level-access-mtls-authentication-add-an-mtls-certificate`
 - `created_at`: string
 - `expires_on`: string
 - `fingerprint`: string — The MD5 fingerprint of the certificate.
-- `id`: any — The ID of the application that will use this certificate.
+- `id`: string — The ID of the application that will use this certificate.
 - `name`: string — The name of the certificate.
 - `updated_at`: string
 
@@ -67,7 +67,7 @@ operationId: `zone-level-access-mtls-authentication-get-an-mtls-certificate`
 - `created_at`: string
 - `expires_on`: string
 - `fingerprint`: string — The MD5 fingerprint of the certificate.
-- `id`: any — The ID of the application that will use this certificate.
+- `id`: string — The ID of the application that will use this certificate.
 - `name`: string — The name of the certificate.
 - `updated_at`: string
 
@@ -90,7 +90,7 @@ operationId: `zone-level-access-mtls-authentication-update-an-mtls-certificate`
 - `created_at`: string
 - `expires_on`: string
 - `fingerprint`: string — The MD5 fingerprint of the certificate.
-- `id`: any — The ID of the application that will use this certificate.
+- `id`: string — The ID of the application that will use this certificate.
 - `name`: string — The name of the certificate.
 - `updated_at`: string
 

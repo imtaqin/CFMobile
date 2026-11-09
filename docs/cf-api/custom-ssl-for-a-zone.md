@@ -18,12 +18,12 @@ operationId: `custom-ssl-for-a-zone-list-ssl-configurations` · query: `page`, `
   - `label`: string enum: `us`, `eu`, `highest_security`
 - `hosts`: string[]
   [array]
-- `id`: string **required** — Identifier.
+- `id`: string **required** — Custom certificate identifier tag.
 - `issuer`: string — The certificate authority that issued the certificate.
 - `keyless_server`: object
 - `modified_on`: string — When the certificate was last modified.
 - `policy_restrictions`: string — The policy restrictions returned by the API. This field is returned in responses
-- `priority`: number default: `0` — The order/priority in which the certificate will be used in a request. The higher priority will break ties across overlapping 'legacy_custom
+- `priority`: number — The order/priority in which the certificate will be used in a request. The higher priority will break ties across overlapping 'legacy_custom
 - `signature`: string — The type of hash used for the certificate.
 - `status`: string enum: `active`, `expired`, `deleted`, `pending`, `initializing` — Status of the zone's custom SSL.
 - `uploaded_on`: string — When the certificate was uploaded to Cloudflare.
@@ -56,12 +56,12 @@ operationId: `custom-ssl-for-a-zone-create-ssl-configuration`
   - `label`: string enum: `us`, `eu`, `highest_security`
 - `hosts`: string[]
   [array]
-- `id`: string **required** — Identifier.
+- `id`: string **required** — Custom certificate identifier tag.
 - `issuer`: string — The certificate authority that issued the certificate.
 - `keyless_server`: object
 - `modified_on`: string — When the certificate was last modified.
 - `policy_restrictions`: string — The policy restrictions returned by the API. This field is returned in responses
-- `priority`: number default: `0` — The order/priority in which the certificate will be used in a request. The higher priority will break ties across overlapping 'legacy_custom
+- `priority`: number — The order/priority in which the certificate will be used in a request. The higher priority will break ties across overlapping 'legacy_custom
 - `signature`: string — The type of hash used for the certificate.
 - `status`: string enum: `active`, `expired`, `deleted`, `pending`, `initializing` — Status of the zone's custom SSL.
 - `uploaded_on`: string — When the certificate was uploaded to Cloudflare.
@@ -75,7 +75,7 @@ operationId: `custom-ssl-for-a-zone-delete-ssl-configuration`
 
 **Response** 200 → `result`
 
-- `id`: string — Identifier.
+- `id`: string — Custom certificate identifier tag.
 
 ## GET /zones/{zone_id}/custom_certificates/{custom_certificate_id}
 
@@ -92,12 +92,12 @@ operationId: `custom-ssl-for-a-zone-ssl-configuration-details`
   - `label`: string enum: `us`, `eu`, `highest_security`
 - `hosts`: string[]
   [array]
-- `id`: string **required** — Identifier.
+- `id`: string **required** — Custom certificate identifier tag.
 - `issuer`: string — The certificate authority that issued the certificate.
 - `keyless_server`: object
 - `modified_on`: string — When the certificate was last modified.
 - `policy_restrictions`: string — The policy restrictions returned by the API. This field is returned in responses
-- `priority`: number default: `0` — The order/priority in which the certificate will be used in a request. The higher priority will break ties across overlapping 'legacy_custom
+- `priority`: number — The order/priority in which the certificate will be used in a request. The higher priority will break ties across overlapping 'legacy_custom
 - `signature`: string — The type of hash used for the certificate.
 - `status`: string enum: `active`, `expired`, `deleted`, `pending`, `initializing` — Status of the zone's custom SSL.
 - `uploaded_on`: string — When the certificate was uploaded to Cloudflare.
@@ -129,12 +129,12 @@ operationId: `custom-ssl-for-a-zone-edit-ssl-configuration`
   - `label`: string enum: `us`, `eu`, `highest_security`
 - `hosts`: string[]
   [array]
-- `id`: string **required** — Identifier.
+- `id`: string **required** — Custom certificate identifier tag.
 - `issuer`: string — The certificate authority that issued the certificate.
 - `keyless_server`: object
 - `modified_on`: string — When the certificate was last modified.
 - `policy_restrictions`: string — The policy restrictions returned by the API. This field is returned in responses
-- `priority`: number default: `0` — The order/priority in which the certificate will be used in a request. The higher priority will break ties across overlapping 'legacy_custom
+- `priority`: number — The order/priority in which the certificate will be used in a request. The higher priority will break ties across overlapping 'legacy_custom
 - `signature`: string — The type of hash used for the certificate.
 - `status`: string enum: `active`, `expired`, `deleted`, `pending`, `initializing` — Status of the zone's custom SSL.
 - `uploaded_on`: string — When the certificate was uploaded to Cloudflare.
@@ -150,8 +150,8 @@ operationId: `custom-ssl-for-a-zone-re-prioritize-ssl-certificates`
 
 - `certificates`: object[] **required** — Array of ordered certificates.
   [array of]
-  - `id`: string — Identifier.
-  - `priority`: number default: `0` — The order/priority in which the certificate will be used in a request. The higher priority will break ties across overlapping 'legacy_custom
+  - `id`: string — Custom certificate identifier tag.
+  - `priority`: number — The order/priority in which the certificate will be used in a request. The higher priority will break ties across overlapping 'legacy_custom
 
 **Response** 200 → `result`
 
@@ -163,12 +163,12 @@ operationId: `custom-ssl-for-a-zone-re-prioritize-ssl-certificates`
   - `label`: string enum: `us`, `eu`, `highest_security`
 - `hosts`: string[]
   [array]
-- `id`: string **required** — Identifier.
+- `id`: string **required** — Custom certificate identifier tag.
 - `issuer`: string — The certificate authority that issued the certificate.
 - `keyless_server`: object
 - `modified_on`: string — When the certificate was last modified.
 - `policy_restrictions`: string — The policy restrictions returned by the API. This field is returned in responses
-- `priority`: number default: `0` — The order/priority in which the certificate will be used in a request. The higher priority will break ties across overlapping 'legacy_custom
+- `priority`: number — The order/priority in which the certificate will be used in a request. The higher priority will break ties across overlapping 'legacy_custom
 - `signature`: string — The type of hash used for the certificate.
 - `status`: string enum: `active`, `expired`, `deleted`, `pending`, `initializing` — Status of the zone's custom SSL.
 - `uploaded_on`: string — When the certificate was uploaded to Cloudflare.

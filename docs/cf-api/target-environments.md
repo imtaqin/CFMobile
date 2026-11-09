@@ -4,7 +4,7 @@
 
 ## GET /accounts/{account_id}/vuln_scanner/target_environments
 
-List Target Environments
+List target environments
 
 operationId: `list-target-environments` · query: `page`, `per_page`
 
@@ -18,7 +18,7 @@ operationId: `list-target-environments` · query: `page`, `per_page`
 
 ## POST /accounts/{account_id}/vuln_scanner/target_environments
 
-Create Target Environment
+Create target environment
 
 operationId: `create-target-environment`
 
@@ -37,7 +37,7 @@ operationId: `create-target-environment`
 
 ## DELETE /accounts/{account_id}/vuln_scanner/target_environments/{target_environment_id}
 
-Delete Target Environment
+Delete target environment
 
 operationId: `delete-target-environment`
 
@@ -47,7 +47,7 @@ object
 
 ## GET /accounts/{account_id}/vuln_scanner/target_environments/{target_environment_id}
 
-Get Target Environment
+Get target environment
 
 operationId: `get-target-environment`
 
@@ -60,7 +60,7 @@ operationId: `get-target-environment`
 
 ## PATCH /accounts/{account_id}/vuln_scanner/target_environments/{target_environment_id}
 
-Edit Target Environment
+Edit target environment
 
 operationId: `edit-target-environment`
 
@@ -79,7 +79,7 @@ operationId: `edit-target-environment`
 
 ## PUT /accounts/{account_id}/vuln_scanner/target_environments/{target_environment_id}
 
-Update Target Environment
+Update target environment
 
 operationId: `update-target-environment`
 

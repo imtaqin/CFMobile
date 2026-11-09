@@ -11,16 +11,17 @@ operationId: `mcp-portals-api-list-portals` · query: `page`, `per_page`, `searc
 **Response** 200 → `result`
 
 [array of]
-- `allow_code_mode`: boolean default: `true` — Allow remote code execution in Dynamic Workers (beta)
+- `allow_code_mode`: boolean — Deprecated: use `code_mode` for new integrations. `true` maps to any non-off Code Mode policy; `false` maps to `code_mode: off`. If both fie
+- `code_mode`: string enum: `off`, `opt_in`, `default_on`, `enforced` — Code Mode policy for this portal. `off`: Code Mode is unavailable; query parameters are ignored. `opt_in`: Code Mode is off by default; clie
 - `created_at`: string
 - `created_by`: string
-- `description`: string
-- `hostname`: string **required**
-- `id`: string **required** — portal id
+- `description`: string — Optional description of the MCP portal.
+- `hostname`: string **required** — Hostname where the MCP portal is available.
+- `id`: string **required** — Unique identifier for the MCP portal.
 - `modified_at`: string
 - `modified_by`: string
-- `name`: string **required**
-- `secure_web_gateway`: boolean default: `false` — Route outbound MCP traffic through Zero Trust Secure Web Gateway
+- `name`: string **required** — Display name for the MCP portal.
+- `secure_web_gateway`: boolean default: `false` — Route outbound MCP traffic through Zero Trust Secure Web Gateway.
 - `servers`: object[] **required**
   [array of]
   - `auth_config_summary`: object — Safe subset of auth_credentials surfaced to the dashboard. Includes auth_mode (dcr|manual), has_client_secret, client_secret_version, and th
@@ -29,11 +30,12 @@ operationId: `mcp-portals-api-list-portals` · query: `page`, `per_page`, `searc
     - `config`: object
     - `has_client_secret`: boolean
     - `registration_info`: object
-  - `auth_type`: string **required** enum: `oauth`, `bearer`, `unauthenticated`
+  - `auth_type`: string **required** enum: `oauth`, `bearer`, `unauthenticated` — Authentication method used to connect to the upstream MCP server.
+  - `authentication_status`: string enum: `not_required`, `required`, `connected`, `stale`, `manual` — Whether administrative authentication is required before capabilities can be synced. Manual OAuth is user-managed and has no administrative 
   - `created_at`: string
   - `created_by`: string
-  - `default_disabled`: boolean default: `false`
-  - `description`: string
+  - `default_disabled`: boolean — Hide this server's tools and prompts by default. To expose specific capabilities, set enabled: true for them in updated_tools or updated_pro
+  - `description`: string — Optional description of the MCP server.
   - `error`: string
   - `error_details`: object
     - `cause`: string — Underlying error message
@@ -41,19 +43,20 @@ operationId: `mcp-portals-api-list-portals` · query: `page`, `per_page`, `searc
     - `mcp_code`: number — MCP protocol error code
     - `retryable`: boolean — Whether the error is transient and worth retrying
     - `status_code`: number — HTTP status code from the server
-  - `hostname`: string **required**
-  - `id`: string **required** — server id
-  - `is_shared_oauth_callback_enabled`: boolean default: `false` — When true, the gateway worker uses the shared Cloudflare-owned OAuth callback endpoint as the redirect_uri for upstream on-behalf OAuth, ins
+  - `hostname`: string **required** — URL of the upstream MCP endpoint.
+  - `id`: string **required** — Unique identifier for the MCP server.
+  - `is_shared_oauth_callback_enabled`: boolean default: `false` — When true, per-user authorization uses the shared Cloudflare callback URL as the 'redirect_uri' instead of the portal callback URL. The defa
   - `last_successful_sync`: string
   - `last_synced`: string
   - `modified_at`: string
   - `modified_by`: string
-  - `name`: string **required**
-  - `on_behalf`: boolean default: `true`
+  - `name`: string **required** — Display name for the MCP server.
+  - `on_behalf`: boolean
   - `prompts`: object[] **required**
     [array]
-  - `secure_web_gateway`: boolean default: `false` — Route outbound traffic to this MCP server through Zero Trust Secure Web Gateway
-  - `server_id`: string **required** — server id
+  - `registered_at`: string — Timestamp of the most recent successful admin OAuth registration.
+  - `secure_web_gateway`: boolean default: `false` — Route outbound traffic to this MCP server through Zero Trust Secure Web Gateway.
+  - `server_id`: string **required** — Unique identifier for the MCP server.
   - `status`: string enum: `waiting`, `ready`, `stale`, `error` default: `waiting` — Current sync state of the server
   - `tools`: object[] **required**
     [array]
@@ -82,42 +85,44 @@ operationId: `mcp-portals-api-create-portals`
 
 **Request** (application/json)
 
-- `allow_code_mode`: boolean default: `true` — Allow remote code execution in Dynamic Workers (beta)
-- `description`: string
-- `hostname`: string **required**
-- `id`: string **required** — portal id
-- `name`: string **required**
-- `secure_web_gateway`: boolean default: `false` — Route outbound MCP traffic through Zero Trust Secure Web Gateway
-- `servers`: object[]
+- `allow_code_mode`: boolean — Deprecated: use `code_mode` for new integrations. `true` maps to any non-off Code Mode policy; `false` maps to `code_mode: off`. If both fie
+- `code_mode`: string enum: `off`, `opt_in`, `default_on`, `enforced` — Code Mode policy for this portal. `off`: Code Mode is unavailable; query parameters are ignored. `opt_in`: Code Mode is off by default; clie
+- `description`: string — Optional description of the MCP portal.
+- `hostname`: string **required** — Hostname where the MCP portal is available.
+- `id`: string **required** — Unique identifier for the MCP portal.
+- `name`: string **required** — Display name for the MCP portal.
+- `secure_web_gateway`: boolean default: `false` — Route outbound MCP traffic through Zero Trust Secure Web Gateway.
+- `servers`: object[] — MCP servers attached to the portal and their portal-specific settings.
   [array of]
-  - `default_disabled`: boolean default: `false`
-  - `on_behalf`: boolean default: `true`
-  - `server_id`: string **required** — server id
-  - `updated_prompts`: object[]
+  - `default_disabled`: boolean — Hide this server's tools and prompts by default. To expose specific capabilities, set enabled: true for them in this server entry's updated_
+  - `on_behalf`: boolean — Use end-user OAuth credentials when connecting this server to the portal.
+  - `server_id`: string **required** — Unique identifier for the MCP server.
+  - `updated_prompts`: object[] — Portal-specific prompt overrides.
     [array of]
-    - `alias`: string
-    - `description`: string
-    - `enabled`: boolean
-    - `name`: string **required**
-  - `updated_tools`: object[]
+    - `alias`: string — Custom name exposed for the capability.
+    - `description`: string — Custom description exposed for the capability.
+    - `enabled`: boolean — Whether the capability is available through the MCP server.
+    - `name`: string **required** — Name of the tool or prompt capability to override.
+  - `updated_tools`: object[] — Portal-specific tool overrides.
     [array of]
-    - `alias`: string
-    - `description`: string
-    - `enabled`: boolean
-    - `name`: string **required**
+    - `alias`: string — Custom name exposed for the capability.
+    - `description`: string — Custom description exposed for the capability.
+    - `enabled`: boolean — Whether the capability is available through the MCP server.
+    - `name`: string **required** — Name of the tool or prompt capability to override.
 
 **Response** 201 → `result`
 
-- `allow_code_mode`: boolean default: `true` — Allow remote code execution in Dynamic Workers (beta)
+- `allow_code_mode`: boolean — Deprecated: use `code_mode` for new integrations. `true` maps to any non-off Code Mode policy; `false` maps to `code_mode: off`. If both fie
+- `code_mode`: string enum: `off`, `opt_in`, `default_on`, `enforced` — Code Mode policy for this portal. `off`: Code Mode is unavailable; query parameters are ignored. `opt_in`: Code Mode is off by default; clie
 - `created_at`: string
 - `created_by`: string
-- `description`: string
-- `hostname`: string **required**
-- `id`: string **required** — portal id
+- `description`: string — Optional description of the MCP portal.
+- `hostname`: string **required** — Hostname where the MCP portal is available.
+- `id`: string **required** — Unique identifier for the MCP portal.
 - `modified_at`: string
 - `modified_by`: string
-- `name`: string **required**
-- `secure_web_gateway`: boolean default: `false` — Route outbound MCP traffic through Zero Trust Secure Web Gateway
+- `name`: string **required** — Display name for the MCP portal.
+- `secure_web_gateway`: boolean default: `false` — Route outbound MCP traffic through Zero Trust Secure Web Gateway.
 - `servers`: object[] **required**
   [array of]
   - `auth_config_summary`: object — Safe subset of auth_credentials surfaced to the dashboard. Includes auth_mode (dcr|manual), has_client_secret, client_secret_version, and th
@@ -126,11 +131,12 @@ operationId: `mcp-portals-api-create-portals`
     - `config`: object
     - `has_client_secret`: boolean
     - `registration_info`: object
-  - `auth_type`: string **required** enum: `oauth`, `bearer`, `unauthenticated`
+  - `auth_type`: string **required** enum: `oauth`, `bearer`, `unauthenticated` — Authentication method used to connect to the upstream MCP server.
+  - `authentication_status`: string enum: `not_required`, `required`, `connected`, `stale`, `manual` — Whether administrative authentication is required before capabilities can be synced. Manual OAuth is user-managed and has no administrative 
   - `created_at`: string
   - `created_by`: string
-  - `default_disabled`: boolean default: `false`
-  - `description`: string
+  - `default_disabled`: boolean — Hide this server's tools and prompts by default. To expose specific capabilities, set enabled: true for them in updated_tools or updated_pro
+  - `description`: string — Optional description of the MCP server.
   - `error`: string
   - `error_details`: object
     - `cause`: string — Underlying error message
@@ -138,19 +144,20 @@ operationId: `mcp-portals-api-create-portals`
     - `mcp_code`: number — MCP protocol error code
     - `retryable`: boolean — Whether the error is transient and worth retrying
     - `status_code`: number — HTTP status code from the server
-  - `hostname`: string **required**
-  - `id`: string **required** — server id
-  - `is_shared_oauth_callback_enabled`: boolean default: `false` — When true, the gateway worker uses the shared Cloudflare-owned OAuth callback endpoint as the redirect_uri for upstream on-behalf OAuth, ins
+  - `hostname`: string **required** — URL of the upstream MCP endpoint.
+  - `id`: string **required** — Unique identifier for the MCP server.
+  - `is_shared_oauth_callback_enabled`: boolean default: `false` — When true, per-user authorization uses the shared Cloudflare callback URL as the 'redirect_uri' instead of the portal callback URL. The defa
   - `last_successful_sync`: string
   - `last_synced`: string
   - `modified_at`: string
   - `modified_by`: string
-  - `name`: string **required**
-  - `on_behalf`: boolean default: `true`
+  - `name`: string **required** — Display name for the MCP server.
+  - `on_behalf`: boolean
   - `prompts`: object[] **required**
     [array]
-  - `secure_web_gateway`: boolean default: `false` — Route outbound traffic to this MCP server through Zero Trust Secure Web Gateway
-  - `server_id`: string **required** — server id
+  - `registered_at`: string — Timestamp of the most recent successful admin OAuth registration.
+  - `secure_web_gateway`: boolean default: `false` — Route outbound traffic to this MCP server through Zero Trust Secure Web Gateway.
+  - `server_id`: string **required** — Unique identifier for the MCP server.
   - `status`: string enum: `waiting`, `ready`, `stale`, `error` default: `waiting` — Current sync state of the server
   - `tools`: object[] **required**
     [array]
@@ -173,22 +180,23 @@ operationId: `mcp-portals-api-create-portals`
 
 ## DELETE /accounts/{account_id}/access/ai-controls/mcp/portals/{id}
 
-Delete a MCP Portal
+Delete an MCP Portal
 
 operationId: `mcp-portals-api-delete-portals`
 
 **Response** 200 → `result`
 
-- `allow_code_mode`: boolean default: `true` — Allow remote code execution in Dynamic Workers (beta)
+- `allow_code_mode`: boolean — Deprecated: use `code_mode` for new integrations. `true` maps to any non-off Code Mode policy; `false` maps to `code_mode: off`. If both fie
+- `code_mode`: string enum: `off`, `opt_in`, `default_on`, `enforced` — Code Mode policy for this portal. `off`: Code Mode is unavailable; query parameters are ignored. `opt_in`: Code Mode is off by default; clie
 - `created_at`: string
 - `created_by`: string
-- `description`: string
-- `hostname`: string **required**
-- `id`: string **required** — portal id
+- `description`: string — Optional description of the MCP portal.
+- `hostname`: string **required** — Hostname where the MCP portal is available.
+- `id`: string **required** — Unique identifier for the MCP portal.
 - `modified_at`: string
 - `modified_by`: string
-- `name`: string **required**
-- `secure_web_gateway`: boolean default: `false` — Route outbound MCP traffic through Zero Trust Secure Web Gateway
+- `name`: string **required** — Display name for the MCP portal.
+- `secure_web_gateway`: boolean default: `false` — Route outbound MCP traffic through Zero Trust Secure Web Gateway.
 
 ## GET /accounts/{account_id}/access/ai-controls/mcp/portals/{id}
 
@@ -198,16 +206,17 @@ operationId: `mcp-portals-api-fetch-gateways`
 
 **Response** 200 → `result`
 
-- `allow_code_mode`: boolean default: `true` — Allow remote code execution in Dynamic Workers (beta)
+- `allow_code_mode`: boolean — Deprecated: use `code_mode` for new integrations. `true` maps to any non-off Code Mode policy; `false` maps to `code_mode: off`. If both fie
+- `code_mode`: string enum: `off`, `opt_in`, `default_on`, `enforced` — Code Mode policy for this portal. `off`: Code Mode is unavailable; query parameters are ignored. `opt_in`: Code Mode is off by default; clie
 - `created_at`: string
 - `created_by`: string
-- `description`: string
-- `hostname`: string **required**
-- `id`: string **required** — portal id
+- `description`: string — Optional description of the MCP portal.
+- `hostname`: string **required** — Hostname where the MCP portal is available.
+- `id`: string **required** — Unique identifier for the MCP portal.
 - `modified_at`: string
 - `modified_by`: string
-- `name`: string **required**
-- `secure_web_gateway`: boolean default: `false` — Route outbound MCP traffic through Zero Trust Secure Web Gateway
+- `name`: string **required** — Display name for the MCP portal.
+- `secure_web_gateway`: boolean default: `false` — Route outbound MCP traffic through Zero Trust Secure Web Gateway.
 - `servers`: object[] **required**
   [array of]
   - `auth_config_summary`: object — Safe subset of auth_credentials surfaced to the dashboard. Includes auth_mode (dcr|manual), has_client_secret, client_secret_version, and th
@@ -216,11 +225,12 @@ operationId: `mcp-portals-api-fetch-gateways`
     - `config`: object
     - `has_client_secret`: boolean
     - `registration_info`: object
-  - `auth_type`: string **required** enum: `oauth`, `bearer`, `unauthenticated`
+  - `auth_type`: string **required** enum: `oauth`, `bearer`, `unauthenticated` — Authentication method used to connect to the upstream MCP server.
+  - `authentication_status`: string enum: `not_required`, `required`, `connected`, `stale`, `manual` — Whether administrative authentication is required before capabilities can be synced. Manual OAuth is user-managed and has no administrative 
   - `created_at`: string
   - `created_by`: string
-  - `default_disabled`: boolean default: `false`
-  - `description`: string
+  - `default_disabled`: boolean — Hide this server's tools and prompts by default. To expose specific capabilities, set enabled: true for them in updated_tools or updated_pro
+  - `description`: string — Optional description of the MCP server.
   - `error`: string
   - `error_details`: object
     - `cause`: string — Underlying error message
@@ -228,19 +238,20 @@ operationId: `mcp-portals-api-fetch-gateways`
     - `mcp_code`: number — MCP protocol error code
     - `retryable`: boolean — Whether the error is transient and worth retrying
     - `status_code`: number — HTTP status code from the server
-  - `hostname`: string **required**
-  - `id`: string **required** — server id
-  - `is_shared_oauth_callback_enabled`: boolean default: `false` — When true, the gateway worker uses the shared Cloudflare-owned OAuth callback endpoint as the redirect_uri for upstream on-behalf OAuth, ins
+  - `hostname`: string **required** — URL of the upstream MCP endpoint.
+  - `id`: string **required** — Unique identifier for the MCP server.
+  - `is_shared_oauth_callback_enabled`: boolean default: `false` — When true, per-user authorization uses the shared Cloudflare callback URL as the 'redirect_uri' instead of the portal callback URL. The defa
   - `last_successful_sync`: string
   - `last_synced`: string
   - `modified_at`: string
   - `modified_by`: string
-  - `name`: string **required**
-  - `on_behalf`: boolean default: `true`
+  - `name`: string **required** — Display name for the MCP server.
+  - `on_behalf`: boolean
   - `prompts`: object[] **required**
     [array]
-  - `secure_web_gateway`: boolean default: `false` — Route outbound traffic to this MCP server through Zero Trust Secure Web Gateway
-  - `server_id`: string **required** — server id
+  - `registered_at`: string — Timestamp of the most recent successful admin OAuth registration.
+  - `secure_web_gateway`: boolean default: `false` — Route outbound traffic to this MCP server through Zero Trust Secure Web Gateway.
+  - `server_id`: string **required** — Unique identifier for the MCP server.
   - `status`: string enum: `waiting`, `ready`, `stale`, `error` default: `waiting` — Current sync state of the server
   - `tools`: object[] **required**
     [array]
@@ -263,47 +274,49 @@ operationId: `mcp-portals-api-fetch-gateways`
 
 ## PUT /accounts/{account_id}/access/ai-controls/mcp/portals/{id}
 
-Update a MCP Portal
+Update an MCP Portal
 
 operationId: `mcp-portals-api-update-portals`
 
 **Request** (application/json)
 
-- `allow_code_mode`: boolean default: `true` — Allow remote code execution in Dynamic Workers (beta)
-- `description`: string
-- `hostname`: string
-- `name`: string
-- `secure_web_gateway`: boolean default: `false` — Route outbound MCP traffic through Zero Trust Secure Web Gateway
-- `servers`: object[]
+- `allow_code_mode`: boolean — Deprecated: use `code_mode` for new integrations. `true` maps to any non-off Code Mode policy; `false` maps to `code_mode: off`. If both fie
+- `code_mode`: string enum: `off`, `opt_in`, `default_on`, `enforced` — Code Mode policy for this portal. `off`: Code Mode is unavailable; query parameters are ignored. `opt_in`: Code Mode is off by default; clie
+- `description`: string — Optional description of the MCP portal.
+- `hostname`: string — Hostname where the MCP portal is available.
+- `name`: string — Display name for the MCP portal.
+- `secure_web_gateway`: boolean default: `false` — Route outbound MCP traffic through Zero Trust Secure Web Gateway.
+- `servers`: object[] — MCP servers attached to the portal and their portal-specific settings.
   [array of]
-  - `default_disabled`: boolean default: `false`
-  - `on_behalf`: boolean default: `true`
-  - `server_id`: string **required** — server id
-  - `updated_prompts`: object[]
+  - `default_disabled`: boolean — Hide this server's tools and prompts by default. To expose specific capabilities, set enabled: true for them in this server entry's updated_
+  - `on_behalf`: boolean — Use end-user OAuth credentials when connecting this server to the portal.
+  - `server_id`: string **required** — Unique identifier for the MCP server.
+  - `updated_prompts`: object[] — Portal-specific prompt overrides.
     [array of]
-    - `alias`: string
-    - `description`: string
-    - `enabled`: boolean
-    - `name`: string **required**
-  - `updated_tools`: object[]
+    - `alias`: string — Custom name exposed for the capability.
+    - `description`: string — Custom description exposed for the capability.
+    - `enabled`: boolean — Whether the capability is available through the MCP server.
+    - `name`: string **required** — Name of the tool or prompt capability to override.
+  - `updated_tools`: object[] — Portal-specific tool overrides.
     [array of]
-    - `alias`: string
-    - `description`: string
-    - `enabled`: boolean
-    - `name`: string **required**
+    - `alias`: string — Custom name exposed for the capability.
+    - `description`: string — Custom description exposed for the capability.
+    - `enabled`: boolean — Whether the capability is available through the MCP server.
+    - `name`: string **required** — Name of the tool or prompt capability to override.
 
 **Response** 200 → `result`
 
-- `allow_code_mode`: boolean default: `true` — Allow remote code execution in Dynamic Workers (beta)
+- `allow_code_mode`: boolean — Deprecated: use `code_mode` for new integrations. `true` maps to any non-off Code Mode policy; `false` maps to `code_mode: off`. If both fie
+- `code_mode`: string enum: `off`, `opt_in`, `default_on`, `enforced` — Code Mode policy for this portal. `off`: Code Mode is unavailable; query parameters are ignored. `opt_in`: Code Mode is off by default; clie
 - `created_at`: string
 - `created_by`: string
-- `description`: string
-- `hostname`: string **required**
-- `id`: string **required** — portal id
+- `description`: string — Optional description of the MCP portal.
+- `hostname`: string **required** — Hostname where the MCP portal is available.
+- `id`: string **required** — Unique identifier for the MCP portal.
 - `modified_at`: string
 - `modified_by`: string
-- `name`: string **required**
-- `secure_web_gateway`: boolean default: `false` — Route outbound MCP traffic through Zero Trust Secure Web Gateway
+- `name`: string **required** — Display name for the MCP portal.
+- `secure_web_gateway`: boolean default: `false` — Route outbound MCP traffic through Zero Trust Secure Web Gateway.
 - `servers`: object[] **required**
   [array of]
   - `auth_config_summary`: object — Safe subset of auth_credentials surfaced to the dashboard. Includes auth_mode (dcr|manual), has_client_secret, client_secret_version, and th
@@ -312,11 +325,12 @@ operationId: `mcp-portals-api-update-portals`
     - `config`: object
     - `has_client_secret`: boolean
     - `registration_info`: object
-  - `auth_type`: string **required** enum: `oauth`, `bearer`, `unauthenticated`
+  - `auth_type`: string **required** enum: `oauth`, `bearer`, `unauthenticated` — Authentication method used to connect to the upstream MCP server.
+  - `authentication_status`: string enum: `not_required`, `required`, `connected`, `stale`, `manual` — Whether administrative authentication is required before capabilities can be synced. Manual OAuth is user-managed and has no administrative 
   - `created_at`: string
   - `created_by`: string
-  - `default_disabled`: boolean default: `false`
-  - `description`: string
+  - `default_disabled`: boolean — Hide this server's tools and prompts by default. To expose specific capabilities, set enabled: true for them in updated_tools or updated_pro
+  - `description`: string — Optional description of the MCP server.
   - `error`: string
   - `error_details`: object
     - `cause`: string — Underlying error message
@@ -324,19 +338,20 @@ operationId: `mcp-portals-api-update-portals`
     - `mcp_code`: number — MCP protocol error code
     - `retryable`: boolean — Whether the error is transient and worth retrying
     - `status_code`: number — HTTP status code from the server
-  - `hostname`: string **required**
-  - `id`: string **required** — server id
-  - `is_shared_oauth_callback_enabled`: boolean default: `false` — When true, the gateway worker uses the shared Cloudflare-owned OAuth callback endpoint as the redirect_uri for upstream on-behalf OAuth, ins
+  - `hostname`: string **required** — URL of the upstream MCP endpoint.
+  - `id`: string **required** — Unique identifier for the MCP server.
+  - `is_shared_oauth_callback_enabled`: boolean default: `false` — When true, per-user authorization uses the shared Cloudflare callback URL as the 'redirect_uri' instead of the portal callback URL. The defa
   - `last_successful_sync`: string
   - `last_synced`: string
   - `modified_at`: string
   - `modified_by`: string
-  - `name`: string **required**
-  - `on_behalf`: boolean default: `true`
+  - `name`: string **required** — Display name for the MCP server.
+  - `on_behalf`: boolean
   - `prompts`: object[] **required**
     [array]
-  - `secure_web_gateway`: boolean default: `false` — Route outbound traffic to this MCP server through Zero Trust Secure Web Gateway
-  - `server_id`: string **required** — server id
+  - `registered_at`: string — Timestamp of the most recent successful admin OAuth registration.
+  - `secure_web_gateway`: boolean default: `false` — Route outbound traffic to this MCP server through Zero Trust Secure Web Gateway.
+  - `server_id`: string **required** — Unique identifier for the MCP server.
   - `status`: string enum: `waiting`, `ready`, `stale`, `error` default: `waiting` — Current sync state of the server
   - `tools`: object[] **required**
     [array]
@@ -359,7 +374,7 @@ operationId: `mcp-portals-api-update-portals`
 
 ## GET /accounts/{account_id}/access/ai-controls/mcp/portals/{portal_id}/servers/{server_id}/effective-redirect-uri
 
-Resolve the OAuth redirect_uri the admin must register at the upstream
+Resolve an MCP server OAuth redirect URI
 
 operationId: `mcp-portals-api-effective-redirect-uri`
 

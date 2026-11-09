@@ -1,6 +1,6 @@
 # Access identity providers
 
-8 endpoints.
+12 endpoints.
 
 ## GET /accounts/{account_id}/access/identity_providers
 
@@ -11,7 +11,7 @@ operationId: `access-identity-providers-list-access-identity-providers` · query
 **Response** 200 → `result`
 
 [array of]
-(one of 15 variants; showing the first)
+(one of 17 variants; showing the first)
 - `config`: object **required** — The configuration parameters for the identity provider. To view the required parameters for a specific provider, refer to our [developer doc
 - `id`: string — UUID.
 - `name`: string **required** — The name of the identity provider, shown to users on the login page.
@@ -36,7 +36,7 @@ operationId: `access-identity-providers-add-an-access-identity-provider`
 
 **Request** (application/json)
 
-(one of 15 variants; showing the first)
+(one of 17 variants; showing the first)
 - `config`: object **required** — The configuration parameters for the identity provider. To view the required parameters for a specific provider, refer to our [developer doc
 - `id`: string — UUID.
 - `name`: string **required** — The name of the identity provider, shown to users on the login page.
@@ -55,7 +55,7 @@ operationId: `access-identity-providers-add-an-access-identity-provider`
 
 **Response** 201 → `result`
 
-(one of 15 variants; showing the first)
+(one of 17 variants; showing the first)
 - `config`: object **required** — The configuration parameters for the identity provider. To view the required parameters for a specific provider, refer to our [developer doc
 - `id`: string — UUID.
 - `name`: string **required** — The name of the identity provider, shown to users on the login page.
@@ -90,7 +90,7 @@ operationId: `access-identity-providers-get-an-access-identity-provider`
 
 **Response** 200 → `result`
 
-(one of 15 variants; showing the first)
+(one of 17 variants; showing the first)
 - `config`: object **required** — The configuration parameters for the identity provider. To view the required parameters for a specific provider, refer to our [developer doc
 - `id`: string — UUID.
 - `name`: string **required** — The name of the identity provider, shown to users on the login page.
@@ -115,7 +115,7 @@ operationId: `access-identity-providers-update-an-access-identity-provider`
 
 **Request** (application/json)
 
-(one of 15 variants; showing the first)
+(one of 17 variants; showing the first)
 - `config`: object **required** — The configuration parameters for the identity provider. To view the required parameters for a specific provider, refer to our [developer doc
 - `id`: string — UUID.
 - `name`: string **required** — The name of the identity provider, shown to users on the login page.
@@ -134,7 +134,7 @@ operationId: `access-identity-providers-update-an-access-identity-provider`
 
 **Response** 200 → `result`
 
-(one of 15 variants; showing the first)
+(one of 17 variants; showing the first)
 - `config`: object **required** — The configuration parameters for the identity provider. To view the required parameters for a specific provider, refer to our [developer doc
 - `id`: string — UUID.
 - `name`: string **required** — The name of the identity provider, shown to users on the login page.
@@ -183,6 +183,35 @@ operationId: `access-identity-providers-list-scim-group-resources` · query: `cf
 - `schemas`: string[] — The list of URIs which indicate the attributes contained within a SCIM resource.
   [array]
 
+## DELETE /accounts/{account_id}/access/identity_providers/{identity_provider_id}/scim/groups/{group_id}
+
+Delete a SCIM Group resource
+
+operationId: `access-identity-providers-delete-scim-group-resource`
+
+## GET /accounts/{account_id}/access/identity_providers/{identity_provider_id}/scim/groups/{group_id}
+
+Get a SCIM Group resource
+
+operationId: `access-identity-providers-get-scim-group-resource`
+
+**Response** 200 → `result`
+
+- `displayName`: string — The display name of the SCIM Group resource.
+- `externalId`: string — The IdP-generated Id of the SCIM resource.
+- `id`: string — The unique Cloudflare-generated Id of the SCIM resource.
+- `members`: object[] — The direct members of the SCIM Group resource.
+  [array of]
+  - `$ref`: string — The URI of the member resource.
+  - `display`: string — The display name of the member resource.
+  - `type`: string enum: `User`, `Group` — The SCIM resource type of the member.
+  - `value`: string **required** — The unique Cloudflare-generated Id of the member resource.
+- `meta`: object — The metadata of the SCIM resource.
+  - `created`: string — The timestamp of when the SCIM resource was created.
+  - `lastModified`: string — The timestamp of when the SCIM resource was last modified.
+- `schemas`: string[] — The list of URIs which indicate the attributes contained within a SCIM resource.
+  [array]
+
 ## GET /accounts/{account_id}/access/identity_providers/{identity_provider_id}/scim/users
 
 List SCIM User resources
@@ -192,6 +221,35 @@ operationId: `access-identity-providers-list-scim-user-resources` · query: `cf_
 **Response** 200 → `result`
 
 [array of]
+- `active`: boolean — Determines the status of the SCIM User resource.
+- `displayName`: string — The name of the SCIM User resource.
+- `emails`: object[]
+  [array of]
+  - `primary`: boolean — Indicates if the email address is the primary email belonging to the SCIM User resource.
+  - `type`: string — Indicates the type of the email address.
+  - `value`: string — The email address of the SCIM User resource.
+- `externalId`: string — The IdP-generated Id of the SCIM resource.
+- `id`: string — The unique Cloudflare-generated Id of the SCIM resource.
+- `meta`: object — The metadata of the SCIM resource.
+  - `created`: string — The timestamp of when the SCIM resource was created.
+  - `lastModified`: string — The timestamp of when the SCIM resource was last modified.
+- `schemas`: string[] — The list of URIs which indicate the attributes contained within a SCIM resource.
+  [array]
+
+## DELETE /accounts/{account_id}/access/identity_providers/{identity_provider_id}/scim/users/{user_id}
+
+Delete a SCIM User resource
+
+operationId: `access-identity-providers-delete-scim-user-resource`
+
+## GET /accounts/{account_id}/access/identity_providers/{identity_provider_id}/scim/users/{user_id}
+
+Get a SCIM User resource
+
+operationId: `access-identity-providers-get-scim-user-resource`
+
+**Response** 200 → `result`
+
 - `active`: boolean — Determines the status of the SCIM User resource.
 - `displayName`: string — The name of the SCIM User resource.
 - `emails`: object[]

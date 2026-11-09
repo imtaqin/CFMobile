@@ -4,7 +4,7 @@
 
 ## DELETE /zones/{zone_id}/api_gateway/operations
 
-Delete multiple operations
+Delete web or API operations
 
 operationId: `api-shield-endpoint-management-delete-multiple-operations`
 
@@ -33,7 +33,7 @@ operationId: `api-shield-endpoint-management-delete-multiple-operations`
 
 ## GET /zones/{zone_id}/api_gateway/operations
 
-Retrieve information about all operations on a zone
+List web and API operations
 
 operationId: `api-shield-endpoint-management-retrieve-information-about-all-operations-on-a-zone` · query: `page`, `per_page`, `order`, `direction`, `host`, `method`, `endpoint`, `feature`
 
@@ -49,7 +49,7 @@ operationId: `api-shield-endpoint-management-retrieve-information-about-all-oper
 
 ## POST /zones/{zone_id}/api_gateway/operations
 
-Add operations to a zone
+Create web or API operations
 
 operationId: `api-shield-endpoint-management-add-operations-to-a-zone`
 
@@ -72,7 +72,7 @@ operationId: `api-shield-endpoint-management-add-operations-to-a-zone`
 
 ## DELETE /zones/{zone_id}/api_gateway/operations/{operation_id}
 
-Delete an operation
+Delete a web or API operation
 
 operationId: `api-shield-endpoint-management-delete-an-operation`
 
@@ -96,7 +96,7 @@ operationId: `api-shield-endpoint-management-delete-an-operation`
 
 ## GET /zones/{zone_id}/api_gateway/operations/{operation_id}
 
-Retrieve information about an operation
+Get a web or API operation
 
 operationId: `api-shield-endpoint-management-retrieve-information-about-an-operation` · query: `feature`, `with_schemas`
 
@@ -118,7 +118,7 @@ operationId: `api-shield-endpoint-management-retrieve-information-about-an-opera
 
 ## POST /zones/{zone_id}/api_gateway/operations/item
 
-Add one operation to a zone
+Create a web or API operation
 
 operationId: `api-shield-endpoint-management-add-operation-to-a-zone`
 
@@ -146,7 +146,7 @@ operationId: `api-shield-endpoint-management-add-operation-to-a-zone`
 
 ## GET /zones/{zone_id}/api_gateway/schemas
 
-Retrieve operations and features as OpenAPI schemas
+Export web and API operations as OpenAPI schemas
 
 operationId: `api-shield-endpoint-management-retrieve-operations-and-features-as-open-api-schemas` · query: `host`, `feature`, `include_schema_kind`
 

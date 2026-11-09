@@ -4,7 +4,7 @@
 
 ## GET /accounts/{account_id}/ai-gateway/gateways/{gateway_id}/datasets
 
-List Datasets
+List datasets (deprecated)
 
 operationId: `aig-config-list-dataset` · query: `page`, `per_page`, `name`, `enable`, `search`
 
@@ -19,14 +19,14 @@ operationId: `aig-config-list-dataset` · query: `page`, `per_page`, `name`, `en
   - `operator`: string **required** enum: `eq`, `contains`, `lt`, `gt`
   - `value`: object[] **required**
     [array]
-- `gateway_id`: string **required** — gateway id
+- `gateway_id`: string **required** — Unique identifier of the AI Gateway within the account.
 - `id`: string **required**
 - `modified_at`: string **required**
 - `name`: string **required**
 
 ## POST /accounts/{account_id}/ai-gateway/gateways/{gateway_id}/datasets
 
-Create a new Dataset
+Create a dataset (deprecated)
 
 operationId: `aig-config-create-dataset`
 
@@ -51,14 +51,14 @@ operationId: `aig-config-create-dataset`
   - `operator`: string **required** enum: `eq`, `contains`, `lt`, `gt`
   - `value`: object[] **required**
     [array]
-- `gateway_id`: string **required** — gateway id
+- `gateway_id`: string **required** — Unique identifier of the AI Gateway within the account.
 - `id`: string **required**
 - `modified_at`: string **required**
 - `name`: string **required**
 
 ## DELETE /accounts/{account_id}/ai-gateway/gateways/{gateway_id}/datasets/{id}
 
-Delete a Dataset
+Delete a dataset (deprecated)
 
 operationId: `aig-config-delete-dataset`
 
@@ -72,14 +72,14 @@ operationId: `aig-config-delete-dataset`
   - `operator`: string **required** enum: `eq`, `contains`, `lt`, `gt`
   - `value`: object[] **required**
     [array]
-- `gateway_id`: string **required** — gateway id
+- `gateway_id`: string **required** — Unique identifier of the AI Gateway within the account.
 - `id`: string **required**
 - `modified_at`: string **required**
 - `name`: string **required**
 
 ## GET /accounts/{account_id}/ai-gateway/gateways/{gateway_id}/datasets/{id}
 
-Fetch a Dataset
+Get a dataset (deprecated)
 
 operationId: `aig-config-fetch-dataset`
 
@@ -93,14 +93,14 @@ operationId: `aig-config-fetch-dataset`
   - `operator`: string **required** enum: `eq`, `contains`, `lt`, `gt`
   - `value`: object[] **required**
     [array]
-- `gateway_id`: string **required** — gateway id
+- `gateway_id`: string **required** — Unique identifier of the AI Gateway within the account.
 - `id`: string **required**
 - `modified_at`: string **required**
 - `name`: string **required**
 
 ## PUT /accounts/{account_id}/ai-gateway/gateways/{gateway_id}/datasets/{id}
 
-Update a Dataset
+Update a dataset (deprecated)
 
 operationId: `aig-config-update-dataset`
 
@@ -125,7 +125,7 @@ operationId: `aig-config-update-dataset`
   - `operator`: string **required** enum: `eq`, `contains`, `lt`, `gt`
   - `value`: object[] **required**
     [array]
-- `gateway_id`: string **required** — gateway id
+- `gateway_id`: string **required** — Unique identifier of the AI Gateway within the account.
 - `id`: string **required**
 - `modified_at`: string **required**
 - `name`: string **required**

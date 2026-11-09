@@ -14,7 +14,7 @@ operationId: `ip-address-management-service-bindings-list-service-bindings`
 - `cidr`: string — IP Prefix in Classless Inter-Domain Routing format.
 - `id`: string — Identifier of a Service Binding.
 - `provisioning`: object — Status of a Service Binding's deployment to the Cloudflare network
-  - `state`: string enum: `provisioning`, `active` — When a binding has been deployed to a majority of Cloudflare datacenters, the binding will become active and can be used with its associated
+  - `state`: string enum: `provisioning`, `active`, `magic_transit_route_missing` — When a binding has been deployed to a majority of Cloudflare datacenters, the binding will become active and can be used with its associated
 - `service_id`: string — Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the
 - `service_name`: string — Name of a service running on the Cloudflare network
 
@@ -34,7 +34,7 @@ operationId: `ip-address-management-service-bindings-create-service-binding`
 - `cidr`: string — IP Prefix in Classless Inter-Domain Routing format.
 - `id`: string — Identifier of a Service Binding.
 - `provisioning`: object — Status of a Service Binding's deployment to the Cloudflare network
-  - `state`: string enum: `provisioning`, `active` — When a binding has been deployed to a majority of Cloudflare datacenters, the binding will become active and can be used with its associated
+  - `state`: string enum: `provisioning`, `active`, `magic_transit_route_missing` — When a binding has been deployed to a majority of Cloudflare datacenters, the binding will become active and can be used with its associated
 - `service_id`: string — Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the
 - `service_name`: string — Name of a service running on the Cloudflare network
 
@@ -73,7 +73,7 @@ operationId: `ip-address-management-service-bindings-get-service-binding`
 - `cidr`: string — IP Prefix in Classless Inter-Domain Routing format.
 - `id`: string — Identifier of a Service Binding.
 - `provisioning`: object — Status of a Service Binding's deployment to the Cloudflare network
-  - `state`: string enum: `provisioning`, `active` — When a binding has been deployed to a majority of Cloudflare datacenters, the binding will become active and can be used with its associated
+  - `state`: string enum: `provisioning`, `active`, `magic_transit_route_missing` — When a binding has been deployed to a majority of Cloudflare datacenters, the binding will become active and can be used with its associated
 - `service_id`: string — Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the
 - `service_name`: string — Name of a service running on the Cloudflare network
 

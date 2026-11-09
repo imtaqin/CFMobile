@@ -13,10 +13,10 @@ operationId: `dlp-risk-score-summary-get-for-user`
 - `email`: string **required**
 - `events`: object[] **required**
   [array of]
-  - `event_details`: any
+  - `event_details`: object
   - `id`: string **required**
   - `name`: string **required**
-  - `risk_level`: string **required** enum: `low`, `medium`, `high`
+  - `risk_level`: string **required** enum: `info`, `low`, `medium`, `high`
   - `timestamp`: string **required**
 - `last_reset_time`: string
 - `name`: string **required**
@@ -69,6 +69,6 @@ operationId: `dlp-risk-score-summary-get`
   - `email`: string **required**
   - `event_count`: integer **required**
   - `last_event`: string **required**
-  - `max_risk_level`: string **required** enum: `low`, `medium`, `high`
+  - `max_risk_level`: string **required** enum: `info`, `low`, `medium`, `high`
   - `name`: string **required**
   - `user_id`: string **required**

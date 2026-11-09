@@ -1,6 +1,26 @@
 # Argo Smart Routing
 
-2 endpoints.
+4 endpoints.
+
+## GET /accounts/{account_id}/argo/count_zones_enabled
+
+Get count of zones with Argo Smart Routing enabled for account
+
+operationId: `argo-smart-routing-get-count-zones-enabled-for-account`
+
+**Response** 200 → `result`
+
+integer
+
+## GET /user/argo/count_zones_enabled
+
+Get count of zones with Argo Smart Routing enabled for user
+
+operationId: `argo-smart-routing-get-count-zones-enabled-for-user`
+
+**Response** 200 → `result`
+
+integer
 
 ## GET /zones/{zone_id}/argo/smart_routing
 

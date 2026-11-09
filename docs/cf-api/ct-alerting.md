@@ -10,7 +10,7 @@ operationId: `ct-alerting-get-subscription`
 
 **Response** 200 → `result`
 
-- `emails`: string[] — Email addresses that receive CT alert notifications. Only present and configurable for Business and Enterprise zones. Maximum of 10 addresse
+- `emails`: string[] — Email addresses that receive CT alert notifications for the zone. A maximum of 100 addresses may be configured. Each address must be a valid
   [array]
 - `enabled`: boolean **required** — Whether CT alerting is enabled for the zone.
 
@@ -22,12 +22,12 @@ operationId: `ct-alerting-update-subscription`
 
 **Request** (application/json)
 
-- `emails`: string[] — Email addresses that receive CT alert notifications. Only present and configurable for Business and Enterprise zones. Maximum of 10 addresse
+- `emails`: string[] — Email addresses that receive CT alert notifications for the zone. A maximum of 100 addresses may be configured. Each address must be a valid
   [array]
 - `enabled`: boolean **required** — Whether CT alerting is enabled for the zone.
 
 **Response** 200 → `result`
 
-- `emails`: string[] — Email addresses that receive CT alert notifications. Only present and configurable for Business and Enterprise zones. Maximum of 10 addresse
+- `emails`: string[] — Email addresses that receive CT alert notifications for the zone. A maximum of 100 addresses may be configured. Each address must be a valid
   [array]
 - `enabled`: boolean **required** — Whether CT alerting is enabled for the zone.

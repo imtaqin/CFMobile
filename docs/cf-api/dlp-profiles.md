@@ -1,6 +1,6 @@
 # DLP Profiles
 
-14 endpoints.
+16 endpoints.
 
 ## GET /accounts/{account_id}/dlp/profiles
 
@@ -15,10 +15,7 @@ operationId: `dlp-profiles-list-all-profiles` · query: `all`
 - `ai_context_enabled`: boolean default: `false`
 - `allowed_match_count`: integer **required** default: `0` — Related DLP policies will trigger when the match count exceeds the number set.
 - `confidence_threshold`: any default: `low`
-- `context_awareness`: object — Scan the context of predefined entries to only return matches surrounded by keywords.
-  - `enabled`: boolean **required** — If true, scan the context of predefined entries to only return matches surrounded by keywords.
-  - `skip`: object **required** — Content types to exclude from context analysis and return all matches.
-    - `files`: boolean **required** — If the content type is a file, skip context analysis and return all matches.
+- `context_awareness`: any
 - `created_at`: string **required** — When the profile was created.
 - `data_classes`: string[] — Data classes associated with this profile.
   [array]
@@ -37,6 +34,8 @@ operationId: `dlp-profiles-list-all-profiles` · query: `all`
     - `validation`: any
   - `profile_id`: string
   - `updated_at`: string **required**
+  - `validator_ids`: string[] — Validators this entry references, by id, at most 10. An empty list means the entry
+    [array]
   - `type`: string **required** enum: `custom`
 - `id`: string **required** — The id of the profile (uuid).
 - `name`: string **required** — The name of the profile.
@@ -57,6 +56,8 @@ operationId: `dlp-profiles-list-all-profiles` · query: `all`
     - `validation`: any
   - `profile_id`: string
   - `updated_at`: string **required**
+  - `validator_ids`: string[] — Validators this entry references, by id, at most 10. An empty list means the entry
+    [array]
   - `type`: string **required** enum: `custom`
 - `updated_at`: string **required** — When the profile was lasted updated.
 - `type`: string **required** enum: `custom`
@@ -73,10 +74,7 @@ operationId: `dlp-profiles-get-dlp-profile`
 - `ai_context_enabled`: boolean default: `false`
 - `allowed_match_count`: integer **required** default: `0` — Related DLP policies will trigger when the match count exceeds the number set.
 - `confidence_threshold`: any default: `low`
-- `context_awareness`: object — Scan the context of predefined entries to only return matches surrounded by keywords.
-  - `enabled`: boolean **required** — If true, scan the context of predefined entries to only return matches surrounded by keywords.
-  - `skip`: object **required** — Content types to exclude from context analysis and return all matches.
-    - `files`: boolean **required** — If the content type is a file, skip context analysis and return all matches.
+- `context_awareness`: any
 - `created_at`: string **required** — When the profile was created.
 - `data_classes`: string[] — Data classes associated with this profile.
   [array]
@@ -95,6 +93,8 @@ operationId: `dlp-profiles-get-dlp-profile`
     - `validation`: any
   - `profile_id`: string
   - `updated_at`: string **required**
+  - `validator_ids`: string[] — Validators this entry references, by id, at most 10. An empty list means the entry
+    [array]
   - `type`: string **required** enum: `custom`
 - `id`: string **required** — The id of the profile (uuid).
 - `name`: string **required** — The name of the profile.
@@ -115,6 +115,8 @@ operationId: `dlp-profiles-get-dlp-profile`
     - `validation`: any
   - `profile_id`: string
   - `updated_at`: string **required**
+  - `validator_ids`: string[] — Validators this entry references, by id, at most 10. An empty list means the entry
+    [array]
   - `type`: string **required** enum: `custom`
 - `updated_at`: string **required** — When the profile was lasted updated.
 - `type`: string **required** enum: `custom`
@@ -131,10 +133,7 @@ operationId: `dlp-profiles-list-all-custom-profiles`
 - `ai_context_enabled`: boolean default: `false`
 - `allowed_match_count`: integer **required** default: `0` — Related DLP policies will trigger when the match count exceeds the number set.
 - `confidence_threshold`: any default: `low`
-- `context_awareness`: object — Scan the context of predefined entries to only return matches surrounded by keywords.
-  - `enabled`: boolean **required** — If true, scan the context of predefined entries to only return matches surrounded by keywords.
-  - `skip`: object **required** — Content types to exclude from context analysis and return all matches.
-    - `files`: boolean **required** — If the content type is a file, skip context analysis and return all matches.
+- `context_awareness`: any
 - `created_at`: string **required** — When the profile was created.
 - `data_classes`: string[] — Data classes associated with this profile.
   [array]
@@ -153,6 +152,8 @@ operationId: `dlp-profiles-list-all-custom-profiles`
     - `validation`: any
   - `profile_id`: string
   - `updated_at`: string **required**
+  - `validator_ids`: string[] — Validators this entry references, by id, at most 10. An empty list means the entry
+    [array]
   - `type`: string **required** enum: `custom`
 - `id`: string **required** — The id of the profile (uuid).
 - `name`: string **required** — The name of the profile.
@@ -173,6 +174,8 @@ operationId: `dlp-profiles-list-all-custom-profiles`
     - `validation`: any
   - `profile_id`: string
   - `updated_at`: string **required**
+  - `validator_ids`: string[] — Validators this entry references, by id, at most 10. An empty list means the entry
+    [array]
   - `type`: string **required** enum: `custom`
 - `updated_at`: string **required** — When the profile was lasted updated.
 
@@ -187,10 +190,7 @@ operationId: `dlp-profiles-create-custom-profiles`
 - `ai_context_enabled`: boolean default: `false`
 - `allowed_match_count`: integer default: `0` — Related DLP policies will trigger when the match count exceeds the number set.
 - `confidence_threshold`: string default: `low`
-- `context_awareness`: object — Scan the context of predefined entries to only return matches surrounded by keywords.
-  - `enabled`: boolean **required** — If true, scan the context of predefined entries to only return matches surrounded by keywords.
-  - `skip`: object **required** — Content types to exclude from context analysis and return all matches.
-    - `files`: boolean **required** — If the content type is a file, skip context analysis and return all matches.
+- `context_awareness`: any
 - `data_classes`: string[] — Data class IDs to associate with the profile.
   [array]
 - `data_tags`: string[] — Data tag IDs to associate with the profile.
@@ -221,10 +221,7 @@ operationId: `dlp-profiles-create-custom-profiles`
 - `ai_context_enabled`: boolean default: `false`
 - `allowed_match_count`: integer **required** default: `0` — Related DLP policies will trigger when the match count exceeds the number set.
 - `confidence_threshold`: any default: `low`
-- `context_awareness`: object — Scan the context of predefined entries to only return matches surrounded by keywords.
-  - `enabled`: boolean **required** — If true, scan the context of predefined entries to only return matches surrounded by keywords.
-  - `skip`: object **required** — Content types to exclude from context analysis and return all matches.
-    - `files`: boolean **required** — If the content type is a file, skip context analysis and return all matches.
+- `context_awareness`: any
 - `created_at`: string **required** — When the profile was created.
 - `data_classes`: string[] — Data classes associated with this profile.
   [array]
@@ -243,6 +240,8 @@ operationId: `dlp-profiles-create-custom-profiles`
     - `validation`: any
   - `profile_id`: string
   - `updated_at`: string **required**
+  - `validator_ids`: string[] — Validators this entry references, by id, at most 10. An empty list means the entry
+    [array]
   - `type`: string **required** enum: `custom`
 - `id`: string **required** — The id of the profile (uuid).
 - `name`: string **required** — The name of the profile.
@@ -263,6 +262,8 @@ operationId: `dlp-profiles-create-custom-profiles`
     - `validation`: any
   - `profile_id`: string
   - `updated_at`: string **required**
+  - `validator_ids`: string[] — Validators this entry references, by id, at most 10. An empty list means the entry
+    [array]
   - `type`: string **required** enum: `custom`
 - `updated_at`: string **required** — When the profile was lasted updated.
 - `type`: string **required** enum: `custom`
@@ -289,10 +290,7 @@ operationId: `dlp-profiles-get-custom-profile`
 - `ai_context_enabled`: boolean default: `false`
 - `allowed_match_count`: integer **required** default: `0` — Related DLP policies will trigger when the match count exceeds the number set.
 - `confidence_threshold`: any default: `low`
-- `context_awareness`: object — Scan the context of predefined entries to only return matches surrounded by keywords.
-  - `enabled`: boolean **required** — If true, scan the context of predefined entries to only return matches surrounded by keywords.
-  - `skip`: object **required** — Content types to exclude from context analysis and return all matches.
-    - `files`: boolean **required** — If the content type is a file, skip context analysis and return all matches.
+- `context_awareness`: any
 - `created_at`: string **required** — When the profile was created.
 - `data_classes`: string[] — Data classes associated with this profile.
   [array]
@@ -311,6 +309,8 @@ operationId: `dlp-profiles-get-custom-profile`
     - `validation`: any
   - `profile_id`: string
   - `updated_at`: string **required**
+  - `validator_ids`: string[] — Validators this entry references, by id, at most 10. An empty list means the entry
+    [array]
   - `type`: string **required** enum: `custom`
 - `id`: string **required** — The id of the profile (uuid).
 - `name`: string **required** — The name of the profile.
@@ -331,6 +331,8 @@ operationId: `dlp-profiles-get-custom-profile`
     - `validation`: any
   - `profile_id`: string
   - `updated_at`: string **required**
+  - `validator_ids`: string[] — Validators this entry references, by id, at most 10. An empty list means the entry
+    [array]
   - `type`: string **required** enum: `custom`
 - `updated_at`: string **required** — When the profile was lasted updated.
 - `type`: string **required** enum: `custom`
@@ -346,10 +348,7 @@ operationId: `dlp-profiles-update-custom-profile`
 - `ai_context_enabled`: boolean default: `false`
 - `allowed_match_count`: integer
 - `confidence_threshold`: string default: `low`
-- `context_awareness`: object — Scan the context of predefined entries to only return matches surrounded by keywords.
-  - `enabled`: boolean **required** — If true, scan the context of predefined entries to only return matches surrounded by keywords.
-  - `skip`: object **required** — Content types to exclude from context analysis and return all matches.
-    - `files`: boolean **required** — If the content type is a file, skip context analysis and return all matches.
+- `context_awareness`: any
 - `data_classes`: string[] — Data class IDs to associate with the profile. If omitted, existing associations are unchanged.
   [array]
 - `data_tags`: string[] — Data tag IDs to associate with the profile. If omitted, existing associations are unchanged.
@@ -381,10 +380,7 @@ operationId: `dlp-profiles-update-custom-profile`
 - `ai_context_enabled`: boolean default: `false`
 - `allowed_match_count`: integer **required** default: `0` — Related DLP policies will trigger when the match count exceeds the number set.
 - `confidence_threshold`: any default: `low`
-- `context_awareness`: object — Scan the context of predefined entries to only return matches surrounded by keywords.
-  - `enabled`: boolean **required** — If true, scan the context of predefined entries to only return matches surrounded by keywords.
-  - `skip`: object **required** — Content types to exclude from context analysis and return all matches.
-    - `files`: boolean **required** — If the content type is a file, skip context analysis and return all matches.
+- `context_awareness`: any
 - `created_at`: string **required** — When the profile was created.
 - `data_classes`: string[] — Data classes associated with this profile.
   [array]
@@ -403,6 +399,8 @@ operationId: `dlp-profiles-update-custom-profile`
     - `validation`: any
   - `profile_id`: string
   - `updated_at`: string **required**
+  - `validator_ids`: string[] — Validators this entry references, by id, at most 10. An empty list means the entry
+    [array]
   - `type`: string **required** enum: `custom`
 - `id`: string **required** — The id of the profile (uuid).
 - `name`: string **required** — The name of the profile.
@@ -423,9 +421,49 @@ operationId: `dlp-profiles-update-custom-profile`
     - `validation`: any
   - `profile_id`: string
   - `updated_at`: string **required**
+  - `validator_ids`: string[] — Validators this entry references, by id, at most 10. An empty list means the entry
+    [array]
   - `type`: string **required** enum: `custom`
 - `updated_at`: string **required** — When the profile was lasted updated.
 - `type`: string **required** enum: `custom`
+
+## DELETE /accounts/{account_id}/dlp/profiles/integration/{profile_id}
+
+Delete integration profile
+
+operationId: `dlp-profiles-delete-integration-profile` · query: `recursive`
+
+**Response** 200 → `result`
+
+object
+
+## GET /accounts/{account_id}/dlp/profiles/integration/{profile_id}/references
+
+List integration profile references
+
+operationId: `dlp-profiles-list-integration-profile-references`
+
+**Response** 200 → `result`
+
+- `data_classes`: object[] **required** — Data classes that reference entries owned by this profile, sorted by ID.
+  [array of]
+  - `current_expression`: string **required** — The expression of the data class before the profile is deleted.
+  - `id`: string **required** — The ID of the data class.
+  - `name`: string **required** — The name of the data class.
+  - `resulting_expression`: string **required** — The expression with every condition on this profile's entries removed, or `null` if no
+- `entries`: object[] **required** — Entries owned by this profile, sorted by ID.
+  [array of]
+  - `id`: string **required** — The ID of the entry.
+  - `name`: string **required** — The name of the entry.
+  - `referenced_by_data_classes`: object[] **required** — Data classes that reference this entry, sorted by ID.
+    [array of]
+    - `id`: string **required** — The ID of the data class.
+    - `name`: string **required** — The name of the data class.
+  - `referenced_by_profiles`: object[] **required** — Other profiles that share this entry, sorted by ID.
+    [array of]
+    - `id`: string **required**
+    - `name`: string **required**
+- `integration_exists`: boolean **required** — Whether the integration that manages this profile still exists in CASB. The profile cannot
 
 ## POST /accounts/{account_id}/dlp/profiles/predefined
 
@@ -438,10 +476,7 @@ operationId: `dlp-profiles-create-predefined-profile`
 - `ai_context_enabled`: boolean default: `false`
 - `allowed_match_count`: integer default: `0`
 - `confidence_threshold`: string default: `low`
-- `context_awareness`: object — Scan the context of predefined entries to only return matches surrounded by keywords.
-  - `enabled`: boolean **required** — If true, scan the context of predefined entries to only return matches surrounded by keywords.
-  - `skip`: object **required** — Content types to exclude from context analysis and return all matches.
-    - `files`: boolean **required** — If the content type is a file, skip context analysis and return all matches.
+- `context_awareness`: any
 - `entries`: object[]
   [array of]
   - `enabled`: boolean **required**
@@ -455,10 +490,7 @@ operationId: `dlp-profiles-create-predefined-profile`
 - `ai_context_enabled`: boolean default: `false`
 - `allowed_match_count`: integer **required** default: `0` — Related DLP policies will trigger when the match count exceeds the number set.
 - `confidence_threshold`: any default: `low`
-- `context_awareness`: object — Scan the context of predefined entries to only return matches surrounded by keywords.
-  - `enabled`: boolean **required** — If true, scan the context of predefined entries to only return matches surrounded by keywords.
-  - `skip`: object **required** — Content types to exclude from context analysis and return all matches.
-    - `files`: boolean **required** — If the content type is a file, skip context analysis and return all matches.
+- `context_awareness`: any
 - `created_at`: string **required** — When the profile was created.
 - `data_classes`: string[] — Data classes associated with this profile.
   [array]
@@ -477,6 +509,8 @@ operationId: `dlp-profiles-create-predefined-profile`
     - `validation`: any
   - `profile_id`: string
   - `updated_at`: string **required**
+  - `validator_ids`: string[] — Validators this entry references, by id, at most 10. An empty list means the entry
+    [array]
   - `type`: string **required** enum: `custom`
 - `id`: string **required** — The id of the profile (uuid).
 - `name`: string **required** — The name of the profile.
@@ -497,6 +531,8 @@ operationId: `dlp-profiles-create-predefined-profile`
     - `validation`: any
   - `profile_id`: string
   - `updated_at`: string **required**
+  - `validator_ids`: string[] — Validators this entry references, by id, at most 10. An empty list means the entry
+    [array]
   - `type`: string **required** enum: `custom`
 - `updated_at`: string **required** — When the profile was lasted updated.
 - `type`: string **required** enum: `custom`
@@ -523,10 +559,7 @@ operationId: `dlp-profiles-get-predefined-profile`
 - `ai_context_enabled`: boolean default: `false`
 - `allowed_match_count`: integer **required** default: `0` — Related DLP policies will trigger when the match count exceeds the number set.
 - `confidence_threshold`: any default: `low`
-- `context_awareness`: object — Scan the context of predefined entries to only return matches surrounded by keywords.
-  - `enabled`: boolean **required** — If true, scan the context of predefined entries to only return matches surrounded by keywords.
-  - `skip`: object **required** — Content types to exclude from context analysis and return all matches.
-    - `files`: boolean **required** — If the content type is a file, skip context analysis and return all matches.
+- `context_awareness`: any
 - `created_at`: string **required** — When the profile was created.
 - `data_classes`: string[] — Data classes associated with this profile.
   [array]
@@ -545,6 +578,8 @@ operationId: `dlp-profiles-get-predefined-profile`
     - `validation`: any
   - `profile_id`: string
   - `updated_at`: string **required**
+  - `validator_ids`: string[] — Validators this entry references, by id, at most 10. An empty list means the entry
+    [array]
   - `type`: string **required** enum: `custom`
 - `id`: string **required** — The id of the profile (uuid).
 - `name`: string **required** — The name of the profile.
@@ -565,6 +600,8 @@ operationId: `dlp-profiles-get-predefined-profile`
     - `validation`: any
   - `profile_id`: string
   - `updated_at`: string **required**
+  - `validator_ids`: string[] — Validators this entry references, by id, at most 10. An empty list means the entry
+    [array]
   - `type`: string **required** enum: `custom`
 - `updated_at`: string **required** — When the profile was lasted updated.
 - `type`: string **required** enum: `custom`
@@ -580,10 +617,7 @@ operationId: `dlp-profiles-update-predefined-profile`
 - `ai_context_enabled`: boolean default: `false`
 - `allowed_match_count`: integer default: `0`
 - `confidence_threshold`: string default: `low`
-- `context_awareness`: object — Scan the context of predefined entries to only return matches surrounded by keywords.
-  - `enabled`: boolean **required** — If true, scan the context of predefined entries to only return matches surrounded by keywords.
-  - `skip`: object **required** — Content types to exclude from context analysis and return all matches.
-    - `files`: boolean **required** — If the content type is a file, skip context analysis and return all matches.
+- `context_awareness`: any
 - `entries`: object[]
   [array of]
   - `enabled`: boolean **required**
@@ -596,10 +630,7 @@ operationId: `dlp-profiles-update-predefined-profile`
 - `ai_context_enabled`: boolean default: `false`
 - `allowed_match_count`: integer **required** default: `0` — Related DLP policies will trigger when the match count exceeds the number set.
 - `confidence_threshold`: any default: `low`
-- `context_awareness`: object — Scan the context of predefined entries to only return matches surrounded by keywords.
-  - `enabled`: boolean **required** — If true, scan the context of predefined entries to only return matches surrounded by keywords.
-  - `skip`: object **required** — Content types to exclude from context analysis and return all matches.
-    - `files`: boolean **required** — If the content type is a file, skip context analysis and return all matches.
+- `context_awareness`: any
 - `created_at`: string **required** — When the profile was created.
 - `data_classes`: string[] — Data classes associated with this profile.
   [array]
@@ -618,6 +649,8 @@ operationId: `dlp-profiles-update-predefined-profile`
     - `validation`: any
   - `profile_id`: string
   - `updated_at`: string **required**
+  - `validator_ids`: string[] — Validators this entry references, by id, at most 10. An empty list means the entry
+    [array]
   - `type`: string **required** enum: `custom`
 - `id`: string **required** — The id of the profile (uuid).
 - `name`: string **required** — The name of the profile.
@@ -638,6 +671,8 @@ operationId: `dlp-profiles-update-predefined-profile`
     - `validation`: any
   - `profile_id`: string
   - `updated_at`: string **required**
+  - `validator_ids`: string[] — Validators this entry references, by id, at most 10. An empty list means the entry
+    [array]
   - `type`: string **required** enum: `custom`
 - `updated_at`: string **required** — When the profile was lasted updated.
 - `type`: string **required** enum: `custom`
@@ -667,6 +702,8 @@ operationId: `dlp-profiles-get-predefined-profile-config`
     - `validation`: any
   - `profile_id`: string
   - `updated_at`: string **required**
+  - `validator_ids`: string[] — Validators this entry references, by id, at most 10. An empty list means the entry
+    [array]
   - `type`: string **required** enum: `custom`
 - `id`: string **required** — The id of the predefined profile (uuid).
 - `name`: string **required** — The name of the predefined profile.
@@ -711,6 +748,8 @@ operationId: `dlp-profiles-create-predefined-profile-config`
     - `validation`: any
   - `profile_id`: string
   - `updated_at`: string **required**
+  - `validator_ids`: string[] — Validators this entry references, by id, at most 10. An empty list means the entry
+    [array]
   - `type`: string **required** enum: `custom`
 - `id`: string **required** — The id of the predefined profile (uuid).
 - `name`: string **required** — The name of the predefined profile.
@@ -755,6 +794,8 @@ operationId: `dlp-profiles-update-predefined-profile-config`
     - `validation`: any
   - `profile_id`: string
   - `updated_at`: string **required**
+  - `validator_ids`: string[] — Validators this entry references, by id, at most 10. An empty list means the entry
+    [array]
   - `type`: string **required** enum: `custom`
 - `id`: string **required** — The id of the predefined profile (uuid).
 - `name`: string **required** — The name of the predefined profile.

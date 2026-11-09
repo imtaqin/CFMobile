@@ -4,13 +4,13 @@
 
 ## DELETE /accounts/{account_id}/workers/subdomain
 
-Delete Subdomain
+Delete Workers Subdomain
 
 operationId: `worker-subdomain-delete-subdomain`
 
 ## GET /accounts/{account_id}/workers/subdomain
 
-Get Subdomain
+Get a Workers Subdomain
 
 operationId: `worker-subdomain-get-subdomain`
 
@@ -20,7 +20,7 @@ operationId: `worker-subdomain-get-subdomain`
 
 ## PUT /accounts/{account_id}/workers/subdomain
 
-Create Subdomain
+Create a Workers Subdomain
 
 operationId: `worker-subdomain-create-subdomain`
 

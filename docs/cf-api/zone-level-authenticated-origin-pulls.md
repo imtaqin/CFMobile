@@ -13,7 +13,7 @@ operationId: `zone-level-authenticated-origin-pulls-list-certificates`
 [array of]
 - `certificate`: string — The zone's leaf certificate.
 - `expires_on`: string — When the certificate from the authority expires.
-- `id`: string — Identifier.
+- `id`: string — Certificate identifier tag.
 - `issuer`: string — The certificate authority that issued the certificate.
 - `signature`: string — The type of hash used for the certificate.
 - `status`: string enum: `initializing`, `pending_deployment`, `pending_deletion`, `active`, `deleted`, `deployment_timed_out`, `deletion_timed_out` — Status of the certificate activation.
@@ -34,7 +34,7 @@ operationId: `zone-level-authenticated-origin-pulls-upload-certificate`
 
 - `certificate`: string — The zone's leaf certificate.
 - `expires_on`: string — When the certificate from the authority expires.
-- `id`: string — Identifier.
+- `id`: string — Certificate identifier tag.
 - `issuer`: string — The certificate authority that issued the certificate.
 - `signature`: string — The type of hash used for the certificate.
 - `status`: string enum: `initializing`, `pending_deployment`, `pending_deletion`, `active`, `deleted`, `deployment_timed_out`, `deletion_timed_out` — Status of the certificate activation.
@@ -50,7 +50,7 @@ operationId: `zone-level-authenticated-origin-pulls-delete-certificate`
 
 - `certificate`: string — The zone's leaf certificate.
 - `expires_on`: string — When the certificate from the authority expires.
-- `id`: string — Identifier.
+- `id`: string — Certificate identifier tag.
 - `issuer`: string — The certificate authority that issued the certificate.
 - `signature`: string — The type of hash used for the certificate.
 - `status`: string enum: `initializing`, `pending_deployment`, `pending_deletion`, `active`, `deleted`, `deployment_timed_out`, `deletion_timed_out` — Status of the certificate activation.
@@ -66,7 +66,7 @@ operationId: `zone-level-authenticated-origin-pulls-get-certificate-details`
 
 - `certificate`: string — The zone's leaf certificate.
 - `expires_on`: string — When the certificate from the authority expires.
-- `id`: string — Identifier.
+- `id`: string — Certificate identifier tag.
 - `issuer`: string — The certificate authority that issued the certificate.
 - `signature`: string — The type of hash used for the certificate.
 - `status`: string enum: `initializing`, `pending_deployment`, `pending_deletion`, `active`, `deleted`, `deployment_timed_out`, `deletion_timed_out` — Status of the certificate activation.

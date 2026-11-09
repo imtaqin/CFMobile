@@ -100,7 +100,7 @@ operationId: `secrets-store-secrets-list` · query: `direction`, `page`, `per_pa
 - `id`: string **required** — Secret identifier tag.
 - `modified`: string **required** — When the secret was modified.
 - `name`: string **required** — The name of the secret.
-- `scopes`: string[] — The list of services that can use this secret.
+- `scopes`: string[] — The list of services that can use this secret, or null when the secret inherits its store's scopes. Set it to null in a patch to inherit aga
   [array]
 - `status`: string **required** enum: `pending`, `active`, `deleted`
 - `store_id`: string **required** — Store Identifier.
@@ -116,7 +116,7 @@ operationId: `secrets-store-secret-create`
 [array of]
 - `comment`: string — Freeform text describing the secret.
 - `name`: string **required** — The name of the secret.
-- `scopes`: string[] **required** — The list of services that can use this secret.
+- `scopes`: string[] — The list of services that can use this secret. Omit it on create or duplicate to inherit the store's scopes. An empty list lets no service u
   [array]
 - `value`: string **required** — The value of the secret. Maximum 64 KiB (65,536 bytes). Note that this is 'write only' - the API never returns this value; it exists only to
 
@@ -128,7 +128,7 @@ operationId: `secrets-store-secret-create`
 - `id`: string **required** — Secret identifier tag.
 - `modified`: string **required** — When the secret was modified.
 - `name`: string **required** — The name of the secret.
-- `scopes`: string[] — The list of services that can use this secret.
+- `scopes`: string[] — The list of services that can use this secret, or null when the secret inherits its store's scopes. Set it to null in a patch to inherit aga
   [array]
 - `status`: string **required** enum: `pending`, `active`, `deleted`
 - `store_id`: string **required** — Store Identifier.
@@ -156,7 +156,7 @@ operationId: `secrets-store-get-by-id`
 - `id`: string **required** — Secret identifier tag.
 - `modified`: string **required** — When the secret was modified.
 - `name`: string **required** — The name of the secret.
-- `scopes`: string[] — The list of services that can use this secret.
+- `scopes`: string[] — The list of services that can use this secret, or null when the secret inherits its store's scopes. Set it to null in a patch to inherit aga
   [array]
 - `status`: string **required** enum: `pending`, `active`, `deleted`
 - `store_id`: string **required** — Store Identifier.
@@ -170,7 +170,7 @@ operationId: `secrets-store-patch-by-id`
 **Request** (application/json)
 
 - `comment`: string — Freeform text describing the secret.
-- `scopes`: string[] — The list of services that can use this secret.
+- `scopes`: string[] — The list of services that can use this secret, or null when the secret inherits its store's scopes. Set it to null in a patch to inherit aga
   [array]
 - `value`: string — The value of the secret. Maximum 64 KiB (65,536 bytes). Note that this is 'write only' - the API never returns this value; it exists only to
 
@@ -181,7 +181,7 @@ operationId: `secrets-store-patch-by-id`
 - `id`: string **required** — Secret identifier tag.
 - `modified`: string **required** — When the secret was modified.
 - `name`: string **required** — The name of the secret.
-- `scopes`: string[] — The list of services that can use this secret.
+- `scopes`: string[] — The list of services that can use this secret, or null when the secret inherits its store's scopes. Set it to null in a patch to inherit aga
   [array]
 - `status`: string **required** enum: `pending`, `active`, `deleted`
 - `store_id`: string **required** — Store Identifier.
@@ -196,7 +196,7 @@ operationId: `secrets-store-duplicate-by-id`
 
 - `comment`: string — Freeform text describing the secret.
 - `name`: string **required** — The name of the secret.
-- `scopes`: string[] **required** — The list of services that can use this secret.
+- `scopes`: string[] — The list of services that can use this secret. Omit it on create or duplicate to inherit the store's scopes. An empty list lets no service u
   [array]
 
 **Response** 200 → `result`
@@ -206,7 +206,7 @@ operationId: `secrets-store-duplicate-by-id`
 - `id`: string **required** — Secret identifier tag.
 - `modified`: string **required** — When the secret was modified.
 - `name`: string **required** — The name of the secret.
-- `scopes`: string[] — The list of services that can use this secret.
+- `scopes`: string[] — The list of services that can use this secret, or null when the secret inherits its store's scopes. Set it to null in a patch to inherit aga
   [array]
 - `status`: string **required** enum: `pending`, `active`, `deleted`
 - `store_id`: string **required** — Store Identifier.

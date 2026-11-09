@@ -1,6 +1,18 @@
 # Memory
 
-9 endpoints.
+10 endpoints.
+
+## GET /accounts/{account_id}/agent-memory/namespaces/{namespace_name}/profiles
+
+List profiles
+
+operationId: `agent-memory-profile-list` · query: `per_page`, `cursor`
+
+**Response** 200 → `result`
+
+[array of]
+- `createdAt`: string **required** — Time the profile was first recorded in the namespace index.
+- `name`: string **required** — Profile name.
 
 ## DELETE /accounts/{account_id}/agent-memory/namespaces/{namespace_name}/profiles/{profile_name}
 
@@ -146,4 +158,4 @@ operationId: `agent-memory-summary`
 
 **Response** 200 → `result`
 
-- `summary`: string **required** — Markdown summary of everything stored in the profile.
+- `summary`: string **required** — Paste-ready prompt block summarizing everything stored in the profile.

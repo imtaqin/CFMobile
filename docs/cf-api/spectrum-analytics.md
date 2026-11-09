@@ -1,6 +1,22 @@
 # Spectrum Analytics
 
-3 endpoints.
+4 endpoints.
+
+## GET /user/spectrum_analytics/zones/report
+
+Get zones bandwidth report
+
+operationId: `spectrum-analytics-get-zones-report` · query: `since`, `until`, `cdn_traffic`
+
+**Response** 200 → `result`
+
+[array of]
+- `totals`: object **required**
+  - `bandwidth`: object **required**
+    - `all`: number **required** — Sum of ingress and egress bytes transferred.
+    - `egress`: number **required** — Sum of egress bytes transferred.
+    - `ingress`: number **required** — Sum of ingress bytes transferred.
+- `zone_id`: string **required** — Identifier.
 
 ## GET /zones/{zone_id}/spectrum/analytics/aggregate/current
 
@@ -31,8 +47,8 @@ operationId: `spectrum-analytics-(-by-time)-get-analytics-by-time` · query: `di
     [array]
   - `metrics`: any
 - `data_lag`: number **required** — Number of seconds between current time and last processed event, i.e. how many seconds of data could be missing.
-- `max`: any **required**
-- `min`: any **required**
+- `max`: any **required** — Maximum result for each selected metrics across all data.
+- `min`: any **required** — Minimum result for each selected metrics across all data.
 - `query`: object **required**
   - `dimensions`: string[] — Can be used to break down the data by given attributes. Options are:
     [array]
@@ -48,7 +64,7 @@ operationId: `spectrum-analytics-(-by-time)-get-analytics-by-time` · query: `di
 - `time_intervals`: array[] — List of time interval buckets: [start, end].
   [array of]
   [array]
-- `totals`: any **required**
+- `totals`: any **required** — Total result for each selected metrics across all data.
 
 ## GET /zones/{zone_id}/spectrum/analytics/events/summary
 
@@ -64,8 +80,8 @@ operationId: `spectrum-analytics-(-summary)-get-analytics-summary` · query: `di
     [array]
   - `metrics`: any
 - `data_lag`: number **required** — Number of seconds between current time and last processed event, i.e. how many seconds of data could be missing.
-- `max`: any **required**
-- `min`: any **required**
+- `max`: any **required** — Maximum result for each selected metrics across all data.
+- `min`: any **required** — Minimum result for each selected metrics across all data.
 - `query`: object **required**
   - `dimensions`: string[] — Can be used to break down the data by given attributes. Options are:
     [array]
@@ -81,4 +97,4 @@ operationId: `spectrum-analytics-(-summary)-get-analytics-summary` · query: `di
 - `time_intervals`: array[] — List of time interval buckets: [start, end].
   [array of]
   [array]
-- `totals`: any **required**
+- `totals`: any **required** — Total result for each selected metrics across all data.

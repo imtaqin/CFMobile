@@ -103,7 +103,7 @@ operationId: `api-shield-schema-validation-retrieve-information-about-all-schema
 
 ## POST /zones/{zone_id}/api_gateway/user_schemas
 
-Upload a schema to a zone
+Upload a legacy schema
 
 operationId: `api-shield-schema-validation-post-schema`
 
@@ -190,7 +190,7 @@ operationId: `api-shield-schema-validation-enable-validation-for-a-schema`
 
 ## GET /zones/{zone_id}/api_gateway/user_schemas/{schema_id}/operations
 
-Retrieve all operations from a schema.
+Retrieve all operations from a schema
 
 operationId: `api-shield-schema-validation-extract-operations-from-schema` · query: `feature`, `host`, `method`, `endpoint`, `page`, `per_page`, `operation_status`
 

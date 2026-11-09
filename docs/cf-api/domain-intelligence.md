@@ -48,7 +48,7 @@ operationId: `domain-intelligence-get-domain-details` · query: `domain`, `skip_
 
 Get Multiple Domain Details
 
-operationId: `domain-intelligence-get-multiple-domain-details` · query: `domain`, `include_ranking`, `skip_ranking`
+operationId: `domain-intelligence-get-multiple-domain-details` · query: `domain`, `include_ranking`, `skip_dns`, `skip_ranking`
 
 **Response** 200 → `result`
 

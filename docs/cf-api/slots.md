@@ -13,6 +13,7 @@ operationId: `list_slots` · query: `address_contains`, `site`, `speed`, `occupi
 - `items`: object[] **required**
   [array of]
   - `account`: string — Customer account tag
+  - `ccr_device_name`: string
   - `facility`: object **required**
     - `address`: string[] **required**
     - `name`: string **required**
@@ -31,6 +32,7 @@ operationId: `get_slot`
 **Response** 200 → `result`
 
 - `account`: string — Customer account tag
+- `ccr_device_name`: string
 - `facility`: object **required**
   - `address`: string[] **required**
     [array]

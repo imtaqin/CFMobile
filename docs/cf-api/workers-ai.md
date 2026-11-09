@@ -15,7 +15,7 @@ object
 
 ## GET /accounts/{account_id}/ai/models/schema
 
-Get Model Schema
+Get an AI model's input and output schemas
 
 operationId: `workers-ai-get-model-schema` · query: `model`
 
@@ -43,14 +43,14 @@ object
 
 ## POST /accounts/{account_id}/ai/run
 
-Execute AI Model (Generic)
+Run an AI model with request options
 
 operationId: `workers-ai-post-run-generic`
 
 **Request** (application/json)
 
-- `input`: object **required** — Model-specific input data. Format varies by model type.
-- `model`: string **required** — The AI model to execute (e.g., openai/gpt-5.5, anthropic/claude-opus-4.7)
+- `input`: object **required** — JSON object containing the selected model's input fields, such as prompt or messages. Do not include model or options inside this object.
+- `model`: string **required** — The AI model to execute (e.g., @cf/google/gemma-4-26b-a4b-it, openai/gpt-5.5, anthropic/claude-opus-4.7)
 - `options`: object
   - `extraHeaders`: object — Additional headers to pass to the AI provider
   - `gateway`: object
@@ -64,7 +64,7 @@ object
 
 ## POST /accounts/{account_id}/ai/run/{model_name}
 
-Execute AI model
+Run a Workers AI model
 
 operationId: `workers-ai-post-run-model`
 
@@ -93,13 +93,13 @@ object
 
 ## POST /accounts/{account_id}/ai/tomarkdown
 
-Convert Files into Markdown
+Convert uploaded files to Markdown
 
 operationId: `workers-ai-post-to-markdown`
 
 **Request** (multipart/form-data)
 
-- `files`: string[] **required**
+- `files`: string[] **required** — Files to convert, supplied as multipart file uploads.
   [array]
 
 **Response** 200 → `result`
@@ -113,7 +113,7 @@ operationId: `workers-ai-post-to-markdown`
 
 ## GET /accounts/{account_id}/ai/tomarkdown/supported
 
-Get all converted formats supported
+List supported Markdown conversion formats
 
 operationId: `workers-ai-get-to-markdown-supported`
 

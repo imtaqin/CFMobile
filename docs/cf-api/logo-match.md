@@ -32,13 +32,6 @@ Read all saved logo queries
 
 operationId: `getAccountsAccountIdBrandProtectionLogos`
 
-**Response** default → `result`
-
-- `code`: integer — Error code
-- `errors`: object — Errors
-- `message`: string — Error message
-- `status`: string — Error name
-
 ## POST /accounts/{account_id}/brand-protection/logos
 
 Create new saved logo queries from image files
@@ -67,25 +60,11 @@ Read saved logo queries by ID
 
 operationId: `getAccountsAccountIdBrandProtectionLogosLogoId`
 
-**Response** default → `result`
-
-- `code`: integer — Error code
-- `errors`: object — Errors
-- `message`: string — Error message
-- `status`: string — Error name
-
 ## POST /accounts/{account_id}/brand-protection/scan-logo
 
 Create new logo queries from image files
 
 operationId: `postAccountsAccountIdBrandProtectionScanLogo`
-
-**Response** default → `result`
-
-- `code`: integer — Error code
-- `errors`: object — Errors
-- `message`: string — Error message
-- `status`: string — Error name
 
 ## POST /accounts/{account_id}/brand-protection/scan-page
 
@@ -93,22 +72,8 @@ Create new logo queries from URLs
 
 operationId: `postAccountsAccountIdBrandProtectionScanPage`
 
-**Response** default → `result`
-
-- `code`: integer — Error code
-- `errors`: object — Errors
-- `message`: string — Error message
-- `status`: string — Error name
-
 ## GET /signed-url
 
 Internal route for testing signed URLs
 
 operationId: `getSignedUrl`
-
-**Response** default → `result`
-
-- `code`: integer — Error code
-- `errors`: object — Errors
-- `message`: string — Error message
-- `status`: string — Error name

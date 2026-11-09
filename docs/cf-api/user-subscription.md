@@ -21,9 +21,9 @@ operationId: `user-subscription-create-user-subscription`
 
 **Request** (application/json)
 
-- `app`: object
+- `app`: object — Cloudflare Apps Marketplace is sunset. This field is retained for legacy grandfathered app subscriptions only.
   - `install_id`: string — app install id.
-- `component_values`: object[] — The list of add-ons subscribed to.
+- `component_values`: object[] — Configurable component values for the subscription.
   [array of]
   - `default`: number — The default amount assigned.
   - `display_name`: string — A human-readable version of the component name.
@@ -47,9 +47,7 @@ operationId: `user-subscription-create-user-subscription`
   - `sets`: string[] — The list of sets this rate plan applies to. Returns array of strings.
     [array]
 - `state`: string enum: `Trial`, `Provisioned`, `Paid`, `AwaitingPayment`, `Cancelled`, `Failed`, `Expired` — The state that the subscription is in.
-- `zone`: object — A simple zone object. May have null properties if not a zone subscription.
-  - `id`: string — Identifier
-  - `name`: string — The domain name
+- `zone`: any
 
 **Response** 200 → `result`
 
@@ -74,9 +72,9 @@ operationId: `user-subscription-update-user-subscription`
 
 **Request** (application/json)
 
-- `app`: object
+- `app`: object — Cloudflare Apps Marketplace is sunset. This field is retained for legacy grandfathered app subscriptions only.
   - `install_id`: string — app install id.
-- `component_values`: object[] — The list of add-ons subscribed to.
+- `component_values`: object[] — Configurable component values for the subscription.
   [array of]
   - `default`: number — The default amount assigned.
   - `display_name`: string — A human-readable version of the component name.
@@ -100,9 +98,7 @@ operationId: `user-subscription-update-user-subscription`
   - `sets`: string[] — The list of sets this rate plan applies to. Returns array of strings.
     [array]
 - `state`: string enum: `Trial`, `Provisioned`, `Paid`, `AwaitingPayment`, `Cancelled`, `Failed`, `Expired` — The state that the subscription is in.
-- `zone`: object — A simple zone object. May have null properties if not a zone subscription.
-  - `id`: string — Identifier
-  - `name`: string — The domain name
+- `zone`: any
 
 **Response** 200 → `result`
 

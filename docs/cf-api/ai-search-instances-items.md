@@ -2,7 +2,7 @@
 
 9 endpoints.
 
-## GET /accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items
+## GET /accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{id}/items
 
 Items List.
 
@@ -25,7 +25,7 @@ operationId: `ai-search-namespace-instance-list-items` · query: `page`, `per_pa
 - `source_id`: string **required** — Identifies which data source this item belongs to. "builtin" for uploaded files, "{type}:{source}" for external sources, null for legacy ite
 - `status`: string **required** enum: `queued`, `running`, `completed`, `error`, `skipped`, `outdated`
 
-## POST /accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items
+## POST /accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{id}/items
 
 Upload Item.
 
@@ -35,7 +35,7 @@ operationId: `ai-search-namespace-instance-upload-item`
 
 - `file`: string **required** — The file to upload. Filename must not exceed 128 characters.
 - `metadata`: string — JSON string of custom metadata key-value pairs.
-- `wait_for_completion`: boolean default: `false` — Wait for indexing to fully complete before responding. On RAGs with vector indexing enabled, this additionally waits for Vectorize ingestion
+- `wait_for_completion`: boolean default: `false` — Wait for indexing before responding. After processing, vector-indexed instances use any time remaining in a 25s wait budget to confirm Vecto
 
 **Response** 200 → `result`
 
@@ -52,8 +52,13 @@ operationId: `ai-search-namespace-instance-upload-item`
 - `next_action`: string **required** enum: `INDEX`, `DELETE`, `null`
 - `source_id`: string **required** — Identifies which data source this item belongs to. "builtin" for uploaded files, "{type}:{source}" for external sources, null for legacy ite
 - `status`: string **required** enum: `queued`, `running`, `completed`, `error`, `skipped`, `outdated`
+- `warnings`: object[]
+  [array of]
+  - `code`: string **required** enum: `custom_metadata_value_not_indexed`
+  - `expected_type`: string **required** enum: `text`, `number`, `boolean`, `datetime`
+  - `field`: string **required**
 
-## PUT /accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items
+## PUT /accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{id}/items
 
 Create or Update Item.
 
@@ -63,7 +68,7 @@ operationId: `ai-search-namespace-instance-create-or-update-item`
 
 - `key`: string **required** — Item key / filename. Must not exceed 128 characters.
 - `next_action`: string **required** enum: `INDEX`
-- `wait_for_completion`: boolean default: `false` — Wait for indexing to fully complete before responding. On RAGs with vector indexing enabled, this additionally waits for Vectorize ingestion
+- `wait_for_completion`: boolean default: `false` — Wait for indexing before responding. After processing, vector-indexed instances use any time remaining in a 25s wait budget to confirm Vecto
 
 **Response** 200 → `result`
 
@@ -81,7 +86,7 @@ operationId: `ai-search-namespace-instance-create-or-update-item`
 - `source_id`: string **required** — Identifies which data source this item belongs to. "builtin" for uploaded files, "{type}:{source}" for external sources, null for legacy ite
 - `status`: string **required** enum: `queued`, `running`, `completed`, `error`, `skipped`, `outdated`
 
-## DELETE /accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items/{item_id}
+## DELETE /accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{id}/items/{item_id}
 
 Delete Item.
 
@@ -91,7 +96,7 @@ operationId: `ai-search-namespace-instance-delete-item`
 
 - `key`: string **required**
 
-## GET /accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items/{item_id}
+## GET /accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{id}/items/{item_id}
 
 Get Item.
 
@@ -113,7 +118,7 @@ operationId: `ai-search-namespace-instance-get-item`
 - `source_id`: string **required** — Identifies which data source this item belongs to. "builtin" for uploaded files, "{type}:{source}" for external sources, null for legacy ite
 - `status`: string **required** enum: `queued`, `running`, `completed`, `error`, `skipped`, `outdated`
 
-## PATCH /accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items/{item_id}
+## PATCH /accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{id}/items/{item_id}
 
 Sync Item.
 
@@ -122,7 +127,7 @@ operationId: `ai-search-namespace-instance-sync-item`
 **Request** (application/json)
 
 - `next_action`: string **required** enum: `INDEX`
-- `wait_for_completion`: boolean default: `false` — Wait for indexing to fully complete before responding. On RAGs with vector indexing enabled, this additionally waits for Vectorize ingestion
+- `wait_for_completion`: boolean default: `false` — Wait for indexing before responding. After processing, vector-indexed instances use any time remaining in a 25s wait budget to confirm Vecto
 
 **Response** 200 → `result`
 
@@ -140,7 +145,7 @@ operationId: `ai-search-namespace-instance-sync-item`
 - `source_id`: string **required** — Identifies which data source this item belongs to. "builtin" for uploaded files, "{type}:{source}" for external sources, null for legacy ite
 - `status`: string **required** enum: `queued`, `running`, `completed`, `error`, `skipped`, `outdated`
 
-## GET /accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items/{item_id}/chunks
+## GET /accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{id}/items/{item_id}/chunks
 
 List Item Chunks.
 
@@ -155,10 +160,13 @@ operationId: `ai-search-namespace-instance-list-item-chunks` · query: `limit`, 
   - `key`: string **required**
   - `metadata`: object
   - `timestamp`: number
+- `media_end_ms`: integer — Audio/video transcript chunks only: end, in milliseconds from the start of the media (whole seconds), of the last transcript section the chu
+- `media_start_ms`: integer — Audio/video transcript chunks only: start, in milliseconds from the start of the media (whole seconds), of the transcript section the chunk 
+- `source_media_type`: string enum: `audio`, `video` — Audio/video transcript chunks only: type of the source media file. Omitted for all other chunks.
 - `start_byte`: number
 - `text`: string **required**
 
-## GET /accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items/{item_id}/download
+## GET /accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{id}/items/{item_id}/download
 
 Download Item Content.
 
@@ -168,7 +176,7 @@ operationId: `ai-search-namespace-instance-get-item-content`
 
 string
 
-## GET /accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items/{item_id}/logs
+## GET /accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{id}/items/{item_id}/logs
 
 Item Logs.
 

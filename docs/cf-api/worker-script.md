@@ -4,7 +4,7 @@
 
 ## POST /accounts/{account_id}/workers/assets/upload
 
-Upload Assets
+Upload Worker Assets
 
 operationId: `worker-assets-upload` · query: `base64`
 
@@ -18,7 +18,7 @@ object
 
 ## GET /accounts/{account_id}/workers/scripts
 
-List Workers
+List Worker Scripts
 
 operationId: `worker-script-list-workers` · query: `tags`
 
@@ -51,18 +51,21 @@ operationId: `worker-script-list-workers` · query: `tags`
 - `observability`: object — Observability settings for the Worker.
   - `enabled`: boolean **required** — Whether observability is enabled for the Worker.
   - `head_sampling_rate`: number — The sampling rate for incoming requests. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
+  - `issues`: object — Real-time Issues settings for the Worker.
+    - `enabled`: boolean — Whether real-time Issues are enabled for the Worker.
   - `logs`: object — Log settings for the Worker.
     - `destinations`: string[] — A list of destinations where logs will be exported to.
     - `enabled`: boolean **required** — Whether logs are enabled for the Worker.
     - `head_sampling_rate`: number — The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
     - `invocation_logs`: boolean **required** — Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Wo
     - `persist`: boolean default: `true` — Whether log persistence is enabled for the Worker.
+  - `redact_query_string`: boolean default: `false` — Whether query strings are removed from request URLs in logs and traces.
   - `traces`: object — Trace settings for the Worker.
     - `destinations`: string[] — A list of destinations where traces will be exported to.
     - `enabled`: boolean — Whether traces are enabled for the Worker.
     - `head_sampling_rate`: number — The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
     - `persist`: boolean default: `true` — Whether trace persistence is enabled for the Worker.
-    - `propagation_policy`: string enum: `authenticated`, `accept` default: `authenticated` — Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" (default) honors inbou
+    - `propagation_policy`: string enum: `authenticated`, `accept`, `null` — Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace c
 - `placement`: object — Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). Specify mode='smart' for Smart
 - `placement_mode`: any
 - `placement_status`: any
@@ -83,7 +86,7 @@ operationId: `worker-script-list-workers` · query: `tags`
 
 ## GET /accounts/{account_id}/workers/scripts-search
 
-Search Workers
+Search Worker Scripts
 
 operationId: `worker-script-search-workers` · query: `name`, `id`, `order_by`, `page`, `per_page`
 
@@ -95,7 +98,7 @@ operationId: `worker-script-search-workers` · query: `name`, `id`, `order_by`, 
 - `environment_name`: string — Name of the environment.
 - `id`: string **required** — Identifier.
 - `modified_on`: string **required** — When the script was last modified.
-- `script_name`: string **required** — Name of the script, used in URLs and route configuration.
+- `script_name`: string **required** — Name of the script.
 - `service_name`: string — Name of the service.
 
 ## DELETE /accounts/{account_id}/workers/scripts/{script_name}
@@ -110,7 +113,7 @@ object
 
 ## GET /accounts/{account_id}/workers/scripts/{script_name}
 
-Download Worker
+Download Worker Script
 
 operationId: `worker-script-download-worker`
 
@@ -120,7 +123,7 @@ string
 
 ## PUT /accounts/{account_id}/workers/scripts/{script_name}
 
-Upload Worker Module
+Upload Worker
 
 operationId: `worker-script-upload-worker-module` · query: `bindings_inherit`
 
@@ -156,18 +159,21 @@ string
 - `observability`: object — Observability settings for the Worker.
   - `enabled`: boolean **required** — Whether observability is enabled for the Worker.
   - `head_sampling_rate`: number — The sampling rate for incoming requests. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
+  - `issues`: object — Real-time Issues settings for the Worker.
+    - `enabled`: boolean — Whether real-time Issues are enabled for the Worker.
   - `logs`: object — Log settings for the Worker.
     - `destinations`: string[] — A list of destinations where logs will be exported to.
     - `enabled`: boolean **required** — Whether logs are enabled for the Worker.
     - `head_sampling_rate`: number — The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
     - `invocation_logs`: boolean **required** — Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Wo
     - `persist`: boolean default: `true` — Whether log persistence is enabled for the Worker.
+  - `redact_query_string`: boolean default: `false` — Whether query strings are removed from request URLs in logs and traces.
   - `traces`: object — Trace settings for the Worker.
     - `destinations`: string[] — A list of destinations where traces will be exported to.
     - `enabled`: boolean — Whether traces are enabled for the Worker.
     - `head_sampling_rate`: number — The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
     - `persist`: boolean default: `true` — Whether trace persistence is enabled for the Worker.
-    - `propagation_policy`: string enum: `authenticated`, `accept` default: `authenticated` — Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" (default) honors inbou
+    - `propagation_policy`: string enum: `authenticated`, `accept`, `null` — Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace c
 - `placement`: object — Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). Specify mode='smart' for Smart
 - `placement_mode`: any
 - `placement_status`: any
@@ -185,7 +191,7 @@ string
 
 ## POST /accounts/{account_id}/workers/scripts/{script_name}/assets-upload-session
 
-Create Assets Upload Session
+Create Worker Assets Upload Session
 
 operationId: `worker-script-update-create-assets-upload-session`
 
@@ -202,7 +208,7 @@ operationId: `worker-script-update-create-assets-upload-session`
 
 ## PUT /accounts/{account_id}/workers/scripts/{script_name}/content
 
-Put script content
+Replace Worker Script Content
 
 operationId: `worker-script-put-content`
 
@@ -242,18 +248,21 @@ operationId: `worker-script-put-content`
 - `observability`: object — Observability settings for the Worker.
   - `enabled`: boolean **required** — Whether observability is enabled for the Worker.
   - `head_sampling_rate`: number — The sampling rate for incoming requests. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
+  - `issues`: object — Real-time Issues settings for the Worker.
+    - `enabled`: boolean — Whether real-time Issues are enabled for the Worker.
   - `logs`: object — Log settings for the Worker.
     - `destinations`: string[] — A list of destinations where logs will be exported to.
     - `enabled`: boolean **required** — Whether logs are enabled for the Worker.
     - `head_sampling_rate`: number — The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
     - `invocation_logs`: boolean **required** — Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Wo
     - `persist`: boolean default: `true` — Whether log persistence is enabled for the Worker.
+  - `redact_query_string`: boolean default: `false` — Whether query strings are removed from request URLs in logs and traces.
   - `traces`: object — Trace settings for the Worker.
     - `destinations`: string[] — A list of destinations where traces will be exported to.
     - `enabled`: boolean — Whether traces are enabled for the Worker.
     - `head_sampling_rate`: number — The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
     - `persist`: boolean default: `true` — Whether trace persistence is enabled for the Worker.
-    - `propagation_policy`: string enum: `authenticated`, `accept` default: `authenticated` — Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" (default) honors inbou
+    - `propagation_policy`: string enum: `authenticated`, `accept`, `null` — Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace c
 - `placement`: object — Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). Specify mode='smart' for Smart
 - `placement_mode`: any
 - `placement_status`: any
@@ -269,7 +278,7 @@ operationId: `worker-script-put-content`
 
 ## GET /accounts/{account_id}/workers/scripts/{script_name}/content/v2
 
-Get script content
+Get Worker Script Content
 
 operationId: `worker-script-get-content`
 
@@ -279,7 +288,7 @@ string
 
 ## GET /accounts/{account_id}/workers/scripts/{script_name}/script-settings
 
-Get Script Settings
+Get Worker Script Settings
 
 operationId: `worker-script-settings-get-settings`
 
@@ -296,7 +305,7 @@ operationId: `worker-script-settings-get-settings`
 
 ## PATCH /accounts/{account_id}/workers/scripts/{script_name}/script-settings
 
-Patch Script Settings
+Patch Worker Script Settings
 
 operationId: `worker-script-settings-patch-settings`
 
@@ -324,7 +333,7 @@ operationId: `worker-script-settings-patch-settings`
 
 ## GET /accounts/{account_id}/workers/scripts/{script_name}/secrets
 
-List script secrets
+List secrets bound to a Worker script
 
 operationId: `worker-list-script-secrets`
 
@@ -338,7 +347,7 @@ operationId: `worker-list-script-secrets`
 
 ## PUT /accounts/{account_id}/workers/scripts/{script_name}/secrets
 
-Add script secret
+Add a secret to a Worker script
 
 operationId: `worker-put-script-secret`
 
@@ -358,7 +367,7 @@ operationId: `worker-put-script-secret`
 
 ## PATCH /accounts/{account_id}/workers/scripts/{script_name}/secrets-bulk
 
-Patch multiple script secrets
+Patch multiple Worker script secrets
 
 operationId: `worker-patch-script-secrets-bulk`
 
@@ -373,7 +382,7 @@ object
 
 ## DELETE /accounts/{account_id}/workers/scripts/{script_name}/secrets/{secret_name}
 
-Delete script secret
+Delete Worker script secret
 
 operationId: `worker-delete-script-secret` · query: `url_encoded`
 
@@ -383,7 +392,7 @@ object
 
 ## GET /accounts/{account_id}/workers/scripts/{script_name}/secrets/{secret_name}
 
-Get secret binding
+Get a secret binding
 
 operationId: `worker-get-script-secret` · query: `url_encoded`
 
@@ -396,7 +405,7 @@ operationId: `worker-get-script-secret` · query: `url_encoded`
 
 ## GET /accounts/{account_id}/workers/scripts/{script_name}/settings
 
-Get Settings
+Get Worker Script and Version Settings
 
 operationId: `worker-script-get-settings`
 
@@ -422,18 +431,21 @@ operationId: `worker-script-get-settings`
 - `observability`: object — Observability settings for the Worker.
   - `enabled`: boolean **required** — Whether observability is enabled for the Worker.
   - `head_sampling_rate`: number — The sampling rate for incoming requests. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
+  - `issues`: object — Real-time Issues settings for the Worker.
+    - `enabled`: boolean — Whether real-time Issues are enabled for the Worker.
   - `logs`: object — Log settings for the Worker.
     - `destinations`: string[] — A list of destinations where logs will be exported to.
     - `enabled`: boolean **required** — Whether logs are enabled for the Worker.
     - `head_sampling_rate`: number — The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
     - `invocation_logs`: boolean **required** — Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Wo
     - `persist`: boolean default: `true` — Whether log persistence is enabled for the Worker.
+  - `redact_query_string`: boolean default: `false` — Whether query strings are removed from request URLs in logs and traces.
   - `traces`: object — Trace settings for the Worker.
     - `destinations`: string[] — A list of destinations where traces will be exported to.
     - `enabled`: boolean — Whether traces are enabled for the Worker.
     - `head_sampling_rate`: number — The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
     - `persist`: boolean default: `true` — Whether trace persistence is enabled for the Worker.
-    - `propagation_policy`: string enum: `authenticated`, `accept` default: `authenticated` — Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" (default) honors inbou
+    - `propagation_policy`: string enum: `authenticated`, `accept`, `null` — Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace c
 - `placement`: any
 - `tags`: any
 - `tail_consumers`: any
@@ -441,7 +453,7 @@ operationId: `worker-script-get-settings`
 
 ## PATCH /accounts/{account_id}/workers/scripts/{script_name}/settings
 
-Patch Settings
+Patch Worker Script and Version Settings
 
 operationId: `worker-script-patch-settings`
 
@@ -468,7 +480,9 @@ operationId: `worker-script-patch-settings`
   - `observability`: object — Observability settings for the Worker.
     - `enabled`: boolean **required** — Whether observability is enabled for the Worker.
     - `head_sampling_rate`: number — The sampling rate for incoming requests. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
+    - `issues`: object — Real-time Issues settings for the Worker.
     - `logs`: object — Log settings for the Worker.
+    - `redact_query_string`: boolean default: `false` — Whether query strings are removed from request URLs in logs and traces.
     - `traces`: object — Trace settings for the Worker.
   - `placement`: any
   - `tags`: any
@@ -497,18 +511,21 @@ operationId: `worker-script-patch-settings`
 - `observability`: object — Observability settings for the Worker.
   - `enabled`: boolean **required** — Whether observability is enabled for the Worker.
   - `head_sampling_rate`: number — The sampling rate for incoming requests. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
+  - `issues`: object — Real-time Issues settings for the Worker.
+    - `enabled`: boolean — Whether real-time Issues are enabled for the Worker.
   - `logs`: object — Log settings for the Worker.
     - `destinations`: string[] — A list of destinations where logs will be exported to.
     - `enabled`: boolean **required** — Whether logs are enabled for the Worker.
     - `head_sampling_rate`: number — The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
     - `invocation_logs`: boolean **required** — Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Wo
     - `persist`: boolean default: `true` — Whether log persistence is enabled for the Worker.
+  - `redact_query_string`: boolean default: `false` — Whether query strings are removed from request URLs in logs and traces.
   - `traces`: object — Trace settings for the Worker.
     - `destinations`: string[] — A list of destinations where traces will be exported to.
     - `enabled`: boolean — Whether traces are enabled for the Worker.
     - `head_sampling_rate`: number — The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
     - `persist`: boolean default: `true` — Whether trace persistence is enabled for the Worker.
-    - `propagation_policy`: string enum: `authenticated`, `accept` default: `authenticated` — Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" (default) honors inbou
+    - `propagation_policy`: string enum: `authenticated`, `accept`, `null` — Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace c
 - `placement`: any
 - `tags`: any
 - `tail_consumers`: any
@@ -516,7 +533,7 @@ operationId: `worker-script-patch-settings`
 
 ## DELETE /accounts/{account_id}/workers/scripts/{script_name}/subdomain
 
-Delete Worker subdomain
+Delete Worker Script Subdomain
 
 operationId: `worker-script-delete-subdomain`
 
@@ -527,7 +544,7 @@ operationId: `worker-script-delete-subdomain`
 
 ## GET /accounts/{account_id}/workers/scripts/{script_name}/subdomain
 
-Get Worker subdomain
+Get Worker Script Subdomain
 
 operationId: `worker-script-get-subdomain`
 
@@ -538,7 +555,7 @@ operationId: `worker-script-get-subdomain`
 
 ## POST /accounts/{account_id}/workers/scripts/{script_name}/subdomain
 
-Post Worker subdomain
+Update Worker Script Subdomain
 
 operationId: `worker-script-post-subdomain`
 
@@ -554,7 +571,7 @@ operationId: `worker-script-post-subdomain`
 
 ## GET /accounts/{account_id}/workers/scripts/{script_name}/usage-model
 
-Fetch Usage Model
+Get Worker Script Usage Model
 
 operationId: `worker-script-fetch-usage-model`
 
@@ -566,7 +583,7 @@ operationId: `worker-script-fetch-usage-model`
 
 ## PUT /accounts/{account_id}/workers/scripts/{script_name}/usage-model
 
-Update Usage Model
+Replace Worker Script Usage Model
 
 operationId: `worker-script-update-usage-model`
 

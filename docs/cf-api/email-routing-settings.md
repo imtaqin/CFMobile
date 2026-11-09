@@ -46,7 +46,7 @@ operationId: `email-routing-settings-update-email-routing-settings`
 
 ## PUT /zones/{zone_id}/email/routing
 
-Update Email Routing settings
+Apply Email Routing settings
 
 operationId: `email-routing-settings-replace-email-routing-settings`
 
@@ -98,12 +98,15 @@ operationId: `email-routing-settings-disable-email-routing-dns`
 
 **Response** 200 → `result`
 
-[array of]
-- `content`: string — DNS record content.
-- `name`: string — DNS record name (or @ for the zone apex).
-- `priority`: number — Required for MX, SRV and URI records. Unused by other record types. Records with lower priorities are preferred.
-- `ttl`: number — Time to live, in seconds, of the DNS record. Must be between 60 and 86400, or 1 for 'automatic'.
-- `type`: string enum: `A`, `AAAA`, `CNAME`, `HTTPS`, `TXT`, `SRV`, `LOC`, `MX` — DNS record type.
+- `created`: string — The date and time the settings have been created.
+- `enabled`: boolean **required** enum: `true`, `false` — State of the zone settings for Email Routing.
+- `id`: string **required** — Email Routing settings identifier.
+- `modified`: string — The date and time the settings have been modified.
+- `name`: string **required** — Domain of your zone.
+- `skip_wizard`: boolean enum: `true`, `false` — Flag to check if the user skipped the configuration wizard.
+- `status`: string enum: `ready`, `unconfigured`, `misconfigured`, `misconfigured/locked`, `unlocked` — Show the state of your account, and the type or configuration error.
+- `support_subaddress`: boolean enum: `true`, `false` — Whether subaddressing (plus-addressing) is honored when matching incoming mail against routing rules.
+- `tag`: string — Email Routing settings tag. (Deprecated, replaced by Email Routing settings identifier)
 
 ## GET /zones/{zone_id}/email/routing/dns
 
@@ -113,26 +116,16 @@ operationId: `email-routing-settings-email-routing-dns-settings` · query: `subd
 
 **Response** 200 → `result`
 
-- `errors`: object[]
-  [array of]
-  - `code`: string
-  - `missing`: object — List of records needed to enable an Email Routing zone.
-    - `content`: string — DNS record content.
-    - `name`: string — DNS record name (or @ for the zone apex).
-    - `priority`: number — Required for MX, SRV and URI records. Unused by other record types. Records with lower priorities are preferred.
-    - `ttl`: number — Time to live, in seconds, of the DNS record. Must be between 60 and 86400, or 1 for 'automatic'.
-    - `type`: string enum: `A`, `AAAA`, `CNAME`, `HTTPS`, `TXT`, `SRV`, `LOC`, `MX` — DNS record type.
-- `record`: object[]
-  [array of]
-  - `content`: string — DNS record content.
-  - `name`: string — DNS record name (or @ for the zone apex).
-  - `priority`: number — Required for MX, SRV and URI records. Unused by other record types. Records with lower priorities are preferred.
-  - `ttl`: number — Time to live, in seconds, of the DNS record. Must be between 60 and 86400, or 1 for 'automatic'.
-  - `type`: string enum: `A`, `AAAA`, `CNAME`, `HTTPS`, `TXT`, `SRV`, `LOC`, `MX` — DNS record type.
+[array of]
+- `content`: string — DNS record content.
+- `name`: string — DNS record name (or @ for the zone apex).
+- `priority`: number — Required for MX, SRV and URI records. Unused by other record types. Records with lower priorities are preferred.
+- `ttl`: number — Time to live, in seconds, of the DNS record. Must be between 60 and 86400, or 1 for 'automatic'.
+- `type`: string enum: `A`, `AAAA`, `CNAME`, `HTTPS`, `TXT`, `SRV`, `LOC`, `MX` — DNS record type.
 
 ## PATCH /zones/{zone_id}/email/routing/dns
 
-Unlock Email Routing
+Unlock Email Routing DNS records
 
 operationId: `email-routing-settings-unlock-email-routing-dns`
 

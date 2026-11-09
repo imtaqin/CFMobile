@@ -1,6 +1,6 @@
 # Custom Indicator Feeds
 
-11 endpoints.
+12 endpoints.
 
 ## GET /accounts/{account_id}/intel/indicator-feeds
 
@@ -124,7 +124,9 @@ operationId: `custom-indicator-feeds-download-indicator-feed-data`
 
 - `file_id`: integer — Feed id
 - `filename`: string — Name of the file unified in our system
-- `status`: string — Current status of upload, should be unified
+- `poll_url`: string — Account-relative polling path. Prepend `/accounts/{account_id}`
+- `status`: string — Current status of the upload at the moment the request returned.
+- `upload_id`: integer — Identifier of the upload row, for polling this upload to a
 
 ## PUT /accounts/{account_id}/intel/indicator-feeds/{feed_id}/snapshot
 
@@ -140,7 +142,28 @@ operationId: `custom-indicator-feeds-update-indicator-feed-data`
 
 - `file_id`: integer — Feed id
 - `filename`: string — Name of the file unified in our system
-- `status`: string — Current status of upload, should be unified
+- `poll_url`: string — Account-relative polling path. Prepend `/accounts/{account_id}`
+- `status`: string — Current status of the upload at the moment the request returned.
+- `upload_id`: integer — Identifier of the upload row, for polling this upload to a
+
+## GET /accounts/{account_id}/intel/indicator-feeds/{feed_id}/uploads/{upload_id}
+
+Get indicator feed upload status
+
+operationId: `custom-indicator-feeds-get-upload-status`
+
+**Response** 200 → `result`
+
+- `attempts`: integer **required**
+- `created_at`: string
+- `error`: string — Sanitized terminal error; omitted for non-error states.
+- `feed_id`: integer **required** — Indicator feed ID
+- `filename`: string **required**
+- `poll_after_seconds`: integer **required** — Recommended delay before the next poll; 0 means terminal.
+- `stage`: string enum: `queued`, `loading`, `provisioning`, `retrying`, `complete`, `error` — Sanitized durable loader stage, when available.
+- `status`: string **required** — `Unifying` while work is queued or active, optionally with attempt
+- `updated_at`: string
+- `upload_id`: integer **required**
 
 ## PUT /accounts/{account_id}/intel/indicator-feeds/permissions/add
 

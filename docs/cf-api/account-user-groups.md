@@ -12,7 +12,7 @@ operationId: `account-user-group-list` · query: `id`, `name`, `fuzzyName`, `pag
 
 [array of]
 - `created_on`: string **required** — Timestamp for the creation of the user group
-- `id`: any **required** — User Group identifier tag.
+- `id`: string **required** — Identifier of the user group.
 - `modified_on`: string **required** — Last time the user group was modified.
 - `name`: string **required** — Name of the user group.
 - `policies`: object[] — Policies attached to the User group
@@ -29,7 +29,7 @@ operationId: `account-user-group-list` · query: `id`, `name`, `fuzzyName`, `pag
     - `id`: string **required** — Identifier of the resource group.
     - `meta`: object — Attributes associated to the resource group.
     - `name`: string — Name of the resource group.
-    - `scope`: object **required** — A scope is a combination of scope objects which provides additional context.
+    - `scope`: any **required** — The scope associated to the resource group
 
 ## POST /accounts/{account_id}/iam/user_groups
 
@@ -53,7 +53,7 @@ operationId: `account-user-group-create`
 **Response** 200 → `result`
 
 - `created_on`: string **required** — Timestamp for the creation of the user group
-- `id`: any **required** — User Group identifier tag.
+- `id`: string **required** — Identifier of the user group.
 - `modified_on`: string **required** — Last time the user group was modified.
 - `name`: string **required** — Name of the user group.
 - `policies`: object[] — Policies attached to the User group
@@ -70,7 +70,7 @@ operationId: `account-user-group-create`
     - `id`: string **required** — Identifier of the resource group.
     - `meta`: object — Attributes associated to the resource group.
     - `name`: string — Name of the resource group.
-    - `scope`: object **required** — A scope is a combination of scope objects which provides additional context.
+    - `scope`: any **required** — The scope associated to the resource group
 
 ## DELETE /accounts/{account_id}/iam/user_groups/{user_group_id}
 
@@ -91,7 +91,7 @@ operationId: `account-user-group-details`
 **Response** 200 → `result`
 
 - `created_on`: string **required** — Timestamp for the creation of the user group
-- `id`: any **required** — User Group identifier tag.
+- `id`: string **required** — Identifier of the user group.
 - `modified_on`: string **required** — Last time the user group was modified.
 - `name`: string **required** — Name of the user group.
 - `policies`: object[] — Policies attached to the User group
@@ -108,7 +108,7 @@ operationId: `account-user-group-details`
     - `id`: string **required** — Identifier of the resource group.
     - `meta`: object — Attributes associated to the resource group.
     - `name`: string — Name of the resource group.
-    - `scope`: object **required** — A scope is a combination of scope objects which provides additional context.
+    - `scope`: any **required** — The scope associated to the resource group
 
 ## PUT /accounts/{account_id}/iam/user_groups/{user_group_id}
 
@@ -133,7 +133,7 @@ operationId: `account-user-group-update`
 **Response** 200 → `result`
 
 - `created_on`: string **required** — Timestamp for the creation of the user group
-- `id`: any **required** — User Group identifier tag.
+- `id`: string **required** — Identifier of the user group.
 - `modified_on`: string **required** — Last time the user group was modified.
 - `name`: string **required** — Name of the user group.
 - `policies`: object[] — Policies attached to the User group
@@ -150,4 +150,4 @@ operationId: `account-user-group-update`
     - `id`: string **required** — Identifier of the resource group.
     - `meta`: object — Attributes associated to the resource group.
     - `name`: string — Name of the resource group.
-    - `scope`: object **required** — A scope is a combination of scope objects which provides additional context.
+    - `scope`: any **required** — The scope associated to the resource group

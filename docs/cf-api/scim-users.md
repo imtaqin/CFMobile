@@ -1,6 +1,6 @@
 # SCIM Users
 
-5 endpoints.
+6 endpoints.
 
 ## GET /accounts/{account_id}/scim/v2/Users
 
@@ -84,6 +84,12 @@ operationId: `scim-users-create`
 - `schemas`: string[] **required** — Must contain `urn:ietf:params:scim:schemas:core:2.0:User`.
   [array]
 - `userName`: string **required** — Unique identifier for the user, equal to the user's email address.
+
+## DELETE /accounts/{account_id}/scim/v2/Users/{user_id}
+
+Delete SCIM User
+
+operationId: `scim-users-delete`
 
 ## GET /accounts/{account_id}/scim/v2/Users/{user_id}
 

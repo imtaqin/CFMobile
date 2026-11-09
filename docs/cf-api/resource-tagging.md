@@ -12,8 +12,7 @@ operationId: `tags-delete`
 
 (one of 2 variants; showing the first)
 - `resource_id`: string **required** — Identifies the unique resource.
-- `resource_type`: string **required** enum: `access_application`, `access_group`, `account`, `account_ruleset`, `ai_gateway`, `alerting_policy`, `alerting_webhook`, `cloudflared_tunnel` — Enum for base account-level resource types (those with no extra required fields).
-- `resource_type`: string enum: `worker_version` — Enum for worker_version resource type.
+- `resource_type`: string **required** enum: `worker_version` — Enum for worker_version resource type.
 - `worker_id`: string **required** — Worker ID is required only for worker_version resources
 
 ## GET /accounts/{account_id}/tags
@@ -24,12 +23,13 @@ operationId: `tags-get` · query: `resource_id`, `resource_type`, `worker_id`
 
 **Response** 200 → `result`
 
-(one of 37 variants; showing the first)
+(one of 46 variants; showing the first)
 - `type`: string **required** enum: `access_application`
 - `etag`: string **required** — ETag identifier for optimistic concurrency control. Formatted as "v1:<hash>" where
 - `id`: string **required** — Identifies the unique resource.
 - `name`: string **required** — Human-readable name of the resource.
-- `tags`: object **required** — Contains key-value pairs of tags. Values may be empty strings for key-only tags.
+- `tags`: object **required** — Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for k
+- `tags_updated_at`: string — Monotonic version of the resource's tags: the timestamp assigned when the
 
 ## PUT /accounts/{account_id}/tags
 
@@ -41,19 +41,19 @@ operationId: `tags-set`
 
 (one of 2 variants; showing the first)
 - `resource_id`: string **required** — Identifies the unique resource.
-- `resource_type`: string **required** enum: `access_application`, `access_group`, `account`, `account_ruleset`, `ai_gateway`, `alerting_policy`, `alerting_webhook`, `cloudflared_tunnel` — Enum for base account-level resource types (those with no extra required fields).
-- `resource_type`: string enum: `worker_version` — Enum for worker_version resource type.
+- `resource_type`: string **required** enum: `worker_version` — Enum for worker_version resource type.
 - `worker_id`: string **required** — Worker ID is required only for worker_version resources
-- `tags`: object — Contains key-value pairs of tags. Values may be empty strings for key-only tags.
+- `tags`: object — Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for k
 
 **Response** 200 → `result`
 
-(one of 37 variants; showing the first)
+(one of 46 variants; showing the first)
 - `type`: string **required** enum: `access_application`
 - `etag`: string **required** — ETag identifier for optimistic concurrency control. Formatted as "v1:<hash>" where
 - `id`: string **required** — Identifies the unique resource.
 - `name`: string **required** — Human-readable name of the resource.
-- `tags`: object **required** — Contains key-value pairs of tags. Values may be empty strings for key-only tags.
+- `tags`: object **required** — Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for k
+- `tags_updated_at`: string — Monotonic version of the resource's tags: the timestamp assigned when the
 
 ## GET /accounts/{account_id}/tags/keys
 
@@ -70,17 +70,18 @@ string
 
 List tagged resources
 
-operationId: `tags-list` · query: `type`, `name`, `id`, `tag`, `cursor`
+operationId: `tags-list` · query: `include_navigation`, `type`, `name`, `id`, `case_insensitive`, `tag`, `cursor`
 
 **Response** 200 → `result`
 
 [array of]
-(one of 37 variants; showing the first)
+(one of 46 variants; showing the first)
 - `type`: string **required** enum: `access_application`
 - `etag`: string **required** — ETag identifier for optimistic concurrency control. Formatted as "v1:<hash>" where
 - `id`: string **required** — Identifies the unique resource.
 - `name`: string **required** — Human-readable name of the resource.
-- `tags`: object **required** — Contains key-value pairs of tags. Values may be empty strings for key-only tags.
+- `tags`: object **required** — Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for k
+- `tags_updated_at`: string — Monotonic version of the resource's tags: the timestamp assigned when the
 
 ## GET /accounts/{account_id}/tags/summary
 
@@ -126,12 +127,13 @@ operationId: `tags-zone-get` · query: `resource_id`, `resource_type`, `access_a
 
 **Response** 200 → `result`
 
-(one of 37 variants; showing the first)
+(one of 46 variants; showing the first)
 - `type`: string **required** enum: `access_application`
 - `etag`: string **required** — ETag identifier for optimistic concurrency control. Formatted as "v1:<hash>" where
 - `id`: string **required** — Identifies the unique resource.
 - `name`: string **required** — Human-readable name of the resource.
-- `tags`: object **required** — Contains key-value pairs of tags. Values may be empty strings for key-only tags.
+- `tags`: object **required** — Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for k
+- `tags_updated_at`: string — Monotonic version of the resource's tags: the timestamp assigned when the
 
 ## PUT /zones/{zone_id}/tags
 
@@ -144,13 +146,14 @@ operationId: `tags-zone-set`
 (one of 2 variants; showing the first)
 - `resource_id`: string **required** — Identifies the unique resource.
 - `resource_type`: string **required** enum: `api_gateway_operation`, `custom_certificate`, `custom_hostname`, `dns_record`, `healthcheck`, `load_balancer`, `managed_client_certificate`, `worker_route` — Enum for base zone-level resource types (those with no extra required fields).
-- `tags`: object — Contains key-value pairs of tags. Values may be empty strings for key-only tags.
+- `tags`: object — Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for k
 
 **Response** 200 → `result`
 
-(one of 37 variants; showing the first)
+(one of 46 variants; showing the first)
 - `type`: string **required** enum: `access_application`
 - `etag`: string **required** — ETag identifier for optimistic concurrency control. Formatted as "v1:<hash>" where
 - `id`: string **required** — Identifies the unique resource.
 - `name`: string **required** — Human-readable name of the resource.
-- `tags`: object **required** — Contains key-value pairs of tags. Values may be empty strings for key-only tags.
+- `tags`: object **required** — Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for k
+- `tags_updated_at`: string — Monotonic version of the resource's tags: the timestamp assigned when the

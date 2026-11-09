@@ -11,38 +11,32 @@ operationId: `listImageRegistries`
 **Response** 200 → `result`
 
 [array of]
-- `created_at`: string **required** — UTC timestamp string in ISO 8601 format
+- `created_at`: string **required** — UTC timestamp string in ISO 8601 format.
 - `domain`: string **required** — A string representation of a domain name. See RFC-1034 (https://www.ietf.org/rfc/rfc1034.txt). Consider that the limit of a domain name is m
 - `kind`: any — The type of registry that is being configured.
-- `private_credential`: object — A reference to a secret stored in Secrets Store
-  - `secret_name`: string **required** — Name of the secret being referenced
-  - `store_id`: string **required** — Store ID where the secret is stored
-- `public_key`: string — A base64 representation of the public key that you can set to configure the registry. If null, the registry is public and doesn't have authe
+- `public_key`: string — Public component of the registry credentials. For managed registries this is
 
 ## POST /accounts/{account_id}/containers/registries
 
-Add a new image registry configuration
+Configure a private external image registry
 
 operationId: `createImageRegistry`
 
 **Request** (application/json)
 
-- `auth`: object — Credentials needed to authenticate with an external image registry.
-  - `private_credential`: any **required**
-  - `public_credential`: string **required** — The format of this value is determined by the registry being configured.
-- `domain`: string **required** — A string representation of a domain name. See RFC-1034 (https://www.ietf.org/rfc/rfc1034.txt). Consider that the limit of a domain name is m
-- `is_public`: boolean — If you own the registry and is private, this should be false or not defined. If it's a public registry like docker.io, you should set this t
-- `kind`: string enum: `ECR`, `DockerHub`, `GAR` — The type of external registry that is being configured.
+- `auth`: object **required** — Credentials for authenticating to a private external image registry. Store the
+  - `private_credential`: any **required** — A reference to the private registry credential in Secrets Store. The referenced
+  - `public_credential`: string **required** — The non-secret part of the registry credential: an AWS access key ID for ECR,
+- `domain`: string **required** — Hostname of the private registry, without a scheme or image path. Supported
+- `is_public`: boolean enum: `false` — Omit this field or set it to `false`. Public Docker Hub images do not require
+- `kind`: any **required** — Registry provider. This must match `domain`: `DockerHub` for `docker.io`,
 
 **Response** 201 → `result`
 
-- `created_at`: string **required** — UTC timestamp string in ISO 8601 format
+- `created_at`: string **required** — UTC timestamp string in ISO 8601 format.
 - `domain`: string **required** — A string representation of a domain name. See RFC-1034 (https://www.ietf.org/rfc/rfc1034.txt). Consider that the limit of a domain name is m
 - `kind`: any — The type of registry that is being configured.
-- `private_credential`: object — A reference to a secret stored in Secrets Store
-  - `secret_name`: string **required** — Name of the secret being referenced
-  - `store_id`: string **required** — Store ID where the secret is stored
-- `public_key`: string — A base64 representation of the public key that you can set to configure the registry. If null, the registry is public and doesn't have authe
+- `public_key`: string — Public component of the registry credentials. For managed registries this is
 
 ## DELETE /accounts/{account_id}/containers/registries/{domain}
 
@@ -52,8 +46,7 @@ operationId: `deleteImageRegistry`
 
 **Response** 200 → `result`
 
-- `domain`: string **required** — A string representation of a domain name. See RFC-1034 (https://www.ietf.org/rfc/rfc1034.txt). Consider that the limit of a domain name is m
-- `secret_store_ref`: string
+- `domain`: any **required**
 
 ## POST /accounts/{account_id}/containers/registries/{domain}/credentials
 
@@ -63,13 +56,13 @@ operationId: `generateImageRegistryCredentials`
 
 **Request** (application/json)
 
-- `expiration_minutes`: integer **required** — The minimum number of minutes the token will be valid for. Must be positive. We make a best effort to respect this value, but some registry 
-- `permissions`: string[] **required**
+- `expiration_minutes`: integer — The number of minutes Cloudflare managed registry credentials stay valid. Required for managed registries and must remain positive. Cloudfla
+- `permissions`: string[] — The permissions for Cloudflare managed registry credentials. Required for managed registries. Cloudflare ignores this value for external reg
   [array]
 
 **Response** 201 → `result`
 
-- `account_id`: string **required** — A unique identifier for the user's account
-- `password`: string — The password to use when authenticating to the image registry.
-- `registry_host`: string **required** — The domain of the image registry the credentials are for.
+- `account_id`: string **required** — A unique identifier for the user's account.
+- `password`: string **required** — The password to use when authenticating to the image registry.
+- `registry_host`: string **required** — The domain of the image registry these credentials target.
 - `username`: string **required** — The username to use when authenticating to the image registry.

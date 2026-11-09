@@ -69,7 +69,7 @@ object
 
 ## DELETE /zones/{zone_id}/token_validation/rules/{rule_id}
 
-Delete a zone token validation rule
+Delete a token validation rule
 
 operationId: `token-validation-rules-delete`
 
@@ -79,7 +79,7 @@ object
 
 ## GET /zones/{zone_id}/token_validation/rules/{rule_id}
 
-Get a zone token validation rule
+Get a token validation rule
 
 operationId: `token-validation-rules-get`
 
@@ -103,7 +103,7 @@ operationId: `token-validation-rules-get`
 
 ## PATCH /zones/{zone_id}/token_validation/rules/{rule_id}
 
-Edit a zone token validation rule
+Edit a token validation rule
 
 operationId: `token-validation-rules-edit`
 
@@ -143,7 +143,7 @@ operationId: `token-validation-rules-edit`
 
 ## PATCH /zones/{zone_id}/token_validation/rules/bulk
 
-Bulk edit token validation rules
+Edit token validation rules
 
 operationId: `token-validation-rules-bulk-edit`
 
@@ -186,7 +186,7 @@ operationId: `token-validation-rules-bulk-edit`
 
 ## POST /zones/{zone_id}/token_validation/rules/bulk
 
-Bulk create token validation rules
+Create token validation rules
 
 operationId: `token-validation-rules-bulk-create`
 
@@ -228,7 +228,7 @@ object
 
 ## POST /zones/{zone_id}/token_validation/rules/preview
 
-Preview operations covered by a Token Validation rule
+Preview a token validation rule
 
 operationId: `token-validation-rules-preview` · query: `per_page`, `page`, `state`, `host`, `hostname`, `method`, `endpoint`
 

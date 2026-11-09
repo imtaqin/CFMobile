@@ -10,14 +10,15 @@ operationId: `precursor-for-a-zone-get-config`
 
 **Response** 200 → `result`
 
-- `default_mode`: string enum: `off`, `min-friction`, `max-security` default: `off` — The zone-level Precursor enforcement mode applied to requests that do
-- `enforcement_rules`: object[] — The ordered list of enforcement rules for the zone.
+- `mode`: any
+- `rules`: object[] — The ordered list of Precursor rules for the zone.
   [array of]
   - `description`: string default: `` — An informative description of the rule.
   - `enabled`: boolean default: `true` — Whether the rule is active.
   - `expression`: string **required** — The filter expression that determines which requests the rule matches.
   - `id`: string — The read-only identifier that Cloudflare assigns to the rule.
-  - `mode`: string **required** enum: `min-friction`, `max-security` — The override mode Precursor applies to requests matching an enforcement
+  - `show_interstitial`: boolean **required** — Whether Precursor shows an interstitial when it takes action on a
+- `show_interstitial`: boolean — Whether Precursor shows an interstitial when it takes action on a
 
 ## PUT /zones/{zone_id}/precursor
 
@@ -27,22 +28,24 @@ operationId: `precursor-for-a-zone-update-config`
 
 **Request** (application/json)
 
-- `default_mode`: string enum: `off`, `min-friction`, `max-security` default: `off` — The zone-level Precursor enforcement mode applied to requests that do
-- `enforcement_rules`: object[] — The ordered list of enforcement rules for the zone.
+- `mode`: any
+- `rules`: object[] — The ordered list of Precursor rules for the zone.
   [array of]
   - `description`: string default: `` — An informative description of the rule.
   - `enabled`: boolean default: `true` — Whether the rule is active.
   - `expression`: string **required** — The filter expression that determines which requests the rule matches.
   - `id`: string — The read-only identifier that Cloudflare assigns to the rule.
-  - `mode`: string **required** enum: `min-friction`, `max-security` — The override mode Precursor applies to requests matching an enforcement
+  - `show_interstitial`: boolean **required** — Whether Precursor shows an interstitial when it takes action on a
+- `show_interstitial`: boolean — Whether Precursor shows an interstitial when it takes action on a
 
 **Response** 200 → `result`
 
-- `default_mode`: string enum: `off`, `min-friction`, `max-security` default: `off` — The zone-level Precursor enforcement mode applied to requests that do
-- `enforcement_rules`: object[] — The ordered list of enforcement rules for the zone.
+- `mode`: any
+- `rules`: object[] — The ordered list of Precursor rules for the zone.
   [array of]
   - `description`: string default: `` — An informative description of the rule.
   - `enabled`: boolean default: `true` — Whether the rule is active.
   - `expression`: string **required** — The filter expression that determines which requests the rule matches.
   - `id`: string — The read-only identifier that Cloudflare assigns to the rule.
-  - `mode`: string **required** enum: `min-friction`, `max-security` — The override mode Precursor applies to requests matching an enforcement
+  - `show_interstitial`: boolean **required** — Whether Precursor shows an interstitial when it takes action on a
+- `show_interstitial`: boolean — Whether Precursor shows an interstitial when it takes action on a

@@ -4,7 +4,7 @@
 
 ## GET /accounts/{account_id}/cloudforce-one/events/dataset/-/groups
 
-List groups for an account
+List account groups
 
 operationId: `get_GroupList`
 
@@ -19,7 +19,7 @@ operationId: `get_GroupList`
 
 ## POST /accounts/{account_id}/cloudforce-one/events/dataset/-/groups
 
-Create a group
+Create an account group
 
 operationId: `post_GroupCreate`
 
@@ -38,7 +38,7 @@ operationId: `post_GroupCreate`
 
 ## DELETE /accounts/{account_id}/cloudforce-one/events/dataset/-/groups/{group_id}
 
-Delete a group for an account
+Delete an account group
 
 operationId: `delete_GroupDelete`
 
@@ -49,7 +49,7 @@ operationId: `delete_GroupDelete`
 
 ## GET /accounts/{account_id}/cloudforce-one/events/dataset/-/groups/{group_id}
 
-Read a group for an account
+Get an account group
 
 operationId: `get_GroupRead`
 
@@ -70,7 +70,7 @@ operationId: `get_GroupRead`
 
 ## PUT /accounts/{account_id}/cloudforce-one/events/dataset/-/groups/{group_id}
 
-Update a group
+Update an account group
 
 operationId: `put_GroupUpdate`
 
@@ -104,7 +104,7 @@ operationId: `get_GroupMemberList`
 
 ## POST /accounts/{account_id}/cloudforce-one/events/dataset/-/groups/{group_id}/members
 
-Create a group member
+Add an account to a group
 
 operationId: `post_GroupMemberCreate`
 
@@ -123,7 +123,7 @@ operationId: `post_GroupMemberCreate`
 
 ## DELETE /accounts/{account_id}/cloudforce-one/events/dataset/-/groups/{group_id}/members/{member_id}
 
-Delete a group member
+Remove an account from a group
 
 operationId: `delete_GroupMemberDelete`
 

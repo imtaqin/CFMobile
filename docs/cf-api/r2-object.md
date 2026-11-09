@@ -15,7 +15,6 @@ string
 
 **Response** 200 → `result`
 
-(one of 2 variants; showing the first)
 [array of]
 - `key`: string — The key (name) of the deleted object.
 

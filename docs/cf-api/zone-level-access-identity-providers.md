@@ -11,7 +11,7 @@ operationId: `zone-level-access-identity-providers-list-access-identity-provider
 **Response** 200 → `result`
 
 [array of]
-(one of 15 variants; showing the first)
+(one of 16 variants; showing the first)
 - `config`: object **required** — The configuration parameters for the identity provider. To view the required parameters for a specific provider, refer to our [developer doc
 - `id`: string — UUID.
 - `name`: string **required** — The name of the identity provider, shown to users on the login page.
@@ -33,7 +33,7 @@ operationId: `zone-level-access-identity-providers-add-an-access-identity-provid
 
 **Request** (application/json)
 
-(one of 14 variants; showing the first)
+(one of 15 variants; showing the first)
 - `config`: object **required** — The configuration parameters for the identity provider. To view the required parameters for a specific provider, refer to our [developer doc
 - `id`: string — UUID.
 - `name`: string **required** — The name of the identity provider, shown to users on the login page.
@@ -49,7 +49,7 @@ operationId: `zone-level-access-identity-providers-add-an-access-identity-provid
 
 **Response** 201 → `result`
 
-(one of 14 variants; showing the first)
+(one of 15 variants; showing the first)
 - `config`: object **required** — The configuration parameters for the identity provider. To view the required parameters for a specific provider, refer to our [developer doc
 - `id`: string — UUID.
 - `name`: string **required** — The name of the identity provider, shown to users on the login page.
@@ -81,7 +81,7 @@ operationId: `zone-level-access-identity-providers-get-an-access-identity-provid
 
 **Response** 200 → `result`
 
-(one of 14 variants; showing the first)
+(one of 15 variants; showing the first)
 - `config`: object **required** — The configuration parameters for the identity provider. To view the required parameters for a specific provider, refer to our [developer doc
 - `id`: string — UUID.
 - `name`: string **required** — The name of the identity provider, shown to users on the login page.
@@ -103,7 +103,7 @@ operationId: `zone-level-access-identity-providers-update-an-access-identity-pro
 
 **Request** (application/json)
 
-(one of 14 variants; showing the first)
+(one of 15 variants; showing the first)
 - `config`: object **required** — The configuration parameters for the identity provider. To view the required parameters for a specific provider, refer to our [developer doc
 - `id`: string — UUID.
 - `name`: string **required** — The name of the identity provider, shown to users on the login page.
@@ -119,7 +119,7 @@ operationId: `zone-level-access-identity-providers-update-an-access-identity-pro
 
 **Response** 200 → `result`
 
-(one of 14 variants; showing the first)
+(one of 15 variants; showing the first)
 - `config`: object **required** — The configuration parameters for the identity provider. To view the required parameters for a specific provider, refer to our [developer doc
 - `id`: string — UUID.
 - `name`: string **required** — The name of the identity provider, shown to users on the login page.

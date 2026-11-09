@@ -66,7 +66,7 @@ operationId: `keyless-ssl-for-a-zone-delete-keyless-ssl-configuration`
 
 **Response** 200 → `result`
 
-- `id`: string — Identifier.
+- `id`: string — Keyless certificate identifier tag.
 
 ## GET /zones/{zone_id}/keyless_certificates/{keyless_certificate_id}
 

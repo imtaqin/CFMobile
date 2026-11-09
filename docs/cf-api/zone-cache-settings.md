@@ -13,7 +13,7 @@ operationId: `zone-cache-settings-get-cache-reserve-setting`
 - `editable`: boolean **required** — Whether the setting is editable.
 - `id`: string **required** — The identifier of the caching setting.
 - `modified_on`: string — The time when the setting was last modified.
-- `value`: string **required** — The value of the setting.
+- `value`: any **required** — The value of the setting.
 
 ## PATCH /zones/{zone_id}/cache/cache_reserve
 
@@ -30,7 +30,7 @@ operationId: `zone-cache-settings-change-cache-reserve-setting`
 - `editable`: boolean **required** — Whether the setting is editable.
 - `id`: string **required** — The identifier of the caching setting.
 - `modified_on`: string — The time when the setting was last modified.
-- `value`: string **required** — The value of the setting.
+- `value`: any **required** — The value of the setting.
 
 ## GET /zones/{zone_id}/cache/cache_reserve_clear
 
@@ -73,7 +73,7 @@ operationId: `zone-cache-settings-get-regional-tiered-cache-setting`
 - `editable`: boolean **required** — Whether the setting is editable.
 - `id`: string **required** — The identifier of the caching setting.
 - `modified_on`: string — The time when the setting was last modified.
-- `value`: string **required** — The value of the setting.
+- `value`: any **required** — The value of the setting.
 
 ## PATCH /zones/{zone_id}/cache/regional_tiered_cache
 
@@ -90,7 +90,7 @@ operationId: `zone-cache-settings-change-regional-tiered-cache-setting`
 - `editable`: boolean **required** — Whether the setting is editable.
 - `id`: string **required** — The identifier of the caching setting.
 - `modified_on`: string — The time when the setting was last modified.
-- `value`: string **required** — The value of the setting.
+- `value`: any **required** — The value of the setting.
 
 ## DELETE /zones/{zone_id}/cache/variants
 
@@ -115,7 +115,7 @@ operationId: `zone-cache-settings-get-variants-setting`
 - `editable`: boolean **required** — Whether the setting is editable.
 - `id`: string **required** — The identifier of the caching setting.
 - `modified_on`: string — The time when the setting was last modified.
-- `value`: string **required** — The value of the setting.
+- `value`: any **required** — The value of the setting.
 
 ## PATCH /zones/{zone_id}/cache/variants
 
@@ -154,4 +154,4 @@ operationId: `zone-cache-settings-change-variants-setting`
 - `editable`: boolean **required** — Whether the setting is editable.
 - `id`: string **required** — The identifier of the caching setting.
 - `modified_on`: string — The time when the setting was last modified.
-- `value`: string **required** — The value of the setting.
+- `value`: any **required** — The value of the setting.

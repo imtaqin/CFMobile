@@ -2,7 +2,7 @@
 
 5 endpoints.
 
-## GET /zones/{zone_identifier}/custom_pages/assets
+## GET /zones/{zone_id}/custom_pages/assets
 
 List custom assets
 
@@ -17,7 +17,7 @@ operationId: `custom-assets-for-a-zone-list-custom-assets` · query: `page`, `pe
 - `size_bytes`: integer — The size of the asset content in bytes.
 - `url`: string — The URL where the asset content is fetched from.
 
-## POST /zones/{zone_identifier}/custom_pages/assets
+## POST /zones/{zone_id}/custom_pages/assets
 
 Create a custom asset
 
@@ -37,13 +37,13 @@ operationId: `custom-assets-for-a-zone-create-a-custom-asset`
 - `size_bytes`: integer — The size of the asset content in bytes.
 - `url`: string — The URL where the asset content is fetched from.
 
-## DELETE /zones/{zone_identifier}/custom_pages/assets/{asset_name}
+## DELETE /zones/{zone_id}/custom_pages/assets/{asset_name}
 
 Delete a custom asset
 
 operationId: `custom-assets-for-a-zone-delete-a-custom-asset`
 
-## GET /zones/{zone_identifier}/custom_pages/assets/{asset_name}
+## GET /zones/{zone_id}/custom_pages/assets/{asset_name}
 
 Get a custom asset
 
@@ -57,7 +57,7 @@ operationId: `custom-assets-for-a-zone-get-a-custom-asset`
 - `size_bytes`: integer — The size of the asset content in bytes.
 - `url`: string — The URL where the asset content is fetched from.
 
-## PUT /zones/{zone_identifier}/custom_pages/assets/{asset_name}
+## PUT /zones/{zone_id}/custom_pages/assets/{asset_name}
 
 Update a custom asset
 

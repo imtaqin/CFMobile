@@ -23,7 +23,7 @@ operationId: `queries.list` · query: `page`, `perPage`, `order`, `orderBy`
     - `alias`: string
     - `key`: string
     - `keyType`: string enum: `string`, `number`, `boolean`
-    - `operator`: string **required** enum: `uniq`, `count`, `max`, `min`, `sum`, `avg`, `median`, `p001`
+    - `operator`: string **required** enum: `count`, `COUNT`
   - `datasets`: string[] — Set the Datasets to query. Leave it empty to query all the datasets.
     [array]
   - `filterCombination`: string enum: `and`, `or`, `AND`, `OR` — Set a Flag to describe how to combine the filters on the query.
@@ -68,7 +68,7 @@ operationId: `queries.post`
     - `alias`: string
     - `key`: string
     - `keyType`: string enum: `string`, `number`, `boolean`
-    - `operator`: string **required** enum: `uniq`, `count`, `max`, `min`, `sum`, `avg`, `median`, `p001`
+    - `operator`: string **required** enum: `count`, `COUNT`
   - `datasets`: string[] — Set the Datasets to query. Leave it empty to query all the datasets.
     [array]
   - `filterCombination`: string enum: `and`, `or`, `AND`, `OR` — Set a Flag to describe how to combine the filters on the query.
@@ -109,7 +109,7 @@ operationId: `queries.post`
     - `alias`: string
     - `key`: string
     - `keyType`: string enum: `string`, `number`, `boolean`
-    - `operator`: string **required** enum: `uniq`, `count`, `max`, `min`, `sum`, `avg`, `median`, `p001`
+    - `operator`: string **required** enum: `count`, `COUNT`
   - `datasets`: string[] — Set the Datasets to query. Leave it empty to query all the datasets.
     [array]
   - `filterCombination`: string enum: `and`, `or`, `AND`, `OR` — Set a Flag to describe how to combine the filters on the query.
@@ -158,7 +158,7 @@ operationId: `queries.delete`
     - `alias`: string
     - `key`: string
     - `keyType`: string enum: `string`, `number`, `boolean`
-    - `operator`: string **required** enum: `uniq`, `count`, `max`, `min`, `sum`, `avg`, `median`, `p001`
+    - `operator`: string **required** enum: `count`, `COUNT`
   - `datasets`: string[] — Set the Datasets to query. Leave it empty to query all the datasets.
     [array]
   - `filterCombination`: string enum: `and`, `or`, `AND`, `OR` — Set a Flag to describe how to combine the filters on the query.
@@ -207,7 +207,7 @@ operationId: `queries.get`
     - `alias`: string
     - `key`: string
     - `keyType`: string enum: `string`, `number`, `boolean`
-    - `operator`: string **required** enum: `uniq`, `count`, `max`, `min`, `sum`, `avg`, `median`, `p001`
+    - `operator`: string **required** enum: `count`, `COUNT`
   - `datasets`: string[] — Set the Datasets to query. Leave it empty to query all the datasets.
     [array]
   - `filterCombination`: string enum: `and`, `or`, `AND`, `OR` — Set a Flag to describe how to combine the filters on the query.
@@ -252,7 +252,7 @@ operationId: `queries.patch`
     - `alias`: string
     - `key`: string
     - `keyType`: string enum: `string`, `number`, `boolean`
-    - `operator`: string **required** enum: `uniq`, `count`, `max`, `min`, `sum`, `avg`, `median`, `p001`
+    - `operator`: string **required** enum: `count`, `COUNT`
   - `datasets`: string[] — Set the Datasets to query. Leave it empty to query all the datasets.
     [array]
   - `filterCombination`: string enum: `and`, `or`, `AND`, `OR` — Set a Flag to describe how to combine the filters on the query.
@@ -293,7 +293,7 @@ operationId: `queries.patch`
     - `alias`: string
     - `key`: string
     - `keyType`: string enum: `string`, `number`, `boolean`
-    - `operator`: string **required** enum: `uniq`, `count`, `max`, `min`, `sum`, `avg`, `median`, `p001`
+    - `operator`: string **required** enum: `count`, `COUNT`
   - `datasets`: string[] — Set the Datasets to query. Leave it empty to query all the datasets.
     [array]
   - `filterCombination`: string enum: `and`, `or`, `AND`, `OR` — Set a Flag to describe how to combine the filters on the query.

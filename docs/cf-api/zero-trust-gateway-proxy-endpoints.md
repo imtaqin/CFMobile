@@ -6,7 +6,7 @@
 
 List proxy endpoints
 
-operationId: `zero-trust-gateway-proxy-endpoints-list-proxy-endpoints`
+operationId: `zero-trust-gateway-proxy-endpoints-list-proxy-endpoints` · query: `filter`, `search`, `order_by`, `direction`
 
 **Response** 200 → `result`
 

@@ -17,6 +17,7 @@ operationId: `list_cnis` · query: `slot`, `tunnel_id`, `cursor`, `limit`
     - `customer_asn`: integer **required** — ASN used on the customer end of the BGP session
     - `extra_prefixes`: string[] **required** — Extra set of static prefixes to advertise to the customer's end of the session
     - `md5_key`: string — MD5 key to use for session authentication.
+  - `bgp_mode`: string enum: `dynamic_route_exchange`, `advertise_only` — The BGP mode for a CNI.
   - `cust_ip`: string **required** — Customer end of the point-to-point link
   - `id`: string **required**
   - `interconnect`: string **required** — Interconnect identifier hosting this CNI
@@ -55,6 +56,7 @@ operationId: `create_cni`
   - `extra_prefixes`: string[] **required** — Extra set of static prefixes to advertise to the customer's end of the session
     [array]
   - `md5_key`: string — MD5 key to use for session authentication.
+- `bgp_mode`: string enum: `dynamic_route_exchange`, `advertise_only` — The BGP mode for a CNI.
 - `cust_ip`: string **required** — Customer end of the point-to-point link
 - `id`: string **required**
 - `interconnect`: string **required** — Interconnect identifier hosting this CNI
@@ -84,6 +86,7 @@ operationId: `get_cni`
   - `extra_prefixes`: string[] **required** — Extra set of static prefixes to advertise to the customer's end of the session
     [array]
   - `md5_key`: string — MD5 key to use for session authentication.
+- `bgp_mode`: string enum: `dynamic_route_exchange`, `advertise_only` — The BGP mode for a CNI.
 - `cust_ip`: string **required** — Customer end of the point-to-point link
 - `id`: string **required**
 - `interconnect`: string **required** — Interconnect identifier hosting this CNI
@@ -107,6 +110,7 @@ operationId: `update_cni`
   - `extra_prefixes`: string[] **required** — Extra set of static prefixes to advertise to the customer's end of the session
     [array]
   - `md5_key`: string — MD5 key to use for session authentication.
+- `bgp_mode`: string enum: `dynamic_route_exchange`, `advertise_only` — The BGP mode for a CNI.
 - `cust_ip`: string **required** — Customer end of the point-to-point link
 - `id`: string **required**
 - `interconnect`: string **required** — Interconnect identifier hosting this CNI
@@ -124,6 +128,7 @@ operationId: `update_cni`
   - `extra_prefixes`: string[] **required** — Extra set of static prefixes to advertise to the customer's end of the session
     [array]
   - `md5_key`: string — MD5 key to use for session authentication.
+- `bgp_mode`: string enum: `dynamic_route_exchange`, `advertise_only` — The BGP mode for a CNI.
 - `cust_ip`: string **required** — Customer end of the point-to-point link
 - `id`: string **required**
 - `interconnect`: string **required** — Interconnect identifier hosting this CNI

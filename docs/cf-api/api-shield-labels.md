@@ -4,7 +4,7 @@
 
 ## GET /zones/{zone_id}/api_gateway/labels
 
-Retrieve all labels
+List operation labels
 
 operationId: `api-shield-labels-get-labels` · query: `page`, `per_page`, `order`, `direction`, `source`, `filter`, `with_mapped_resource_counts`
 
@@ -21,7 +21,7 @@ operationId: `api-shield-labels-get-labels` · query: `page`, `per_page`, `order
 
 ## GET /zones/{zone_id}/api_gateway/labels/managed/{name}
 
-Retrieve managed label
+Get a managed operation label
 
 operationId: `api-shield-labels-get-managed-label` · query: `with_mapped_resource_counts`
 
@@ -34,11 +34,11 @@ operationId: `api-shield-labels-get-managed-label` · query: `with_mapped_resour
 - `name`: string **required** — The name of the label
 - `source`: string **required** enum: `user`, `managed` — * `user` - label is owned by the user
 - `mapped_resources`: object — Provides counts of what resources are linked to this label
-- `source`: any
+- `source`: string
 
 ## PUT /zones/{zone_id}/api_gateway/labels/managed/{name}/resources/operation
 
-Replace operation(s) attached to a managed label
+Replace operations attached to a managed label
 
 operationId: `api-shield-labels-replace-operations-attached-to-managed-label`
 
@@ -57,11 +57,11 @@ operationId: `api-shield-labels-replace-operations-attached-to-managed-label`
 - `name`: string **required** — The name of the label
 - `source`: string **required** enum: `user`, `managed` — * `user` - label is owned by the user
 - `mapped_resources`: object — Provides counts of what resources are linked to this label
-- `source`: any
+- `source`: string
 
 ## DELETE /zones/{zone_id}/api_gateway/labels/user
 
-Delete user labels
+Delete user-defined operation labels
 
 operationId: `api-shield-labels-delete-user-labels`
 
@@ -82,7 +82,7 @@ string
 
 ## POST /zones/{zone_id}/api_gateway/labels/user
 
-Create user labels
+Create user-defined operation labels
 
 operationId: `api-shield-labels-create-user-labels`
 
@@ -105,7 +105,7 @@ operationId: `api-shield-labels-create-user-labels`
 
 ## DELETE /zones/{zone_id}/api_gateway/labels/user/{name}
 
-Delete user label
+Delete a user-defined operation label
 
 operationId: `api-shield-delete-user-label`
 
@@ -120,7 +120,7 @@ operationId: `api-shield-delete-user-label`
 
 ## GET /zones/{zone_id}/api_gateway/labels/user/{name}
 
-Retrieve user label
+Get a user-defined operation label
 
 operationId: `api-shield-labels-get-user-label` · query: `with_mapped_resource_counts`
 
@@ -136,7 +136,7 @@ operationId: `api-shield-labels-get-user-label` · query: `with_mapped_resource_
 
 ## PATCH /zones/{zone_id}/api_gateway/labels/user/{name}
 
-Patch user label
+Edit a user-defined operation label
 
 operationId: `api-shield-patch-user-label`
 
@@ -156,7 +156,7 @@ operationId: `api-shield-patch-user-label`
 
 ## PUT /zones/{zone_id}/api_gateway/labels/user/{name}
 
-Update user label
+Update a user-defined operation label
 
 operationId: `api-shield-put-user-label`
 
@@ -176,7 +176,7 @@ operationId: `api-shield-put-user-label`
 
 ## PUT /zones/{zone_id}/api_gateway/labels/user/{name}/resources/operation
 
-Replace operation(s) attached to a user label
+Replace operations attached to a user-defined label
 
 operationId: `api-shield-labels-replace-operations-attached-to-user-label`
 
@@ -198,7 +198,7 @@ operationId: `api-shield-labels-replace-operations-attached-to-user-label`
 
 ## DELETE /zones/{zone_id}/api_gateway/operations/{operation_id}/labels
 
-Remove label(s) on an operation in endpoint management
+Remove labels from a web or API operation
 
 operationId: `api-shield-operations-delete-labels-from-operation`
 
@@ -227,7 +227,7 @@ operationId: `api-shield-operations-delete-labels-from-operation`
 
 ## POST /zones/{zone_id}/api_gateway/operations/{operation_id}/labels
 
-Attach label(s) on an operation in endpoint management
+Attach labels to a web or API operation
 
 operationId: `api-shield-operations-post-labels-to-operation`
 
@@ -256,7 +256,7 @@ operationId: `api-shield-operations-post-labels-to-operation`
 
 ## PUT /zones/{zone_id}/api_gateway/operations/{operation_id}/labels
 
-Replace label(s) on an operation in endpoint management
+Replace labels on a web or API operation
 
 operationId: `api-shield-operations-put-labels-to-operation`
 
@@ -285,7 +285,7 @@ operationId: `api-shield-operations-put-labels-to-operation`
 
 ## DELETE /zones/{zone_id}/api_gateway/operations/labels
 
-Bulk remove label(s) on operation(s) in endpoint management
+Remove labels from web or API operations
 
 operationId: `api-shield-operations-bulk-delete-labels-to-operations`
 
@@ -320,7 +320,7 @@ operationId: `api-shield-operations-bulk-delete-labels-to-operations`
 
 ## POST /zones/{zone_id}/api_gateway/operations/labels
 
-Bulk attach label(s) on operation(s) in endpoint management
+Attach labels to web or API operations
 
 operationId: `api-shield-operations-bulk-post-labels-to-operations`
 
@@ -355,7 +355,7 @@ operationId: `api-shield-operations-bulk-post-labels-to-operations`
 
 ## PUT /zones/{zone_id}/api_gateway/operations/labels
 
-Bulk replace label(s) on operation(s) in endpoint management
+Replace labels on web or API operations
 
 operationId: `api-shield-operations-bulk-put-labels-to-operations`
 
