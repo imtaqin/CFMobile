@@ -7,6 +7,16 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '1.12.0',
+    date: '2026-11-09',
+    highlights: [
+      'Add many Worker secrets at once by pasting KEY=value lines',
+      'Billing & usage: your Cloudflare cost broken down by service',
+      'Zero Trust devices: view enrolled WARP devices, revoke or remove them',
+      'Search the web through an AI Gateway, right from the app',
+    ],
+  },
+  {
     version: '1.11.1',
     date: '2026-11-09',
     highlights: [],
