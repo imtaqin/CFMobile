@@ -62,6 +62,8 @@ export default function WorkerDetailScreen() {
   const [showSecret, setShowSecret] = useState(false);
   const [secretName, setSecretName] = useState('');
   const [secretValue, setSecretValue] = useState('');
+  const [bulkSecrets, setBulkSecrets] = useState(false);
+  const [bulkText, setBulkText] = useState('');
 
   const [showCron, setShowCron] = useState(false);
   const [cronExpr, setCronExpr] = useState('');
@@ -181,6 +183,48 @@ export default function WorkerDetailScreen() {
     } catch (e: any) {
       setSubdomain(prev);
       Alert.alert(t('common.error'), errMsg(e));
+    }
+  };
+
+  const closeSecretSheet = () => {
+    setShowSecret(false);
+    setSecretName('');
+    setSecretValue('');
+    setBulkText('');
+    setBulkSecrets(false);
+  };
+
+  /** Parse "KEY=value" lines (blank lines and # comments skipped) into a map. */
+  const parsedBulk = (): Record<string, string> => {
+    const map: Record<string, string> = {};
+    for (const line of bulkText.split('\n')) {
+      const trimmed = line.trim();
+      if (!trimmed || trimmed.startsWith('#')) continue;
+      const eq = trimmed.indexOf('=');
+      if (eq <= 0) continue;
+      const key = trimmed.slice(0, eq).trim();
+      if (key) map[key] = trimmed.slice(eq + 1);
+    }
+    return map;
+  };
+
+  const submitBulkSecrets = async () => {
+    if (!accountId || !script) return;
+    const map = parsedBulk();
+    const names = Object.keys(map);
+    if (!names.length) return;
+    setSaving(true);
+    try {
+      await api.patchWorkerSecretsBulk(accountId, script, map);
+      setSecrets((prev) => [
+        ...prev.filter((s) => !names.includes(s.name)),
+        ...names.map((n) => ({ name: n, type: 'secret_text' as const })),
+      ]);
+      closeSecretSheet();
+    } catch (e: any) {
+      Alert.alert(t('common.error'), errMsg(e));
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -477,17 +521,41 @@ export default function WorkerDetailScreen() {
       {/* Add secret */}
       <Sheet
         visible={showSecret}
-        onClose={() => setShowSecret(false)}
-        title={t('worker.add_secret')}
+        onClose={closeSecretSheet}
+        title={bulkSecrets ? t('worker.add_secrets_bulk') : t('worker.add_secret')}
         footer={
           <Button
             title={t('common.save')}
-            onPress={submitSecret}
+            onPress={bulkSecrets ? submitBulkSecrets : submitSecret}
             loading={saving}
-            disabled={!secretName.trim() || !secretValue}
+            disabled={bulkSecrets ? Object.keys(parsedBulk()).length === 0 : (!secretName.trim() || !secretValue)}
           />
         }
       >
+        <Group>
+          <ToggleRow
+            title={t('worker.bulk_secrets')}
+            subtitle={t('worker.bulk_secrets_hint')}
+            value={bulkSecrets}
+            onValueChange={setBulkSecrets}
+          />
+        </Group>
+        {bulkSecrets ? (
+          <Field
+            label={t('worker.secrets')}
+            placeholder={'API_KEY=abc123\nDB_URL=postgres://…'}
+            value={bulkText}
+            onChangeText={setBulkText}
+            autoCapitalize="none"
+            autoCorrect={false}
+            spellCheck={false}
+            textAlignVertical="top"
+            multiline
+            mono
+            style={styles.bulkInput}
+          />
+        ) : (
+          <>
         <Field
           label={t('worker.secret_name')}
           placeholder="API_KEY"
@@ -506,6 +574,8 @@ export default function WorkerDetailScreen() {
           autoCorrect={false}
           secureTextEntry
         />
+          </>
+        )}
       </Sheet>
 
       {/* Add cron */}
@@ -604,6 +674,7 @@ const styles = StyleSheet.create({
   editorActions: { flexDirection: 'row', justifyContent: 'flex-end', marginBottom: Spacing.sm },
   editor: { minHeight: 300, fontSize: 12 },
   editorHint: { fontSize: FontSize.xs, marginTop: Spacing.sm },
+  bulkInput: { minHeight: 140, fontSize: 12 },
   code: {
     fontSize: 12,
     fontFamily: 'monospace',

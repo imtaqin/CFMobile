@@ -802,7 +802,10 @@
     "save_code": "Enregistrer le code ?",
     "save_code_confirm": "Seul le code est remplacé — vos liaisons, variables et secrets sont conservés.",
     "code_saved": "Code mis à jour.",
-    "multi_module_note": "Ce Worker comporte plusieurs modules, il ne peut donc pas être modifié ici. Déployez-le à partir de votre chaîne d'outils."
+    "multi_module_note": "Ce Worker comporte plusieurs modules, il ne peut donc pas être modifié ici. Déployez-le à partir de votre chaîne d'outils.",
+    "add_secrets_bulk": "Ajouter des secrets",
+    "bulk_secrets": "Collez-en plusieurs à la fois",
+    "bulk_secrets_hint": "Une CLÉ=valeur par ligne"
   },
   "health_checks": {
     "title": "Vérifications de santé",

@@ -802,7 +802,10 @@
     "save_code": "Lưu mã?",
     "save_code_confirm": "Chỉ có mã được thay thế - các ràng buộc, biến và bí mật của bạn được giữ nguyên.",
     "code_saved": "Đã cập nhật mã.",
-    "multi_module_note": "Worker này có nhiều module nên không thể chỉnh sửa ở đây. Triển khai nó từ chuỗi công cụ của bạn."
+    "multi_module_note": "Worker này có nhiều module nên không thể chỉnh sửa ở đây. Triển khai nó từ chuỗi công cụ của bạn.",
+    "add_secrets_bulk": "Thêm bí mật",
+    "bulk_secrets": "Dán nhiều cái cùng một lúc",
+    "bulk_secrets_hint": "Một KEY=giá trị trên mỗi dòng"
   },
   "health_checks": {
     "title": "Kiểm tra tình trạng",

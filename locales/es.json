@@ -802,7 +802,10 @@
     "save_code": "¿Guardar código?",
     "save_code_confirm": "Sólo se reemplaza el código: se conservan sus enlaces, variables y secretos.",
     "code_saved": "Código actualizado.",
-    "multi_module_note": "Este trabajador tiene varios módulos, por lo que no se puede editar aquí. Implementarlo desde su cadena de herramientas."
+    "multi_module_note": "Este trabajador tiene varios módulos, por lo que no se puede editar aquí. Implementarlo desde su cadena de herramientas.",
+    "add_secrets_bulk": "Agregar secretos",
+    "bulk_secrets": "Pega varios a la vez",
+    "bulk_secrets_hint": "Una CLAVE = valor por línea"
   },
   "health_checks": {
     "title": "Comprobaciones de estado",

@@ -802,7 +802,10 @@
     "save_code": "Kod kaydedilsin mi?",
     "save_code_confirm": "Yalnızca kod değiştirilir; bağlantılarınız, değişkenleriniz ve sırlarınız korunur.",
     "code_saved": "Kod güncellendi.",
-    "multi_module_note": "Bu İşçinin çeşitli modülleri olduğundan burada düzenlenemez. Araç zincirinizden dağıtın."
+    "multi_module_note": "Bu İşçinin çeşitli modülleri olduğundan burada düzenlenemez. Araç zincirinizden dağıtın.",
+    "add_secrets_bulk": "Gizli dizi ekle",
+    "bulk_secrets": "Aynı anda birkaçını yapıştırın",
+    "bulk_secrets_hint": "Bir ANAHTAR=satır başına değer"
   },
   "health_checks": {
     "title": "Sağlık Kontrolleri",

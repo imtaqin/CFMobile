@@ -802,7 +802,10 @@
     "save_code": "코드를 저장하시겠습니까?",
     "save_code_confirm": "코드만 교체되며 바인딩, 변수 및 비밀은 유지됩니다.",
     "code_saved": "코드가 업데이트되었습니다.",
-    "multi_module_note": "이 작업자에는 여러 모듈이 있으므로 여기서 편집할 수 없습니다. 도구 체인에서 배포하세요."
+    "multi_module_note": "이 작업자에는 여러 모듈이 있으므로 여기서 편집할 수 없습니다. 도구 체인에서 배포하세요.",
+    "add_secrets_bulk": "비밀 추가",
+    "bulk_secrets": "한 번에 여러 개 붙여넣기",
+    "bulk_secrets_hint": "한 줄에 하나의 KEY=값"
   },
   "health_checks": {
     "title": "상태 확인",

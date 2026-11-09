@@ -1060,6 +1060,15 @@ export async function deleteWorkerSecret(accountId: string, scriptName: string, 
   return del(`/accounts/${accountId}/workers/scripts/${scriptName}/secrets/${name}`);
 }
 
+/**
+ * Create or overwrite several secrets in one call — a map of name → value.
+ * Each becomes a `secret_text` binding; existing names are overwritten. Up to
+ * 100 per request.
+ */
+export async function patchWorkerSecretsBulk(accountId: string, scriptName: string, secrets: Record<string, string>): Promise<CFResponse<WorkerSecret[]>> {
+  return patch(`/accounts/${accountId}/workers/scripts/${scriptName}/secrets-bulk`, { secrets });
+}
+
 export async function getWorkerSchedules(accountId: string, scriptName: string): Promise<CFResponse<{ schedules: WorkerSchedule[] }>> {
   return get(`/accounts/${accountId}/workers/scripts/${scriptName}/schedules`);
 }

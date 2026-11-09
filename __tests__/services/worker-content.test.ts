@@ -102,3 +102,18 @@ describe('parseWorkerModules', () => {
     expect(modules.map((m) => m.name)).toEqual(['index.js', 'util.js']);
   });
 });
+
+describe('patchWorkerSecretsBulk', () => {
+  it('PATCHes the /secrets-bulk endpoint with a name->value map', async () => {
+    let body: any = null;
+    server.use(
+      rest.patch(`${API_BASE}/accounts/${accountId}/workers/scripts/${script}/secrets-bulk`, async (req, res, ctx) => {
+        body = await req.json();
+        return res(ctx.json(cfResponse([{ name: 'A', type: 'secret_text' }, { name: 'B', type: 'secret_text' }])));
+      })
+    );
+    const res = await api.patchWorkerSecretsBulk(accountId, script, { A: '1', B: '2' });
+    expect(body).toEqual({ secrets: { A: '1', B: '2' } });
+    expect(res.result).toHaveLength(2);
+  });
+});
