@@ -26,9 +26,6 @@ import {
 /** A cron expression has exactly 5 whitespace-separated fields. */
 const isValidCron = (s: string) => s.trim().split(/\s+/).length === 5;
 
-/** A multi-module Worker comes back as a multipart body — not editable inline. */
-const isMultiModule = (c: string) => /Content-Disposition:\s*form-data/i.test(c);
-
 /** ES-module Workers export a default handler; service-worker ones add a fetch listener. */
 const detectModuleSyntax = (c: string) =>
   /\bexport\s+(default|\{|async|function|const|let|var|class)/.test(c) ||
@@ -59,6 +56,8 @@ export default function WorkerDetailScreen() {
   const [showEditor, setShowEditor] = useState(false);
   const [draftCode, setDraftCode] = useState('');
   const [moduleSyntax, setModuleSyntax] = useState(true);
+  const [moduleName, setModuleName] = useState('worker.js');
+  const [moduleCount, setModuleCount] = useState(1);
 
   const [showSecret, setShowSecret] = useState(false);
   const [secretName, setSecretName] = useState('');
@@ -103,8 +102,15 @@ export default function WorkerDetailScreen() {
     setShowCode(true);
     if (content !== null) return;
     try {
-      const c = await api.getWorkerContent(accountId, script);
-      setContent(c);
+      const raw = await api.getWorkerContent(accountId, script);
+      const { modules, multipart } = api.parseWorkerModules(raw);
+      const main = modules[0];
+      // Show the (single) module's own source, not the raw multipart envelope.
+      setContent(main ? main.content : raw);
+      setModuleCount(modules.length);
+      if (main?.name) setModuleName(main.name);
+      // A multipart bundle is an ES-module Worker; plain text we sniff.
+      setModuleSyntax(multipart || detectModuleSyntax(main?.content ?? raw));
     } catch (e: any) {
       setContentError(errMsg(e));
     }
@@ -119,7 +125,6 @@ export default function WorkerDetailScreen() {
   const openEditor = () => {
     if (content == null) return;
     setDraftCode(content);
-    setModuleSyntax(detectModuleSyntax(content));
     setShowEditor(true);
   };
 
@@ -153,7 +158,8 @@ export default function WorkerDetailScreen() {
     const fileUri = `${FileSystem.cacheDirectory}cf-worker-${Date.now()}.js`;
     try {
       await FileSystem.writeAsStringAsync(fileUri, draftCode);
-      await api.updateWorkerContent(accountId, script, { fileUri, fileName: 'worker.js', moduleSyntax });
+      const fileName = /\.(js|mjs|ts)$/.test(moduleName) ? moduleName : 'worker.js';
+      await api.updateWorkerContent(accountId, script, { fileUri, fileName, moduleSyntax });
       setContent(draftCode);
       setShowEditor(false);
       Alert.alert(t('common.success'), t('worker.code_saved'));
@@ -358,7 +364,7 @@ export default function WorkerDetailScreen() {
         ) : (
           <Card style={styles.codeCard}>
             <View style={styles.codeActions}>
-              {!isMultiModule(content) && (
+              {moduleCount <= 1 && (
                 <Button
                   title={t('worker.edit_code')}
                   variant="secondary"
@@ -375,7 +381,7 @@ export default function WorkerDetailScreen() {
                 onPress={copyCode}
               />
             </View>
-            {isMultiModule(content) && (
+            {moduleCount > 1 && (
               <Text style={[styles.multiNote, { color: colors.textTertiary }]}>{t('worker.multi_module_note')}</Text>
             )}
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>

@@ -974,6 +974,39 @@ export async function getWorkerContent(accountId: string, scriptName: string): P
   return typeof res.data === 'string' ? res.data : String(res.data ?? '');
 }
 
+export interface WorkerModule {
+  name: string;
+  content: string;
+}
+
+/**
+ * Cloudflare returns an ES-module Worker's code (from `getWorkerContent`) as a
+ * multipart/form-data bundle — even a single-file `export default` Worker, and
+ * the dashboard's default "Hello World" template is one. Service-worker scripts
+ * come back as plain text. This splits the bundle into its modules so a
+ * single-module Worker is still editable; only a genuine multi-file Worker
+ * (`modules.length > 1`) should be treated as uneditable inline.
+ */
+export function parseWorkerModules(raw: string): { modules: WorkerModule[]; multipart: boolean } {
+  const trimmed = raw.replace(/^[\r\n]+/, '');
+  if (!/^--\S+\r?\n[\s\S]*?Content-Disposition:/i.test(trimmed)) {
+    return { modules: [{ name: '', content: raw }], multipart: false };
+  }
+  const boundary = trimmed.slice(0, trimmed.search(/\r?\n/)).trim().replace(/^--/, '');
+  const modules: WorkerModule[] = [];
+  for (const chunk of trimmed.split('--' + boundary)) {
+    const part = chunk.replace(/^[\r\n]+/, '');
+    if (!part || part.startsWith('--')) continue; // preamble or closing boundary
+    const headerEnd = part.search(/\r?\n\r?\n/);
+    if (headerEnd === -1) continue;
+    const name = part.slice(0, headerEnd).match(/name="([^"]+)"/i);
+    if (!name) continue;
+    const body = part.slice(headerEnd).replace(/^\r?\n\r?\n/, '').replace(/\r?\n$/, '');
+    modules.push({ name: name[1], content: body });
+  }
+  return modules.length ? { modules, multipart: true } : { modules: [{ name: '', content: raw }], multipart: false };
+}
+
 /**
  * Replace a Worker's code while keeping everything else. This writes the
  * `/content` sub-resource rather than re-uploading the whole script, so the

@@ -51,3 +51,54 @@ describe('updateWorkerContent', () => {
     ).rejects.toBeTruthy();
   });
 });
+
+describe('parseWorkerModules', () => {
+  const CRLF = '\r\n';
+
+  it('treats a plain service-worker script as one module', () => {
+    const raw = "addEventListener('fetch', e => e.respondWith(new Response('hi')))";
+    const { modules, multipart } = api.parseWorkerModules(raw);
+    expect(multipart).toBe(false);
+    expect(modules).toHaveLength(1);
+    expect(modules[0].content).toBe(raw);
+  });
+
+  it('unwraps a single-module ES-module bundle (the #12 lockout case)', () => {
+    const code = 'export default { fetch() { return new Response("hi") } }';
+    const raw = [
+      '--worker-boundary',
+      'Content-Disposition: form-data; name="worker.js"; filename="worker.js"',
+      'Content-Type: application/javascript+module',
+      '',
+      code,
+      '--worker-boundary--',
+      '',
+    ].join(CRLF);
+    const { modules, multipart } = api.parseWorkerModules(raw);
+    expect(multipart).toBe(true);
+    expect(modules).toHaveLength(1); // not flagged multi-module -> editor stays open
+    expect(modules[0].name).toBe('worker.js');
+    expect(modules[0].content).toBe(code);
+  });
+
+  it('reports more than one module for a real multi-file Worker', () => {
+    const raw = [
+      '--b',
+      'Content-Disposition: form-data; name="index.js"; filename="index.js"',
+      'Content-Type: application/javascript+module',
+      '',
+      "import u from './util.js'; export default { fetch: u }",
+      '--b',
+      'Content-Disposition: form-data; name="util.js"; filename="util.js"',
+      'Content-Type: application/javascript+module',
+      '',
+      'export default () => new Response("x")',
+      '--b--',
+      '',
+    ].join(CRLF);
+    const { modules, multipart } = api.parseWorkerModules(raw);
+    expect(multipart).toBe(true);
+    expect(modules).toHaveLength(2);
+    expect(modules.map((m) => m.name)).toEqual(['index.js', 'util.js']);
+  });
+});
