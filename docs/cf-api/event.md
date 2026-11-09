@@ -1,12 +1,79 @@
 # Event
 
-31 endpoints.
+35 endpoints.
 
 ## GET /accounts/{account_id}/cloudforce-one/events
 
-Filter and list events
+List events
 
-operationId: `get_EventListGet` · query: `cursor`, `search`, `page`, `pageSize`, `orderBy`, `order`, `datasetId`, `forceRefresh`, `format`, `source`, `cache`
+operationId: `get_EventListGet` · query: `cursor`, `search`, `searchBranches`, `page`, `pageSize`, `orderBy`, `order`, `datasetId`, `forceRefresh`, `format`, `cache`
+
+**Response** 200 → `result`
+
+[array of]
+- `attacker`: string **required**
+- `attackerCountry`: string **required**
+- `attackerCountryAlpha3`: string **required**
+- `category`: string **required**
+- `datasetId`: string **required**
+- `date`: string **required**
+- `event`: string **required**
+- `hasChildren`: boolean **required**
+- `indicator`: string **required**
+- `indicatorType`: string **required**
+- `indicatorTypeId`: number **required**
+- `insight`: string
+- `killChain`: number **required**
+- `mitreAttack`: string[] **required**
+  [array]
+- `mitreCapec`: string[] **required**
+  [array]
+- `numReferenced`: number **required**
+- `numReferences`: number **required**
+- `rawId`: string **required**
+- `referenced`: string[] **required**
+  [array]
+- `referencedIds`: number[] **required**
+  [array]
+- `references`: string[] **required**
+  [array]
+- `referencesIds`: number[] **required**
+  [array]
+- `releasabilityId`: string
+- `tags`: string[] **required**
+  [array]
+- `targetCountry`: string **required**
+- `targetCountryAlpha3`: string **required**
+- `targetIndustry`: string **required**
+- `tlp`: string **required**
+- `uuid`: string **required**
+
+## POST /accounts/{account_id}/cloudforce-one/events
+
+Search events
+
+operationId: `post_EventList` · query: `forceRefresh`, `format`, `cache`
+
+**Request** (application/json)
+
+- `cursor`: string — Cursor for pagination. When provided, filters are embedded in the cursor so you only need to pass cursor and pageSize.
+- `datasetId`: string[] — Dataset UUIDs to query, or one standalone scope value: 'all'/'*' or 'operational' for readable intelligence datasets (isAnalytics=false), or
+  [array]
+- `order`: string enum: `asc`, `desc`
+- `orderBy`: string
+- `page`: number
+- `pageSize`: number
+- `search`: object[] default: `` — Structured search as a JSON array of {field, op, value} objects, AND'd together. Max 10 conditions per request. `in` and `notIn` take an arr
+  [array of]
+  - `field`: string **required** enum: `attacker`, `attackerCountry`, `category`, `createdAt`, `date`, `event`, `indicator`, `indicatorType`
+  - `op`: string **required** enum: `equals`, `not`, `gt`, `gte`, `lt`, `lte`, `like`, `contains`
+  - `value`: string **required**
+- `searchBranches`: array[] — OR branches of structured search filters. Filters within a branch are AND'd, branches are OR'd, and the result is AND'd with `search`: `AND(
+  [array of]
+  [array of]
+  - `field`: string **required** enum: `attacker`, `attackerCountry`, `category`, `createdAt`, `date`, `event`, `indicator`, `indicatorType`
+  - `op`: string **required** enum: `equals`, `not`, `gt`, `gte`, `lt`, `lte`, `like`, `contains`
+  - `value`: string **required**
 
 **Response** 200 → `result`
 
@@ -50,9 +117,9 @@ operationId: `get_EventListGet` · query: `cursor`, `search`, `page`, `pageSize`
 
 ## DELETE /accounts/{account_id}/cloudforce-one/events/{dataset_id}/delete
 
-Deletes one or more events
+Delete events (legacy)
 
-operationId: `delete_EventDelete` · query: `eventIds`
+operationId: `delete_LegacyEventDelete` · query: `eventIds`
 
 **Response** 200 → `result`
 
@@ -60,7 +127,7 @@ number
 
 ## GET /accounts/{account_id}/cloudforce-one/events/{event_id}
 
-Reads an event
+Get an event (legacy)
 
 operationId: `get_EventReadDeprecated`
 
@@ -105,7 +172,7 @@ operationId: `get_EventReadDeprecated`
 
 ## PATCH /accounts/{account_id}/cloudforce-one/events/{event_id}
 
-Updates an event
+Update an event
 
 operationId: `patch_EventUpdate`
 
@@ -170,7 +237,7 @@ operationId: `patch_EventUpdate`
 
 ## POST /accounts/{account_id}/cloudforce-one/events/{event_id}
 
-Updates an event
+Update an event
 
 operationId: `post_EventUpdate`
 
@@ -235,7 +302,7 @@ operationId: `post_EventUpdate`
 
 ## GET /accounts/{account_id}/cloudforce-one/events/{event_id}/raw/{raw_id}
 
-Reads data for a raw event
+Get raw event data by raw ID (legacy)
 
 operationId: `get_EventRawRead`
 
@@ -250,7 +317,7 @@ operationId: `get_EventRawRead`
 
 ## PATCH /accounts/{account_id}/cloudforce-one/events/{event_id}/raw/{raw_id}
 
-Updates a raw event
+Update raw event data by raw ID (legacy)
 
 operationId: `patch_EventRawUpdate`
 
@@ -267,7 +334,7 @@ operationId: `patch_EventRawUpdate`
 
 ## POST /accounts/{account_id}/cloudforce-one/events/{event_id}/raw/{raw_id}
 
-Updates a raw event
+Update raw event data by raw ID (legacy)
 
 operationId: `post_EventRawUpdate`
 
@@ -284,9 +351,9 @@ operationId: `post_EventRawUpdate`
 
 ## GET /accounts/{account_id}/cloudforce-one/events/{event_id}/relationships
 
-Filter and list events related to specific event
+List related events (legacy)
 
-operationId: `get_EventRelationships` · query: `direction`, `maxDepth`, `relationshipTypes`, `indicatorTypeIds`, `datasetId`, `includeParent`, `page`, `pageSize`
+operationId: `get_LegacyEventRelationships` · query: `direction`, `maxDepth`, `relationshipTypes`, `indicatorTypeIds`, `datasetId`, `includeParent`, `page`, `pageSize`
 
 **Response** 200 → `result`
 
@@ -330,7 +397,7 @@ operationId: `get_EventRelationships` · query: `direction`, `maxDepth`, `relati
 
 ## GET /accounts/{account_id}/cloudforce-one/events/aggregate
 
-Aggregate events by single or multiple columns with optional date filtering
+Aggregate events
 
 operationId: `get_EventAggregate` · query: `aggregateBy`, `datasetId`, `startDate`, `endDate`, `groupByDate`, `limit`
 
@@ -346,9 +413,55 @@ operationId: `get_EventAggregate` · query: `aggregateBy`, `datasetId`, `startDa
   - `startDate`: string
 - `total`: number **required** — Total number of events in the aggregation
 
+## GET /accounts/{account_id}/cloudforce-one/events/by-id/{event_id}/relationships
+
+List related events
+
+operationId: `get_EventRelationships` · query: `direction`, `maxDepth`, `relationshipTypes`, `indicatorTypeIds`, `datasetId`, `includeParent`, `page`, `pageSize`
+
+**Response** 200 → `result`
+
+[array of]
+- `attacker`: string **required**
+- `attackerCountry`: string **required**
+- `attackerCountryAlpha3`: string **required**
+- `category`: string **required**
+- `datasetId`: string **required**
+- `date`: string **required**
+- `event`: string **required**
+- `hasChildren`: boolean **required**
+- `indicator`: string **required**
+- `indicatorType`: string **required**
+- `indicatorTypeId`: number **required**
+- `insight`: string
+- `killChain`: number **required**
+- `mitreAttack`: string[] **required**
+  [array]
+- `mitreCapec`: string[] **required**
+  [array]
+- `numReferenced`: number **required**
+- `numReferences`: number **required**
+- `rawId`: string **required**
+- `referenced`: string[] **required**
+  [array]
+- `referencedIds`: number[] **required**
+  [array]
+- `references`: string[] **required**
+  [array]
+- `referencesIds`: number[] **required**
+  [array]
+- `releasabilityId`: string
+- `tags`: string[] **required**
+  [array]
+- `targetCountry`: string **required**
+- `targetCountryAlpha3`: string **required**
+- `targetIndustry`: string **required**
+- `tlp`: string **required**
+- `uuid`: string **required**
+
 ## POST /accounts/{account_id}/cloudforce-one/events/create
 
-Creates a new event
+Create an event
 
 operationId: `post_EventCreate`
 
@@ -372,6 +485,11 @@ operationId: `post_EventCreate`
   - `data`: object **required**
   - `source`: string
   - `tlp`: string
+- `source`: object — Controlled provenance for an event and its indicators derived from a Threat Signals article.
+  - `resourceId`: string **required**
+  - `resourceType`: string **required** enum: `article`
+  - `system`: string **required** enum: `threat-signals`
+  - `title`: string — Threat Signals article title; null for historical provenance without a stored title.
 - `tags`: string[]
   [array]
 - `targetCountry`: string
@@ -419,7 +537,7 @@ operationId: `post_EventCreate`
 
 ## POST /accounts/{account_id}/cloudforce-one/events/create/bulk
 
-Creates bulk events
+Create events in bulk
 
 operationId: `post_EventCreateBulk`
 
@@ -472,7 +590,7 @@ operationId: `post_EventCreateBulk`
 
 ## POST /accounts/{account_id}/cloudforce-one/events/create/bulk/relationships
 
-Creates bulk DOS event with relationships and indicators
+Create events with relationships in bulk (legacy)
 
 operationId: `post_DOSEventCreateBulkWithRelationships`
 
@@ -518,7 +636,7 @@ operationId: `post_DOSEventCreateBulkWithRelationships`
 
 ## POST /accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/copy
 
-Copies specified events from one dataset to another dataset
+Copy events to another dataset
 
 operationId: `post_EventCopyToNewDS` · query: `keepRawData`
 
@@ -540,7 +658,7 @@ operationId: `post_EventCopyToNewDS` · query: `keepRawData`
 
 ## GET /accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/events/{event_id}
 
-Reads an event
+Get an event
 
 operationId: `get_EventRead`
 
@@ -585,7 +703,7 @@ operationId: `get_EventRead`
 
 ## POST /accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/move
 
-Moves specified events from one dataset to another dataset
+Move events to another dataset
 
 operationId: `post_EventMoveToNewDS` · query: `keepRawData`
 
@@ -609,9 +727,34 @@ operationId: `post_EventMoveToNewDS` · query: `keepRawData`
 - `moved`: number **required** — Number of events successfully moved
 - `relationshipsCopied`: number **required** — Number of relationships successfully copied
 
+## DELETE /accounts/{account_id}/cloudforce-one/events/datasets/{dataset_id}/events
+
+Delete events
+
+operationId: `delete_EventDelete` · query: `eventIds`
+
+**Response** 200 → `result`
+
+number
+
+## GET /accounts/{account_id}/cloudforce-one/events/datasets/{dataset_id}/events/{event_id}/raw
+
+Get raw data for an event
+
+operationId: `get_EventRawReadDS`
+
+**Response** 200 → `result`
+
+- `accountId`: number **required**
+- `created`: string **required**
+- `data`: string **required**
+- `id`: number **required**
+- `source`: string **required**
+- `tlp`: string **required**
+
 ## DELETE /accounts/{account_id}/cloudforce-one/events/event_tag/{event_id}
 
-Removes a tag from an event
+Remove tags from an event (legacy)
 
 operationId: `delete_EventTagDelete`
 
@@ -626,7 +769,7 @@ operationId: `delete_EventTagDelete`
 
 ## POST /accounts/{account_id}/cloudforce-one/events/event_tag/{event_id}/create
 
-Adds a tag to an event
+Add tags to an event (legacy)
 
 operationId: `post_EventTagCreate`
 
@@ -641,7 +784,7 @@ operationId: `post_EventTagCreate`
 
 ## POST /accounts/{account_id}/cloudforce-one/events/graphql
 
-GraphQL endpoint for event aggregation
+Run a GraphQL aggregation over events
 
 operationId: `post_EventGraphQL`
 
@@ -653,7 +796,7 @@ operationId: `post_EventGraphQL`
 
 ## GET /accounts/{account_id}/cloudforce-one/events/queries
 
-List all saved event queries
+List saved event queries
 
 operationId: `get_EventQueryList`
 
@@ -661,16 +804,16 @@ operationId: `get_EventQueryList`
 
 [array of]
 - `account_id`: integer **required** — Account ID
-- `alert_enabled`: boolean **required** — Whether alerts are enabled
-- `alert_rollup_enabled`: boolean **required** — Whether alert rollup is enabled
+- `alert_enabled`: boolean **required** — Deprecated: saved-query alerting and rules were removed. Always false.
+- `alert_rollup_enabled`: boolean **required** — Deprecated: saved-query alerting and rules were removed. Always false.
 - `created_at`: string **required** — Creation timestamp
-- `custom_threat_feed_id`: integer — Intel Indicator Feed ID (numeric)
+- `custom_threat_feed_id`: integer — Deprecated: saved-query alerting and rules were removed. Always null.
 - `id`: integer **required** — Unique identifier for the saved query
 - `name`: string **required** — Name of the saved query
 - `query_json`: string **required** — JSON string containing the query parameters
-- `rule_enabled`: boolean **required** — Whether rule is enabled
-- `rule_list_id`: string — WAF rules list ID for blocking
-- `rule_scope`: string — Scope for the rule
+- `rule_enabled`: boolean **required** — Deprecated: saved-query alerting and rules were removed. Always false.
+- `rule_list_id`: string — Deprecated: saved-query alerting and rules were removed. Always null.
+- `rule_scope`: string — Deprecated: saved-query alerting and rules were removed. Always null.
 - `updated_at`: string **required** — Last update timestamp
 - `user_email`: string **required** — Email of the user who created the query
 
@@ -682,23 +825,23 @@ operationId: `delete_EventQueryDelete`
 
 ## GET /accounts/{account_id}/cloudforce-one/events/queries/{query_id}
 
-Read a saved event query
+Get a saved event query
 
 operationId: `get_EventQueryRead`
 
 **Response** 200 → `result`
 
 - `account_id`: integer **required** — Account ID
-- `alert_enabled`: boolean **required** — Whether alerts are enabled
-- `alert_rollup_enabled`: boolean **required** — Whether alert rollup is enabled
+- `alert_enabled`: boolean **required** — Deprecated: saved-query alerting and rules were removed. Always false.
+- `alert_rollup_enabled`: boolean **required** — Deprecated: saved-query alerting and rules were removed. Always false.
 - `created_at`: string **required** — Creation timestamp
-- `custom_threat_feed_id`: integer — Intel Indicator Feed ID (numeric)
+- `custom_threat_feed_id`: integer — Deprecated: saved-query alerting and rules were removed. Always null.
 - `id`: integer **required** — Unique identifier for the saved query
 - `name`: string **required** — Name of the saved query
 - `query_json`: string **required** — JSON string containing the query parameters
-- `rule_enabled`: boolean **required** — Whether rule is enabled
-- `rule_list_id`: string — WAF rules list ID for blocking
-- `rule_scope`: string — Scope for the rule
+- `rule_enabled`: boolean **required** — Deprecated: saved-query alerting and rules were removed. Always false.
+- `rule_list_id`: string — Deprecated: saved-query alerting and rules were removed. Always null.
+- `rule_scope`: string — Deprecated: saved-query alerting and rules were removed. Always null.
 - `updated_at`: string **required** — Last update timestamp
 - `user_email`: string **required** — Email of the user who created the query
 
@@ -710,26 +853,26 @@ operationId: `patch_EventQueryUpdate`
 
 **Request** (application/json)
 
-- `alert_enabled`: boolean — Enable alerts for this query
-- `alert_rollup_enabled`: boolean — Enable alert rollup for this query
+- `alert_enabled`: boolean — Deprecated and ignored: saved-query alerting and rules were removed.
+- `alert_rollup_enabled`: boolean — Deprecated and ignored: saved-query alerting and rules were removed.
 - `name`: string — Unique name for the saved query
 - `query_json`: string — JSON string containing the query parameters
-- `rule_enabled`: boolean — Enable rule for this query
-- `rule_scope`: string — Scope for the rule
+- `rule_enabled`: boolean — Deprecated and ignored: saved-query alerting and rules were removed.
+- `rule_scope`: string — Deprecated and ignored: saved-query alerting and rules were removed.
 
 **Response** 200 → `result`
 
 - `account_id`: integer **required** — Account ID
-- `alert_enabled`: boolean **required** — Whether alerts are enabled
-- `alert_rollup_enabled`: boolean **required** — Whether alert rollup is enabled
+- `alert_enabled`: boolean **required** — Deprecated: saved-query alerting and rules were removed. Always false.
+- `alert_rollup_enabled`: boolean **required** — Deprecated: saved-query alerting and rules were removed. Always false.
 - `created_at`: string **required** — Creation timestamp
-- `custom_threat_feed_id`: integer — Intel Indicator Feed ID (numeric)
+- `custom_threat_feed_id`: integer — Deprecated: saved-query alerting and rules were removed. Always null.
 - `id`: integer **required** — Unique identifier for the saved query
 - `name`: string **required** — Name of the saved query
 - `query_json`: string **required** — JSON string containing the query parameters
-- `rule_enabled`: boolean **required** — Whether rule is enabled
-- `rule_list_id`: string — WAF rules list ID for blocking
-- `rule_scope`: string — Scope for the rule
+- `rule_enabled`: boolean **required** — Deprecated: saved-query alerting and rules were removed. Always false.
+- `rule_list_id`: string — Deprecated: saved-query alerting and rules were removed. Always null.
+- `rule_scope`: string — Deprecated: saved-query alerting and rules were removed. Always null.
 - `updated_at`: string **required** — Last update timestamp
 - `user_email`: string **required** — Email of the user who created the query
 
@@ -741,26 +884,26 @@ operationId: `post_EventQueryUpdate`
 
 **Request** (application/json)
 
-- `alert_enabled`: boolean — Enable alerts for this query
-- `alert_rollup_enabled`: boolean — Enable alert rollup for this query
+- `alert_enabled`: boolean — Deprecated and ignored: saved-query alerting and rules were removed.
+- `alert_rollup_enabled`: boolean — Deprecated and ignored: saved-query alerting and rules were removed.
 - `name`: string — Unique name for the saved query
 - `query_json`: string — JSON string containing the query parameters
-- `rule_enabled`: boolean — Enable rule for this query
-- `rule_scope`: string — Scope for the rule
+- `rule_enabled`: boolean — Deprecated and ignored: saved-query alerting and rules were removed.
+- `rule_scope`: string — Deprecated and ignored: saved-query alerting and rules were removed.
 
 **Response** 200 → `result`
 
 - `account_id`: integer **required** — Account ID
-- `alert_enabled`: boolean **required** — Whether alerts are enabled
-- `alert_rollup_enabled`: boolean **required** — Whether alert rollup is enabled
+- `alert_enabled`: boolean **required** — Deprecated: saved-query alerting and rules were removed. Always false.
+- `alert_rollup_enabled`: boolean **required** — Deprecated: saved-query alerting and rules were removed. Always false.
 - `created_at`: string **required** — Creation timestamp
-- `custom_threat_feed_id`: integer — Intel Indicator Feed ID (numeric)
+- `custom_threat_feed_id`: integer — Deprecated: saved-query alerting and rules were removed. Always null.
 - `id`: integer **required** — Unique identifier for the saved query
 - `name`: string **required** — Name of the saved query
 - `query_json`: string **required** — JSON string containing the query parameters
-- `rule_enabled`: boolean **required** — Whether rule is enabled
-- `rule_list_id`: string — WAF rules list ID for blocking
-- `rule_scope`: string — Scope for the rule
+- `rule_enabled`: boolean **required** — Deprecated: saved-query alerting and rules were removed. Always false.
+- `rule_list_id`: string — Deprecated: saved-query alerting and rules were removed. Always null.
+- `rule_scope`: string — Deprecated: saved-query alerting and rules were removed. Always null.
 - `updated_at`: string **required** — Last update timestamp
 - `user_email`: string **required** — Email of the user who created the query
 
@@ -772,34 +915,34 @@ operationId: `post_EventQueryCreate`
 
 **Request** (application/json)
 
-- `alert_enabled`: boolean **required** — Enable alerts for this query
-- `alert_rollup_enabled`: boolean **required** — Enable alert rollup for this query
+- `alert_enabled`: boolean default: `false` — Deprecated and ignored: saved-query alerting and rules were removed.
+- `alert_rollup_enabled`: boolean default: `false` — Deprecated and ignored: saved-query alerting and rules were removed.
 - `name`: string **required** — Unique name for the saved query
 - `query_json`: string **required** — JSON string containing the query parameters
-- `rule_enabled`: boolean **required** — Enable rule for this query
-- `rule_scope`: string — Scope for the rule
+- `rule_enabled`: boolean default: `false` — Deprecated and ignored: saved-query alerting and rules were removed.
+- `rule_scope`: string — Deprecated and ignored: saved-query alerting and rules were removed.
 
 **Response** 200 → `result`
 
 - `account_id`: integer **required** — Account ID
-- `alert_enabled`: boolean **required** — Whether alerts are enabled
-- `alert_rollup_enabled`: boolean **required** — Whether alert rollup is enabled
+- `alert_enabled`: boolean **required** — Deprecated: saved-query alerting and rules were removed. Always false.
+- `alert_rollup_enabled`: boolean **required** — Deprecated: saved-query alerting and rules were removed. Always false.
 - `created_at`: string **required** — Creation timestamp
-- `custom_threat_feed_id`: integer — Intel Indicator Feed ID (numeric)
+- `custom_threat_feed_id`: integer — Deprecated: saved-query alerting and rules were removed. Always null.
 - `id`: integer **required** — Unique identifier for the saved query
 - `name`: string **required** — Name of the saved query
 - `query_json`: string **required** — JSON string containing the query parameters
-- `rule_enabled`: boolean **required** — Whether rule is enabled
-- `rule_list_id`: string — WAF rules list ID for blocking
-- `rule_scope`: string — Scope for the rule
+- `rule_enabled`: boolean **required** — Deprecated: saved-query alerting and rules were removed. Always false.
+- `rule_list_id`: string — Deprecated: saved-query alerting and rules were removed. Always null.
+- `rule_scope`: string — Deprecated: saved-query alerting and rules were removed. Always null.
 - `updated_at`: string **required** — Last update timestamp
 - `user_email`: string **required** — Email of the user who created the query
 
 ## GET /accounts/{account_id}/cloudforce-one/events/raw/{dataset_id}/{event_id}
 
-Reads raw data for an event by UUID
+Get raw data for an event (legacy)
 
-operationId: `get_EventRawReadDS`
+operationId: `get_LegacyEventRawReadDS`
 
 **Response** 200 → `result`
 
@@ -812,7 +955,7 @@ operationId: `get_EventRawReadDS`
 
 ## DELETE /accounts/{account_id}/cloudforce-one/events/relate/{event_id}
 
-Removes an event reference
+Remove event references (legacy)
 
 operationId: `delete_EventReferenceDelete`
 
@@ -827,7 +970,7 @@ operationId: `delete_EventReferenceDelete`
 
 ## POST /accounts/{account_id}/cloudforce-one/events/relate/{event_id}/create
 
-Creates event references for a event
+Add event references (legacy)
 
 operationId: `post_EventReferenceCreate`
 
@@ -842,7 +985,7 @@ operationId: `post_EventReferenceCreate`
 
 ## POST /accounts/{account_id}/cloudforce-one/events/relationships/create
 
-Create a relationship between two events
+Create event relationships
 
 operationId: `post_CreateEventRelationship`
 
@@ -876,7 +1019,7 @@ operationId: `post_CreateEventRelationship`
 
 ## PATCH /accounts/{account_id}/cloudforce-one/events/update/bulk
 
-Bulk update events
+Update events in bulk
 
 operationId: `patch_EventUpdateBulk`
 
@@ -913,7 +1056,7 @@ operationId: `patch_EventUpdateBulk`
 
 ## POST /accounts/{account_id}/cloudforce-one/v2/events/graphql
 
-GraphQL endpoint for event aggregation
+Run a GraphQL aggregation over events (legacy)
 
 operationId: `post_EventGraphQLV2`
 

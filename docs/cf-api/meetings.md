@@ -1,6 +1,6 @@
 # Meetings
 
-12 endpoints.
+13 endpoints.
 
 ## GET /accounts/{account_id}/realtime/kit/{app_id}/meetings
 
@@ -54,7 +54,7 @@ operationId: `create_meeting`
     - `word_limit`: integer default: `500` — Sets the maximum number of words in the meeting summary.
   - `transcription`: object — Transcription Configurations
     - `keywords`: string[] — Adds specific terms to improve accurate detection during transcription.
-    - `language`: string enum: `en-US`, `en-IN`, `de`, `hi`, `sv`, `ru`, `pl`, `el` default: `en-US` — Specifies the language code for transcription to ensure accurate results.
+    - `language`: string enum: `en-US`, `en-IN`, `de`, `hi`, `sv`, `ru`, `pl`, `el` — Specifies the language code for transcription to ensure accurate results. If omitted, the language is auto-detected for post-meeting (Whispe
     - `profanity_filter`: boolean default: `false` — Control the inclusion of offensive language in transcriptions.
 - `live_stream_on_start`: boolean default: `false` — Specifies if the meeting should start getting livestreamed on start.
 - `persist_chat`: boolean default: `false` — If a meeting is set to persist_chat, meeting chat would remain for a week within the meeting space.
@@ -71,20 +71,9 @@ operationId: `create_meeting`
   - `realtimekit_bucket_config`: object
     - `enabled`: boolean **required** — Controls whether recordings are uploaded to RealtimeKit's bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expir
   - `storage_config`: object
-    - `access_key`: string — Access key of the storage medium. Access key is not required for the `gcs` storage media type.
-    - `auth_method`: string enum: `KEY`, `PASSWORD` — Authentication method used for "sftp" type storage medium
-    - `bucket`: string — Name of the storage medium's bucket.
-    - `host`: string — SSH destination server host for SFTP type storage medium
-    - `password`: string — SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the pas
-    - `path`: string — Path relative to the bucket root at which the recording will be placed.
-    - `port`: number — SSH destination server port for SFTP type storage medium
-    - `private_key`: string — Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY"
-    - `region`: string — Region of the storage medium.
-    - `secret`: string — Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
-    - `type`: string **required** enum: `aws`, `azure`, `digitalocean`, `gcs`, `sftp` — Type of storage media.
-    - `username`: string — SSH destination server username for SFTP type storage medium
+    - `type`: any enum: `gcs`
   - `video_config`: object
-    - `codec`: string enum: `H264`, `VP8` default: `H264` — Codec using which the recording will be encoded.
+    - `codec`: string enum: `H264`, `VP8`, `VP9` default: `H264` — Codec using which the recording will be encoded.
     - `export_file`: boolean default: `true` — Controls whether to export video file seperately
     - `height`: integer default: `720` — Height of the recording video in pixels
     - `watermark`: object — Watermark to be added to the recording
@@ -191,11 +180,11 @@ operationId: `update_meeting`
     - `word_limit`: integer default: `500` — Sets the maximum number of words in the meeting summary.
   - `transcription`: object — Transcription Configurations
     - `keywords`: string[] — Adds specific terms to improve accurate detection during transcription.
-    - `language`: string enum: `en-US`, `en-IN`, `de`, `hi`, `sv`, `ru`, `pl`, `el` default: `en-US` — Specifies the language code for transcription to ensure accurate results.
+    - `language`: string enum: `en-US`, `en-IN`, `de`, `hi`, `sv`, `ru`, `pl`, `el` — Specifies the language code for transcription to ensure accurate results. If omitted, the language is auto-detected for post-meeting (Whispe
     - `profanity_filter`: boolean default: `false` — Control the inclusion of offensive language in transcriptions.
-- `live_stream_on_start`: boolean default: `false` — Specifies if the meeting should start getting livestreamed on start.
-- `persist_chat`: boolean default: `false` — If a meeting is updated to persist_chat, meeting chat would remain for a week within the meeting space.
-- `record_on_start`: boolean default: `false` — Specifies if the meeting should start getting recorded as soon as someone joins the meeting.
+- `live_stream_on_start`: boolean — Specifies if the meeting should start getting livestreamed on start.
+- `persist_chat`: boolean — If a meeting is updated to persist_chat, meeting chat would remain for a week within the meeting space.
+- `record_on_start`: boolean — Specifies if the meeting should start getting recorded as soon as someone joins the meeting.
 - `recording_config`: object — Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKi
   - `audio_config`: object — Object containing configuration regarding the audio that is being recorded.
     - `channel`: string enum: `mono`, `stereo` default: `stereo` — Audio signal pathway within an audio file that carries a specific sound source.
@@ -208,29 +197,18 @@ operationId: `update_meeting`
   - `realtimekit_bucket_config`: object
     - `enabled`: boolean **required** — Controls whether recordings are uploaded to RealtimeKit's bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expir
   - `storage_config`: object
-    - `access_key`: string — Access key of the storage medium. Access key is not required for the `gcs` storage media type.
-    - `auth_method`: string enum: `KEY`, `PASSWORD` — Authentication method used for "sftp" type storage medium
-    - `bucket`: string — Name of the storage medium's bucket.
-    - `host`: string — SSH destination server host for SFTP type storage medium
-    - `password`: string — SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the pas
-    - `path`: string — Path relative to the bucket root at which the recording will be placed.
-    - `port`: number — SSH destination server port for SFTP type storage medium
-    - `private_key`: string — Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY"
-    - `region`: string — Region of the storage medium.
-    - `secret`: string — Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
-    - `type`: string **required** enum: `aws`, `azure`, `digitalocean`, `gcs`, `sftp` — Type of storage media.
-    - `username`: string — SSH destination server username for SFTP type storage medium
+    - `type`: any enum: `gcs`
   - `video_config`: object
-    - `codec`: string enum: `H264`, `VP8` default: `H264` — Codec using which the recording will be encoded.
+    - `codec`: string enum: `H264`, `VP8`, `VP9` default: `H264` — Codec using which the recording will be encoded.
     - `export_file`: boolean default: `true` — Controls whether to export video file seperately
     - `height`: integer default: `720` — Height of the recording video in pixels
     - `watermark`: object — Watermark to be added to the recording
     - `width`: integer default: `1280` — Width of the recording video in pixels
-- `session_keep_alive_time_in_secs`: number default: `60` — Time in seconds, for which a session remains active, after the last participant has left the meeting.
+- `session_keep_alive_time_in_secs`: number — Time in seconds, for which a session remains active, after the last participant has left the meeting.
 - `status`: string enum: `ACTIVE`, `INACTIVE` — Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting.
-- `summarize_on_end`: boolean default: `false` — Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or su
+- `summarize_on_end`: boolean — Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or su
 - `title`: string — Title of the meeting
-- `transcribe_on_end`: boolean default: `false` — Automatically generate transcripts when the meeting ends.
+- `transcribe_on_end`: boolean — Automatically generate transcripts when the meeting ends.
 
 **Response** 200 → `result`
 
@@ -285,7 +263,7 @@ operationId: `replace_meeting`
     - `word_limit`: integer default: `500` — Sets the maximum number of words in the meeting summary.
   - `transcription`: object — Transcription Configurations
     - `keywords`: string[] — Adds specific terms to improve accurate detection during transcription.
-    - `language`: string enum: `en-US`, `en-IN`, `de`, `hi`, `sv`, `ru`, `pl`, `el` default: `en-US` — Specifies the language code for transcription to ensure accurate results.
+    - `language`: string enum: `en-US`, `en-IN`, `de`, `hi`, `sv`, `ru`, `pl`, `el` — Specifies the language code for transcription to ensure accurate results. If omitted, the language is auto-detected for post-meeting (Whispe
     - `profanity_filter`: boolean default: `false` — Control the inclusion of offensive language in transcriptions.
 - `live_stream_on_start`: boolean default: `false` — Specifies if the meeting should start getting livestreamed on start.
 - `persist_chat`: boolean default: `false` — If a meeting is set to persist_chat, meeting chat would remain for a week within the meeting space.
@@ -302,20 +280,9 @@ operationId: `replace_meeting`
   - `realtimekit_bucket_config`: object
     - `enabled`: boolean **required** — Controls whether recordings are uploaded to RealtimeKit's bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expir
   - `storage_config`: object
-    - `access_key`: string — Access key of the storage medium. Access key is not required for the `gcs` storage media type.
-    - `auth_method`: string enum: `KEY`, `PASSWORD` — Authentication method used for "sftp" type storage medium
-    - `bucket`: string — Name of the storage medium's bucket.
-    - `host`: string — SSH destination server host for SFTP type storage medium
-    - `password`: string — SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the pas
-    - `path`: string — Path relative to the bucket root at which the recording will be placed.
-    - `port`: number — SSH destination server port for SFTP type storage medium
-    - `private_key`: string — Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY"
-    - `region`: string — Region of the storage medium.
-    - `secret`: string — Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable.
-    - `type`: string **required** enum: `aws`, `azure`, `digitalocean`, `gcs`, `sftp` — Type of storage media.
-    - `username`: string — SSH destination server username for SFTP type storage medium
+    - `type`: any enum: `gcs`
   - `video_config`: object
-    - `codec`: string enum: `H264`, `VP8` default: `H264` — Codec using which the recording will be encoded.
+    - `codec`: string enum: `H264`, `VP8`, `VP9` default: `H264` — Codec using which the recording will be encoded.
     - `export_file`: boolean default: `true` — Controls whether to export video file seperately
     - `height`: integer default: `720` — Height of the recording video in pixels
     - `watermark`: object — Watermark to be added to the recording
@@ -400,6 +367,9 @@ operationId: `add_participant`
 - `name`: string — (Optional) Name of the participant.
 - `picture`: string — (Optional) A URL to a picture to be used for the participant.
 - `preset_name`: string **required** default: `group_call_host` — Name of the preset to apply to this participant.
+- `token`: object — Validity window of the participant authentication token. The window is [not_before, expires_on) and cannot be longer than 100 days. Defaults
+  - `expires_on`: string — RFC 3339 timestamp with a timezone at or after which the token cannot be used. Must be in the future. Defaults to not_before plus 100 days.
+  - `not_before`: string — RFC 3339 timestamp with a timezone before which the token cannot be used. Defaults to the current time. May be in the past.
 
 **Response** 201 → `result`
 
@@ -479,15 +449,39 @@ operationId: `replace_participant`
 - `success`: boolean **required** default: `true` — Success status of the operation
 - `data`: any
 
-## POST /accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/participants/{participant_id}/token
+## DELETE /accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/participants/{participant_id}/token
 
-Refresh participant's authentication token
+Revoke participant's authentication token
 
-operationId: `regenerate_token`
+operationId: `revoke_token`
+
+**Request** (application/json)
+
+- `token`: string **required** — The participant authentication token to revoke.
 
 **Response** 200 → `result`
 
 - `data`: object — Data returned by the operation
 - `success`: boolean **required** default: `true` — Success status of the operation
 - `data`: object **required**
+  - `token`: string **required** — The revoked participant authentication token.
+
+## POST /accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/participants/{participant_id}/token
+
+Refresh participant's authentication token
+
+operationId: `regenerate_token`
+
+**Request** (application/json)
+
+- `expires_on`: string — RFC 3339 timestamp with a timezone at or after which the token cannot be used. Must be in the future. Defaults to not_before plus 100 days.
+- `not_before`: string — RFC 3339 timestamp with a timezone before which the token cannot be used. Defaults to the current time. May be in the past.
+
+**Response** 200 → `result`
+
+- `data`: object — Data returned by the operation
+- `success`: boolean **required** default: `true` — Success status of the operation
+- `data`: object **required**
+  - `expires_on`: string **required** — Time at which the token stops being valid, in UTC.
+  - `not_before`: string **required** — Time from which the token is valid, in UTC.
   - `token`: string **required** — Regenerated participant's authentication token.

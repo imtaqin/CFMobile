@@ -18,7 +18,7 @@ operationId: `load-balancer-healthcheck-events-list-healthcheck-events` · query
   - `changed`: boolean — Whether the origin has changed health status.
   - `enabled`: boolean default: `true` — Whether to enable (the default) this origin within the pool. Disabled origins will not receive traffic and are excluded from health checks. 
   - `failure_reason`: string — Failure reason for un-healthy origin health check.
-  - `healthy`: boolean — Whether the origin is reported as healthy.
+  - `healthy`: boolean default: `true` — If true, filter events where the origin status is healthy. If false, filter events where the origin status is unhealthy.
   - `ip`: string — The IP address (IPv4 or IPv6) of the origin.
   - `name`: string — A human-identifiable name for the origin.
 - `pool`: object

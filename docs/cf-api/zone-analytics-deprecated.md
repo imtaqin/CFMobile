@@ -2,7 +2,7 @@
 
 2 endpoints.
 
-## GET /zones/{zone_identifier}/analytics/colos
+## GET /zones/{zone_id}/analytics/colos
 
 Get analytics by Co-locations
 
@@ -13,7 +13,7 @@ operationId: `zone-analytics-(-deprecated)-get-analytics-by-co-locations` · que
 (one of 3 variants; showing the first)
 object
 
-## GET /zones/{zone_identifier}/analytics/dashboard
+## GET /zones/{zone_id}/analytics/dashboard
 
 Get dashboard
 

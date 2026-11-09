@@ -17,4 +17,4 @@ operationId: `zone-cloud-connector-rules`
 - `id`: string
 - `parameters`: object — Parameters of Cloud Connector Rule
   - `host`: string — Host to perform Cloud Connection to
-- `provider`: string enum: `aws_s3`, `cloudflare_r2`, `gcp_storage`, `azure_storage` — Cloud Provider type
+- `provider`: string enum: `aws_s3`, `cloudflare_r2`, `gcp_storage`, `azure_storage`, `oci_storage` — Cloud Provider type

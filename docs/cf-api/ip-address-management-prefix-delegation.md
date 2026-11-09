@@ -29,7 +29,7 @@ operationId: `ip-address-management-prefix-delegation-create-prefix-delegation`
 - `cidr`: string **required** — IP Prefix in Classless Inter-Domain Routing format.
 - `delegated_account_id`: string **required** — Account identifier for the account to which prefix is being delegated.
 
-**Response** 200 → `result`
+**Response** 201 → `result`
 
 - `cidr`: string — IP Prefix in Classless Inter-Domain Routing format.
 - `created_at`: string

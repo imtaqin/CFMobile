@@ -4,7 +4,7 @@
 
 ## GET /zones/{zone_id}/ai-security/custom-topics
 
-Get AI Security for Apps Custom Topics
+Get the AI Security for Apps custom topics of a zone.
 
 operationId: `ai-security-custom-topics-get`
 
@@ -15,7 +15,7 @@ object
 
 ## PUT /zones/{zone_id}/ai-security/custom-topics
 
-Set AI Security for Apps Custom Topics
+Update the AI Security for Apps custom topics of a zone.
 
 operationId: `ai-security-custom-topics-put`
 
@@ -24,7 +24,7 @@ operationId: `ai-security-custom-topics-put`
 - `topics`: object[] — Custom topic categories for AI Security for Apps content detection.
   [array of]
   - `label`: string **required** — Unique label identifier. Must contain only lowercase letters (a–z), digits (0–9), and hyphens.
-  - `topic`: string **required** — Description of the topic category. Must contain only printable ASCII characters.
+  - `topic`: string **required** — Description of the topic category. Must contain 2–50 UTF-8 bytes. Text in any language is supported, including spaces, numbers, punctuation,
 
 **Response** 200 → `result`
 
@@ -33,7 +33,7 @@ object
 
 ## GET /zones/{zone_id}/ai-security/settings
 
-Get AI Security for Apps Status
+Get the AI Security for Apps status for a zone.
 
 operationId: `ai-security-settings-get`
 
@@ -44,7 +44,7 @@ object
 
 ## PUT /zones/{zone_id}/ai-security/settings
 
-Set AI Security for Apps Status
+Update the AI Security for Apps status for a zone.
 
 operationId: `ai-security-settings-put`
 

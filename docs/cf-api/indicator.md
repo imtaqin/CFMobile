@@ -1,10 +1,22 @@
 # Indicator
 
-9 endpoints.
+14 endpoints.
+
+## DELETE /accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/indicators
+
+Delete indicators in bulk
+
+operationId: `delete_IndicatorDeleteBulk` · query: `indicatorIds`
+
+**Response** 200 → `result`
+
+- `deletedCount`: integer **required** — Number of indicators deleted.
+- `missingUUIDs`: string[] — Requested UUIDs that were not found in the dataset. Omitted when every UUID was deleted.
+  [array]
 
 ## GET /accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/indicators
 
-Lists indicators
+List indicators in a dataset (legacy)
 
 operationId: `get_IndicatorListLegacy` · query: `page`, `pageSize`, `name`, `indicatorType`, `relatedEvent`
 
@@ -15,15 +27,25 @@ operationId: `get_IndicatorListLegacy` · query: `page`, `pageSize`, `name`, `in
   - `createdAt`: string **required**
   - `datasetId`: string — The dataset ID this indicator belongs to. Included in list responses.
   - `indicatorType`: string **required**
-  - `relatedEvents`: object[]
+  - `relatedEvents`: object[] — Related events, capped by `relatedEventsLimit` (default 2). Check `relatedEventsHasMore` to detect a capped list; pass `relatedEventsLimit=-
     [array of]
     - `datasetId`: string **required**
+    - `eventDate`: string — ISO 8601 date of the related event. Null for legacy relationships created before event-date tracking was added.
     - `eventId`: string **required**
+  - `relatedEventsHasMore`: boolean — True when this indicator appears in more events than `relatedEvents` contains because `relatedEventsLimit` capped the list. Pass `relatedEve
+  - `sources`: object[] **required** — RSS article sources from which this indicator was extracted.
+    [array of]
+    - `resourceId`: string **required**
+    - `resourceType`: string **required** enum: `article`
+    - `system`: string **required** enum: `threat-signals`
+    - `title`: string **required** — Threat Signals article title; null for historical provenance without a stored title.
   - `tags`: object[]
     [array of]
+    - `categoryId`: string — The UUID of the tag category, or null when the tag is uncategorized.
     - `categoryName`: string
     - `uuid`: string
     - `value`: string
+  - `tlp`: string — Traffic Light Protocol designation. UPPERCASE. Possible values: CLEAR, GREEN, AMBER, AMBER-STRICT, RED, PURPLE. Null when not set.
   - `updatedAt`: string **required**
   - `uuid`: string **required**
   - `value`: string **required**
@@ -35,7 +57,7 @@ operationId: `get_IndicatorListLegacy` · query: `page`, `pageSize`, `name`, `in
 
 ## DELETE /accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/indicators/{indicator_id}
 
-Deletes an indicator
+Delete an indicator
 
 operationId: `delete_IndicatorDelete`
 
@@ -46,7 +68,7 @@ operationId: `delete_IndicatorDelete`
 
 ## GET /accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/indicators/{indicator_id}
 
-Reads an indicator
+Get an indicator
 
 operationId: `get_IndicatorRead`
 
@@ -55,22 +77,26 @@ operationId: `get_IndicatorRead`
 - `createdAt`: string **required**
 - `datasetId`: string — The dataset ID this indicator belongs to. Included in list responses.
 - `indicatorType`: string **required**
-- `relatedEvents`: object[]
+- `relatedEvents`: object[] — Related events, capped by `relatedEventsLimit` (default 2). Check `relatedEventsHasMore` to detect a capped list; pass `relatedEventsLimit=-
   [array of]
   - `datasetId`: string **required**
+  - `eventDate`: string — ISO 8601 date of the related event. Null for legacy relationships created before event-date tracking was added.
   - `eventId`: string **required**
+- `relatedEventsHasMore`: boolean — True when this indicator appears in more events than `relatedEvents` contains because `relatedEventsLimit` capped the list. Pass `relatedEve
 - `tags`: object[]
   [array of]
+  - `categoryId`: string — The UUID of the tag category, or null when the tag is uncategorized.
   - `categoryName`: string
   - `uuid`: string
   - `value`: string
+- `tlp`: string — Traffic Light Protocol designation. UPPERCASE. Possible values: CLEAR, GREEN, AMBER, AMBER-STRICT, RED, PURPLE. Null when not set.
 - `updatedAt`: string **required**
 - `uuid`: string **required**
 - `value`: string **required**
 
 ## PATCH /accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/indicators/{indicator_id}
 
-Updates an indicator
+Update an indicator
 
 operationId: `patch_IndicatorUpdate`
 
@@ -83,6 +109,7 @@ operationId: `patch_IndicatorUpdate`
   - `eventId`: string **required**
 - `tags`: object[]
   [array]
+- `tlp`: string — Traffic Light Protocol designation. Case-insensitive on input, stored and returned as UPPERCASE. Allowed values: clear, green, amber, amber-
 - `value`: string
 
 **Response** 200 → `result`
@@ -90,22 +117,96 @@ operationId: `patch_IndicatorUpdate`
 - `createdAt`: string **required**
 - `datasetId`: string — The dataset ID this indicator belongs to. Included in list responses.
 - `indicatorType`: string **required**
-- `relatedEvents`: object[]
+- `relatedEvents`: object[] — Related events, capped by `relatedEventsLimit` (default 2). Check `relatedEventsHasMore` to detect a capped list; pass `relatedEventsLimit=-
   [array of]
   - `datasetId`: string **required**
+  - `eventDate`: string — ISO 8601 date of the related event. Null for legacy relationships created before event-date tracking was added.
   - `eventId`: string **required**
+- `relatedEventsHasMore`: boolean — True when this indicator appears in more events than `relatedEvents` contains because `relatedEventsLimit` capped the list. Pass `relatedEve
 - `tags`: object[]
   [array of]
+  - `categoryId`: string — The UUID of the tag category, or null when the tag is uncategorized.
   - `categoryName`: string
   - `uuid`: string
   - `value`: string
+- `tlp`: string — Traffic Light Protocol designation. UPPERCASE. Possible values: CLEAR, GREEN, AMBER, AMBER-STRICT, RED, PURPLE. Null when not set.
 - `updatedAt`: string **required**
 - `uuid`: string **required**
 - `value`: string **required**
 
+## GET /accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/indicators/{indicator_id}/relationships
+
+List indicator relationships
+
+operationId: `get_IndicatorRelationshipsList` · query: `search`, `expand`, `cursor`, `pageSize`
+
+**Response** 200 → `result`
+
+- `counts`: object
+- `cursor`: string
+- `entities`: object[]
+  [array]
+- `hasMore`: boolean
+- `hydrationErrors`: object
+- `relationships`: object[]
+  [array of]
+  - `confidence`: integer **required** — Confidence score 0–100, or null.
+  - `createdAt`: string **required** — ISO 8601 creation timestamp.
+  - `datasetId`: string **required** — Dataset the relationship belongs to.
+  - `entityId`: string **required** — UUID of the related entity (other end).
+  - `entityType`: string **required** enum: `event`, `indicator`, `tag` — Type of the related entity.
+  - `metadata`: object **required** — Arbitrary JSON metadata, or null.
+  - `relationshipUuid`: string **required** — Relationship UUID (use for PATCH/DELETE).
+  - `type`: string **required** — Relationship type.
+  - `updatedAt`: string **required** — ISO 8601 last-update timestamp.
+
+## POST /accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/indicators/{indicator_id}/relationships
+
+Create an indicator relationship
+
+operationId: `post_IndicatorRelationshipCreate`
+
+**Request** (application/json)
+
+- `confidence`: integer — Confidence score 0–100.
+- `metadata`: object — Arbitrary JSON metadata.
+- `targetId`: string **required** — UUID of the target entity.
+- `targetType`: string **required** enum: `event`, `tag` — Target type. "indicator" is not allowed (indicator↔indicator relationships are not supported).
+- `type`: string **required** — Relationship type.
+
+**Response** 200 → `result`
+
+object
+
+## DELETE /accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/indicators/{indicator_id}/relationships/{rel_uuid}
+
+Delete an indicator relationship
+
+operationId: `delete_IndicatorRelationshipDelete`
+
+**Response** 200 → `result`
+
+- `deleted`: boolean
+
+## PATCH /accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/indicators/{indicator_id}/relationships/{rel_uuid}
+
+Update an indicator relationship
+
+operationId: `patch_IndicatorRelationshipUpdate`
+
+**Request** (application/json)
+
+- `confidence`: integer — Updated confidence. null clears it.
+- `metadata`: object — Updated metadata. null clears it.
+- `type`: string — Updated relationship type.
+
+**Response** 200 → `result`
+
+object
+
 ## POST /accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/indicators/bulk
 
-Creates multiple indicators in bulk
+Create indicators in bulk
 
 operationId: `post_IndicatorCreateBulk`
 
@@ -122,6 +223,7 @@ operationId: `post_IndicatorCreateBulk`
     - `eventId`: string **required**
   - `tags`: object[]
     [array]
+  - `tlp`: string — Traffic Light Protocol designation. Case-insensitive on input, stored and returned as UPPERCASE. Allowed values: clear, green, amber, amber-
   - `value`: string **required**
 
 **Response** 200 → `result`
@@ -130,7 +232,7 @@ number
 
 ## POST /accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/indicators/create
 
-Creates a new indicator
+Create an indicator
 
 operationId: `post_IndicatorCreate`
 
@@ -144,6 +246,7 @@ operationId: `post_IndicatorCreate`
   - `eventId`: string **required**
 - `tags`: object[]
   [array]
+- `tlp`: string — Traffic Light Protocol designation. Case-insensitive on input, stored and returned as UPPERCASE. Allowed values: clear, green, amber, amber-
 - `value`: string **required**
 
 **Response** 200 → `result`
@@ -151,22 +254,26 @@ operationId: `post_IndicatorCreate`
 - `createdAt`: string **required**
 - `datasetId`: string — The dataset ID this indicator belongs to. Included in list responses.
 - `indicatorType`: string **required**
-- `relatedEvents`: object[]
+- `relatedEvents`: object[] — Related events, capped by `relatedEventsLimit` (default 2). Check `relatedEventsHasMore` to detect a capped list; pass `relatedEventsLimit=-
   [array of]
   - `datasetId`: string **required**
+  - `eventDate`: string — ISO 8601 date of the related event. Null for legacy relationships created before event-date tracking was added.
   - `eventId`: string **required**
+- `relatedEventsHasMore`: boolean — True when this indicator appears in more events than `relatedEvents` contains because `relatedEventsLimit` capped the list. Pass `relatedEve
 - `tags`: object[]
   [array of]
+  - `categoryId`: string — The UUID of the tag category, or null when the tag is uncategorized.
   - `categoryName`: string
   - `uuid`: string
   - `value`: string
+- `tlp`: string — Traffic Light Protocol designation. UPPERCASE. Possible values: CLEAR, GREEN, AMBER, AMBER-STRICT, RED, PURPLE. Null when not set.
 - `updatedAt`: string **required**
 - `uuid`: string **required**
 - `value`: string **required**
 
 ## GET /accounts/{account_id}/cloudforce-one/events/dataset/{dataset_id}/indicators/tags
 
-List mirrored tags for an indicator dataset
+List tags on a dataset's indicators
 
 operationId: `get_IndicatorTagsList`
 
@@ -177,13 +284,16 @@ object
 
 ## GET /accounts/{account_id}/cloudforce-one/events/indicators
 
-Lists indicators across multiple datasets
+List indicators
 
-operationId: `get_IndicatorList` · query: `datasetIds`, `page`, `pageSize`, `search`, `name`, `indicatorType`, `relatedEvents`, `tags`, `tagSearch`, `createdAfter`, `createdBefore`, `relatedEventsLimit`, `includeTags`, `includeTotalCount`, `format`, `source`, `cache`
+operationId: `get_IndicatorList` · query: `datasetIds`, `page`, `pageSize`, `search`, `name`, `indicatorType`, `relatedEvents`, `tags`, `tagSearch`, `createdAfter`, `createdBefore`, `relatedEventsLimit`, `includeTags`, `includeTotalCount`, `format`, `cache`, `cursor`
 
 **Response** 200 → `result`
 
 - `properties`: object **required**
+  - `completeness`: object **required**
+    - `properties`: object **required**
+    - `type`: string **required**
   - `indicators`: object **required**
     - `items`: object **required**
     - `type`: string **required**

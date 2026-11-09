@@ -4,7 +4,7 @@
 
 ## DELETE /accounts/{account_id}/devices/settings
 
-Reset device settings for a Zero Trust account with defaults. This turns off all proxying.
+Reset device settings
 
 operationId: `zero-trust-accounts-delete-device-settings-for-zero-trust-account`
 
@@ -15,7 +15,7 @@ object
 
 ## GET /accounts/{account_id}/devices/settings
 
-Get device settings for a Zero Trust account
+Get device settings
 
 operationId: `zero-trust-accounts-get-device-settings-for-zero-trust-account`
 
@@ -26,7 +26,7 @@ object
 
 ## PATCH /accounts/{account_id}/devices/settings
 
-Patch device settings for a Zero Trust account
+Update device settings
 
 operationId: `zero-trust-accounts-patch-device-settings-for-the-zero-trust-account`
 
@@ -49,7 +49,7 @@ object
 
 ## PUT /accounts/{account_id}/devices/settings
 
-Update device settings for a Zero Trust account
+Update device settings (deprecated)
 
 operationId: `zero-trust-accounts-update-device-settings-for-the-zero-trust-account`
 

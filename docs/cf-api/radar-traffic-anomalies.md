@@ -1,33 +1,62 @@
 # Radar Traffic Anomalies
 
-2 endpoints.
+3 endpoints.
 
 ## GET /radar/traffic_anomalies
 
 Get latest Internet traffic anomalies
 
-operationId: `radar-get-traffic-anomalies` · query: `limit`, `offset`, `dateRange`, `dateStart`, `dateEnd`, `status`, `type`, `asn`, `location`, `origin`, `format`
+operationId: `radar-get-traffic-anomalies` · query: `limit`, `offset`, `dateRange`, `dateStart`, `dateEnd`, `status`, `type`, `dataSource`, `asn`, `location`, `origin`, `format`
 
 **Response** 200 → `result`
 
 - `trafficAnomalies`: object[] **required**
   [array of]
-  - `asnDetails`: object
+  - `asnDetails`: object **required**
     - `asn`: string **required**
-    - `locations`: object
+    - `location`: object **required**
     - `name`: string **required**
-  - `endDate`: string
-  - `locationDetails`: object
+  - `endDate`: string **required**
+  - `locationDetails`: object **required**
     - `code`: string **required**
     - `name`: string **required**
-  - `originDetails`: object
+  - `originDetails`: object **required**
     - `name`: string **required**
     - `origin`: string **required**
+  - `outageId`: string **required** — ID of the published outage this anomaly was confirmed as, if any.
   - `startDate`: string **required**
-  - `status`: string **required**
+  - `status`: string **required** — Verification status: UNVERIFIED (automatically detected, not yet validated by Radar), TP (verified by Radar) or VERIFIED (verified by Radar 
   - `type`: string **required**
   - `uuid`: string **required**
-  - `visibleInDataSources`: string[]
+  - `visibleInDataSources`: string[] **required**
+    [array]
+
+## GET /radar/traffic_anomalies/{uuid}
+
+Get traffic anomaly by UUID
+
+operationId: `radar-get-traffic-anomaly-by-uuid` · query: `format`
+
+**Response** 200 → `result`
+
+- `trafficAnomaly`: object **required**
+  - `asnDetails`: object **required**
+    - `asn`: string **required**
+    - `location`: object **required**
+    - `name`: string **required**
+  - `endDate`: string **required**
+  - `locationDetails`: object **required**
+    - `code`: string **required**
+    - `name`: string **required**
+  - `originDetails`: object **required**
+    - `name`: string **required**
+    - `origin`: string **required**
+  - `outageId`: string **required** — ID of the published outage this anomaly was confirmed as, if any.
+  - `startDate`: string **required**
+  - `status`: string **required** — Verification status: UNVERIFIED (automatically detected, not yet validated by Radar), TP (verified by Radar) or VERIFIED (verified by Radar 
+  - `type`: string **required**
+  - `uuid`: string **required**
+  - `visibleInDataSources`: string[] **required**
     [array]
 
 ## GET /radar/traffic_anomalies/locations

@@ -18,6 +18,8 @@ operationId: `oauth-clients-list`
 - `grant_types`: string[] — Array of OAuth grant types the client is allowed to use. `authorization_code` is required; `refresh_token` may be included optionally.
   [array]
 - `logo_uri`: string — URL of the client's logo.
+- `optional_scopes`: string[] — Scopes that the authorizing user may decline during consent. Each value must also appear in `scopes`. The scopes `openid`, `offline`, and `o
+  [array]
 - `policy_uri`: string — URL that points to a privacy policy document.
 - `post_logout_redirect_uris`: string[] — Array of allowed post-logout redirect URIs.
   [array]
@@ -54,6 +56,8 @@ operationId: `oauth-clients-create`
 - `grant_types`: string[] — Array of OAuth grant types the client is allowed to use. `authorization_code` is required; `refresh_token` may be included optionally.
   [array]
 - `logo_uri`: string — URL of the client's logo.
+- `optional_scopes`: string[] — Scopes that the authorizing user may decline during consent. Each value must also appear in `scopes`. The scopes `openid`, `offline`, and `o
+  [array]
 - `policy_uri`: string — URL that points to a privacy policy document.
 - `post_logout_redirect_uris`: string[] — Array of allowed post-logout redirect URIs.
   [array]
@@ -76,6 +80,8 @@ object
 - `grant_types`: string[] — Array of OAuth grant types the client is allowed to use. `authorization_code` is required; `refresh_token` may be included optionally.
   [array]
 - `logo_uri`: string — URL of the client's logo.
+- `optional_scopes`: string[] — Scopes that the authorizing user may decline during consent. Each value must also appear in `scopes`. The scopes `openid`, `offline`, and `o
+  [array]
 - `policy_uri`: string — URL that points to a privacy policy document.
 - `post_logout_redirect_uris`: string[] — Array of allowed post-logout redirect URIs.
   [array]
@@ -123,6 +129,8 @@ operationId: `oauth-clients-get`
 - `grant_types`: string[] — Array of OAuth grant types the client is allowed to use. `authorization_code` is required; `refresh_token` may be included optionally.
   [array]
 - `logo_uri`: string — URL of the client's logo.
+- `optional_scopes`: string[] — Scopes that the authorizing user may decline during consent. Each value must also appear in `scopes`. The scopes `openid`, `offline`, and `o
+  [array]
 - `policy_uri`: string — URL that points to a privacy policy document.
 - `post_logout_redirect_uris`: string[] — Array of allowed post-logout redirect URIs.
   [array]
@@ -159,6 +167,8 @@ operationId: `oauth-clients-update`
 - `grant_types`: string[] — Array of OAuth grant types the client is allowed to use. `authorization_code` is required; `refresh_token` may be included optionally.
   [array]
 - `logo_uri`: string — URL of the client's logo.
+- `optional_scopes`: string[] — Scopes that the authorizing user may decline during consent. Each value must also appear in `scopes`. The scopes `openid`, `offline`, and `o
+  [array]
 - `policy_uri`: string — URL that points to a privacy policy document.
 - `post_logout_redirect_uris`: string[] — Array of allowed post-logout redirect URIs.
   [array]
@@ -181,6 +191,8 @@ operationId: `oauth-clients-update`
 - `grant_types`: string[] — Array of OAuth grant types the client is allowed to use. `authorization_code` is required; `refresh_token` may be included optionally.
   [array]
 - `logo_uri`: string — URL of the client's logo.
+- `optional_scopes`: string[] — Scopes that the authorizing user may decline during consent. Each value must also appear in `scopes`. The scopes `openid`, `offline`, and `o
+  [array]
 - `policy_uri`: string — URL that points to a privacy policy document.
 - `post_logout_redirect_uris`: string[] — Array of allowed post-logout redirect URIs.
   [array]

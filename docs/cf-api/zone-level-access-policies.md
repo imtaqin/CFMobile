@@ -14,7 +14,7 @@ operationId: `zone-level-access-policies-list-access-policies`
 - `approval_groups`: object[] — Administrators who can approve a temporary authentication request.
   [array of]
   - `approvals_needed`: number **required** — The number of approvals needed to obtain access.
-  - `email_addresses`: object[] — A list of emails that can approve the access request.
+  - `email_addresses`: string[] — A list of emails that can approve the access request.
     [array]
   - `email_list_uuid`: string — The UUID of an re-usable email list.
 - `approval_required`: boolean default: `false` — Requires the user to request access from an administrator at the start of each session.
@@ -51,7 +51,7 @@ operationId: `zone-level-access-policies-create-an-access-policy`
 - `approval_groups`: object[] — Administrators who can approve a temporary authentication request.
   [array of]
   - `approvals_needed`: number **required** — The number of approvals needed to obtain access.
-  - `email_addresses`: object[] — A list of emails that can approve the access request.
+  - `email_addresses`: string[] — A list of emails that can approve the access request.
     [array]
   - `email_list_uuid`: string — The UUID of an re-usable email list.
 - `approval_required`: boolean default: `false` — Requires the user to request access from an administrator at the start of each session.
@@ -79,7 +79,7 @@ operationId: `zone-level-access-policies-create-an-access-policy`
 - `approval_groups`: object[] — Administrators who can approve a temporary authentication request.
   [array of]
   - `approvals_needed`: number **required** — The number of approvals needed to obtain access.
-  - `email_addresses`: object[] — A list of emails that can approve the access request.
+  - `email_addresses`: string[] — A list of emails that can approve the access request.
     [array]
   - `email_list_uuid`: string — The UUID of an re-usable email list.
 - `approval_required`: boolean default: `false` — Requires the user to request access from an administrator at the start of each session.
@@ -126,7 +126,7 @@ operationId: `zone-level-access-policies-get-an-access-policy`
 - `approval_groups`: object[] — Administrators who can approve a temporary authentication request.
   [array of]
   - `approvals_needed`: number **required** — The number of approvals needed to obtain access.
-  - `email_addresses`: object[] — A list of emails that can approve the access request.
+  - `email_addresses`: string[] — A list of emails that can approve the access request.
     [array]
   - `email_list_uuid`: string — The UUID of an re-usable email list.
 - `approval_required`: boolean default: `false` — Requires the user to request access from an administrator at the start of each session.
@@ -163,7 +163,7 @@ operationId: `zone-level-access-policies-update-an-access-policy`
 - `approval_groups`: object[] — Administrators who can approve a temporary authentication request.
   [array of]
   - `approvals_needed`: number **required** — The number of approvals needed to obtain access.
-  - `email_addresses`: object[] — A list of emails that can approve the access request.
+  - `email_addresses`: string[] — A list of emails that can approve the access request.
     [array]
   - `email_list_uuid`: string — The UUID of an re-usable email list.
 - `approval_required`: boolean default: `false` — Requires the user to request access from an administrator at the start of each session.
@@ -191,7 +191,7 @@ operationId: `zone-level-access-policies-update-an-access-policy`
 - `approval_groups`: object[] — Administrators who can approve a temporary authentication request.
   [array of]
   - `approvals_needed`: number **required** — The number of approvals needed to obtain access.
-  - `email_addresses`: object[] — A list of emails that can approve the access request.
+  - `email_addresses`: string[] — A list of emails that can approve the access request.
     [array]
   - `email_list_uuid`: string — The UUID of an re-usable email list.
 - `approval_required`: boolean default: `false` — Requires the user to request access from an administrator at the start of each session.

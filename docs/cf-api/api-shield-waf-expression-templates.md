@@ -4,7 +4,7 @@
 
 ## POST /zones/{zone_id}/api_gateway/expression-template/fallthrough
 
-Generate fallthrough WAF expression template from a set of API hosts
+Generate a fallthrough WAF expression template
 
 operationId: `api-shield-expression-templates-fallthrough`
 

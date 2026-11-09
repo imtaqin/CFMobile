@@ -13,7 +13,7 @@ operationId: `account-user-group-member-list` · query: `page`, `per_page`, `fuz
 [array of]
 - `email`: string — The contact email address of the user.
 - `id`: string **required** — Account member identifier.
-- `status`: any enum: `accepted`, `pending` — The member's status in the account.
+- `status`: string enum: `accepted`, `pending` — The member's status in the account.
 
 ## POST /accounts/{account_id}/iam/user_groups/{user_group_id}/members
 
@@ -31,7 +31,7 @@ operationId: `account-user-group-member-create`
 [array of]
 - `email`: string — The contact email address of the user.
 - `id`: string **required** — Account member identifier.
-- `status`: any enum: `accepted`, `pending` — The member's status in the account.
+- `status`: string enum: `accepted`, `pending` — The member's status in the account.
 
 ## PUT /accounts/{account_id}/iam/user_groups/{user_group_id}/members
 
@@ -49,7 +49,7 @@ operationId: `account-user-group-members-update`
 [array of]
 - `email`: string — The contact email address of the user.
 - `id`: string **required** — Account member identifier.
-- `status`: any enum: `accepted`, `pending` — The member's status in the account.
+- `status`: string enum: `accepted`, `pending` — The member's status in the account.
 
 ## DELETE /accounts/{account_id}/iam/user_groups/{user_group_id}/members/{member_id}
 
@@ -61,7 +61,7 @@ operationId: `account-user-group-member-delete`
 
 - `email`: string — The contact email address of the user.
 - `id`: string **required** — Account member identifier.
-- `status`: any enum: `accepted`, `pending` — The member's status in the account.
+- `status`: string enum: `accepted`, `pending` — The member's status in the account.
 
 ## GET /accounts/{account_id}/iam/user_groups/{user_group_id}/members/{member_id}
 
@@ -74,7 +74,7 @@ operationId: `account-user-group-member-get`
 - `created_at`: string — When the member was added to the user group.
 - `email`: string — The contact email address of the user.
 - `id`: string **required** — Account member identifier.
-- `status`: any enum: `accepted`, `pending` — The member's status in the account.
+- `status`: string enum: `accepted`, `pending` — The member's status in the account.
 - `user`: object — Details of the user associated with this membership.
   - `email`: string — The contact email address of the user.
   - `first_name`: string — User's first name.

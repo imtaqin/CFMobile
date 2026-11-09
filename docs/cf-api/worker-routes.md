@@ -4,7 +4,7 @@
 
 ## GET /zones/{zone_id}/workers/routes
 
-List Routes
+List Worker Routes
 
 operationId: `worker-routes-list-routes`
 
@@ -17,7 +17,7 @@ operationId: `worker-routes-list-routes`
 
 ## POST /zones/{zone_id}/workers/routes
 
-Create Route
+Create Worker Route
 
 operationId: `worker-routes-create-route`
 
@@ -35,7 +35,7 @@ operationId: `worker-routes-create-route`
 
 ## DELETE /zones/{zone_id}/workers/routes/{route_id}
 
-Delete Route
+Delete Worker Route
 
 operationId: `worker-routes-delete-route`
 
@@ -45,7 +45,7 @@ operationId: `worker-routes-delete-route`
 
 ## GET /zones/{zone_id}/workers/routes/{route_id}
 
-Get Route
+Get Worker Route
 
 operationId: `worker-routes-get-route`
 
@@ -57,7 +57,7 @@ operationId: `worker-routes-get-route`
 
 ## PUT /zones/{zone_id}/workers/routes/{route_id}
 
-Update Route
+Replace Worker Route
 
 operationId: `worker-routes-update-route`
 

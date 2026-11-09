@@ -20,10 +20,10 @@ operationId: `pay-per-crawl.crawlerDeleteStripeConfig`
     - `documentation_url`: string
     - `error_chain`: object[]
     - `message`: string
-    - `meta`: any — Meta object containing non-standard meta-information about the error.
+    - `meta`: object — Meta object containing non-standard meta-information about the error.
     - `source`: object
   - `message`: string
-  - `meta`: any — Meta object containing non-standard meta-information about the error.
+  - `meta`: object — Meta object containing non-standard meta-information about the error.
   - `source`: object
     - `parameter`: string — Parameter is a string indicating which URI query parameter caused the error.
     - `parameter_value_index`: integer — ParameterPosition indicates position of parameter value which caused the error,
@@ -38,10 +38,10 @@ operationId: `pay-per-crawl.crawlerDeleteStripeConfig`
     - `documentation_url`: string
     - `error_chain`: object[]
     - `message`: string
-    - `meta`: any — Meta object containing non-standard meta-information about the error.
+    - `meta`: object — Meta object containing non-standard meta-information about the error.
     - `source`: object
   - `message`: string
-  - `meta`: any — Meta object containing non-standard meta-information about the error.
+  - `meta`: object — Meta object containing non-standard meta-information about the error.
   - `source`: object
     - `parameter`: string — Parameter is a string indicating which URI query parameter caused the error.
     - `parameter_value_index`: integer — ParameterPosition indicates position of parameter value which caused the error,
@@ -93,10 +93,10 @@ operationId: `pay-per-crawl.publisherDeleteStripeConfig`
     - `documentation_url`: string
     - `error_chain`: object[]
     - `message`: string
-    - `meta`: any — Meta object containing non-standard meta-information about the error.
+    - `meta`: object — Meta object containing non-standard meta-information about the error.
     - `source`: object
   - `message`: string
-  - `meta`: any — Meta object containing non-standard meta-information about the error.
+  - `meta`: object — Meta object containing non-standard meta-information about the error.
   - `source`: object
     - `parameter`: string — Parameter is a string indicating which URI query parameter caused the error.
     - `parameter_value_index`: integer — ParameterPosition indicates position of parameter value which caused the error,
@@ -111,10 +111,10 @@ operationId: `pay-per-crawl.publisherDeleteStripeConfig`
     - `documentation_url`: string
     - `error_chain`: object[]
     - `message`: string
-    - `meta`: any — Meta object containing non-standard meta-information about the error.
+    - `meta`: object — Meta object containing non-standard meta-information about the error.
     - `source`: object
   - `message`: string
-  - `meta`: any — Meta object containing non-standard meta-information about the error.
+  - `meta`: object — Meta object containing non-standard meta-information about the error.
   - `source`: object
     - `parameter`: string — Parameter is a string indicating which URI query parameter caused the error.
     - `parameter_value_index`: integer — ParameterPosition indicates position of parameter value which caused the error,

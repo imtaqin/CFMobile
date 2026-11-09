@@ -4,7 +4,7 @@
 
 ## GET /accounts/{account_id}/workers/services/{service_name}/environments/{environment_name}/content
 
-Get script content
+Get Worker Environment Script Content
 
 operationId: `worker-environment-get-script-content`
 
@@ -14,7 +14,7 @@ string
 
 ## PUT /accounts/{account_id}/workers/services/{service_name}/environments/{environment_name}/content
 
-Put script content
+Replace Worker Environment Script Content
 
 operationId: `worker-environment-put-script-content`
 
@@ -54,18 +54,21 @@ operationId: `worker-environment-put-script-content`
 - `observability`: object — Observability settings for the Worker.
   - `enabled`: boolean **required** — Whether observability is enabled for the Worker.
   - `head_sampling_rate`: number — The sampling rate for incoming requests. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
+  - `issues`: object — Real-time Issues settings for the Worker.
+    - `enabled`: boolean — Whether real-time Issues are enabled for the Worker.
   - `logs`: object — Log settings for the Worker.
     - `destinations`: string[] — A list of destinations where logs will be exported to.
     - `enabled`: boolean **required** — Whether logs are enabled for the Worker.
     - `head_sampling_rate`: number — The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
     - `invocation_logs`: boolean **required** — Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Wo
     - `persist`: boolean default: `true` — Whether log persistence is enabled for the Worker.
+  - `redact_query_string`: boolean default: `false` — Whether query strings are removed from request URLs in logs and traces.
   - `traces`: object — Trace settings for the Worker.
     - `destinations`: string[] — A list of destinations where traces will be exported to.
     - `enabled`: boolean — Whether traces are enabled for the Worker.
     - `head_sampling_rate`: number — The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
     - `persist`: boolean default: `true` — Whether trace persistence is enabled for the Worker.
-    - `propagation_policy`: string enum: `authenticated`, `accept` default: `authenticated` — Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" (default) honors inbou
+    - `propagation_policy`: string enum: `authenticated`, `accept`, `null` — Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace c
 - `placement`: object — Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). Specify mode='smart' for Smart
 - `placement_mode`: any
 - `placement_status`: any
@@ -81,7 +84,7 @@ operationId: `worker-environment-put-script-content`
 
 ## GET /accounts/{account_id}/workers/services/{service_name}/environments/{environment_name}/settings
 
-Get Script Settings
+Get Worker Environment Settings
 
 operationId: `worker-script-environment-get-settings`
 
@@ -98,7 +101,7 @@ operationId: `worker-script-environment-get-settings`
 
 ## PATCH /accounts/{account_id}/workers/services/{service_name}/environments/{environment_name}/settings
 
-Patch Script Settings
+Patch Worker Environment Settings
 
 operationId: `worker-script-environment-patch-settings`
 

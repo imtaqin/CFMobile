@@ -1,6 +1,6 @@
 # IP Address Management Address Maps
 
-11 endpoints.
+15 endpoints.
 
 ## GET /accounts/{account_id}/addressing/address_maps
 
@@ -37,7 +37,7 @@ operationId: `ip-address-management-address-maps-create-address-map`
   - `identifier`: string — The identifier for the membership (eg. a zone or account tag).
   - `kind`: string enum: `zone`, `account` — The type of the membership.
 
-**Response** 200 → `result`
+**Response** 201 → `result`
 
 - `can_delete`: boolean — If set to false, then the Address Map cannot be deleted via API. This is true for Cloudflare-managed maps.
 - `can_modify_ips`: boolean — If set to false, then the IPs on the Address Map cannot be modified via the API. This is true for Cloudflare-managed maps.
@@ -138,7 +138,7 @@ operationId: `ip-address-management-address-maps-update-address-map`
 - `id`: string — Identifier of an Address Map.
 - `modified_at`: string
 
-## DELETE /accounts/{account_id}/addressing/address_maps/{address_map_id}/accounts/{account_id}
+## DELETE /accounts/{account_id}/addressing/address_maps/{address_map_id}/accounts/{member_account_id}
 
 Remove an account membership from an Address Map
 
@@ -168,13 +168,83 @@ operationId: `ip-address-management-address-maps-remove-an-account-membership-fr
   - `total_count`: number — Total results available without any search parameters.
   - `total_pages`: number — The number of total pages in the entire result set.
 
-## PUT /accounts/{account_id}/addressing/address_maps/{address_map_id}/accounts/{account_id}
+## PUT /accounts/{account_id}/addressing/address_maps/{address_map_id}/accounts/{member_account_id}
 
 Add an account membership to an Address Map
 
 operationId: `ip-address-management-address-maps-add-an-account-membership-to-an-address-map`
 
+**Response** 201 → `result`
+
+- `errors`: object[] **required**
+  [array of]
+  - `code`: integer **required**
+  - `documentation_url`: string
+  - `message`: string **required**
+  - `source`: object
+    - `pointer`: string
+- `messages`: object[] **required**
+  [array of]
+  - `code`: integer **required**
+  - `documentation_url`: string
+  - `message`: string **required**
+  - `source`: object
+    - `pointer`: string
+- `success`: boolean **required** enum: `true` — Whether the API call was successful.
+- `result_info`: object
+  - `count`: number — Total number of results for the requested service.
+  - `page`: number — Current page within paginated list of results.
+  - `per_page`: number — Number of results per page of results.
+  - `total_count`: number — Total results available without any search parameters.
+  - `total_pages`: number — The number of total pages in the entire result set.
+
+## DELETE /accounts/{account_id}/addressing/address_maps/{address_map_id}/ips
+
+Remove Multiple IPs from an Address Map
+
+operationId: `ip-address-management-address-maps-remove-multiple-ips-from-an-address-map`
+
+**Request** (application/json)
+
+- `ips`: string[] **required**
+  [array]
+
 **Response** 200 → `result`
+
+- `errors`: object[] **required**
+  [array of]
+  - `code`: integer **required**
+  - `documentation_url`: string
+  - `message`: string **required**
+  - `source`: object
+    - `pointer`: string
+- `messages`: object[] **required**
+  [array of]
+  - `code`: integer **required**
+  - `documentation_url`: string
+  - `message`: string **required**
+  - `source`: object
+    - `pointer`: string
+- `success`: boolean **required** enum: `true` — Whether the API call was successful.
+- `result_info`: object
+  - `count`: number — Total number of results for the requested service.
+  - `page`: number — Current page within paginated list of results.
+  - `per_page`: number — Number of results per page of results.
+  - `total_count`: number — Total results available without any search parameters.
+  - `total_pages`: number — The number of total pages in the entire result set.
+
+## POST /accounts/{account_id}/addressing/address_maps/{address_map_id}/ips
+
+Add Multiple IPs to an Address Map
+
+operationId: `ip-address-management-address-maps-add-multiple-ips-to-an-address-map`
+
+**Request** (application/json)
+
+- `ips`: string[] **required**
+  [array]
+
+**Response** 201 → `result`
 
 - `errors`: object[] **required**
   [array of]
@@ -234,6 +304,41 @@ Add an IP to an Address Map
 
 operationId: `ip-address-management-address-maps-add-an-ip-to-an-address-map`
 
+**Response** 201 → `result`
+
+- `errors`: object[] **required**
+  [array of]
+  - `code`: integer **required**
+  - `documentation_url`: string
+  - `message`: string **required**
+  - `source`: object
+    - `pointer`: string
+- `messages`: object[] **required**
+  [array of]
+  - `code`: integer **required**
+  - `documentation_url`: string
+  - `message`: string **required**
+  - `source`: object
+    - `pointer`: string
+- `success`: boolean **required** enum: `true` — Whether the API call was successful.
+- `result_info`: object
+  - `count`: number — Total number of results for the requested service.
+  - `page`: number — Current page within paginated list of results.
+  - `per_page`: number — Number of results per page of results.
+  - `total_count`: number — Total results available without any search parameters.
+  - `total_pages`: number — The number of total pages in the entire result set.
+
+## DELETE /accounts/{account_id}/addressing/address_maps/{address_map_id}/zones
+
+Remove Multiple Zones from an Address Map
+
+operationId: `ip-address-management-address-maps-remove-multiple-zones-from-an-address-map`
+
+**Request** (application/json)
+
+- `zones`: string[] **required**
+  [array]
+
 **Response** 200 → `result`
 
 - `errors`: object[] **required**
@@ -258,7 +363,42 @@ operationId: `ip-address-management-address-maps-add-an-ip-to-an-address-map`
   - `total_count`: number — Total results available without any search parameters.
   - `total_pages`: number — The number of total pages in the entire result set.
 
-## DELETE /accounts/{account_id}/addressing/address_maps/{address_map_id}/zones/{zone_id}
+## POST /accounts/{account_id}/addressing/address_maps/{address_map_id}/zones
+
+Add Multiple Zones to an Address Map
+
+operationId: `ip-address-management-address-maps-add-multiple-zones-to-an-address-map`
+
+**Request** (application/json)
+
+- `zones`: string[] **required**
+  [array]
+
+**Response** 201 → `result`
+
+- `errors`: object[] **required**
+  [array of]
+  - `code`: integer **required**
+  - `documentation_url`: string
+  - `message`: string **required**
+  - `source`: object
+    - `pointer`: string
+- `messages`: object[] **required**
+  [array of]
+  - `code`: integer **required**
+  - `documentation_url`: string
+  - `message`: string **required**
+  - `source`: object
+    - `pointer`: string
+- `success`: boolean **required** enum: `true` — Whether the API call was successful.
+- `result_info`: object
+  - `count`: number — Total number of results for the requested service.
+  - `page`: number — Current page within paginated list of results.
+  - `per_page`: number — Number of results per page of results.
+  - `total_count`: number — Total results available without any search parameters.
+  - `total_pages`: number — The number of total pages in the entire result set.
+
+## DELETE /accounts/{account_id}/addressing/address_maps/{address_map_id}/zones/{member_zone_id}
 
 Remove a zone membership from an Address Map
 
@@ -288,13 +428,13 @@ operationId: `ip-address-management-address-maps-remove-a-zone-membership-from-a
   - `total_count`: number — Total results available without any search parameters.
   - `total_pages`: number — The number of total pages in the entire result set.
 
-## PUT /accounts/{account_id}/addressing/address_maps/{address_map_id}/zones/{zone_id}
+## PUT /accounts/{account_id}/addressing/address_maps/{address_map_id}/zones/{member_zone_id}
 
 Add a zone membership to an Address Map
 
 operationId: `ip-address-management-address-maps-add-a-zone-membership-to-an-address-map`
 
-**Response** 200 → `result`
+**Response** 201 → `result`
 
 - `errors`: object[] **required**
   [array of]

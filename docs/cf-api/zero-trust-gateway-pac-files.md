@@ -6,7 +6,7 @@
 
 List PAC files
 
-operationId: `zero-trust-gateway-pacfiles-list`
+operationId: `zero-trust-gateway-pacfiles-list` · query: `page`, `per_page`
 
 **Response** 200 → `result`
 

@@ -4,7 +4,7 @@
 
 ## GET /accounts/{account_id}/workers/scripts/{script_name}/schedules
 
-Get Cron Triggers
+Get Worker Script Schedules (Cron Triggers)
 
 operationId: `worker-cron-trigger-get-cron-triggers`
 
@@ -18,7 +18,7 @@ operationId: `worker-cron-trigger-get-cron-triggers`
 
 ## PUT /accounts/{account_id}/workers/scripts/{script_name}/schedules
 
-Update Cron Triggers
+Update Worker Script Schedules (Cron Triggers)
 
 operationId: `worker-cron-trigger-update-cron-triggers`
 

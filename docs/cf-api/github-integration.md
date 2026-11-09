@@ -10,4 +10,5 @@ operationId: `getWorkerConfigAutofill` · query: `branch`, `root_directory`
 
 **Response** 200 → `result`
 
+(one of 2 variants; showing the first)
 object

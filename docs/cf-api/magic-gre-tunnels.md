@@ -50,6 +50,10 @@ Update multiple GRE tunnels
 
 operationId: `magic-gre-tunnels-update-multiple-gre-tunnels`
 
+**Request** (application/json)
+
+object
+
 **Response** 200 → `result`
 
 (one of 3 variants; showing the first)

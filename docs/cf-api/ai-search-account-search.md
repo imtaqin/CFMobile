@@ -14,31 +14,32 @@ operationId: `ai-search-namespace-multi-instance-chat-completion`
   - `cache`: object
     - `cache_threshold`: string enum: `super_strict_match`, `close_enough`, `flexible_friend`, `anything_goes`
     - `enabled`: boolean
+  - `custom_metadata`: object — Metadata added to AI Gateway logs for requests this operation triggers. Accepts up to 2 string, number, or boolean entries. Reserved keys: '
   - `instance_ids`: string[] **required**
     [array]
   - `query_rewrite`: object
     - `enabled`: boolean
-    - `model`: any
+    - `model`: string — A Workers AI model ID or an AI Gateway model ID compatible with the OpenAI Chat Completions API. An empty string uses the configured or defa
     - `rewrite_prompt`: string
   - `reranking`: object
     - `enabled`: boolean
     - `match_threshold`: number default: `0.4`
-    - `model`: any
+    - `model`: string
   - `retrieval`: object
     - `boost_by`: object[] — Metadata fields to boost search results by. Overrides the instance-level boost_by config. Direction defaults to 'asc' for numeric/datetime f
     - `context_expansion`: integer default: `0`
     - `filters`: object
     - `fusion_method`: string enum: `max`, `rrf`
-    - `keyword_match_mode`: string enum: `and`, `or` — Controls which documents are candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes 
-    - `match_threshold`: number default: `0.4`
-    - `max_num_results`: integer default: `10`
+    - `keyword_match_mode`: string enum: `and`, `or` — Controls which documents become candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includ
+    - `match_threshold`: number — Minimum score a chunk must reach to be returned. When omitted, each instance's chunks are filtered by that instance's score_threshold, cappe
+    - `max_num_results`: integer — Maximum number of merged results to return. When omitted, defaults to the first instance's max_num_results, then 10.
     - `retrieval_type`: string enum: `vector`, `keyword`, `hybrid`
     - `return_on_failure`: boolean default: `true`
 - `messages`: object[] **required**
   [array of]
   - `content`: any **required**
   - `role`: string **required** enum: `system`, `developer`, `user`, `assistant`, `tool`
-- `model`: any
+- `model`: string — A Workers AI model ID or an AI Gateway model ID compatible with the OpenAI Chat Completions API. An empty string uses the configured or defa
 - `stream`: boolean
 
 **Response** 200 → `result`
@@ -57,6 +58,8 @@ operationId: `ai-search-namespace-multi-instance-chat-completion`
     - `key`: string **required**
     - `metadata`: object
     - `timestamp`: number
+  - `media_end_ms`: integer — Audio/video transcript chunks only: end, in milliseconds from the start of the media (whole seconds), of the last transcript section the mat
+  - `media_start_ms`: integer — Audio/video transcript chunks only: start, in milliseconds from the start of the media (whole seconds), of the transcript section the matche
   - `score`: number **required**
   - `scoring_details`: object
     - `fusion_method`: string enum: `rrf`, `max`
@@ -65,6 +68,7 @@ operationId: `ai-search-namespace-multi-instance-chat-completion`
     - `reranking_score`: number
     - `vector_rank`: number
     - `vector_score`: number
+  - `source_media_type`: string enum: `audio`, `video` — Audio/video transcript chunks only: type of the source media file. Omitted for all other chunks.
   - `text`: string **required**
   - `type`: string **required**
 - `errors`: object[]
@@ -87,24 +91,25 @@ operationId: `ai-search-namespace-multi-instance-search`
   - `cache`: object
     - `cache_threshold`: string enum: `super_strict_match`, `close_enough`, `flexible_friend`, `anything_goes`
     - `enabled`: boolean
+  - `custom_metadata`: object — Metadata added to AI Gateway logs for requests this operation triggers. Accepts up to 2 string, number, or boolean entries. Reserved keys: '
   - `instance_ids`: string[] **required**
     [array]
   - `query_rewrite`: object
     - `enabled`: boolean
-    - `model`: any
+    - `model`: string — A Workers AI model ID or an AI Gateway model ID compatible with the OpenAI Chat Completions API. An empty string uses the configured or defa
     - `rewrite_prompt`: string
   - `reranking`: object
     - `enabled`: boolean
     - `match_threshold`: number default: `0.4`
-    - `model`: any
+    - `model`: string
   - `retrieval`: object
     - `boost_by`: object[] — Metadata fields to boost search results by. Overrides the instance-level boost_by config. Direction defaults to 'asc' for numeric/datetime f
     - `context_expansion`: integer default: `0`
     - `filters`: object
     - `fusion_method`: string enum: `max`, `rrf`
-    - `keyword_match_mode`: string enum: `and`, `or` — Controls which documents are candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes 
-    - `match_threshold`: number default: `0.4`
-    - `max_num_results`: integer default: `10`
+    - `keyword_match_mode`: string enum: `and`, `or` — Controls which documents become candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includ
+    - `match_threshold`: number — Minimum score a chunk must reach to be returned. When omitted, each instance's chunks are filtered by that instance's score_threshold, cappe
+    - `max_num_results`: integer — Maximum number of merged results to return. When omitted, defaults to the sum of the searched instances' max_num_results (each falling back 
     - `retrieval_type`: string enum: `vector`, `keyword`, `hybrid`
     - `return_on_failure`: boolean default: `true`
 - `messages`: object[] — OpenAI-compatible message array. For multimodal queries, set the last user message's `content` to an array of typed parts: `[{type:'text', t
@@ -123,6 +128,8 @@ operationId: `ai-search-namespace-multi-instance-search`
     - `key`: string **required**
     - `metadata`: object
     - `timestamp`: number
+  - `media_end_ms`: integer — Audio/video transcript chunks only: end, in milliseconds from the start of the media (whole seconds), of the last transcript section the mat
+  - `media_start_ms`: integer — Audio/video transcript chunks only: start, in milliseconds from the start of the media (whole seconds), of the transcript section the matche
   - `score`: number **required**
   - `scoring_details`: object
     - `fusion_method`: string enum: `rrf`, `max`
@@ -131,6 +138,7 @@ operationId: `ai-search-namespace-multi-instance-search`
     - `reranking_score`: number
     - `vector_rank`: number
     - `vector_score`: number
+  - `source_media_type`: string enum: `audio`, `video` — Audio/video transcript chunks only: type of the source media file. Omitted for all other chunks.
   - `text`: string **required**
   - `type`: string **required**
 - `errors`: object[]

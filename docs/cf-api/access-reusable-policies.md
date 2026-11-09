@@ -23,11 +23,13 @@ operationId: `access-policies-list-access-reusable-policies` · query: `page`, `
   - `group`: object **required**
     - `id`: string **required** — The ID of a previously created Access group.
 - `name`: string — The name of the Access policy.
+- `policy_resolution_account_id`: string — The account ID used to resolve policy resources and identity for cross-account WARP authentication. The account must be trusted by the accou
 - `require`: object[] default: `` — Rules evaluated with an AND logical operator. To match the policy, a user must meet all of the Require rules.
   [array of]
   - `group`: object **required**
     - `id`: string **required** — The ID of a previously created Access group.
 - `updated_at`: string
+- `account_id`: string — Identifier.
 - `app_count`: integer — Number of access applications currently using this policy.
 - `reusable`: boolean enum: `true`
 
@@ -49,6 +51,7 @@ operationId: `access-policies-create-an-access-reusable-policy`
   - `group`: object **required**
     - `id`: string **required** — The ID of a previously created Access group.
 - `name`: string **required** — The name of the Access policy.
+- `policy_resolution_account_id`: string — The account ID used to resolve policy resources and identity for cross-account WARP authentication. The account must be trusted by the accou
 - `require`: object[] default: `` — Rules evaluated with an AND logical operator. To match the policy, a user must meet all of the Require rules.
   [array of]
   - `group`: object **required**
@@ -68,11 +71,13 @@ operationId: `access-policies-create-an-access-reusable-policy`
   - `group`: object **required**
     - `id`: string **required** — The ID of a previously created Access group.
 - `name`: string — The name of the Access policy.
+- `policy_resolution_account_id`: string — The account ID used to resolve policy resources and identity for cross-account WARP authentication. The account must be trusted by the accou
 - `require`: object[] default: `` — Rules evaluated with an AND logical operator. To match the policy, a user must meet all of the Require rules.
   [array of]
   - `group`: object **required**
     - `id`: string **required** — The ID of a previously created Access group.
 - `updated_at`: string
+- `account_id`: string — Identifier.
 - `app_count`: integer — Number of access applications currently using this policy.
 - `reusable`: boolean enum: `true`
 
@@ -106,11 +111,13 @@ operationId: `access-policies-get-an-access-reusable-policy`
   - `group`: object **required**
     - `id`: string **required** — The ID of a previously created Access group.
 - `name`: string — The name of the Access policy.
+- `policy_resolution_account_id`: string — The account ID used to resolve policy resources and identity for cross-account WARP authentication. The account must be trusted by the accou
 - `require`: object[] default: `` — Rules evaluated with an AND logical operator. To match the policy, a user must meet all of the Require rules.
   [array of]
   - `group`: object **required**
     - `id`: string **required** — The ID of a previously created Access group.
 - `updated_at`: string
+- `account_id`: string — Identifier.
 - `app_count`: integer — Number of access applications currently using this policy.
 - `reusable`: boolean enum: `true`
 
@@ -132,6 +139,7 @@ operationId: `access-policies-update-an-access-reusable-policy`
   - `group`: object **required**
     - `id`: string **required** — The ID of a previously created Access group.
 - `name`: string **required** — The name of the Access policy.
+- `policy_resolution_account_id`: string — The account ID used to resolve policy resources and identity for cross-account WARP authentication. The account must be trusted by the accou
 - `require`: object[] default: `` — Rules evaluated with an AND logical operator. To match the policy, a user must meet all of the Require rules.
   [array of]
   - `group`: object **required**
@@ -151,10 +159,12 @@ operationId: `access-policies-update-an-access-reusable-policy`
   - `group`: object **required**
     - `id`: string **required** — The ID of a previously created Access group.
 - `name`: string — The name of the Access policy.
+- `policy_resolution_account_id`: string — The account ID used to resolve policy resources and identity for cross-account WARP authentication. The account must be trusted by the accou
 - `require`: object[] default: `` — Rules evaluated with an AND logical operator. To match the policy, a user must meet all of the Require rules.
   [array of]
   - `group`: object **required**
     - `id`: string **required** — The ID of a previously created Access group.
 - `updated_at`: string
+- `account_id`: string — Identifier.
 - `app_count`: integer — Number of access applications currently using this policy.
 - `reusable`: boolean enum: `true`

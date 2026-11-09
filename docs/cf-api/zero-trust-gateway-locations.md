@@ -6,13 +6,14 @@
 
 List Zero Trust Gateway locations
 
-operationId: `zero-trust-gateway-locations-list-zero-trust-gateway-locations`
+operationId: `zero-trust-gateway-locations-list-zero-trust-gateway-locations` · query: `filter`, `search`, `order_by`, `direction`
 
 **Response** 200 → `result`
 
 [array of]
 - `client_default`: boolean default: `false` — Indicate whether this location is the default location.
 - `created_at`: string
+- `dns64_enabled`: boolean default: `false` — Enable DNS64 synthesis for DNS queries matched to this location. When updating a location, omitting this field resets it to false.
 - `dns_destination_ips_id`: string default: `0e4a32c6-6fb8-4858-9296-98f51631e8e6` — Indicate the identifier of the pair of IPv4 addresses assigned to this location.
 - `dns_destination_ipv6_block_id`: string — Specify the UUID of the IPv6 block brought to the gateway so that this location's IPv6 address is allocated from the Bring Your Own IPv6 (BY
 - `doh_subdomain`: string — Specify the DNS over HTTPS domain that receives DNS requests. Gateway automatically generates this value.
@@ -52,6 +53,7 @@ operationId: `zero-trust-gateway-locations-create-zero-trust-gateway-location`
 **Request** (application/json)
 
 - `client_default`: boolean default: `false` — Indicate whether this location is the default location.
+- `dns64_enabled`: boolean default: `false` — Enable DNS64 synthesis for DNS queries matched to this location. When updating a location, omitting this field resets it to false.
 - `dns_destination_ips_id`: string — Specify the identifier of the pair of IPv4 addresses assigned to this location. When creating a location, if this field is absent or set to 
 - `ecs_support`: boolean default: `false` — Indicate whether the location must resolve EDNS queries.
 - `endpoints`: object — Configure the destination endpoints for this location.
@@ -79,6 +81,7 @@ operationId: `zero-trust-gateway-locations-create-zero-trust-gateway-location`
 
 - `client_default`: boolean default: `false` — Indicate whether this location is the default location.
 - `created_at`: string
+- `dns64_enabled`: boolean default: `false` — Enable DNS64 synthesis for DNS queries matched to this location. When updating a location, omitting this field resets it to false.
 - `dns_destination_ips_id`: string default: `0e4a32c6-6fb8-4858-9296-98f51631e8e6` — Indicate the identifier of the pair of IPv4 addresses assigned to this location.
 - `dns_destination_ipv6_block_id`: string — Specify the UUID of the IPv6 block brought to the gateway so that this location's IPv6 address is allocated from the Bring Your Own IPv6 (BY
 - `doh_subdomain`: string — Specify the DNS over HTTPS domain that receives DNS requests. Gateway automatically generates this value.
@@ -129,6 +132,7 @@ operationId: `zero-trust-gateway-locations-zero-trust-gateway-location-details`
 
 - `client_default`: boolean default: `false` — Indicate whether this location is the default location.
 - `created_at`: string
+- `dns64_enabled`: boolean default: `false` — Enable DNS64 synthesis for DNS queries matched to this location. When updating a location, omitting this field resets it to false.
 - `dns_destination_ips_id`: string default: `0e4a32c6-6fb8-4858-9296-98f51631e8e6` — Indicate the identifier of the pair of IPv4 addresses assigned to this location.
 - `dns_destination_ipv6_block_id`: string — Specify the UUID of the IPv6 block brought to the gateway so that this location's IPv6 address is allocated from the Bring Your Own IPv6 (BY
 - `doh_subdomain`: string — Specify the DNS over HTTPS domain that receives DNS requests. Gateway automatically generates this value.
@@ -168,6 +172,7 @@ operationId: `zero-trust-gateway-locations-update-zero-trust-gateway-location`
 **Request** (application/json)
 
 - `client_default`: boolean default: `false` — Indicate whether this location is the default location.
+- `dns64_enabled`: boolean default: `false` — Enable DNS64 synthesis for DNS queries matched to this location. When updating a location, omitting this field resets it to false.
 - `dns_destination_ips_id`: string — Specify the identifier of the pair of IPv4 addresses assigned to this location. When creating a location, if this field is absent or set to 
 - `ecs_support`: boolean default: `false` — Indicate whether the location must resolve EDNS queries.
 - `endpoints`: object — Configure the destination endpoints for this location.
@@ -195,6 +200,7 @@ operationId: `zero-trust-gateway-locations-update-zero-trust-gateway-location`
 
 - `client_default`: boolean default: `false` — Indicate whether this location is the default location.
 - `created_at`: string
+- `dns64_enabled`: boolean default: `false` — Enable DNS64 synthesis for DNS queries matched to this location. When updating a location, omitting this field resets it to false.
 - `dns_destination_ips_id`: string default: `0e4a32c6-6fb8-4858-9296-98f51631e8e6` — Indicate the identifier of the pair of IPv4 addresses assigned to this location.
 - `dns_destination_ipv6_block_id`: string — Specify the UUID of the IPv6 block brought to the gateway so that this location's IPv6 address is allocated from the Bring Your Own IPv6 (BY
 - `doh_subdomain`: string — Specify the DNS over HTTPS domain that receives DNS requests. Gateway automatically generates this value.

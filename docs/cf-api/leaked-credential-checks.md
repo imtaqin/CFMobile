@@ -4,7 +4,7 @@
 
 ## GET /zones/{zone_id}/leaked-credential-checks
 
-Get Leaked Credential Checks Status
+Get the Leaked Credential Checks status for a zone.
 
 operationId: `waf-product-api-leaked-credentials-get-status`
 
@@ -15,7 +15,7 @@ object
 
 ## POST /zones/{zone_id}/leaked-credential-checks
 
-Set Leaked Credential Checks Status
+Update the Leaked Credential Checks status for a zone.
 
 operationId: `waf-product-api-leaked-credentials-set-status`
 
@@ -30,7 +30,7 @@ object
 
 ## GET /zones/{zone_id}/leaked-credential-checks/detections
 
-List Leaked Credential Checks Custom Detections
+List the custom detection locations of a zone.
 
 operationId: `waf-product-api-leaked-credentials-list-detections`
 
@@ -41,7 +41,7 @@ object
 
 ## POST /zones/{zone_id}/leaked-credential-checks/detections
 
-Create Leaked Credential Checks Custom Detection
+Create a custom detection location for a zone.
 
 operationId: `waf-product-api-leaked-credentials-create-detection`
 
@@ -58,7 +58,7 @@ object
 
 ## DELETE /zones/{zone_id}/leaked-credential-checks/detections/{detection_id}
 
-Delete Leaked Credential Checks Custom Detection
+Delete a custom detection location from a zone.
 
 operationId: `waf-product-api-leaked-credentials-delete-detection`
 
@@ -69,7 +69,7 @@ object
 
 ## GET /zones/{zone_id}/leaked-credential-checks/detections/{detection_id}
 
-Get Leaked Credential Checks Custom Detection
+Get a custom detection location of a zone.
 
 operationId: `waf-product-api-leaked-credentials-get-detection`
 
@@ -80,7 +80,7 @@ object
 
 ## PUT /zones/{zone_id}/leaked-credential-checks/detections/{detection_id}
 
-Update Leaked Credential Checks Custom Detection
+Update a custom detection location of a zone.
 
 operationId: `waf-product-api-leaked-credentials-update-detection`
 

@@ -21,13 +21,18 @@ operationId: `magic-site-wans-create-wan`
 
 **Request** (application/json)
 
+- `health_check_rate`: string enum: `low`, `mid`, `high` default: `mid` — Magic WAN health check rate for tunnels created on this link. The default value is `mid`.
+- `load_balance_inner_flows`: boolean default: `true`
 - `name`: string
 - `physport`: integer **required**
 - `priority`: integer
-- `static_addressing`: object — (optional) if omitted, use DHCP. Submit secondary_address when site is in high availability mode.
+- `provisioned_download_kbps`: integer — Provisioned download rate of the WAN circuit in kilobits per second.
+- `provisioned_upload_kbps`: integer — Provisioned upload rate of the WAN circuit in kilobits per second.
+- `static_addressing`: object — Static addressing configuration for a WAN. Omit to use DHCP. Submit secondary_address when the site is in high availability mode.
   - `address`: string **required** — A valid CIDR notation representing an IP range.
   - `gateway_address`: string **required** — A valid IPv4 address.
   - `secondary_address`: string — A valid CIDR notation representing an IP range.
+  - `secondary_gateway_address`: string — Gateway address for the secondary connector of a high availability site.
 - `vlan_tag`: integer — VLAN ID. Use zero for untagged.
 
 **Response** 200 → `result`
@@ -65,13 +70,18 @@ operationId: `magic-site-wans-patch-wan`
 
 **Request** (application/json)
 
+- `health_check_rate`: string enum: `low`, `mid`, `high` — Magic WAN health check rate for tunnels created on this link.
+- `load_balance_inner_flows`: boolean
 - `name`: string
 - `physport`: integer
 - `priority`: integer
-- `static_addressing`: object — (optional) if omitted, use DHCP. Submit secondary_address when site is in high availability mode.
-  - `address`: string **required** — A valid CIDR notation representing an IP range.
-  - `gateway_address`: string **required** — A valid IPv4 address.
+- `provisioned_download_kbps`: integer — Provisioned download rate of the WAN circuit in kilobits per second. Set to null to remove it.
+- `provisioned_upload_kbps`: integer — Provisioned upload rate of the WAN circuit in kilobits per second. Set to null to remove it.
+- `static_addressing`: object — Static addressing configuration. PATCH updates only the fields provided, and PUT replaces the configuration.
+  - `address`: string — A valid CIDR notation representing an IP range.
+  - `gateway_address`: string — A valid IPv4 address.
   - `secondary_address`: string — A valid CIDR notation representing an IP range.
+  - `secondary_gateway_address`: string — Gateway address for the secondary connector of a high availability site. Set to null to remove it.
 - `vlan_tag`: integer — VLAN ID. Use zero for untagged.
 
 **Response** 200 → `result`
@@ -87,13 +97,18 @@ operationId: `magic-site-wans-update-wan`
 
 **Request** (application/json)
 
+- `health_check_rate`: string enum: `low`, `mid`, `high` — Magic WAN health check rate for tunnels created on this link.
+- `load_balance_inner_flows`: boolean
 - `name`: string
 - `physport`: integer
 - `priority`: integer
-- `static_addressing`: object — (optional) if omitted, use DHCP. Submit secondary_address when site is in high availability mode.
-  - `address`: string **required** — A valid CIDR notation representing an IP range.
-  - `gateway_address`: string **required** — A valid IPv4 address.
+- `provisioned_download_kbps`: integer — Provisioned download rate of the WAN circuit in kilobits per second. Set to null to remove it.
+- `provisioned_upload_kbps`: integer — Provisioned upload rate of the WAN circuit in kilobits per second. Set to null to remove it.
+- `static_addressing`: object — Static addressing configuration. PATCH updates only the fields provided, and PUT replaces the configuration.
+  - `address`: string — A valid CIDR notation representing an IP range.
+  - `gateway_address`: string — A valid IPv4 address.
   - `secondary_address`: string — A valid CIDR notation representing an IP range.
+  - `secondary_gateway_address`: string — Gateway address for the secondary connector of a high availability site. Set to null to remove it.
 - `vlan_tag`: integer — VLAN ID. Use zero for untagged.
 
 **Response** 200 → `result`

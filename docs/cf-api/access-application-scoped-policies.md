@@ -11,6 +11,7 @@ operationId: `access-policies-list-access-app-policies` · query: `page`, `per_p
 **Response** 200 → `result`
 
 [array of]
+(one of 2 variants; showing the first)
 - `created_at`: string
 - `decision`: string enum: `allow`, `deny`, `non_identity`, `bypass` — The action Access will take if a user matches this policy. Infrastructure application policies can only use the Allow action.
 - `exclude`: object[] default: `` — Rules evaluated with a NOT logical operator. To match the policy, a user cannot meet any of the Exclude rules.
@@ -23,11 +24,13 @@ operationId: `access-policies-list-access-app-policies` · query: `page`, `per_p
   - `group`: object **required**
     - `id`: string **required** — The ID of a previously created Access group.
 - `name`: string — The name of the Access policy.
+- `policy_resolution_account_id`: string — The account ID used to resolve policy resources and identity for cross-account WARP authentication. The account must be trusted by the accou
 - `require`: object[] default: `` — Rules evaluated with an AND logical operator. To match the policy, a user must meet all of the Require rules.
   [array of]
   - `group`: object **required**
     - `id`: string **required** — The ID of a previously created Access group.
 - `updated_at`: string
+- `account_id`: string — Identifier.
 - `precedence`: integer — The order of execution for this policy. Must be unique for each policy within an app.
 
 ## POST /accounts/{account_id}/access/apps/{app_id}/policies
@@ -38,6 +41,7 @@ operationId: `access-policies-create-an-access-policy`
 
 **Request** (application/json)
 
+(one of 2 variants; showing the first)
 - `precedence`: integer — The order of execution for this policy. Must be unique for each policy within an app.
 - `decision`: string **required** enum: `allow`, `deny`, `non_identity`, `bypass` — The action Access will take if a user matches this policy. Infrastructure application policies can only use the Allow action.
 - `exclude`: object[] default: `` — Rules evaluated with a NOT logical operator. To match the policy, a user cannot meet any of the Exclude rules.
@@ -49,6 +53,7 @@ operationId: `access-policies-create-an-access-policy`
   - `group`: object **required**
     - `id`: string **required** — The ID of a previously created Access group.
 - `name`: string **required** — The name of the Access policy.
+- `policy_resolution_account_id`: string — The account ID used to resolve policy resources and identity for cross-account WARP authentication. The account must be trusted by the accou
 - `require`: object[] default: `` — Rules evaluated with an AND logical operator. To match the policy, a user must meet all of the Require rules.
   [array of]
   - `group`: object **required**
@@ -56,6 +61,7 @@ operationId: `access-policies-create-an-access-policy`
 
 **Response** 201 → `result`
 
+(one of 2 variants; showing the first)
 - `created_at`: string
 - `decision`: string enum: `allow`, `deny`, `non_identity`, `bypass` — The action Access will take if a user matches this policy. Infrastructure application policies can only use the Allow action.
 - `exclude`: object[] default: `` — Rules evaluated with a NOT logical operator. To match the policy, a user cannot meet any of the Exclude rules.
@@ -68,11 +74,13 @@ operationId: `access-policies-create-an-access-policy`
   - `group`: object **required**
     - `id`: string **required** — The ID of a previously created Access group.
 - `name`: string — The name of the Access policy.
+- `policy_resolution_account_id`: string — The account ID used to resolve policy resources and identity for cross-account WARP authentication. The account must be trusted by the accou
 - `require`: object[] default: `` — Rules evaluated with an AND logical operator. To match the policy, a user must meet all of the Require rules.
   [array of]
   - `group`: object **required**
     - `id`: string **required** — The ID of a previously created Access group.
 - `updated_at`: string
+- `account_id`: string — Identifier.
 - `precedence`: integer — The order of execution for this policy. Must be unique for each policy within an app.
 
 ## DELETE /accounts/{account_id}/access/apps/{app_id}/policies/{policy_id}
@@ -93,6 +101,7 @@ operationId: `access-policies-get-an-access-policy`
 
 **Response** 200 → `result`
 
+(one of 2 variants; showing the first)
 - `created_at`: string
 - `decision`: string enum: `allow`, `deny`, `non_identity`, `bypass` — The action Access will take if a user matches this policy. Infrastructure application policies can only use the Allow action.
 - `exclude`: object[] default: `` — Rules evaluated with a NOT logical operator. To match the policy, a user cannot meet any of the Exclude rules.
@@ -105,11 +114,13 @@ operationId: `access-policies-get-an-access-policy`
   - `group`: object **required**
     - `id`: string **required** — The ID of a previously created Access group.
 - `name`: string — The name of the Access policy.
+- `policy_resolution_account_id`: string — The account ID used to resolve policy resources and identity for cross-account WARP authentication. The account must be trusted by the accou
 - `require`: object[] default: `` — Rules evaluated with an AND logical operator. To match the policy, a user must meet all of the Require rules.
   [array of]
   - `group`: object **required**
     - `id`: string **required** — The ID of a previously created Access group.
 - `updated_at`: string
+- `account_id`: string — Identifier.
 - `precedence`: integer — The order of execution for this policy. Must be unique for each policy within an app.
 
 ## PUT /accounts/{account_id}/access/apps/{app_id}/policies/{policy_id}
@@ -120,6 +131,7 @@ operationId: `access-policies-update-an-access-policy`
 
 **Request** (application/json)
 
+(one of 2 variants; showing the first)
 - `precedence`: integer — The order of execution for this policy. Must be unique for each policy within an app.
 - `decision`: string **required** enum: `allow`, `deny`, `non_identity`, `bypass` — The action Access will take if a user matches this policy. Infrastructure application policies can only use the Allow action.
 - `exclude`: object[] default: `` — Rules evaluated with a NOT logical operator. To match the policy, a user cannot meet any of the Exclude rules.
@@ -131,6 +143,7 @@ operationId: `access-policies-update-an-access-policy`
   - `group`: object **required**
     - `id`: string **required** — The ID of a previously created Access group.
 - `name`: string **required** — The name of the Access policy.
+- `policy_resolution_account_id`: string — The account ID used to resolve policy resources and identity for cross-account WARP authentication. The account must be trusted by the accou
 - `require`: object[] default: `` — Rules evaluated with an AND logical operator. To match the policy, a user must meet all of the Require rules.
   [array of]
   - `group`: object **required**
@@ -138,6 +151,7 @@ operationId: `access-policies-update-an-access-policy`
 
 **Response** 200 → `result`
 
+(one of 2 variants; showing the first)
 - `created_at`: string
 - `decision`: string enum: `allow`, `deny`, `non_identity`, `bypass` — The action Access will take if a user matches this policy. Infrastructure application policies can only use the Allow action.
 - `exclude`: object[] default: `` — Rules evaluated with a NOT logical operator. To match the policy, a user cannot meet any of the Exclude rules.
@@ -150,11 +164,13 @@ operationId: `access-policies-update-an-access-policy`
   - `group`: object **required**
     - `id`: string **required** — The ID of a previously created Access group.
 - `name`: string — The name of the Access policy.
+- `policy_resolution_account_id`: string — The account ID used to resolve policy resources and identity for cross-account WARP authentication. The account must be trusted by the accou
 - `require`: object[] default: `` — Rules evaluated with an AND logical operator. To match the policy, a user must meet all of the Require rules.
   [array of]
   - `group`: object **required**
     - `id`: string **required** — The ID of a previously created Access group.
 - `updated_at`: string
+- `account_id`: string — Identifier.
 - `precedence`: integer — The order of execution for this policy. Must be unique for each policy within an app.
 
 ## PUT /accounts/{account_id}/access/apps/{app_id}/policies/{policy_id}/make_reusable
@@ -166,6 +182,7 @@ operationId: `access-policies-convert-reusable`
 **Response** 200 → `result`
 
 [array of]
+(one of 2 variants; showing the first)
 - `created_at`: string
 - `decision`: string enum: `allow`, `deny`, `non_identity`, `bypass` — The action Access will take if a user matches this policy. Infrastructure application policies can only use the Allow action.
 - `exclude`: object[] default: `` — Rules evaluated with a NOT logical operator. To match the policy, a user cannot meet any of the Exclude rules.
@@ -178,9 +195,11 @@ operationId: `access-policies-convert-reusable`
   - `group`: object **required**
     - `id`: string **required** — The ID of a previously created Access group.
 - `name`: string — The name of the Access policy.
+- `policy_resolution_account_id`: string — The account ID used to resolve policy resources and identity for cross-account WARP authentication. The account must be trusted by the accou
 - `require`: object[] default: `` — Rules evaluated with an AND logical operator. To match the policy, a user must meet all of the Require rules.
   [array of]
   - `group`: object **required**
     - `id`: string **required** — The ID of a previously created Access group.
 - `updated_at`: string
+- `account_id`: string — Identifier.
 - `precedence`: integer — The order of execution for this policy. Must be unique for each policy within an app.

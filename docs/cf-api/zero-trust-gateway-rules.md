@@ -6,7 +6,7 @@
 
 List Zero Trust Gateway rules
 
-operationId: `zero-trust-gateway-rules-list-zero-trust-gateway-rules`
+operationId: `zero-trust-gateway-rules-list-zero-trust-gateway-rules` · query: `filter`, `search`, `order_by`, `direction`
 
 **Response** 200 → `result`
 
@@ -31,8 +31,6 @@ operationId: `zero-trust-gateway-rules-list-zero-trust-gateway-rules`
 - `rule_settings`: object — Defines settings for this rule. Settings apply only to specific rule types and must use compatible selectors. If Terraform detects drift, co
   - `add_headers`: object — Add custom headers to allowed requests as key-value pairs. Use header names as keys that map to arrays of header values. Header values may c
   - `allow_child_bypass`: boolean — Set to enable MSP children to bypass this rule. Only parent MSP accounts can set this. this rule. Settable for all types of rules.
-  - `audit_ssh`: object — Define the settings for the Audit SSH action. Settable only for `l4` rules with `audit_ssh` action.
-    - `command_logging`: boolean — Enable SSH command logging.
   - `biso_admin_controls`: object — Configure browser isolation behavior. Settable only for `http` rules with the action set to `isolate`.
     - `copy`: string enum: `enabled`, `disabled`, `remote_only` — Configure copy behavior. If set to remote_only, users cannot copy isolated content from the remote browser to the local clipboard. If this f
     - `dcp`: boolean — Set to false to enable copy-pasting. Only applies when `version == "v1"`.
@@ -41,7 +39,7 @@ operationId: `zero-trust-gateway-rules-list-zero-trust-gateway-rules`
     - `download`: string enum: `enabled`, `disabled`, `remote_only` — Configure download behavior. When set to remote_only, users can view downloads but cannot save them. If this field is absent, downloading re
     - `dp`: boolean — Set to false to enable printing. Only applies when `version == "v1"`.
     - `du`: boolean — Set to false to enable uploading. Only applies when `version == "v1"`.
-    - `keyboard`: string enum: `enabled`, `disabled` — Configure keyboard usage behavior. If this field is absent, keyboard usage remains enabled. Applies only when version == "v2".
+    - `keyboard`: string enum: `enabled`, `disabled`, `enable_read_only_actions` — Configure keyboard usage behavior. When set to enable_read_only_actions, only approved browser commands (find, copy, print, zoom, and select
     - `paste`: string enum: `enabled`, `disabled`, `remote_only` — Configure paste behavior. If set to remote_only, users cannot paste content from the local clipboard into isolated pages. If this field is a
     - `printing`: string enum: `enabled`, `disabled` — Configure print behavior. Default, Printing is enabled. Applies only when version == "v2".
     - `upload`: string enum: `enabled`, `disabled` — Configure upload behavior. If this field is absent, uploading remains enabled. Applies only when version == "v2".
@@ -67,6 +65,8 @@ operationId: `zero-trust-gateway-rules-list-zero-trust-gateway-rules`
     - `ipv6`: string — Specify the IPv6 range to use for egress.
   - `forensic_copy`: object — Configure whether a copy of the HTTP request will be sent to storage when the rule matches.
     - `enabled`: boolean — Enable sending the copy to storage.
+  - `forward`: object — Forward matching HTTP requests to a Worker. Required for `http` rules with the action set to `forward`.
+    - `worker_id`: string **required** — Specify the public Worker ID of the target Worker.
   - `ignore_cname_category_matches`: boolean — Ignore category matches at CNAME domains in a response. When off, evaluate categories in this rule against all CNAME domain categories in th
   - `insecure_disable_dnssec_validation`: boolean — Specify whether to disable DNSSEC validation (for Allow actions) [INSECURE]. Settable only for `dns` rules.
   - `ip_categories`: boolean — Enable IPs in DNS resolver category blocks. The system blocks only domain name categories unless you enable this setting. Settable only for 
@@ -151,8 +151,6 @@ operationId: `zero-trust-gateway-rules-patch-multiple-zero-trust-gateway-rules`
 - `rule_settings`: object — Defines settings for this rule. Settings apply only to specific rule types and must use compatible selectors. If Terraform detects drift, co
   - `add_headers`: object — Add custom headers to allowed requests as key-value pairs. Use header names as keys that map to arrays of header values. Header values may c
   - `allow_child_bypass`: boolean — Set to enable MSP children to bypass this rule. Only parent MSP accounts can set this. this rule. Settable for all types of rules.
-  - `audit_ssh`: object — Define the settings for the Audit SSH action. Settable only for `l4` rules with `audit_ssh` action.
-    - `command_logging`: boolean — Enable SSH command logging.
   - `biso_admin_controls`: object — Configure browser isolation behavior. Settable only for `http` rules with the action set to `isolate`.
     - `copy`: string enum: `enabled`, `disabled`, `remote_only` — Configure copy behavior. If set to remote_only, users cannot copy isolated content from the remote browser to the local clipboard. If this f
     - `dcp`: boolean — Set to false to enable copy-pasting. Only applies when `version == "v1"`.
@@ -161,7 +159,7 @@ operationId: `zero-trust-gateway-rules-patch-multiple-zero-trust-gateway-rules`
     - `download`: string enum: `enabled`, `disabled`, `remote_only` — Configure download behavior. When set to remote_only, users can view downloads but cannot save them. If this field is absent, downloading re
     - `dp`: boolean — Set to false to enable printing. Only applies when `version == "v1"`.
     - `du`: boolean — Set to false to enable uploading. Only applies when `version == "v1"`.
-    - `keyboard`: string enum: `enabled`, `disabled` — Configure keyboard usage behavior. If this field is absent, keyboard usage remains enabled. Applies only when version == "v2".
+    - `keyboard`: string enum: `enabled`, `disabled`, `enable_read_only_actions` — Configure keyboard usage behavior. When set to enable_read_only_actions, only approved browser commands (find, copy, print, zoom, and select
     - `paste`: string enum: `enabled`, `disabled`, `remote_only` — Configure paste behavior. If set to remote_only, users cannot paste content from the local clipboard into isolated pages. If this field is a
     - `printing`: string enum: `enabled`, `disabled` — Configure print behavior. Default, Printing is enabled. Applies only when version == "v2".
     - `upload`: string enum: `enabled`, `disabled` — Configure upload behavior. If this field is absent, uploading remains enabled. Applies only when version == "v2".
@@ -187,6 +185,8 @@ operationId: `zero-trust-gateway-rules-patch-multiple-zero-trust-gateway-rules`
     - `ipv6`: string — Specify the IPv6 range to use for egress.
   - `forensic_copy`: object — Configure whether a copy of the HTTP request will be sent to storage when the rule matches.
     - `enabled`: boolean — Enable sending the copy to storage.
+  - `forward`: object — Forward matching HTTP requests to a Worker. Required for `http` rules with the action set to `forward`.
+    - `worker_id`: string **required** — Specify the public Worker ID of the target Worker.
   - `ignore_cname_category_matches`: boolean — Ignore category matches at CNAME domains in a response. When off, evaluate categories in this rule against all CNAME domain categories in th
   - `insecure_disable_dnssec_validation`: boolean — Specify whether to disable DNSSEC validation (for Allow actions) [INSECURE]. Settable only for `dns` rules.
   - `ip_categories`: boolean — Enable IPs in DNS resolver category blocks. The system blocks only domain name categories unless you enable this setting. Settable only for 
@@ -257,8 +257,6 @@ operationId: `zero-trust-gateway-rules-create-zero-trust-gateway-rule`
 - `rule_settings`: object — Defines settings for this rule. Settings apply only to specific rule types and must use compatible selectors. If Terraform detects drift, co
   - `add_headers`: object — Add custom headers to allowed requests as key-value pairs. Use header names as keys that map to arrays of header values. Header values may c
   - `allow_child_bypass`: boolean — Set to enable MSP children to bypass this rule. Only parent MSP accounts can set this. this rule. Settable for all types of rules.
-  - `audit_ssh`: object — Define the settings for the Audit SSH action. Settable only for `l4` rules with `audit_ssh` action.
-    - `command_logging`: boolean — Enable SSH command logging.
   - `biso_admin_controls`: object — Configure browser isolation behavior. Settable only for `http` rules with the action set to `isolate`.
     - `copy`: string enum: `enabled`, `disabled`, `remote_only` — Configure copy behavior. If set to remote_only, users cannot copy isolated content from the remote browser to the local clipboard. If this f
     - `dcp`: boolean — Set to false to enable copy-pasting. Only applies when `version == "v1"`.
@@ -267,7 +265,7 @@ operationId: `zero-trust-gateway-rules-create-zero-trust-gateway-rule`
     - `download`: string enum: `enabled`, `disabled`, `remote_only` — Configure download behavior. When set to remote_only, users can view downloads but cannot save them. If this field is absent, downloading re
     - `dp`: boolean — Set to false to enable printing. Only applies when `version == "v1"`.
     - `du`: boolean — Set to false to enable uploading. Only applies when `version == "v1"`.
-    - `keyboard`: string enum: `enabled`, `disabled` — Configure keyboard usage behavior. If this field is absent, keyboard usage remains enabled. Applies only when version == "v2".
+    - `keyboard`: string enum: `enabled`, `disabled`, `enable_read_only_actions` — Configure keyboard usage behavior. When set to enable_read_only_actions, only approved browser commands (find, copy, print, zoom, and select
     - `paste`: string enum: `enabled`, `disabled`, `remote_only` — Configure paste behavior. If set to remote_only, users cannot paste content from the local clipboard into isolated pages. If this field is a
     - `printing`: string enum: `enabled`, `disabled` — Configure print behavior. Default, Printing is enabled. Applies only when version == "v2".
     - `upload`: string enum: `enabled`, `disabled` — Configure upload behavior. If this field is absent, uploading remains enabled. Applies only when version == "v2".
@@ -293,6 +291,8 @@ operationId: `zero-trust-gateway-rules-create-zero-trust-gateway-rule`
     - `ipv6`: string — Specify the IPv6 range to use for egress.
   - `forensic_copy`: object — Configure whether a copy of the HTTP request will be sent to storage when the rule matches.
     - `enabled`: boolean — Enable sending the copy to storage.
+  - `forward`: object — Forward matching HTTP requests to a Worker. Required for `http` rules with the action set to `forward`.
+    - `worker_id`: string **required** — Specify the public Worker ID of the target Worker.
   - `ignore_cname_category_matches`: boolean — Ignore category matches at CNAME domains in a response. When off, evaluate categories in this rule against all CNAME domain categories in th
   - `insecure_disable_dnssec_validation`: boolean — Specify whether to disable DNSSEC validation (for Allow actions) [INSECURE]. Settable only for `dns` rules.
   - `ip_categories`: boolean — Enable IPs in DNS resolver category blocks. The system blocks only domain name categories unless you enable this setting. Settable only for 
@@ -356,8 +356,6 @@ operationId: `zero-trust-gateway-rules-create-zero-trust-gateway-rule`
 - `rule_settings`: object — Defines settings for this rule. Settings apply only to specific rule types and must use compatible selectors. If Terraform detects drift, co
   - `add_headers`: object — Add custom headers to allowed requests as key-value pairs. Use header names as keys that map to arrays of header values. Header values may c
   - `allow_child_bypass`: boolean — Set to enable MSP children to bypass this rule. Only parent MSP accounts can set this. this rule. Settable for all types of rules.
-  - `audit_ssh`: object — Define the settings for the Audit SSH action. Settable only for `l4` rules with `audit_ssh` action.
-    - `command_logging`: boolean — Enable SSH command logging.
   - `biso_admin_controls`: object — Configure browser isolation behavior. Settable only for `http` rules with the action set to `isolate`.
     - `copy`: string enum: `enabled`, `disabled`, `remote_only` — Configure copy behavior. If set to remote_only, users cannot copy isolated content from the remote browser to the local clipboard. If this f
     - `dcp`: boolean — Set to false to enable copy-pasting. Only applies when `version == "v1"`.
@@ -366,7 +364,7 @@ operationId: `zero-trust-gateway-rules-create-zero-trust-gateway-rule`
     - `download`: string enum: `enabled`, `disabled`, `remote_only` — Configure download behavior. When set to remote_only, users can view downloads but cannot save them. If this field is absent, downloading re
     - `dp`: boolean — Set to false to enable printing. Only applies when `version == "v1"`.
     - `du`: boolean — Set to false to enable uploading. Only applies when `version == "v1"`.
-    - `keyboard`: string enum: `enabled`, `disabled` — Configure keyboard usage behavior. If this field is absent, keyboard usage remains enabled. Applies only when version == "v2".
+    - `keyboard`: string enum: `enabled`, `disabled`, `enable_read_only_actions` — Configure keyboard usage behavior. When set to enable_read_only_actions, only approved browser commands (find, copy, print, zoom, and select
     - `paste`: string enum: `enabled`, `disabled`, `remote_only` — Configure paste behavior. If set to remote_only, users cannot paste content from the local clipboard into isolated pages. If this field is a
     - `printing`: string enum: `enabled`, `disabled` — Configure print behavior. Default, Printing is enabled. Applies only when version == "v2".
     - `upload`: string enum: `enabled`, `disabled` — Configure upload behavior. If this field is absent, uploading remains enabled. Applies only when version == "v2".
@@ -392,6 +390,8 @@ operationId: `zero-trust-gateway-rules-create-zero-trust-gateway-rule`
     - `ipv6`: string — Specify the IPv6 range to use for egress.
   - `forensic_copy`: object — Configure whether a copy of the HTTP request will be sent to storage when the rule matches.
     - `enabled`: boolean — Enable sending the copy to storage.
+  - `forward`: object — Forward matching HTTP requests to a Worker. Required for `http` rules with the action set to `forward`.
+    - `worker_id`: string **required** — Specify the public Worker ID of the target Worker.
   - `ignore_cname_category_matches`: boolean — Ignore category matches at CNAME domains in a response. When off, evaluate categories in this rule against all CNAME domain categories in th
   - `insecure_disable_dnssec_validation`: boolean — Specify whether to disable DNSSEC validation (for Allow actions) [INSECURE]. Settable only for `dns` rules.
   - `ip_categories`: boolean — Enable IPs in DNS resolver category blocks. The system blocks only domain name categories unless you enable this setting. Settable only for 
@@ -476,8 +476,6 @@ operationId: `zero-trust-gateway-rules-zero-trust-gateway-rule-details`
 - `rule_settings`: object — Defines settings for this rule. Settings apply only to specific rule types and must use compatible selectors. If Terraform detects drift, co
   - `add_headers`: object — Add custom headers to allowed requests as key-value pairs. Use header names as keys that map to arrays of header values. Header values may c
   - `allow_child_bypass`: boolean — Set to enable MSP children to bypass this rule. Only parent MSP accounts can set this. this rule. Settable for all types of rules.
-  - `audit_ssh`: object — Define the settings for the Audit SSH action. Settable only for `l4` rules with `audit_ssh` action.
-    - `command_logging`: boolean — Enable SSH command logging.
   - `biso_admin_controls`: object — Configure browser isolation behavior. Settable only for `http` rules with the action set to `isolate`.
     - `copy`: string enum: `enabled`, `disabled`, `remote_only` — Configure copy behavior. If set to remote_only, users cannot copy isolated content from the remote browser to the local clipboard. If this f
     - `dcp`: boolean — Set to false to enable copy-pasting. Only applies when `version == "v1"`.
@@ -486,7 +484,7 @@ operationId: `zero-trust-gateway-rules-zero-trust-gateway-rule-details`
     - `download`: string enum: `enabled`, `disabled`, `remote_only` — Configure download behavior. When set to remote_only, users can view downloads but cannot save them. If this field is absent, downloading re
     - `dp`: boolean — Set to false to enable printing. Only applies when `version == "v1"`.
     - `du`: boolean — Set to false to enable uploading. Only applies when `version == "v1"`.
-    - `keyboard`: string enum: `enabled`, `disabled` — Configure keyboard usage behavior. If this field is absent, keyboard usage remains enabled. Applies only when version == "v2".
+    - `keyboard`: string enum: `enabled`, `disabled`, `enable_read_only_actions` — Configure keyboard usage behavior. When set to enable_read_only_actions, only approved browser commands (find, copy, print, zoom, and select
     - `paste`: string enum: `enabled`, `disabled`, `remote_only` — Configure paste behavior. If set to remote_only, users cannot paste content from the local clipboard into isolated pages. If this field is a
     - `printing`: string enum: `enabled`, `disabled` — Configure print behavior. Default, Printing is enabled. Applies only when version == "v2".
     - `upload`: string enum: `enabled`, `disabled` — Configure upload behavior. If this field is absent, uploading remains enabled. Applies only when version == "v2".
@@ -512,6 +510,8 @@ operationId: `zero-trust-gateway-rules-zero-trust-gateway-rule-details`
     - `ipv6`: string — Specify the IPv6 range to use for egress.
   - `forensic_copy`: object — Configure whether a copy of the HTTP request will be sent to storage when the rule matches.
     - `enabled`: boolean — Enable sending the copy to storage.
+  - `forward`: object — Forward matching HTTP requests to a Worker. Required for `http` rules with the action set to `forward`.
+    - `worker_id`: string **required** — Specify the public Worker ID of the target Worker.
   - `ignore_cname_category_matches`: boolean — Ignore category matches at CNAME domains in a response. When off, evaluate categories in this rule against all CNAME domain categories in th
   - `insecure_disable_dnssec_validation`: boolean — Specify whether to disable DNSSEC validation (for Allow actions) [INSECURE]. Settable only for `dns` rules.
   - `ip_categories`: boolean — Enable IPs in DNS resolver category blocks. The system blocks only domain name categories unless you enable this setting. Settable only for 
@@ -593,8 +593,6 @@ operationId: `zero-trust-gateway-rules-patch-zero-trust-gateway-rule`
 - `rule_settings`: object — Defines settings for this rule. Settings apply only to specific rule types and must use compatible selectors. If Terraform detects drift, co
   - `add_headers`: object — Add custom headers to allowed requests as key-value pairs. Use header names as keys that map to arrays of header values. Header values may c
   - `allow_child_bypass`: boolean — Set to enable MSP children to bypass this rule. Only parent MSP accounts can set this. this rule. Settable for all types of rules.
-  - `audit_ssh`: object — Define the settings for the Audit SSH action. Settable only for `l4` rules with `audit_ssh` action.
-    - `command_logging`: boolean — Enable SSH command logging.
   - `biso_admin_controls`: object — Configure browser isolation behavior. Settable only for `http` rules with the action set to `isolate`.
     - `copy`: string enum: `enabled`, `disabled`, `remote_only` — Configure copy behavior. If set to remote_only, users cannot copy isolated content from the remote browser to the local clipboard. If this f
     - `dcp`: boolean — Set to false to enable copy-pasting. Only applies when `version == "v1"`.
@@ -603,7 +601,7 @@ operationId: `zero-trust-gateway-rules-patch-zero-trust-gateway-rule`
     - `download`: string enum: `enabled`, `disabled`, `remote_only` — Configure download behavior. When set to remote_only, users can view downloads but cannot save them. If this field is absent, downloading re
     - `dp`: boolean — Set to false to enable printing. Only applies when `version == "v1"`.
     - `du`: boolean — Set to false to enable uploading. Only applies when `version == "v1"`.
-    - `keyboard`: string enum: `enabled`, `disabled` — Configure keyboard usage behavior. If this field is absent, keyboard usage remains enabled. Applies only when version == "v2".
+    - `keyboard`: string enum: `enabled`, `disabled`, `enable_read_only_actions` — Configure keyboard usage behavior. When set to enable_read_only_actions, only approved browser commands (find, copy, print, zoom, and select
     - `paste`: string enum: `enabled`, `disabled`, `remote_only` — Configure paste behavior. If set to remote_only, users cannot paste content from the local clipboard into isolated pages. If this field is a
     - `printing`: string enum: `enabled`, `disabled` — Configure print behavior. Default, Printing is enabled. Applies only when version == "v2".
     - `upload`: string enum: `enabled`, `disabled` — Configure upload behavior. If this field is absent, uploading remains enabled. Applies only when version == "v2".
@@ -629,6 +627,8 @@ operationId: `zero-trust-gateway-rules-patch-zero-trust-gateway-rule`
     - `ipv6`: string — Specify the IPv6 range to use for egress.
   - `forensic_copy`: object — Configure whether a copy of the HTTP request will be sent to storage when the rule matches.
     - `enabled`: boolean — Enable sending the copy to storage.
+  - `forward`: object — Forward matching HTTP requests to a Worker. Required for `http` rules with the action set to `forward`.
+    - `worker_id`: string **required** — Specify the public Worker ID of the target Worker.
   - `ignore_cname_category_matches`: boolean — Ignore category matches at CNAME domains in a response. When off, evaluate categories in this rule against all CNAME domain categories in th
   - `insecure_disable_dnssec_validation`: boolean — Specify whether to disable DNSSEC validation (for Allow actions) [INSECURE]. Settable only for `dns` rules.
   - `ip_categories`: boolean — Enable IPs in DNS resolver category blocks. The system blocks only domain name categories unless you enable this setting. Settable only for 
@@ -699,8 +699,6 @@ operationId: `zero-trust-gateway-rules-update-zero-trust-gateway-rule`
 - `rule_settings`: object — Defines settings for this rule. Settings apply only to specific rule types and must use compatible selectors. If Terraform detects drift, co
   - `add_headers`: object — Add custom headers to allowed requests as key-value pairs. Use header names as keys that map to arrays of header values. Header values may c
   - `allow_child_bypass`: boolean — Set to enable MSP children to bypass this rule. Only parent MSP accounts can set this. this rule. Settable for all types of rules.
-  - `audit_ssh`: object — Define the settings for the Audit SSH action. Settable only for `l4` rules with `audit_ssh` action.
-    - `command_logging`: boolean — Enable SSH command logging.
   - `biso_admin_controls`: object — Configure browser isolation behavior. Settable only for `http` rules with the action set to `isolate`.
     - `copy`: string enum: `enabled`, `disabled`, `remote_only` — Configure copy behavior. If set to remote_only, users cannot copy isolated content from the remote browser to the local clipboard. If this f
     - `dcp`: boolean — Set to false to enable copy-pasting. Only applies when `version == "v1"`.
@@ -709,7 +707,7 @@ operationId: `zero-trust-gateway-rules-update-zero-trust-gateway-rule`
     - `download`: string enum: `enabled`, `disabled`, `remote_only` — Configure download behavior. When set to remote_only, users can view downloads but cannot save them. If this field is absent, downloading re
     - `dp`: boolean — Set to false to enable printing. Only applies when `version == "v1"`.
     - `du`: boolean — Set to false to enable uploading. Only applies when `version == "v1"`.
-    - `keyboard`: string enum: `enabled`, `disabled` — Configure keyboard usage behavior. If this field is absent, keyboard usage remains enabled. Applies only when version == "v2".
+    - `keyboard`: string enum: `enabled`, `disabled`, `enable_read_only_actions` — Configure keyboard usage behavior. When set to enable_read_only_actions, only approved browser commands (find, copy, print, zoom, and select
     - `paste`: string enum: `enabled`, `disabled`, `remote_only` — Configure paste behavior. If set to remote_only, users cannot paste content from the local clipboard into isolated pages. If this field is a
     - `printing`: string enum: `enabled`, `disabled` — Configure print behavior. Default, Printing is enabled. Applies only when version == "v2".
     - `upload`: string enum: `enabled`, `disabled` — Configure upload behavior. If this field is absent, uploading remains enabled. Applies only when version == "v2".
@@ -735,6 +733,8 @@ operationId: `zero-trust-gateway-rules-update-zero-trust-gateway-rule`
     - `ipv6`: string — Specify the IPv6 range to use for egress.
   - `forensic_copy`: object — Configure whether a copy of the HTTP request will be sent to storage when the rule matches.
     - `enabled`: boolean — Enable sending the copy to storage.
+  - `forward`: object — Forward matching HTTP requests to a Worker. Required for `http` rules with the action set to `forward`.
+    - `worker_id`: string **required** — Specify the public Worker ID of the target Worker.
   - `ignore_cname_category_matches`: boolean — Ignore category matches at CNAME domains in a response. When off, evaluate categories in this rule against all CNAME domain categories in th
   - `insecure_disable_dnssec_validation`: boolean — Specify whether to disable DNSSEC validation (for Allow actions) [INSECURE]. Settable only for `dns` rules.
   - `ip_categories`: boolean — Enable IPs in DNS resolver category blocks. The system blocks only domain name categories unless you enable this setting. Settable only for 
@@ -798,8 +798,6 @@ operationId: `zero-trust-gateway-rules-update-zero-trust-gateway-rule`
 - `rule_settings`: object — Defines settings for this rule. Settings apply only to specific rule types and must use compatible selectors. If Terraform detects drift, co
   - `add_headers`: object — Add custom headers to allowed requests as key-value pairs. Use header names as keys that map to arrays of header values. Header values may c
   - `allow_child_bypass`: boolean — Set to enable MSP children to bypass this rule. Only parent MSP accounts can set this. this rule. Settable for all types of rules.
-  - `audit_ssh`: object — Define the settings for the Audit SSH action. Settable only for `l4` rules with `audit_ssh` action.
-    - `command_logging`: boolean — Enable SSH command logging.
   - `biso_admin_controls`: object — Configure browser isolation behavior. Settable only for `http` rules with the action set to `isolate`.
     - `copy`: string enum: `enabled`, `disabled`, `remote_only` — Configure copy behavior. If set to remote_only, users cannot copy isolated content from the remote browser to the local clipboard. If this f
     - `dcp`: boolean — Set to false to enable copy-pasting. Only applies when `version == "v1"`.
@@ -808,7 +806,7 @@ operationId: `zero-trust-gateway-rules-update-zero-trust-gateway-rule`
     - `download`: string enum: `enabled`, `disabled`, `remote_only` — Configure download behavior. When set to remote_only, users can view downloads but cannot save them. If this field is absent, downloading re
     - `dp`: boolean — Set to false to enable printing. Only applies when `version == "v1"`.
     - `du`: boolean — Set to false to enable uploading. Only applies when `version == "v1"`.
-    - `keyboard`: string enum: `enabled`, `disabled` — Configure keyboard usage behavior. If this field is absent, keyboard usage remains enabled. Applies only when version == "v2".
+    - `keyboard`: string enum: `enabled`, `disabled`, `enable_read_only_actions` — Configure keyboard usage behavior. When set to enable_read_only_actions, only approved browser commands (find, copy, print, zoom, and select
     - `paste`: string enum: `enabled`, `disabled`, `remote_only` — Configure paste behavior. If set to remote_only, users cannot paste content from the local clipboard into isolated pages. If this field is a
     - `printing`: string enum: `enabled`, `disabled` — Configure print behavior. Default, Printing is enabled. Applies only when version == "v2".
     - `upload`: string enum: `enabled`, `disabled` — Configure upload behavior. If this field is absent, uploading remains enabled. Applies only when version == "v2".
@@ -834,6 +832,8 @@ operationId: `zero-trust-gateway-rules-update-zero-trust-gateway-rule`
     - `ipv6`: string — Specify the IPv6 range to use for egress.
   - `forensic_copy`: object — Configure whether a copy of the HTTP request will be sent to storage when the rule matches.
     - `enabled`: boolean — Enable sending the copy to storage.
+  - `forward`: object — Forward matching HTTP requests to a Worker. Required for `http` rules with the action set to `forward`.
+    - `worker_id`: string **required** — Specify the public Worker ID of the target Worker.
   - `ignore_cname_category_matches`: boolean — Ignore category matches at CNAME domains in a response. When off, evaluate categories in this rule against all CNAME domain categories in th
   - `insecure_disable_dnssec_validation`: boolean — Specify whether to disable DNSSEC validation (for Allow actions) [INSECURE]. Settable only for `dns` rules.
   - `ip_categories`: boolean — Enable IPs in DNS resolver category blocks. The system blocks only domain name categories unless you enable this setting. Settable only for 
@@ -908,8 +908,6 @@ operationId: `zero-trust-gateway-rules-reset-expiration-zero-trust-gateway-rule`
 - `rule_settings`: object — Defines settings for this rule. Settings apply only to specific rule types and must use compatible selectors. If Terraform detects drift, co
   - `add_headers`: object — Add custom headers to allowed requests as key-value pairs. Use header names as keys that map to arrays of header values. Header values may c
   - `allow_child_bypass`: boolean — Set to enable MSP children to bypass this rule. Only parent MSP accounts can set this. this rule. Settable for all types of rules.
-  - `audit_ssh`: object — Define the settings for the Audit SSH action. Settable only for `l4` rules with `audit_ssh` action.
-    - `command_logging`: boolean — Enable SSH command logging.
   - `biso_admin_controls`: object — Configure browser isolation behavior. Settable only for `http` rules with the action set to `isolate`.
     - `copy`: string enum: `enabled`, `disabled`, `remote_only` — Configure copy behavior. If set to remote_only, users cannot copy isolated content from the remote browser to the local clipboard. If this f
     - `dcp`: boolean — Set to false to enable copy-pasting. Only applies when `version == "v1"`.
@@ -918,7 +916,7 @@ operationId: `zero-trust-gateway-rules-reset-expiration-zero-trust-gateway-rule`
     - `download`: string enum: `enabled`, `disabled`, `remote_only` — Configure download behavior. When set to remote_only, users can view downloads but cannot save them. If this field is absent, downloading re
     - `dp`: boolean — Set to false to enable printing. Only applies when `version == "v1"`.
     - `du`: boolean — Set to false to enable uploading. Only applies when `version == "v1"`.
-    - `keyboard`: string enum: `enabled`, `disabled` — Configure keyboard usage behavior. If this field is absent, keyboard usage remains enabled. Applies only when version == "v2".
+    - `keyboard`: string enum: `enabled`, `disabled`, `enable_read_only_actions` — Configure keyboard usage behavior. When set to enable_read_only_actions, only approved browser commands (find, copy, print, zoom, and select
     - `paste`: string enum: `enabled`, `disabled`, `remote_only` — Configure paste behavior. If set to remote_only, users cannot paste content from the local clipboard into isolated pages. If this field is a
     - `printing`: string enum: `enabled`, `disabled` — Configure print behavior. Default, Printing is enabled. Applies only when version == "v2".
     - `upload`: string enum: `enabled`, `disabled` — Configure upload behavior. If this field is absent, uploading remains enabled. Applies only when version == "v2".
@@ -944,6 +942,8 @@ operationId: `zero-trust-gateway-rules-reset-expiration-zero-trust-gateway-rule`
     - `ipv6`: string — Specify the IPv6 range to use for egress.
   - `forensic_copy`: object — Configure whether a copy of the HTTP request will be sent to storage when the rule matches.
     - `enabled`: boolean — Enable sending the copy to storage.
+  - `forward`: object — Forward matching HTTP requests to a Worker. Required for `http` rules with the action set to `forward`.
+    - `worker_id`: string **required** — Specify the public Worker ID of the target Worker.
   - `ignore_cname_category_matches`: boolean — Ignore category matches at CNAME domains in a response. When off, evaluate categories in this rule against all CNAME domain categories in th
   - `insecure_disable_dnssec_validation`: boolean — Specify whether to disable DNSSEC validation (for Allow actions) [INSECURE]. Settable only for `dns` rules.
   - `ip_categories`: boolean — Enable IPs in DNS resolver category blocks. The system blocks only domain name categories unless you enable this setting. Settable only for 
@@ -1019,8 +1019,6 @@ operationId: `zero-trust-gateway-rules-list-zero-trust-gateway-rules-tenant`
 - `rule_settings`: object — Defines settings for this rule. Settings apply only to specific rule types and must use compatible selectors. If Terraform detects drift, co
   - `add_headers`: object — Add custom headers to allowed requests as key-value pairs. Use header names as keys that map to arrays of header values. Header values may c
   - `allow_child_bypass`: boolean — Set to enable MSP children to bypass this rule. Only parent MSP accounts can set this. this rule. Settable for all types of rules.
-  - `audit_ssh`: object — Define the settings for the Audit SSH action. Settable only for `l4` rules with `audit_ssh` action.
-    - `command_logging`: boolean — Enable SSH command logging.
   - `biso_admin_controls`: object — Configure browser isolation behavior. Settable only for `http` rules with the action set to `isolate`.
     - `copy`: string enum: `enabled`, `disabled`, `remote_only` — Configure copy behavior. If set to remote_only, users cannot copy isolated content from the remote browser to the local clipboard. If this f
     - `dcp`: boolean — Set to false to enable copy-pasting. Only applies when `version == "v1"`.
@@ -1029,7 +1027,7 @@ operationId: `zero-trust-gateway-rules-list-zero-trust-gateway-rules-tenant`
     - `download`: string enum: `enabled`, `disabled`, `remote_only` — Configure download behavior. When set to remote_only, users can view downloads but cannot save them. If this field is absent, downloading re
     - `dp`: boolean — Set to false to enable printing. Only applies when `version == "v1"`.
     - `du`: boolean — Set to false to enable uploading. Only applies when `version == "v1"`.
-    - `keyboard`: string enum: `enabled`, `disabled` — Configure keyboard usage behavior. If this field is absent, keyboard usage remains enabled. Applies only when version == "v2".
+    - `keyboard`: string enum: `enabled`, `disabled`, `enable_read_only_actions` — Configure keyboard usage behavior. When set to enable_read_only_actions, only approved browser commands (find, copy, print, zoom, and select
     - `paste`: string enum: `enabled`, `disabled`, `remote_only` — Configure paste behavior. If set to remote_only, users cannot paste content from the local clipboard into isolated pages. If this field is a
     - `printing`: string enum: `enabled`, `disabled` — Configure print behavior. Default, Printing is enabled. Applies only when version == "v2".
     - `upload`: string enum: `enabled`, `disabled` — Configure upload behavior. If this field is absent, uploading remains enabled. Applies only when version == "v2".
@@ -1055,6 +1053,8 @@ operationId: `zero-trust-gateway-rules-list-zero-trust-gateway-rules-tenant`
     - `ipv6`: string — Specify the IPv6 range to use for egress.
   - `forensic_copy`: object — Configure whether a copy of the HTTP request will be sent to storage when the rule matches.
     - `enabled`: boolean — Enable sending the copy to storage.
+  - `forward`: object — Forward matching HTTP requests to a Worker. Required for `http` rules with the action set to `forward`.
+    - `worker_id`: string **required** — Specify the public Worker ID of the target Worker.
   - `ignore_cname_category_matches`: boolean — Ignore category matches at CNAME domains in a response. When off, evaluate categories in this rule against all CNAME domain categories in th
   - `insecure_disable_dnssec_validation`: boolean — Specify whether to disable DNSSEC validation (for Allow actions) [INSECURE]. Settable only for `dns` rules.
   - `ip_categories`: boolean — Enable IPs in DNS resolver category blocks. The system blocks only domain name categories unless you enable this setting. Settable only for 

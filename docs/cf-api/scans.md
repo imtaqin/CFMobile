@@ -1,6 +1,20 @@
 # Scans
 
-9 endpoints.
+10 endpoints.
+
+## GET /accounts/{account_id}/cloudforce-one/banner/{config_id}
+
+Get the Latest Banner Grab Result
+
+operationId: `get_GetBanners`
+
+**Response** 200 → `result`
+
+- `1.1.1.1`: object[] **required**
+  [array of]
+  - `number`: number
+  - `proto`: string
+  - `status`: string
 
 ## GET /accounts/{account_id}/cloudforce-one/scans/config
 
@@ -93,7 +107,7 @@ operationId: `get_GetOpenPorts`
 
 ## GET /accounts/{account_id}/vuln_scanner/scans
 
-List Scans
+List scans
 
 operationId: `list-scans` · query: `page`, `per_page`
 
@@ -108,7 +122,7 @@ operationId: `list-scans` · query: `page`, `per_page`
 
 ## POST /accounts/{account_id}/vuln_scanner/scans
 
-Create Scan
+Create scan
 
 operationId: `create-scan`
 
@@ -132,7 +146,7 @@ operationId: `create-scan`
 
 ## DELETE /accounts/{account_id}/vuln_scanner/scans/{scan_id}
 
-Delete Scan
+Delete scan
 
 operationId: `delete-scan`
 
@@ -142,7 +156,7 @@ operationId: `delete-scan`
 
 ## GET /accounts/{account_id}/vuln_scanner/scans/{scan_id}
 
-Get Scan
+Get scan
 
 operationId: `get-scan`
 

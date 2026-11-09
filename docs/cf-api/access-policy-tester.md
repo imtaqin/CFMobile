@@ -20,6 +20,7 @@ operationId: `access-policy-tests`
     [array of]
     - `group`: object **required**
   - `name`: string **required** — The name of the Access policy.
+  - `policy_resolution_account_id`: string — The account ID used to resolve policy resources and identity for cross-account WARP authentication. The account must be trusted by the accou
   - `require`: object[] default: `` — Rules evaluated with an AND logical operator. To match the policy, a user must meet all of the Require rules.
     [array of]
     - `group`: object **required**

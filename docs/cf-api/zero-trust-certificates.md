@@ -20,6 +20,7 @@ operationId: `zero-trust-certificates-list-zero-trust-certificates`
 - `in_use`: boolean — Indicate whether Gateway TLS interception uses this certificate (read-only). You cannot set this value directly. To configure interception, 
 - `issuer_org`: string — Indicate the organization that issued the certificate (read-only).
 - `issuer_raw`: string — Provide the entire issuer field of the certificate (read-only).
+- `region`: string — Indicate the read-only region the certificate authority's key material is pinned to. Omitted for certificates that were created without a re
 - `type`: string enum: `custom`, `gateway_managed` — Indicate the read-only certificate type, BYO-PKI (custom) or Gateway-managed.
 - `updated_at`: string
 - `uploaded_on`: string
@@ -45,6 +46,7 @@ operationId: `zero-trust-certificates-create-zero-trust-certificate`
 - `in_use`: boolean — Indicate whether Gateway TLS interception uses this certificate (read-only). You cannot set this value directly. To configure interception, 
 - `issuer_org`: string — Indicate the organization that issued the certificate (read-only).
 - `issuer_raw`: string — Provide the entire issuer field of the certificate (read-only).
+- `region`: string — Indicate the read-only region the certificate authority's key material is pinned to. Omitted for certificates that were created without a re
 - `type`: string enum: `custom`, `gateway_managed` — Indicate the read-only certificate type, BYO-PKI (custom) or Gateway-managed.
 - `updated_at`: string
 - `uploaded_on`: string
@@ -66,6 +68,7 @@ operationId: `zero-trust-certificates-delete-zero-trust-certificate`
 - `in_use`: boolean — Indicate whether Gateway TLS interception uses this certificate (read-only). You cannot set this value directly. To configure interception, 
 - `issuer_org`: string — Indicate the organization that issued the certificate (read-only).
 - `issuer_raw`: string — Provide the entire issuer field of the certificate (read-only).
+- `region`: string — Indicate the read-only region the certificate authority's key material is pinned to. Omitted for certificates that were created without a re
 - `type`: string enum: `custom`, `gateway_managed` — Indicate the read-only certificate type, BYO-PKI (custom) or Gateway-managed.
 - `updated_at`: string
 - `uploaded_on`: string
@@ -87,6 +90,7 @@ operationId: `zero-trust-certificates-zero-trust-certificate-details`
 - `in_use`: boolean — Indicate whether Gateway TLS interception uses this certificate (read-only). You cannot set this value directly. To configure interception, 
 - `issuer_org`: string — Indicate the organization that issued the certificate (read-only).
 - `issuer_raw`: string — Provide the entire issuer field of the certificate (read-only).
+- `region`: string — Indicate the read-only region the certificate authority's key material is pinned to. Omitted for certificates that were created without a re
 - `type`: string enum: `custom`, `gateway_managed` — Indicate the read-only certificate type, BYO-PKI (custom) or Gateway-managed.
 - `updated_at`: string
 - `uploaded_on`: string
@@ -108,6 +112,7 @@ operationId: `zero-trust-certificates-activate-zero-trust-certificate`
 - `in_use`: boolean — Indicate whether Gateway TLS interception uses this certificate (read-only). You cannot set this value directly. To configure interception, 
 - `issuer_org`: string — Indicate the organization that issued the certificate (read-only).
 - `issuer_raw`: string — Provide the entire issuer field of the certificate (read-only).
+- `region`: string — Indicate the read-only region the certificate authority's key material is pinned to. Omitted for certificates that were created without a re
 - `type`: string enum: `custom`, `gateway_managed` — Indicate the read-only certificate type, BYO-PKI (custom) or Gateway-managed.
 - `updated_at`: string
 - `uploaded_on`: string
@@ -129,6 +134,7 @@ operationId: `zero-trust-certificates-deactivate-zero-trust-certificate`
 - `in_use`: boolean — Indicate whether Gateway TLS interception uses this certificate (read-only). You cannot set this value directly. To configure interception, 
 - `issuer_org`: string — Indicate the organization that issued the certificate (read-only).
 - `issuer_raw`: string — Provide the entire issuer field of the certificate (read-only).
+- `region`: string — Indicate the read-only region the certificate authority's key material is pinned to. Omitted for certificates that were created without a re
 - `type`: string enum: `custom`, `gateway_managed` — Indicate the read-only certificate type, BYO-PKI (custom) or Gateway-managed.
 - `updated_at`: string
 - `uploaded_on`: string

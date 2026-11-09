@@ -1,12 +1,23 @@
 # Zero Trust Subnets
 
-8 endpoints.
+9 endpoints.
 
 ## GET /accounts/{account_id}/zerotrust/subnets
 
 List Subnets
 
 operationId: `zero-trust-networks-subnets-list` · query: `name`, `comment`, `network`, `existed_at`, `address_family`, `is_default_network`, `is_deleted`, `sort_order`, `subnet_types`, `per_page`, `page`
+
+**Response** 200 → `result`
+
+(one of 3 variants; showing the first)
+object
+
+## GET /accounts/{account_id}/zerotrust/subnets/cloudflare_source/{address_family}
+
+Get Cloudflare Source Subnet
+
+operationId: `zero-trust-networks-subnet-get-cloudflare-source`
 
 **Response** 200 → `result`
 
@@ -32,9 +43,9 @@ object
 
 ## GET /accounts/{account_id}/zerotrust/subnets/initial_resolved_ip/{address_family}
 
-Get Gateway Ephemeral Subnet
+Get Initial Resolved IP Subnet
 
-operationId: `zero-trust-networks-subnet-get-gateway-ephemeral`
+operationId: `zero-trust-networks-subnet-get-initial-resolved-ip`
 
 **Response** 200 → `result`
 
@@ -43,9 +54,9 @@ object
 
 ## PUT /accounts/{account_id}/zerotrust/subnets/initial_resolved_ip/{address_family}
 
-Update Gateway Ephemeral Subnet
+Update Initial Resolved IP Subnet
 
-operationId: `zero-trust-networks-subnet-update-gateway-ephemeral`
+operationId: `zero-trust-networks-subnet-update-initial-resolved-ip`
 
 **Request** (application/json)
 

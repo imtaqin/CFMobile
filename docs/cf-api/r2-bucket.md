@@ -1,6 +1,6 @@
 # R2 Bucket
 
-29 endpoints.
+34 endpoints.
 
 ## GET /accounts/{account_id}/event_notifications/r2/{bucket_name}/configuration
 
@@ -29,7 +29,7 @@ object
 
 ## GET /accounts/{account_id}/event_notifications/r2/{bucket_name}/configuration/queues/{queue_id}
 
-Get Event Notification Rule
+Get Event Notification Rules for a Queue
 
 operationId: `r2-get-event-notification-config`
 
@@ -39,7 +39,7 @@ object
 
 ## PUT /accounts/{account_id}/event_notifications/r2/{bucket_name}/configuration/queues/{queue_id}
 
-Create Event Notification Rule
+Create Event Notification Rules
 
 operationId: `r2-put-event-notification-config`
 
@@ -113,6 +113,16 @@ operationId: `r2-patch-bucket`
 
 object
 
+## PUT /accounts/{account_id}/r2/buckets/{bucket_name}
+
+Create Bucket (by name)
+
+operationId: `r2-create-bucket-by-name`
+
+**Response** 200 → `result`
+
+object
+
 ## DELETE /accounts/{account_id}/r2/buckets/{bucket_name}/cors
 
 Delete Bucket CORS Policy
@@ -135,7 +145,7 @@ object
 
 ## PUT /accounts/{account_id}/r2/buckets/{bucket_name}/cors
 
-Put Bucket CORS Policy
+Set Bucket CORS Policy
 
 operationId: `r2-put-bucket-cors-policy`
 
@@ -246,6 +256,42 @@ operationId: `r2-put-bucket-public-policy`
 
 object
 
+## GET /accounts/{account_id}/r2/buckets/{bucket_name}/jobs
+
+List Bucket Jobs
+
+operationId: `r2-list-bucket-jobs` · query: `jobType`, `status`, `maxKeys`, `continuationToken`
+
+**Response** 200 → `result`
+
+object
+
+## POST /accounts/{account_id}/r2/buckets/{bucket_name}/jobs
+
+Create Bucket Job
+
+operationId: `r2-create-bucket-job`
+
+**Request** (application/json)
+
+(one of 2 variants; showing the first)
+- `jobType`: string **required** enum: `prefixDelete`
+- `prefix`: string **required** — Prefix matched against object keys. A non-empty value must end in `/`.
+
+**Response** 200 → `result`
+
+object
+
+## GET /accounts/{account_id}/r2/buckets/{bucket_name}/jobs/{job_id}
+
+Get Bucket Job
+
+operationId: `r2-get-bucket-job`
+
+**Response** 200 → `result`
+
+object
+
 ## GET /accounts/{account_id}/r2/buckets/{bucket_name}/lifecycle
 
 Get Object Lifecycle Rules
@@ -258,7 +304,7 @@ object
 
 ## PUT /accounts/{account_id}/r2/buckets/{bucket_name}/lifecycle
 
-Put Object Lifecycle Rules
+Set Object Lifecycle Rules
 
 operationId: `r2-put-bucket-lifecycle-configuration`
 
@@ -295,13 +341,23 @@ object
 
 ## PUT /accounts/{account_id}/r2/buckets/{bucket_name}/local-uploads
 
-Put Local Uploads Configuration
+Set Local Uploads Configuration
 
 operationId: `r2-put-bucket-local-uploads-configuration`
 
 **Request** (application/json)
 
 - `enabled`: boolean **required** — Whether to enable local uploads for this bucket.
+
+**Response** 200 → `result`
+
+object
+
+## DELETE /accounts/{account_id}/r2/buckets/{bucket_name}/lock
+
+Delete Bucket Lock Rules
+
+operationId: `r2-delete-bucket-lock-configuration`
 
 **Response** 200 → `result`
 
@@ -319,7 +375,7 @@ object
 
 ## PUT /accounts/{account_id}/r2/buckets/{bucket_name}/lock
 
-Put Bucket Lock Rules
+Set Bucket Lock Rules
 
 operationId: `r2-put-bucket-lock-configuration`
 
@@ -373,7 +429,7 @@ operationId: `r2-put-bucket-sippy-config`
   - `accessKeyId`: string — Access Key ID of an IAM credential (ideally scoped to a single S3 bucket).
   - `bucket`: string — Name of the AWS S3 bucket.
   - `provider`: string enum: `aws`
-  - `region`: string — Name of the AWS availability zone.
+  - `region`: string — AWS region containing the source S3 bucket.
   - `secretAccessKey`: string — Secret Access Key of an IAM credential (ideally scoped to a single S3 bucket).
 
 **Response** 200 → `result`
@@ -391,11 +447,11 @@ operationId: `r2-create-temp-access-credentials`
 - `bucket`: string **required** — Name of the R2 bucket.
 - `objects`: string[] — Optional object paths to scope the credentials to.
   [array]
-- `parentAccessKeyId`: string **required** — The parent access key id to use for signing.
+- `parentAccessKeyId`: string **required** — Access key ID of the parent R2 API token. The temporary credentials cannot exceed this token's permissions.
 - `permission`: string **required** enum: `admin-read-write`, `admin-read-only`, `object-read-write`, `object-read-only` — Permissions allowed on the credentials.
 - `prefixes`: string[] — Optional prefix paths to scope the credentials to.
   [array]
-- `ttlSeconds`: number **required** default: `900` — How long the credentials will live for in seconds.
+- `ttlSeconds`: number **required** default: `900` — Lifetime of the temporary credentials in seconds, up to 604800 seconds (7 days).
 
 **Response** 200 → `result`
 

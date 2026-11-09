@@ -13,6 +13,7 @@ operationId: `shared.query.post`
 - `chart`: boolean — When true, includes time-series data in the response.
 - `chartType`: string enum: `timeseries_and_aggregate`, `timeseries`, `aggregate`, `distribution` — Controls the SQL shape and response payload for the 'calculations' view. Omitted or 'timeseries_and_aggregate': current behaviour — both the
 - `compare`: boolean — When true, includes a comparison dataset from the previous time period of equal length.
+- `distributionScale`: string enum: `log`, `linear` — Value-axis bucketing for chartType 'distribution'. Omitted or 'log': geometric buckets, best for heavy-tailed latency. 'linear': fixed-width
 - `dry`: boolean default: `false` — When true, executes the query without persisting the results. Useful for validation or previewing.
 - `granularity`: number — Number of time-series buckets. Only used when view is 'calculations'. Omit to let the system auto-detect an appropriate granularity.
 - `ignoreSeries`: boolean default: `false` — When true, omits time-series data from the response and returns only aggregated values. Reduces response size when series are not needed.
@@ -24,9 +25,9 @@ operationId: `shared.query.post`
   - `calculations`: object[] — Aggregation calculations to compute (e.g. count, avg, p99). Each calculation produces aggregate values and optional time-series data.
     [array of]
     - `alias`: string — Custom label for this calculation in the results. Useful for distinguishing multiple calculations.
-    - `key`: string — Field name to calculate over. Must exist in the data — verify with the keys endpoint. Omit for operators that don't require a key (e.g. coun
+    - `key`: string — Field name to calculate over. Must exist in the data. Verify with the keys endpoint. Required for every operator except `count`, which aggre
     - `keyType`: string enum: `string`, `number`, `boolean` — Data type of the key. Required when key is provided to ensure correct aggregation.
-    - `operator`: string **required** enum: `uniq`, `count`, `max`, `min`, `sum`, `avg`, `median`, `p001` — Aggregation operator to apply. Examples: count, avg, sum, min, max, median, p90, p95, p99, uniq, stddev, variance.
+    - `operator`: string **required** enum: `count`, `COUNT` — Aggregation operator to apply. Examples: count, avg, sum, min, max, median, p90, p95, p99, uniq, stddev, variance.
   - `datasets`: string[] — Datasets to query. Leave empty to query all available datasets.
     [array]
   - `filterCombination`: string enum: `and`, `or`, `AND`, `OR` — Logical operator for combining top-level filters: 'and' (all must match) or 'or' (any must match). Defaults to 'and'.
@@ -56,9 +57,9 @@ operationId: `shared.query.post`
     - `order`: string enum: `asc`, `desc` — Sort direction: 'asc' for ascending, 'desc' for descending.
     - `value`: string **required** — Alias of the calculation to order results by. Must match the alias (or operator) of a calculation in the query.
 - `queryId`: string **required** — Identifier for the query. When parameters are omitted, this ID is used to load a previously saved query's parameters. When providing paramet
-- `timeframe`: object **required** — Timeframe for the query using Unix timestamps in milliseconds. Narrower timeframes produce faster responses and more specific results.
-  - `from`: number **required** — Start timestamp for the query timeframe (Unix timestamp in milliseconds)
-  - `to`: number **required** — End timestamp for the query timeframe (Unix timestamp in milliseconds)
+- `timeframe`: object **required** — Timeframe for the query using Unix timestamps in milliseconds. 'from' must be earlier than 'to'. Narrower timeframes produce faster response
+  - `from`: integer **required** — Start timestamp for the query timeframe. Unix timestamp in milliseconds
+  - `to`: integer **required** — End timestamp for the query timeframe. Unix timestamp in milliseconds
 - `view`: string enum: `traces`, `events`, `calculations`, `invocations`, `requests`, `agents` default: `calculations` — Controls the shape of the response. 'events': individual log lines matching the query. 'calculations': aggregated metrics (count, avg, p99, 
 
 **Response** 200 → `result`
@@ -80,7 +81,7 @@ operationId: `shared.query.get` · query: `view`
   - `conversationId`: string — Conversation ID from the earliest invocation that provides one.
   - `errors`: string[] **required** — Distinct errors reported by spans in the run.
     [array]
-  - `id`: string **required** — Pagination cursor derived from the first agent invocation in the run.
+  - `id`: string **required** — Stable pagination cursor for this agent run.
   - `inputTokens`: number — Input tokens summed across chat spans in the run's trace; informational, not billing data.
   - `models`: string[] **required** — Distinct models reported by chat spans across the run's trace.
     [array]
@@ -99,11 +100,11 @@ operationId: `shared.query.get` · query: `view`
   [array of]
   - `aggregates`: object[] **required**
     [array of]
-    - `count`: number **required**
+    - `count`: number **required** — Estimated number of matching events: the sum of the sample intervals of the stored events. It equals the number of stored events when sample
     - `groups`: object[]
-    - `interval`: number **required**
-    - `sampleInterval`: number **required**
-    - `value`: number **required**
+    - `interval`: number **required** — Deprecated alias of sampleInterval. Always has the same value; use sampleInterval instead.
+    - `sampleInterval`: number **required** — Average sample interval of the matched events. Each stored event has a sample interval of 1 / (the sampling rate applied when it was ingeste
+    - `value`: number **required** — Result of the calculation. count, sum, avg, median, and percentiles are weighted by each event's sample interval
   - `alias`: string
   - `calculation`: string **required**
   - `series`: object[] **required**
@@ -114,11 +115,11 @@ operationId: `shared.query.get` · query: `view`
   [array of]
   - `aggregates`: object[] **required**
     [array of]
-    - `count`: number **required**
+    - `count`: number **required** — Estimated number of matching events: the sum of the sample intervals of the stored events. It equals the number of stored events when sample
     - `groups`: object[]
-    - `interval`: number **required**
-    - `sampleInterval`: number **required**
-    - `value`: number **required**
+    - `interval`: number **required** — Deprecated alias of sampleInterval. Always has the same value; use sampleInterval instead.
+    - `sampleInterval`: number **required** — Average sample interval of the matched events. Each stored event has a sample interval of 1 / (the sampling rate applied when it was ingeste
+    - `value`: number **required** — Result of the calculation. count, sum, avg, median, and percentiles are weighted by each event's sample interval
   - `alias`: string
   - `calculation`: string **required**
   - `series`: object[] **required**
@@ -168,9 +169,9 @@ operationId: `shared.query.get` · query: `view`
     - `elapsed`: number **required** — Time in seconds for the query to run.
     - `rows_read`: number **required** — Number of rows scanned from the table.
   - `status`: string **required** enum: `STARTED`, `COMPLETED` — Current execution status of the query run.
-  - `timeframe`: object **required** — Time range for the query execution
-    - `from`: number **required** — Start timestamp for the query timeframe (Unix timestamp in milliseconds)
-    - `to`: number **required** — End timestamp for the query timeframe (Unix timestamp in milliseconds)
+  - `timeframe`: object **required** — Time range for the query execution. 'from' must be earlier than 'to'. No fractional milliseconds.
+    - `from`: integer **required** — Start timestamp for the query timeframe. Unix timestamp in milliseconds
+    - `to`: integer **required** — End timestamp for the query timeframe. Unix timestamp in milliseconds
   - `updated`: string — ISO-8601 timestamp when the query run was last updated.
   - `userId`: string **required** — ID of the user who initiated the query run.
 - `statistics`: object **required** — Query performance statistics from the database. Includes execution time, rows scanned, and bytes read. Does not include network latency.

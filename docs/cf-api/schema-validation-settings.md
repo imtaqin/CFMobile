@@ -11,7 +11,7 @@ operationId: `schema-validation-get-settings`
 **Response** 200 → `result`
 
 - `validation_default_mitigation_action`: string **required** enum: `none`, `log`, `block` — The default mitigation action used
-- `validation_override_mitigation_action`: string enum: `none` — When not null, this overrides global both zone level and operation level mitigation actions. This can serve as a quick way to disable schema
+- `validation_override_mitigation_action`: string enum: `none`, `null` — When not null, this overrides global both zone level and operation level mitigation actions. This can serve as a quick way to disable schema
 
 ## PATCH /zones/{zone_id}/schema_validation/settings
 
@@ -27,7 +27,7 @@ operationId: `schema-validation-edit-settings`
 **Response** 200 → `result`
 
 - `validation_default_mitigation_action`: string **required** enum: `none`, `log`, `block` — The default mitigation action used
-- `validation_override_mitigation_action`: string enum: `none` — When not null, this overrides global both zone level and operation level mitigation actions. This can serve as a quick way to disable schema
+- `validation_override_mitigation_action`: string enum: `none`, `null` — When not null, this overrides global both zone level and operation level mitigation actions. This can serve as a quick way to disable schema
 
 ## PUT /zones/{zone_id}/schema_validation/settings
 
@@ -44,7 +44,7 @@ object
 **Response** 200 → `result`
 
 - `validation_default_mitigation_action`: string **required** enum: `none`, `log`, `block` — The default mitigation action used
-- `validation_override_mitigation_action`: string enum: `none` — When not null, this overrides global both zone level and operation level mitigation actions. This can serve as a quick way to disable schema
+- `validation_override_mitigation_action`: string enum: `none`, `null` — When not null, this overrides global both zone level and operation level mitigation actions. This can serve as a quick way to disable schema
 
 ## GET /zones/{zone_id}/schema_validation/settings/operations
 

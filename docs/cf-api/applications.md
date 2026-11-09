@@ -1,96 +1,61 @@
 # Applications
 
-19 endpoints.
+16 endpoints.
 
 ## GET /accounts/{account_id}/containers/applications
 
 List Applications associated with your account
 
-operationId: `listApplications` · query: `name`, `image`, `label`
+operationId: `listApplications` · query: `per_page`, `page_token`, `name`, `image`
 
 **Response** 200 → `result`
 
 [array of]
-- `account_id`: string **required** — A unique identifier for the user's account
+(one of 2 variants; showing the first)
+- `account_id`: string **required** — A unique identifier for the user's account.
 - `active_rollout_id`: string — An identifier for a specific rollout within an application.
-- `configuration`: object **required** — Properties required to create a cloudchamber deployment specified by the user
+- `configuration`: object **required** — User-specified container configuration.
   - `authorized_keys`: object[]
     [array of]
-    - `name`: string — Optional human readable name for this key
-    - `public_key`: string **required** — An SSH public key
-  - `command`: string[] — The command to be executed when the container starts, passed to the entrypoint.
+    - `name`: string — Optional human readable name for this key.
+    - `public_key`: string **required** — An SSH public key.
+  - `command`: string[] — The command that runs when the container starts, passed to the entrypoint.
     [array]
-  - `disk`: object — The disk configuration for this deployment. By default, all containers have a disk size of 2GB.
-    - `size`: string — A disk size that specifies its unit at the end.
-    - `size_mb`: integer — Size of the disk, in MB.
-  - `dns`: object — Represents the /etc/resolv.conf that will appear in the deployment.
-    - `searches`: string[] — The container resolver will append these domains to every resolve query. For example, if you have 'google.com',
-    - `servers`: string[] — List of DNS servers that the deployment will use to resolve domain names. You can only specify a maximum of 3.
   - `entrypoint`: string[] — The entry point for the container, specifying the executable to run when the container starts.
     [array]
-  - `environment_variables`: object[] — Container environment variables
+  - `environment_variables`: object[] — Container environment variables.
     [array of]
-    - `name`: string **required** — An environment variable name
-    - `value`: string **required** — An environment variable value
-  - `experimental_flags`: string[] — Opt-in experimental flags for this application. Only a subset of
-    [array]
-  - `image`: string **required** — Image url
-  - `instance_type`: string default: `lite` — The instance type will be used to configure vCPU, memory, and disk.
-  - `labels`: object[] — Deployment labels
-    [array of]
-    - `name`: string **required** — A label name
-    - `value`: string **required** — A label value
-  - `lifecycle`: object — Lifecycle configuration for a deployment.
-    - `max_termination_duration`: string — Duration string. From Go documentation:
-  - `memory`: string — A memory size that specifies its unit at the end.
-  - `memory_mib`: integer — Specify the memory to be used for the deployment, in MiB. The default will be the one configured for the account.
-  - `metadata_service`: object — Configuration for enabling the container metadata service.
-    - `enabled`: boolean **required** — Whether the metadata service should be enabled for the deployment.
+    - `name`: string **required** — An environment variable name.
+    - `value`: string **required** — An environment variable value.
+  - `image`: string **required** — Image url.
+  - `instance_type`: string default: `lite` — The instance type configures vCPU, memory, and disk.
   - `observability`: object — Settings for deployment observability such as logging.
     - `logs`: object — Observability logging settings.
-  - `secrets`: object[] — A list of objects with secret names and the their access types from the account
-    [array of]
-    - `name`: string **required** — The name of the secret within the container
-    - `secret`: string **required** — Corresponding secret name from the account
-    - `type`: string **required** enum: `env` — The secret access type denotes how a secret is made available within a container. Available Options are "env".
-  - `ssh_public_key_ids`: string[] — A list of SSH public key IDs from the account
-    [array]
-  - `trusted_user_ca_keys`: object[]
-    [array of]
-    - `name`: string — Optional human readable name for this key
-    - `public_key`: string **required** — An SSH public key
-  - `vcpu`: number — Specify the vcpu to be used for the deployment. Vcpu must be at least 1. The input value will be rounded to
-  - `wrangler_ssh`: object — Configuration properties for SSH'ing into a container with Wrangler
-    - `enabled`: boolean default: `true`
-    - `port`: number default: `22`
 - `constraints`: object
-  - `jurisdiction`: string — Currently only "eu" and "fedramp" are supported. Overlap between jurisdiction and region is allowed for ENAM, WNAM (FedRAMP) and EEUR, WEUR 
+  - `jurisdiction`: string — Restricts placement to datacenters in the selected jurisdiction. Choose "eu", "fedramp", or "us". When combined with regions, EU supports EE
   - `regions`: string[]
     [array]
-- `created_at`: string **required** — UTC timestamp string in ISO 8601 format
+- `created_at`: string **required** — UTC timestamp string in ISO 8601 format.
 - `durable_objects`: any — Durable object configuration stored on and returned from a Cloudchamber application.
 - `health`: object
   - `errors`: object[] **required**
     [array of]
-    - `event`: object **required** — An event within a Placement or a Job
-    - `instance_id`: string **required** — An instance ID represents an identifier of an instance configuration that maintains an underlying placement
+    - `event`: object **required** — An event within a Placement or a Job.
+    - `instance_id`: string **required** — An instance ID represents an identifier of an instance configuration that maintains an underlying placement.
   - `instances`: object **required** — Shows a count of application instance states.
-    - `active`: integer **required** — Number of instances with a running container.
-    - `assigned`: integer **required** — Number of instances assigned to a container, but the container is not yet running.
+    - `active`: integer **required** — Number of instances whose runtime reports the container as running (container_status = "running"). This is a subset of the placements that r
+    - `assigned`: integer **required** — Number of instances bound to a Durable Object with a running placement whose container_status remains behind "running". These count as live,
   - `summary`: string enum: `healthy`, `degraded`, `unhealthy`, `pending` — High-level health assessment. Only populated for "new_instances" strategy.
-- `id`: string **required** — An Application ID represents an identifier of an application
-- `instances`: integer **required** — Number of deployments to create
-- `max_instances`: integer — Maximum number of instances that the application will allow. This is relevant for applications that auto-scale.
-- `name`: string **required** — The application name
-- `observability`: object — Settings for application observability such as logging.
-  - `logs`: object — Observability logging settings.
-    - `enabled`: boolean default: `false`
-  - `target_instance_count`: integer — Fixed number of instances that should receive the application-level observability overlay.
-  - `target_instance_percentage`: integer — Percentage of instances that should receive the application-level observability overlay.
+- `id`: string **required** — An Application ID represents an identifier of an application.
+- `instances`: integer **required** — Number of deployments to create.
+- `max_instances`: integer — Maximum number of instances the application allows. This is relevant for applications that auto-scale.
+- `name`: string **required** — The application name.
+- `observability`: any — Top-level observability settings for the application.
 - `rollout_active_grace_period`: integer default: `0` — Grace period for active instances to stay alive before becoming eligible for shutdown signal due to a rollout, in seconds.
-- `scheduling_policy`: string **required** enum: `default` — The scheduling policy to use for an application
-- `updated_at`: string **required** — UTC timestamp string in ISO 8601 format
+- `scheduling_policy`: string **required** enum: `default`, `durable_object` — The scheduling policy to use for an application.
+- `updated_at`: string **required** — UTC timestamp string in ISO 8601 format.
 - `version`: integer **required**
+- `scheduling_policy`: string **required** enum: `default` — Selects a scheduler-backed application. Use `default` when the Containers
 
 ## POST /accounts/{account_id}/containers/applications
 
@@ -100,154 +65,67 @@ operationId: `createApplication`
 
 **Request** (application/json)
 
-- `configuration`: object **required** — Properties required to create a cloudchamber deployment specified by the user
-  - `authorized_keys`: object[]
-    [array of]
-    - `name`: string — Optional human readable name for this key
-    - `public_key`: string **required** — An SSH public key
-  - `command`: string[] — The command to be executed when the container starts, passed to the entrypoint.
-    [array]
-  - `disk`: object — The disk configuration for this deployment. By default, all containers have a disk size of 2GB.
-    - `size`: string — A disk size that specifies its unit at the end.
-    - `size_mb`: integer — Size of the disk, in MB.
-  - `dns`: object — Represents the /etc/resolv.conf that will appear in the deployment.
-    - `searches`: string[] — The container resolver will append these domains to every resolve query. For example, if you have 'google.com',
-    - `servers`: string[] — List of DNS servers that the deployment will use to resolve domain names. You can only specify a maximum of 3.
-  - `entrypoint`: string[] — The entry point for the container, specifying the executable to run when the container starts.
-    [array]
-  - `environment_variables`: object[] — Container environment variables
-    [array of]
-    - `name`: string **required** — An environment variable name
-    - `value`: string **required** — An environment variable value
-  - `experimental_flags`: string[] — Opt-in experimental flags for this application. Only a subset of
-    [array]
-  - `image`: string **required** — Image url
-  - `instance_type`: string default: `lite` — The instance type will be used to configure vCPU, memory, and disk.
-  - `labels`: object[] — Deployment labels
-    [array of]
-    - `name`: string **required** — A label name
-    - `value`: string **required** — A label value
-  - `lifecycle`: object — Lifecycle configuration for a deployment.
-    - `max_termination_duration`: string — Duration string. From Go documentation:
-  - `memory`: string — A memory size that specifies its unit at the end.
-  - `memory_mib`: integer — Specify the memory to be used for the deployment, in MiB. The default will be the one configured for the account.
-  - `metadata_service`: object — Configuration for enabling the container metadata service.
-    - `enabled`: boolean **required** — Whether the metadata service should be enabled for the deployment.
-  - `observability`: object — Settings for deployment observability such as logging.
-    - `logs`: object — Observability logging settings.
-  - `secrets`: object[] — A list of objects with secret names and the their access types from the account
-    [array of]
-    - `name`: string **required** — The name of the secret within the container
-    - `secret`: string **required** — Corresponding secret name from the account
-    - `type`: string **required** enum: `env` — The secret access type denotes how a secret is made available within a container. Available Options are "env".
-  - `ssh_public_key_ids`: string[] — A list of SSH public key IDs from the account
-    [array]
-  - `trusted_user_ca_keys`: object[]
-    [array of]
-    - `name`: string — Optional human readable name for this key
-    - `public_key`: string **required** — An SSH public key
-  - `vcpu`: number — Specify the vcpu to be used for the deployment. Vcpu must be at least 1. The input value will be rounded to
-  - `wrangler_ssh`: object — Configuration properties for SSH'ing into a container with Wrangler
-    - `enabled`: boolean default: `true`
-    - `port`: number default: `22`
+(one of 2 variants; showing the first)
+- `configuration`: any **required** — Defines the deployment configuration for every deployment in this application.
 - `constraints`: object
-  - `jurisdiction`: string — Currently only "eu" and "fedramp" are supported. Overlap between jurisdiction and region is allowed for ENAM, WNAM (FedRAMP) and EEUR, WEUR 
+  - `jurisdiction`: string — Restricts placement to datacenters in the selected jurisdiction. Choose "eu", "fedramp", or "us". When combined with regions, EU supports EE
   - `regions`: string[]
     [array]
-- `durable_objects`: any — Set of properties to configure a durable object application in Cloudchamber.
-- `instances`: integer **required** — Number of deployments to create
-- `max_instances`: integer — Maximum number of instances that the application will allow. This is relevant for applications that auto-scale.
-- `name`: string **required** — The name for this application
-- `observability`: object — Settings for application observability such as logging.
-  - `logs`: object — Observability logging settings.
-    - `enabled`: boolean default: `false`
-  - `target_instance_count`: integer — Fixed number of instances that should receive the application-level observability overlay.
-  - `target_instance_percentage`: integer — Percentage of instances that should receive the application-level observability overlay.
+- `durable_objects`: any — Optionally associates this scheduler-backed application with a Durable Object namespace.
+- `instances`: integer **required** — The initial number of deployments to create.
+- `max_instances`: integer **required** — Sets the maximum number of instances that the application can run.
+- `name`: string **required** — The name for this application.
+- `observability`: any — Top-level observability settings for the application.
 - `rollout_active_grace_period`: integer default: `0` — Grace period for active instances to stay alive before becoming eligible for shutdown signal due to a rollout, in seconds.
-- `scheduling_policy`: string **required** enum: `default` — The scheduling policy to use for an application
+- `scheduling_policy`: any **required**
 
 **Response** 201 → `result`
 
-- `account_id`: string **required** — A unique identifier for the user's account
+(one of 2 variants; showing the first)
+- `account_id`: string **required** — A unique identifier for the user's account.
 - `active_rollout_id`: string — An identifier for a specific rollout within an application.
-- `configuration`: object **required** — Properties required to create a cloudchamber deployment specified by the user
+- `configuration`: object **required** — User-specified container configuration.
   - `authorized_keys`: object[]
     [array of]
-    - `name`: string — Optional human readable name for this key
-    - `public_key`: string **required** — An SSH public key
-  - `command`: string[] — The command to be executed when the container starts, passed to the entrypoint.
+    - `name`: string — Optional human readable name for this key.
+    - `public_key`: string **required** — An SSH public key.
+  - `command`: string[] — The command that runs when the container starts, passed to the entrypoint.
     [array]
-  - `disk`: object — The disk configuration for this deployment. By default, all containers have a disk size of 2GB.
-    - `size`: string — A disk size that specifies its unit at the end.
-    - `size_mb`: integer — Size of the disk, in MB.
-  - `dns`: object — Represents the /etc/resolv.conf that will appear in the deployment.
-    - `searches`: string[] — The container resolver will append these domains to every resolve query. For example, if you have 'google.com',
-    - `servers`: string[] — List of DNS servers that the deployment will use to resolve domain names. You can only specify a maximum of 3.
   - `entrypoint`: string[] — The entry point for the container, specifying the executable to run when the container starts.
     [array]
-  - `environment_variables`: object[] — Container environment variables
+  - `environment_variables`: object[] — Container environment variables.
     [array of]
-    - `name`: string **required** — An environment variable name
-    - `value`: string **required** — An environment variable value
-  - `experimental_flags`: string[] — Opt-in experimental flags for this application. Only a subset of
-    [array]
-  - `image`: string **required** — Image url
-  - `instance_type`: string default: `lite` — The instance type will be used to configure vCPU, memory, and disk.
-  - `labels`: object[] — Deployment labels
-    [array of]
-    - `name`: string **required** — A label name
-    - `value`: string **required** — A label value
-  - `lifecycle`: object — Lifecycle configuration for a deployment.
-    - `max_termination_duration`: string — Duration string. From Go documentation:
-  - `memory`: string — A memory size that specifies its unit at the end.
-  - `memory_mib`: integer — Specify the memory to be used for the deployment, in MiB. The default will be the one configured for the account.
-  - `metadata_service`: object — Configuration for enabling the container metadata service.
-    - `enabled`: boolean **required** — Whether the metadata service should be enabled for the deployment.
+    - `name`: string **required** — An environment variable name.
+    - `value`: string **required** — An environment variable value.
+  - `image`: string **required** — Image url.
+  - `instance_type`: string default: `lite` — The instance type configures vCPU, memory, and disk.
   - `observability`: object — Settings for deployment observability such as logging.
     - `logs`: object — Observability logging settings.
-  - `secrets`: object[] — A list of objects with secret names and the their access types from the account
-    [array of]
-    - `name`: string **required** — The name of the secret within the container
-    - `secret`: string **required** — Corresponding secret name from the account
-    - `type`: string **required** enum: `env` — The secret access type denotes how a secret is made available within a container. Available Options are "env".
-  - `ssh_public_key_ids`: string[] — A list of SSH public key IDs from the account
-    [array]
-  - `trusted_user_ca_keys`: object[]
-    [array of]
-    - `name`: string — Optional human readable name for this key
-    - `public_key`: string **required** — An SSH public key
-  - `vcpu`: number — Specify the vcpu to be used for the deployment. Vcpu must be at least 1. The input value will be rounded to
-  - `wrangler_ssh`: object — Configuration properties for SSH'ing into a container with Wrangler
-    - `enabled`: boolean default: `true`
-    - `port`: number default: `22`
 - `constraints`: object
-  - `jurisdiction`: string — Currently only "eu" and "fedramp" are supported. Overlap between jurisdiction and region is allowed for ENAM, WNAM (FedRAMP) and EEUR, WEUR 
+  - `jurisdiction`: string — Restricts placement to datacenters in the selected jurisdiction. Choose "eu", "fedramp", or "us". When combined with regions, EU supports EE
   - `regions`: string[]
     [array]
-- `created_at`: string **required** — UTC timestamp string in ISO 8601 format
+- `created_at`: string **required** — UTC timestamp string in ISO 8601 format.
 - `durable_objects`: any — Durable object configuration stored on and returned from a Cloudchamber application.
 - `health`: object
   - `errors`: object[] **required**
     [array of]
-    - `event`: object **required** — An event within a Placement or a Job
-    - `instance_id`: string **required** — An instance ID represents an identifier of an instance configuration that maintains an underlying placement
+    - `event`: object **required** — An event within a Placement or a Job.
+    - `instance_id`: string **required** — An instance ID represents an identifier of an instance configuration that maintains an underlying placement.
   - `instances`: object **required** — Shows a count of application instance states.
-    - `active`: integer **required** — Number of instances with a running container.
-    - `assigned`: integer **required** — Number of instances assigned to a container, but the container is not yet running.
+    - `active`: integer **required** — Number of instances whose runtime reports the container as running (container_status = "running"). This is a subset of the placements that r
+    - `assigned`: integer **required** — Number of instances bound to a Durable Object with a running placement whose container_status remains behind "running". These count as live,
   - `summary`: string enum: `healthy`, `degraded`, `unhealthy`, `pending` — High-level health assessment. Only populated for "new_instances" strategy.
-- `id`: string **required** — An Application ID represents an identifier of an application
-- `instances`: integer **required** — Number of deployments to create
-- `max_instances`: integer — Maximum number of instances that the application will allow. This is relevant for applications that auto-scale.
-- `name`: string **required** — The application name
-- `observability`: object — Settings for application observability such as logging.
-  - `logs`: object — Observability logging settings.
-    - `enabled`: boolean default: `false`
-  - `target_instance_count`: integer — Fixed number of instances that should receive the application-level observability overlay.
-  - `target_instance_percentage`: integer — Percentage of instances that should receive the application-level observability overlay.
+- `id`: string **required** — An Application ID represents an identifier of an application.
+- `instances`: integer **required** — Number of deployments to create.
+- `max_instances`: integer — Maximum number of instances the application allows. This is relevant for applications that auto-scale.
+- `name`: string **required** — The application name.
+- `observability`: any — Top-level observability settings for the application.
 - `rollout_active_grace_period`: integer default: `0` — Grace period for active instances to stay alive before becoming eligible for shutdown signal due to a rollout, in seconds.
-- `scheduling_policy`: string **required** enum: `default` — The scheduling policy to use for an application
-- `updated_at`: string **required** — UTC timestamp string in ISO 8601 format
+- `scheduling_policy`: string **required** enum: `default`, `durable_object` — The scheduling policy to use for an application.
+- `updated_at`: string **required** — UTC timestamp string in ISO 8601 format.
 - `version`: integer **required**
+- `scheduling_policy`: string **required** enum: `default` — Selects a scheduler-backed application. Use `default` when the Containers
 
 ## DELETE /accounts/{account_id}/containers/applications/{application_id}
 
@@ -257,7 +135,7 @@ operationId: `deleteApplication`
 
 **Response** 200 → `result`
 
-object
+- `message`: string **required**
 
 ## GET /accounts/{account_id}/containers/applications/{application_id}
 
@@ -267,86 +145,51 @@ operationId: `getApplication`
 
 **Response** 200 → `result`
 
-- `account_id`: string **required** — A unique identifier for the user's account
+(one of 2 variants; showing the first)
+- `account_id`: string **required** — A unique identifier for the user's account.
 - `active_rollout_id`: string — An identifier for a specific rollout within an application.
-- `configuration`: object **required** — Properties required to create a cloudchamber deployment specified by the user
+- `configuration`: object **required** — User-specified container configuration.
   - `authorized_keys`: object[]
     [array of]
-    - `name`: string — Optional human readable name for this key
-    - `public_key`: string **required** — An SSH public key
-  - `command`: string[] — The command to be executed when the container starts, passed to the entrypoint.
+    - `name`: string — Optional human readable name for this key.
+    - `public_key`: string **required** — An SSH public key.
+  - `command`: string[] — The command that runs when the container starts, passed to the entrypoint.
     [array]
-  - `disk`: object — The disk configuration for this deployment. By default, all containers have a disk size of 2GB.
-    - `size`: string — A disk size that specifies its unit at the end.
-    - `size_mb`: integer — Size of the disk, in MB.
-  - `dns`: object — Represents the /etc/resolv.conf that will appear in the deployment.
-    - `searches`: string[] — The container resolver will append these domains to every resolve query. For example, if you have 'google.com',
-    - `servers`: string[] — List of DNS servers that the deployment will use to resolve domain names. You can only specify a maximum of 3.
   - `entrypoint`: string[] — The entry point for the container, specifying the executable to run when the container starts.
     [array]
-  - `environment_variables`: object[] — Container environment variables
+  - `environment_variables`: object[] — Container environment variables.
     [array of]
-    - `name`: string **required** — An environment variable name
-    - `value`: string **required** — An environment variable value
-  - `experimental_flags`: string[] — Opt-in experimental flags for this application. Only a subset of
-    [array]
-  - `image`: string **required** — Image url
-  - `instance_type`: string default: `lite` — The instance type will be used to configure vCPU, memory, and disk.
-  - `labels`: object[] — Deployment labels
-    [array of]
-    - `name`: string **required** — A label name
-    - `value`: string **required** — A label value
-  - `lifecycle`: object — Lifecycle configuration for a deployment.
-    - `max_termination_duration`: string — Duration string. From Go documentation:
-  - `memory`: string — A memory size that specifies its unit at the end.
-  - `memory_mib`: integer — Specify the memory to be used for the deployment, in MiB. The default will be the one configured for the account.
-  - `metadata_service`: object — Configuration for enabling the container metadata service.
-    - `enabled`: boolean **required** — Whether the metadata service should be enabled for the deployment.
+    - `name`: string **required** — An environment variable name.
+    - `value`: string **required** — An environment variable value.
+  - `image`: string **required** — Image url.
+  - `instance_type`: string default: `lite` — The instance type configures vCPU, memory, and disk.
   - `observability`: object — Settings for deployment observability such as logging.
     - `logs`: object — Observability logging settings.
-  - `secrets`: object[] — A list of objects with secret names and the their access types from the account
-    [array of]
-    - `name`: string **required** — The name of the secret within the container
-    - `secret`: string **required** — Corresponding secret name from the account
-    - `type`: string **required** enum: `env` — The secret access type denotes how a secret is made available within a container. Available Options are "env".
-  - `ssh_public_key_ids`: string[] — A list of SSH public key IDs from the account
-    [array]
-  - `trusted_user_ca_keys`: object[]
-    [array of]
-    - `name`: string — Optional human readable name for this key
-    - `public_key`: string **required** — An SSH public key
-  - `vcpu`: number — Specify the vcpu to be used for the deployment. Vcpu must be at least 1. The input value will be rounded to
-  - `wrangler_ssh`: object — Configuration properties for SSH'ing into a container with Wrangler
-    - `enabled`: boolean default: `true`
-    - `port`: number default: `22`
 - `constraints`: object
-  - `jurisdiction`: string — Currently only "eu" and "fedramp" are supported. Overlap between jurisdiction and region is allowed for ENAM, WNAM (FedRAMP) and EEUR, WEUR 
+  - `jurisdiction`: string — Restricts placement to datacenters in the selected jurisdiction. Choose "eu", "fedramp", or "us". When combined with regions, EU supports EE
   - `regions`: string[]
     [array]
-- `created_at`: string **required** — UTC timestamp string in ISO 8601 format
+- `created_at`: string **required** — UTC timestamp string in ISO 8601 format.
 - `durable_objects`: any — Durable object configuration stored on and returned from a Cloudchamber application.
 - `health`: object
   - `errors`: object[] **required**
     [array of]
-    - `event`: object **required** — An event within a Placement or a Job
-    - `instance_id`: string **required** — An instance ID represents an identifier of an instance configuration that maintains an underlying placement
+    - `event`: object **required** — An event within a Placement or a Job.
+    - `instance_id`: string **required** — An instance ID represents an identifier of an instance configuration that maintains an underlying placement.
   - `instances`: object **required** — Shows a count of application instance states.
-    - `active`: integer **required** — Number of instances with a running container.
-    - `assigned`: integer **required** — Number of instances assigned to a container, but the container is not yet running.
+    - `active`: integer **required** — Number of instances whose runtime reports the container as running (container_status = "running"). This is a subset of the placements that r
+    - `assigned`: integer **required** — Number of instances bound to a Durable Object with a running placement whose container_status remains behind "running". These count as live,
   - `summary`: string enum: `healthy`, `degraded`, `unhealthy`, `pending` — High-level health assessment. Only populated for "new_instances" strategy.
-- `id`: string **required** — An Application ID represents an identifier of an application
-- `instances`: integer **required** — Number of deployments to create
-- `max_instances`: integer — Maximum number of instances that the application will allow. This is relevant for applications that auto-scale.
-- `name`: string **required** — The application name
-- `observability`: object — Settings for application observability such as logging.
-  - `logs`: object — Observability logging settings.
-    - `enabled`: boolean default: `false`
-  - `target_instance_count`: integer — Fixed number of instances that should receive the application-level observability overlay.
-  - `target_instance_percentage`: integer — Percentage of instances that should receive the application-level observability overlay.
+- `id`: string **required** — An Application ID represents an identifier of an application.
+- `instances`: integer **required** — Number of deployments to create.
+- `max_instances`: integer — Maximum number of instances the application allows. This is relevant for applications that auto-scale.
+- `name`: string **required** — The application name.
+- `observability`: any — Top-level observability settings for the application.
 - `rollout_active_grace_period`: integer default: `0` — Grace period for active instances to stay alive before becoming eligible for shutdown signal due to a rollout, in seconds.
-- `scheduling_policy`: string **required** enum: `default` — The scheduling policy to use for an application
-- `updated_at`: string **required** — UTC timestamp string in ISO 8601 format
+- `scheduling_policy`: string **required** enum: `default`, `durable_object` — The scheduling policy to use for an application.
+- `updated_at`: string **required** — UTC timestamp string in ISO 8601 format.
 - `version`: integer **required**
+- `scheduling_policy`: string **required** enum: `default` — Selects a scheduler-backed application. Use `default` when the Containers
 
 ## PATCH /accounts/{account_id}/containers/applications/{application_id}
 
@@ -356,488 +199,69 @@ operationId: `modifyApplication`
 
 **Request** (application/json)
 
-- `configuration`: object — Properties required to modify a cloudchamber deployment specified by the user.
+- `configuration`: object — Application configuration fields you can change without creating a rollout.
   - `authorized_keys`: object[]
     [array of]
-    - `name`: string — Optional human readable name for this key
-    - `public_key`: string **required** — An SSH public key
-  - `command`: string[] — The command to be executed when the container starts, passed to the entrypoint.
-    [array]
-  - `disk`: object — The disk configuration for this deployment. By default, all containers have a disk size of 2GB.
-    - `size`: string — A disk size that specifies its unit at the end.
-    - `size_mb`: integer — Size of the disk, in MB.
-  - `dns`: object — Represents the /etc/resolv.conf that will appear in the deployment.
-    - `searches`: string[] — The container resolver will append these domains to every resolve query. For example, if you have 'google.com',
-    - `servers`: string[] — List of DNS servers that the deployment will use to resolve domain names. You can only specify a maximum of 3.
-  - `entrypoint`: string[] — The entry point for the container, specifying the executable to run when the container starts.
-    [array]
-  - `environment_variables`: object[] — Container environment variables
-    [array of]
-    - `name`: string **required** — An environment variable name
-    - `value`: string **required** — An environment variable value
-  - `experimental_flags`: string[] — Opt-in experimental flags for this application. Only a subset of
-    [array]
-  - `image`: string — Image url
-  - `instance_type`: string default: `lite` — The instance type will be used to configure vCPU, memory, and disk.
-  - `labels`: object[] — Deployment labels
-    [array of]
-    - `name`: string **required** — A label name
-    - `value`: string **required** — A label value
-  - `lifecycle`: object — Lifecycle configuration for a deployment.
-    - `max_termination_duration`: string — Duration string. From Go documentation:
-  - `memory`: string — A memory size that specifies its unit at the end.
-  - `memory_mib`: integer — Specify the memory to be used for the deployment, in MiB. The default will be the one configured for the account.
-  - `metadata_service`: object — Configuration for enabling the container metadata service.
-    - `enabled`: boolean **required** — Whether the metadata service should be enabled for the deployment.
-  - `observability`: object — Settings for deployment observability such as logging.
-    - `logs`: object — Observability logging settings.
-  - `secrets`: object[] — A list of objects with secret names and the their access types from the account
-    [array of]
-    - `name`: string **required** — The name of the secret within the container
-    - `secret`: string **required** — Corresponding secret name from the account
-    - `type`: string **required** enum: `env` — The secret access type denotes how a secret is made available within a container. Available Options are "env".
-  - `ssh_public_key_ids`: string[] — A list of SSH public key IDs from the account
-    [array]
-  - `trusted_user_ca_keys`: object[]
-    [array of]
-    - `name`: string — Optional human readable name for this key
-    - `public_key`: string **required** — An SSH public key
-  - `vcpu`: number — Specify the vcpu to be used for the deployment. Vcpu must be at least 1. The input value will be rounded to
-  - `wrangler_ssh`: object — Configuration properties for SSH'ing into a container with Wrangler
+    - `name`: string — Optional human readable name for this key.
+    - `public_key`: string **required** — An SSH public key.
+  - `wrangler_ssh`: object — Configuration properties for connecting with SSH to a container using Wrangler.
     - `enabled`: boolean default: `true`
-    - `port`: number default: `22`
+    - `port`: integer default: `22`
 - `constraints`: object
-  - `jurisdiction`: string — Currently only "eu" and "fedramp" are supported. Overlap between jurisdiction and region is allowed for ENAM, WNAM (FedRAMP) and EEUR, WEUR 
+  - `jurisdiction`: string — Restricts placement to datacenters in the selected jurisdiction. Choose "eu", "fedramp", or "us". When combined with regions, EU supports EE
   - `regions`: string[]
     [array]
-- `instances`: integer — Number of deployments to maintain within this application. This can be used to scale the application up/down.
-- `max_instances`: integer — Maximum number of instances that the application will allow. This is relevant for applications that auto-scale.
-- `name`: string — The name for this application
-- `observability`: object — Settings for application observability such as logging.
-  - `logs`: object — Observability logging settings.
-    - `enabled`: boolean default: `false`
-  - `target_instance_count`: integer — Fixed number of instances that should receive the application-level observability overlay.
-  - `target_instance_percentage`: integer — Percentage of instances that should receive the application-level observability overlay.
+- `max_instances`: integer — Maximum number of instances that an autoscaling application can run.
+- `observability`: any — Top-level application observability settings. Scheduler-backed applications
 - `rollout_active_grace_period`: integer default: `0` — Grace period for active instances to stay alive before becoming eligible for shutdown signal due to a rollout, in seconds.
-- `scheduling_policy`: string enum: `default` — The scheduling policy to use for an application
 
 **Response** 200 → `result`
 
-- `account_id`: string **required** — A unique identifier for the user's account
+(one of 2 variants; showing the first)
+- `account_id`: string **required** — A unique identifier for the user's account.
 - `active_rollout_id`: string — An identifier for a specific rollout within an application.
-- `configuration`: object **required** — Properties required to create a cloudchamber deployment specified by the user
+- `configuration`: object **required** — User-specified container configuration.
   - `authorized_keys`: object[]
     [array of]
-    - `name`: string — Optional human readable name for this key
-    - `public_key`: string **required** — An SSH public key
-  - `command`: string[] — The command to be executed when the container starts, passed to the entrypoint.
+    - `name`: string — Optional human readable name for this key.
+    - `public_key`: string **required** — An SSH public key.
+  - `command`: string[] — The command that runs when the container starts, passed to the entrypoint.
     [array]
-  - `disk`: object — The disk configuration for this deployment. By default, all containers have a disk size of 2GB.
-    - `size`: string — A disk size that specifies its unit at the end.
-    - `size_mb`: integer — Size of the disk, in MB.
-  - `dns`: object — Represents the /etc/resolv.conf that will appear in the deployment.
-    - `searches`: string[] — The container resolver will append these domains to every resolve query. For example, if you have 'google.com',
-    - `servers`: string[] — List of DNS servers that the deployment will use to resolve domain names. You can only specify a maximum of 3.
   - `entrypoint`: string[] — The entry point for the container, specifying the executable to run when the container starts.
     [array]
-  - `environment_variables`: object[] — Container environment variables
+  - `environment_variables`: object[] — Container environment variables.
     [array of]
-    - `name`: string **required** — An environment variable name
-    - `value`: string **required** — An environment variable value
-  - `experimental_flags`: string[] — Opt-in experimental flags for this application. Only a subset of
-    [array]
-  - `image`: string **required** — Image url
-  - `instance_type`: string default: `lite` — The instance type will be used to configure vCPU, memory, and disk.
-  - `labels`: object[] — Deployment labels
-    [array of]
-    - `name`: string **required** — A label name
-    - `value`: string **required** — A label value
-  - `lifecycle`: object — Lifecycle configuration for a deployment.
-    - `max_termination_duration`: string — Duration string. From Go documentation:
-  - `memory`: string — A memory size that specifies its unit at the end.
-  - `memory_mib`: integer — Specify the memory to be used for the deployment, in MiB. The default will be the one configured for the account.
-  - `metadata_service`: object — Configuration for enabling the container metadata service.
-    - `enabled`: boolean **required** — Whether the metadata service should be enabled for the deployment.
+    - `name`: string **required** — An environment variable name.
+    - `value`: string **required** — An environment variable value.
+  - `image`: string **required** — Image url.
+  - `instance_type`: string default: `lite` — The instance type configures vCPU, memory, and disk.
   - `observability`: object — Settings for deployment observability such as logging.
     - `logs`: object — Observability logging settings.
-  - `secrets`: object[] — A list of objects with secret names and the their access types from the account
-    [array of]
-    - `name`: string **required** — The name of the secret within the container
-    - `secret`: string **required** — Corresponding secret name from the account
-    - `type`: string **required** enum: `env` — The secret access type denotes how a secret is made available within a container. Available Options are "env".
-  - `ssh_public_key_ids`: string[] — A list of SSH public key IDs from the account
-    [array]
-  - `trusted_user_ca_keys`: object[]
-    [array of]
-    - `name`: string — Optional human readable name for this key
-    - `public_key`: string **required** — An SSH public key
-  - `vcpu`: number — Specify the vcpu to be used for the deployment. Vcpu must be at least 1. The input value will be rounded to
-  - `wrangler_ssh`: object — Configuration properties for SSH'ing into a container with Wrangler
-    - `enabled`: boolean default: `true`
-    - `port`: number default: `22`
 - `constraints`: object
-  - `jurisdiction`: string — Currently only "eu" and "fedramp" are supported. Overlap between jurisdiction and region is allowed for ENAM, WNAM (FedRAMP) and EEUR, WEUR 
+  - `jurisdiction`: string — Restricts placement to datacenters in the selected jurisdiction. Choose "eu", "fedramp", or "us". When combined with regions, EU supports EE
   - `regions`: string[]
     [array]
-- `created_at`: string **required** — UTC timestamp string in ISO 8601 format
+- `created_at`: string **required** — UTC timestamp string in ISO 8601 format.
 - `durable_objects`: any — Durable object configuration stored on and returned from a Cloudchamber application.
 - `health`: object
   - `errors`: object[] **required**
     [array of]
-    - `event`: object **required** — An event within a Placement or a Job
-    - `instance_id`: string **required** — An instance ID represents an identifier of an instance configuration that maintains an underlying placement
+    - `event`: object **required** — An event within a Placement or a Job.
+    - `instance_id`: string **required** — An instance ID represents an identifier of an instance configuration that maintains an underlying placement.
   - `instances`: object **required** — Shows a count of application instance states.
-    - `active`: integer **required** — Number of instances with a running container.
-    - `assigned`: integer **required** — Number of instances assigned to a container, but the container is not yet running.
+    - `active`: integer **required** — Number of instances whose runtime reports the container as running (container_status = "running"). This is a subset of the placements that r
+    - `assigned`: integer **required** — Number of instances bound to a Durable Object with a running placement whose container_status remains behind "running". These count as live,
   - `summary`: string enum: `healthy`, `degraded`, `unhealthy`, `pending` — High-level health assessment. Only populated for "new_instances" strategy.
-- `id`: string **required** — An Application ID represents an identifier of an application
-- `instances`: integer **required** — Number of deployments to create
-- `max_instances`: integer — Maximum number of instances that the application will allow. This is relevant for applications that auto-scale.
-- `name`: string **required** — The application name
-- `observability`: object — Settings for application observability such as logging.
-  - `logs`: object — Observability logging settings.
-    - `enabled`: boolean default: `false`
-  - `target_instance_count`: integer — Fixed number of instances that should receive the application-level observability overlay.
-  - `target_instance_percentage`: integer — Percentage of instances that should receive the application-level observability overlay.
+- `id`: string **required** — An Application ID represents an identifier of an application.
+- `instances`: integer **required** — Number of deployments to create.
+- `max_instances`: integer — Maximum number of instances the application allows. This is relevant for applications that auto-scale.
+- `name`: string **required** — The application name.
+- `observability`: any — Top-level observability settings for the application.
 - `rollout_active_grace_period`: integer default: `0` — Grace period for active instances to stay alive before becoming eligible for shutdown signal due to a rollout, in seconds.
-- `scheduling_policy`: string **required** enum: `default` — The scheduling policy to use for an application
-- `updated_at`: string **required** — UTC timestamp string in ISO 8601 format
+- `scheduling_policy`: string **required** enum: `default`, `durable_object` — The scheduling policy to use for an application.
+- `updated_at`: string **required** — UTC timestamp string in ISO 8601 format.
 - `version`: integer **required**
-
-## GET /accounts/{account_id}/containers/applications/{application_id}/instances
-
-List container instances
-
-operationId: `listContainerInstances` · query: `per_page`, `page_token`
-
-**Response** 200 → `result`
-
-- `instances`: object[] **required**
-  [array of]
-  - `application_id`: string **required** — An Application ID represents an identifier of an application
-  - `created_at`: string **required** — UTC timestamp string in ISO 8601 format
-  - `deployment_id`: string — A deployment ID represents an identifier of a deployment configuration that maintains a healthy placement
-  - `id`: string **required** — A container instance ID (64-character hex Durable Object actor ID).
-  - `ingress_url`: string — Public ingress URL for the instance. Omitted when managed application ingress is not configured.
-  - `name`: string **required** — The human-readable name of the instance.
-  - `placement_id`: string — Placement ID
-  - `status`: object — The current status of a container instance.
-    - `exit_code`: integer — The exit code of the container, if status is stopped_with_code.
-    - `last_change`: number **required** — Epoch timestamp (milliseconds) of the last status change.
-    - `status`: string **required** enum: `starting`, `running`, `healthy`, `stopping`, `stopped`, `stopped_with_code` — The current lifecycle status of the container.
-
-## POST /accounts/{account_id}/containers/applications/{application_id}/instances
-
-Create a container instance
-
-operationId: `createContainerInstance`
-
-**Request** (application/json)
-
-- `enable_internet`: boolean default: `true` — Whether to enable outbound internet access for the container.
-- `entrypoint`: string[] — Command to run in the container. Overrides the image's default entrypoint.
-  [array]
-- `environment_variables`: object — Environment variables to pass to the container.
-- `name`: string **required** — A human-readable name for the instance. Used as the Durable Object name via getByName().
-
-**Response** 201 → `result`
-
-- `application_id`: string **required** — An Application ID represents an identifier of an application
-- `created_at`: string **required** — UTC timestamp string in ISO 8601 format
-- `deployment_id`: string — A deployment ID represents an identifier of a deployment configuration that maintains a healthy placement
-- `id`: string **required** — A container instance ID (64-character hex Durable Object actor ID).
-- `ingress_url`: string — Public ingress URL for the instance. Omitted when managed application ingress is not configured.
-- `name`: string **required** — The human-readable name of the instance.
-- `placement_id`: string — Placement ID
-- `status`: object — The current status of a container instance.
-  - `exit_code`: integer — The exit code of the container, if status is stopped_with_code.
-  - `last_change`: number **required** — Epoch timestamp (milliseconds) of the last status change.
-  - `status`: string **required** enum: `starting`, `running`, `healthy`, `stopping`, `stopped`, `stopped_with_code` — The current lifecycle status of the container.
-
-## DELETE /accounts/{account_id}/containers/applications/{application_id}/instances/{instance_id}
-
-Delete a container instance
-
-operationId: `deleteContainerInstance`
-
-**Response** 200 → `result`
-
-object
-
-## GET /accounts/{account_id}/containers/applications/{application_id}/instances/{instance_id}
-
-Get a container instance
-
-operationId: `getContainerInstance`
-
-**Response** 200 → `result`
-
-- `application_id`: string **required** — An Application ID represents an identifier of an application
-- `created_at`: string **required** — UTC timestamp string in ISO 8601 format
-- `deployment_id`: string — A deployment ID represents an identifier of a deployment configuration that maintains a healthy placement
-- `id`: string **required** — A container instance ID (64-character hex Durable Object actor ID).
-- `ingress_url`: string — Public ingress URL for the instance. Omitted when managed application ingress is not configured.
-- `name`: string **required** — The human-readable name of the instance.
-- `placement_id`: string — Placement ID
-- `status`: object — The current status of a container instance.
-  - `exit_code`: integer — The exit code of the container, if status is stopped_with_code.
-  - `last_change`: number **required** — Epoch timestamp (milliseconds) of the last status change.
-  - `status`: string **required** enum: `starting`, `running`, `healthy`, `stopping`, `stopped`, `stopped_with_code` — The current lifecycle status of the container.
-
-## POST /accounts/{account_id}/containers/applications/{application_id}/instances/{instance_id}/exec
-
-Execute a command in a container instance
-
-operationId: `containerInstanceExec`
-
-**Request** (application/json)
-
-- `command`: string[] **required** — Command and arguments to execute without shell interpretation.
-  [array]
-- `cwd`: string — Working directory for the command.
-- `environment_variables`: object — Environment variables to set for the command.
-- `stdin`: string — Base64-encoded bytes to provide to the command on stdin.
-- `user`: string — Container user to execute the command as.
-
-**Response** 200 → `result`
-
-- `exit_code`: integer **required** — Exit code returned by the command.
-- `stderr`: string **required** — Base64-encoded standard error from the command.
-- `stdout`: string **required** — Base64-encoded standard output from the command.
-
-## POST /accounts/{account_id}/containers/applications/{application_id}/instances/{instance_id}/fetch
-
-Proxy a request to a container instance
-
-operationId: `containerInstanceFetch`
-
-**Request** (application/json)
-
-- `body`: string — Request body to forward to the container.
-- `headers`: object — HTTP headers to forward to the container.
-- `method`: string enum: `GET`, `POST`, `PUT`, `PATCH`, `DELETE`, `HEAD`, `OPTIONS` default: `GET` — HTTP method to use. Defaults to GET.
-- `url`: string **required** — The path to forward to the container (e.g. "/api/data").
-
-**Response** 200 → `result`
-
-- `body`: string **required** — Text response body returned by the container.
-- `headers`: object **required** — HTTP response headers returned by the container.
-- `status`: integer **required** — HTTP status code returned by the container.
-
-## POST /accounts/{account_id}/containers/applications/{application_id}/rollouts
-
-Create a new rollout for an application
-
-operationId: `createApplicationRollout`
-
-**Request** (application/json)
-
-- `description`: string **required** — Description of the rollout process.
-- `kind`: string enum: `full_auto`, `full_manual` — Kind of the rollout process.
-- `percentage`: integer — Initial target version percentage (0-100). Version sync will actively replace instances to match.
-- `step_percentage`: integer enum: `5`, `10`, `20`, `25`, `50`, `100` — Percentage of rollout to increase in each step when "steps" is not specificed. Applicable values are 5, 10, 20, 25, 50, 100.
-- `steps`: object[] — Steps defining the rollout process, when "step_percentage" is not defined.
-  [array of]
-  - `description`: string **required** — Description of the rollout step.
-  - `step_size`: object **required**
-    - `percentage`: integer **required** — Percentage of instances affected in this step. Min 10% and Max 100%.
-- `strategy`: string **required** enum: `rolling`, `new_instances` — Strategy used for the rollout.
-- `target_configuration`: object **required** — Properties required to modify a cloudchamber deployment specified by the user.
-  - `authorized_keys`: object[]
-    [array of]
-    - `name`: string — Optional human readable name for this key
-    - `public_key`: string **required** — An SSH public key
-  - `command`: string[] — The command to be executed when the container starts, passed to the entrypoint.
-    [array]
-  - `disk`: object — The disk configuration for this deployment. By default, all containers have a disk size of 2GB.
-    - `size`: string — A disk size that specifies its unit at the end.
-    - `size_mb`: integer — Size of the disk, in MB.
-  - `dns`: object — Represents the /etc/resolv.conf that will appear in the deployment.
-    - `searches`: string[] — The container resolver will append these domains to every resolve query. For example, if you have 'google.com',
-    - `servers`: string[] — List of DNS servers that the deployment will use to resolve domain names. You can only specify a maximum of 3.
-  - `entrypoint`: string[] — The entry point for the container, specifying the executable to run when the container starts.
-    [array]
-  - `environment_variables`: object[] — Container environment variables
-    [array of]
-    - `name`: string **required** — An environment variable name
-    - `value`: string **required** — An environment variable value
-  - `experimental_flags`: string[] — Opt-in experimental flags for this application. Only a subset of
-    [array]
-  - `image`: string — Image url
-  - `instance_type`: string default: `lite` — The instance type will be used to configure vCPU, memory, and disk.
-  - `labels`: object[] — Deployment labels
-    [array of]
-    - `name`: string **required** — A label name
-    - `value`: string **required** — A label value
-  - `lifecycle`: object — Lifecycle configuration for a deployment.
-    - `max_termination_duration`: string — Duration string. From Go documentation:
-  - `memory`: string — A memory size that specifies its unit at the end.
-  - `memory_mib`: integer — Specify the memory to be used for the deployment, in MiB. The default will be the one configured for the account.
-  - `metadata_service`: object — Configuration for enabling the container metadata service.
-    - `enabled`: boolean **required** — Whether the metadata service should be enabled for the deployment.
-  - `observability`: object — Settings for deployment observability such as logging.
-    - `logs`: object — Observability logging settings.
-  - `secrets`: object[] — A list of objects with secret names and the their access types from the account
-    [array of]
-    - `name`: string **required** — The name of the secret within the container
-    - `secret`: string **required** — Corresponding secret name from the account
-    - `type`: string **required** enum: `env` — The secret access type denotes how a secret is made available within a container. Available Options are "env".
-  - `ssh_public_key_ids`: string[] — A list of SSH public key IDs from the account
-    [array]
-  - `trusted_user_ca_keys`: object[]
-    [array of]
-    - `name`: string — Optional human readable name for this key
-    - `public_key`: string **required** — An SSH public key
-  - `vcpu`: number — Specify the vcpu to be used for the deployment. Vcpu must be at least 1. The input value will be rounded to
-  - `wrangler_ssh`: object — Configuration properties for SSH'ing into a container with Wrangler
-    - `enabled`: boolean default: `true`
-    - `port`: number default: `22`
-
-**Response** 201 → `result`
-
-- `created_at`: string **required** — UTC timestamp string in ISO 8601 format
-- `current_configuration`: object **required** — Properties required to modify a cloudchamber deployment specified by the user.
-  - `authorized_keys`: object[]
-    [array of]
-    - `name`: string — Optional human readable name for this key
-    - `public_key`: string **required** — An SSH public key
-  - `command`: string[] — The command to be executed when the container starts, passed to the entrypoint.
-    [array]
-  - `disk`: object — The disk configuration for this deployment. By default, all containers have a disk size of 2GB.
-    - `size`: string — A disk size that specifies its unit at the end.
-    - `size_mb`: integer — Size of the disk, in MB.
-  - `dns`: object — Represents the /etc/resolv.conf that will appear in the deployment.
-    - `searches`: string[] — The container resolver will append these domains to every resolve query. For example, if you have 'google.com',
-    - `servers`: string[] — List of DNS servers that the deployment will use to resolve domain names. You can only specify a maximum of 3.
-  - `entrypoint`: string[] — The entry point for the container, specifying the executable to run when the container starts.
-    [array]
-  - `environment_variables`: object[] — Container environment variables
-    [array of]
-    - `name`: string **required** — An environment variable name
-    - `value`: string **required** — An environment variable value
-  - `experimental_flags`: string[] — Opt-in experimental flags for this application. Only a subset of
-    [array]
-  - `image`: string — Image url
-  - `instance_type`: string default: `lite` — The instance type will be used to configure vCPU, memory, and disk.
-  - `labels`: object[] — Deployment labels
-    [array of]
-    - `name`: string **required** — A label name
-    - `value`: string **required** — A label value
-  - `lifecycle`: object — Lifecycle configuration for a deployment.
-    - `max_termination_duration`: string — Duration string. From Go documentation:
-  - `memory`: string — A memory size that specifies its unit at the end.
-  - `memory_mib`: integer — Specify the memory to be used for the deployment, in MiB. The default will be the one configured for the account.
-  - `metadata_service`: object — Configuration for enabling the container metadata service.
-    - `enabled`: boolean **required** — Whether the metadata service should be enabled for the deployment.
-  - `observability`: object — Settings for deployment observability such as logging.
-    - `logs`: object — Observability logging settings.
-  - `secrets`: object[] — A list of objects with secret names and the their access types from the account
-    [array of]
-    - `name`: string **required** — The name of the secret within the container
-    - `secret`: string **required** — Corresponding secret name from the account
-    - `type`: string **required** enum: `env` — The secret access type denotes how a secret is made available within a container. Available Options are "env".
-  - `ssh_public_key_ids`: string[] — A list of SSH public key IDs from the account
-    [array]
-  - `trusted_user_ca_keys`: object[]
-    [array of]
-    - `name`: string — Optional human readable name for this key
-    - `public_key`: string **required** — An SSH public key
-  - `vcpu`: number — Specify the vcpu to be used for the deployment. Vcpu must be at least 1. The input value will be rounded to
-  - `wrangler_ssh`: object — Configuration properties for SSH'ing into a container with Wrangler
-    - `enabled`: boolean default: `true`
-    - `port`: number default: `22`
-- `current_version`: integer **required** — Current application version before the rollout.
-- `description`: string **required**
-- `health`: object **required**
-  - `errors`: object[] **required**
-    [array of]
-    - `event`: object **required** — An event within a Placement or a Job
-    - `instance_id`: string **required** — An instance ID represents an identifier of an instance configuration that maintains an underlying placement
-  - `instances`: object **required** — Shows a count of application instance states.
-    - `active`: integer **required** — Number of instances with a running container.
-    - `assigned`: integer **required** — Number of instances assigned to a container, but the container is not yet running.
-  - `summary`: string enum: `healthy`, `degraded`, `unhealthy`, `pending` — High-level health assessment. Only populated for "new_instances" strategy.
-- `id`: string **required** — An identifier for a specific rollout within an application.
-- `kind`: string **required** enum: `full_auto`, `full_manual`, `durable_objects_auto` — Kind of the rollout process.
-- `last_updated_at`: string **required** — UTC timestamp string in ISO 8601 format
-- `percentage`: integer — Current target version percentage (0-100). Only present for "new_instances" strategy.
-- `progress`: object — Progress details of an application rollout.
-  - `current_step`: integer **required** — Current step being executed in the rollout process. Initialized to 0.
-  - `total_instances`: integer **required** — Total number of instances affected by the rollout.
-  - `total_steps`: integer **required** — Total number of steps in the rollout.
-  - `updated_instances`: integer **required** — Number of instances updated in the rollout process.
-  - `version_distribution`: object — Expected distribution of instances by version based on the current percentage split.
-    - `current_version_instances`: integer — Expected number of instances remaining on the current (old) version based on the current percentage split. Only populated for "rolling" stra
-    - `current_version_percentage`: integer — The percentage of new instances being scheduled on the current version (100 - target_version_percentage).
-    - `target_version_instances`: integer — Expected number of instances scheduled for the target (new) version based on the current percentage split. Only populated for "rolling" stra
-    - `target_version_percentage`: integer — The active percentage of new instances being scheduled on the target version.
-- `started_at`: string — Timestamp when the rollout started.
-- `status`: string **required** enum: `pending`, `progressing`, `completed`, `reverted`, `replaced` — Current status of the rollout.
-- `steps`: object[]
-  [array of]
-  - `completed_at`: string — UTC timestamp string in ISO 8601 format
-  - `description`: string **required** — Description of the rollout step.
-  - `id`: integer **required** — The sequential order of the rollout step, automatically assigned starting from 1, based on the total number of steps in the rollout process.
-  - `reason`: string — Reason why the step has the current status
-  - `started_at`: string — UTC timestamp string in ISO 8601 format
-  - `status`: string **required** enum: `pending`, `progressing`, `reverting`, `completed`, `reverted` — Status of the rollout step.
-  - `step_size`: object **required**
-    - `percentage`: integer **required** — Percentage of instances affected in this step. Min 10% and Max 100%.
-- `strategy`: string **required** enum: `rolling`, `new_instances` — The rollout strategy.
-- `target_configuration`: object **required** — Properties required to modify a cloudchamber deployment specified by the user.
-  - `authorized_keys`: object[]
-    [array of]
-    - `name`: string — Optional human readable name for this key
-    - `public_key`: string **required** — An SSH public key
-  - `command`: string[] — The command to be executed when the container starts, passed to the entrypoint.
-    [array]
-  - `disk`: object — The disk configuration for this deployment. By default, all containers have a disk size of 2GB.
-    - `size`: string — A disk size that specifies its unit at the end.
-    - `size_mb`: integer — Size of the disk, in MB.
-  - `dns`: object — Represents the /etc/resolv.conf that will appear in the deployment.
-    - `searches`: string[] — The container resolver will append these domains to every resolve query. For example, if you have 'google.com',
-    - `servers`: string[] — List of DNS servers that the deployment will use to resolve domain names. You can only specify a maximum of 3.
-  - `entrypoint`: string[] — The entry point for the container, specifying the executable to run when the container starts.
-    [array]
-  - `environment_variables`: object[] — Container environment variables
-    [array of]
-    - `name`: string **required** — An environment variable name
-    - `value`: string **required** — An environment variable value
-  - `experimental_flags`: string[] — Opt-in experimental flags for this application. Only a subset of
-    [array]
-  - `image`: string — Image url
-  - `instance_type`: string default: `lite` — The instance type will be used to configure vCPU, memory, and disk.
-  - `labels`: object[] — Deployment labels
-    [array of]
-    - `name`: string **required** — A label name
-    - `value`: string **required** — A label value
-  - `lifecycle`: object — Lifecycle configuration for a deployment.
-    - `max_termination_duration`: string — Duration string. From Go documentation:
-  - `memory`: string — A memory size that specifies its unit at the end.
-  - `memory_mib`: integer — Specify the memory to be used for the deployment, in MiB. The default will be the one configured for the account.
-  - `metadata_service`: object — Configuration for enabling the container metadata service.
-    - `enabled`: boolean **required** — Whether the metadata service should be enabled for the deployment.
-  - `observability`: object — Settings for deployment observability such as logging.
-    - `logs`: object — Observability logging settings.
-  - `secrets`: object[] — A list of objects with secret names and the their access types from the account
-    [array of]
-    - `name`: string **required** — The name of the secret within the container
-    - `secret`: string **required** — Corresponding secret name from the account
-    - `type`: string **required** enum: `env` — The secret access type denotes how a secret is made available within a container. Available Options are "env".
-  - `ssh_public_key_ids`: string[] — A list of SSH public key IDs from the account
-    [array]
-  - `trusted_user_ca_keys`: object[]
-    [array of]
-    - `name`: string — Optional human readable name for this key
-    - `public_key`: string **required** — An SSH public key
-  - `vcpu`: number — Specify the vcpu to be used for the deployment. Vcpu must be at least 1. The input value will be rounded to
-  - `wrangler_ssh`: object — Configuration properties for SSH'ing into a container with Wrangler
-    - `enabled`: boolean default: `true`
-    - `port`: number default: `22`
-- `target_version`: integer **required** — Target application version after the rollout is complete and applied to all current instances.
-- `version_distribution`: object — Version percentage distribution. Only present for "new_instances" strategy.
-  - `current_version_percentage`: integer **required** — Percentage of instances on the current (old) version.
-  - `target_version_percentage`: integer **required** — Percentage of instances on the target (new) version.
+- `scheduling_policy`: string **required** enum: `default` — Selects a scheduler-backed application. Use `default` when the Containers
 
 ## GET /accounts/{account_id}/containers/applications/{application_id}/versions
 
@@ -848,56 +272,23 @@ operationId: `listApplicationVersions`
 **Response** 200 → `result`
 
 [array of]
-- `configuration`: object **required** — Properties required to modify a cloudchamber deployment specified by the user.
+- `configuration`: object **required** — User-specified container configuration changes.
   - `authorized_keys`: object[]
     [array of]
-    - `name`: string — Optional human readable name for this key
-    - `public_key`: string **required** — An SSH public key
-  - `command`: string[] — The command to be executed when the container starts, passed to the entrypoint.
+    - `name`: string — Optional human readable name for this key.
+    - `public_key`: string **required** — An SSH public key.
+  - `command`: string[] — The command that runs when the container starts, passed to the entrypoint.
     [array]
-  - `disk`: object — The disk configuration for this deployment. By default, all containers have a disk size of 2GB.
-    - `size`: string — A disk size that specifies its unit at the end.
-    - `size_mb`: integer — Size of the disk, in MB.
-  - `dns`: object — Represents the /etc/resolv.conf that will appear in the deployment.
-    - `searches`: string[] — The container resolver will append these domains to every resolve query. For example, if you have 'google.com',
-    - `servers`: string[] — List of DNS servers that the deployment will use to resolve domain names. You can only specify a maximum of 3.
   - `entrypoint`: string[] — The entry point for the container, specifying the executable to run when the container starts.
     [array]
-  - `environment_variables`: object[] — Container environment variables
+  - `environment_variables`: object[] — Container environment variables.
     [array of]
-    - `name`: string **required** — An environment variable name
-    - `value`: string **required** — An environment variable value
-  - `experimental_flags`: string[] — Opt-in experimental flags for this application. Only a subset of
-    [array]
-  - `image`: string — Image url
-  - `instance_type`: string default: `lite` — The instance type will be used to configure vCPU, memory, and disk.
-  - `labels`: object[] — Deployment labels
-    [array of]
-    - `name`: string **required** — A label name
-    - `value`: string **required** — A label value
-  - `lifecycle`: object — Lifecycle configuration for a deployment.
-    - `max_termination_duration`: string — Duration string. From Go documentation:
-  - `memory`: string — A memory size that specifies its unit at the end.
-  - `memory_mib`: integer — Specify the memory to be used for the deployment, in MiB. The default will be the one configured for the account.
-  - `metadata_service`: object — Configuration for enabling the container metadata service.
-    - `enabled`: boolean **required** — Whether the metadata service should be enabled for the deployment.
+    - `name`: string **required** — An environment variable name.
+    - `value`: string **required** — An environment variable value.
+  - `image`: string — Image url.
+  - `instance_type`: string default: `lite` — The instance type configures vCPU, memory, and disk.
   - `observability`: object — Settings for deployment observability such as logging.
     - `logs`: object — Observability logging settings.
-  - `secrets`: object[] — A list of objects with secret names and the their access types from the account
-    [array of]
-    - `name`: string **required** — The name of the secret within the container
-    - `secret`: string **required** — Corresponding secret name from the account
-    - `type`: string **required** enum: `env` — The secret access type denotes how a secret is made available within a container. Available Options are "env".
-  - `ssh_public_key_ids`: string[] — A list of SSH public key IDs from the account
-    [array]
-  - `trusted_user_ca_keys`: object[]
-    [array of]
-    - `name`: string — Optional human readable name for this key
-    - `public_key`: string **required** — An SSH public key
-  - `vcpu`: number — Specify the vcpu to be used for the deployment. Vcpu must be at least 1. The input value will be rounded to
-  - `wrangler_ssh`: object — Configuration properties for SSH'ing into a container with Wrangler
-    - `enabled`: boolean default: `true`
-    - `port`: number default: `22`
 - `percentage`: integer **required**
 - `version`: integer **required**
 
@@ -905,7 +296,7 @@ operationId: `listApplicationVersions`
 
 List applications
 
-operationId: `list_applications_v2` · query: `environment`
+operationId: `list_applications_v2` · query: `environment`, `page`, `page_size`
 
 **Response** 200 → `result`
 
@@ -918,7 +309,7 @@ operationId: `list_applications_v2` · query: `environment`
 - `description`: string **required** — Brief description of the integration.
 - `display_name`: string **required** — Human-readable vendor name.
 - `dlp_enabled`: boolean **required** — Whether DLP scanning is supported.
-- `id`: string **required** enum: `ANTHROPIC`, `BITBUCKET`, `BOX`, `CONFLUENCE`, `DROPBOX`, `GITHUB`, `GOOGLE_CLOUD_PLATFORM`, `GOOGLE_WORKSPACE` — Vendor identifier (e.g. microsoft_internal, google_workspace).
+- `id`: string **required** enum: `ANTHROPIC`, `AWS`, `BITBUCKET`, `BOX`, `CONFLUENCE`, `DROPBOX`, `GITHUB`, `GOOGLE_CLOUD_PLATFORM` — Vendor identifier (e.g. microsoft_internal, google_workspace).
 - `logo`: string **required** — Logo path.
 - `permissions`: object[] **required** — All permissions with severity.
   [array of]
@@ -951,7 +342,7 @@ operationId: `get_application_v2`
 - `description`: string **required** — Brief description.
 - `display_name`: string **required** — Human-readable vendor name.
 - `dlp_enabled`: boolean **required** — Whether DLP scanning is supported.
-- `id`: string **required** enum: `ANTHROPIC`, `BITBUCKET`, `BOX`, `CONFLUENCE`, `DROPBOX`, `GITHUB`, `GOOGLE_CLOUD_PLATFORM`, `GOOGLE_WORKSPACE` — Vendor identifier.
+- `id`: string **required** enum: `ANTHROPIC`, `AWS`, `BITBUCKET`, `BOX`, `CONFLUENCE`, `DROPBOX`, `GITHUB`, `GOOGLE_CLOUD_PLATFORM` — Vendor identifier.
 - `instructions`: string **required** — Setup instructions for the user.
 - `logo`: string **required** — Logo path.
 - `use_cases`: object[] **required** — Use cases with full scope details.
@@ -975,7 +366,7 @@ operationId: `get_application_v2`
 
 Get auth methods
 
-operationId: `get_application_auth_methods_v2`
+operationId: `get_application_auth_methods_v2` · query: `page`, `page_size`
 
 **Response** 200 → `result`
 
@@ -992,7 +383,7 @@ operationId: `get_application_auth_methods_v2`
 
 Get application setup flows
 
-operationId: `get_application_setup_flows_v2` · query: `auth_method`, `environment`
+operationId: `get_application_setup_flows_v2` · query: `auth_method`, `environment`, `page`, `page_size`
 
 **Response** 200 → `result`
 
@@ -1002,7 +393,7 @@ operationId: `get_application_setup_flows_v2` · query: `auth_method`, `environm
 - `description`: string **required** — Flow description.
 - `id`: string **required** — Setup flow identifier.
 - `name`: string **required** — Human-readable flow name.
-- `steps`: object[] **required** — Ordered list of setup steps.
+- `steps`: object[] **required** — Ordered list of setup steps. Each step/field is flagged `is_used_in_create`/`is_used_in_update` for whether it belongs to the one-time creat
   [array of]
   - `component_id`: string — Component identifier (for component type).
   - `description`: string — Step description with markdown support.
@@ -1014,13 +405,20 @@ operationId: `get_application_setup_flows_v2` · query: `auth_method`, `environm
     - `value_from`: string — Field path to get value from (for copy_block).
   - `form_fields`: object[] — Form fields (for form_input).
     [array of]
+    - `default_value`: string — Backend-computed value to pre-fill the field with.
+    - `description`: string — Risk or behavior callout for the field (e.g. consequences of an invalid value).
+    - `is_used_in_create`: boolean **required** — Whether this field is part of the one-time create flow.
+    - `is_used_in_update`: boolean **required** — Whether this field is safe to PATCH on an existing integration.
     - `label`: string **required** — Human-readable field label.
     - `name`: string **required** — Field identifier (maps to credentials key).
     - `placeholder`: string **required** — Placeholder text.
+    - `readonly`: boolean — Whether the field is backend-computed and must be rendered disabled.
     - `required`: boolean **required** — Whether field is required.
     - `supported_file_types`: string[] **required** — Allowed file extensions for file_upload type.
     - `type`: string **required** enum: `text`, `password`, `email`, `file_upload` — Field input type.
   - `is_required`: boolean — Whether step is required (for form_input).
+  - `is_used_in_create`: boolean **required** — Whether this step is part of the one-time create flow.
+  - `is_used_in_update`: boolean **required** — Whether this step is shown when fixing an existing integration's credentials (e.g. a re-authorize/delete-and-recreate instruction, or a step
   - `parameters`: object — Component parameters (for component type).
   - `title`: string — Step title (for instruction/form_input/oauth_redirect).
   - `type`: string **required** enum: `component`, `instruction`, `form_input`, `oauth_redirect` — Step type.
@@ -1031,40 +429,88 @@ operationId: `get_application_setup_flows_v2` · query: `auth_method`, `environm
 
 List applications
 
-operationId: `getApplications` · query: `filter`, `limit`, `offset`, `order_by`, `search`
+operationId: `getResourceLibraryApplications` · query: `filter`, `limit`, `offset`, `cursor`, `order_by`, `search`, `lookup`, `fields`
 
 **Response** 200 → `result`
 
 [array of]
+- `application_confidence_score`: number — Confidence score for the application. Returns -1 when no score is available.
+- `application_score_composition`: object — Returns the score composition breakdown for the application.
+- `application_source`: string — Returns the application source.
+- `application_type`: string — Returns the application type.
+- `application_type_description`: string — Returns the application type description.
+- `category_id`: integer — Numeric identifier for an application category.
+- `created_at`: string — Returns the application creation time.
+- `gen_ai_score`: number — GenAI score for the application. Returns -1 when no score is available.
+- `hostnames`: string[] — Hostnames matched by the application.
+  [array]
+- `human_id`: string — Human-readable identifier for the application.
+- `id`: integer **required** — Numeric identifier for the application.
+- `ip_subnets`: string[] — IP subnets for this application. Custom application create and update requests accept IPv4 prefix lengths /8 through /32 and IPv6 prefix len
+  [array]
+- `name`: string — Application name.
+- `port_protocols`: string[] — Ports matched by the application, in `protocol/port` or inclusive `protocol/start-end` format (for example, `tcp/443` or `udp/10000-20000`).
+  [array]
+- `review_status`: string enum: `approved`, `unapproved`, `in_review`, `unreviewed` — The account-specific Gateway review status. Applications with no assigned review status are returned as `unreviewed`.
+- `support_domains`: string[] — Support domains matched by the application.
+  [array]
+- `supported`: string[] — Cloudflare products that support this application.
+  [array]
+- `updated_at`: string — Returns the application update time.
+- `version`: string — Returns the application version.
+
+## POST /accounts/{account_id}/resource-library/applications
+
+Create application
+
+operationId: `createResourceLibraryApplication`
+
+**Request** (application/json)
+
+(one of 2 variants; showing the first)
+- `hostnames`: any **required**
+
+**Response** 201 → `result`
+
 - `application_confidence_score`: number **required** — Confidence score for the application. Returns -1 when no score is available.
 - `application_score_composition`: object — Returns the score composition breakdown for the application.
 - `application_source`: string **required** — Returns the application source.
 - `application_type`: string **required** — Returns the application type.
 - `application_type_description`: string **required** — Returns the application type description.
+- `category_id`: integer **required** — Numeric identifier for an application category.
 - `created_at`: string **required** — Returns the application creation time.
 - `gen_ai_score`: number **required** — GenAI score for the application. Returns -1 when no score is available.
-- `hostnames`: string[] **required** — Returns the list of hostnames for the application.
+- `hostnames`: string[] **required** — Hostnames matched by the application.
   [array]
-- `human_id`: string **required** — Returns the human readable ID.
-- `id`: string **required** — Returns the application ID.
-- `intel_id`: integer — Returns the Intel API ID for the application.
-- `ip_subnets`: string[] **required** — Returns the list of IP subnets for the application.
+- `human_id`: string **required** — Human-readable identifier for the application.
+- `id`: integer **required** — Numeric identifier for the application.
+- `ip_subnets`: string[] **required** — IP subnets for this application. Custom application create and update requests accept IPv4 prefix lengths /8 through /32 and IPv6 prefix len
   [array]
-- `name`: string **required** — Returns the application name.
-- `port_protocols`: string[] **required** — Returns the list of port protocols for the application.
+- `name`: string **required** — Application name.
+- `port_protocols`: string[] **required** — Ports matched by the application, in `protocol/port` or inclusive `protocol/start-end` format (for example, `tcp/443` or `udp/10000-20000`).
   [array]
-- `support_domains`: string[] **required** — Returns the list of support domains for the application.
+- `support_domains`: string[] **required** — Support domains matched by the application.
   [array]
 - `supported`: string[] **required** — Cloudflare products that support this application.
   [array]
 - `updated_at`: string **required** — Returns the application update time.
 - `version`: string **required** — Returns the application version.
+
+## DELETE /accounts/{account_id}/resource-library/applications/{id}
+
+Delete application
+
+operationId: `deleteResourceLibraryApplication`
+
+**Response** 200 → `result`
+
+object
 
 ## GET /accounts/{account_id}/resource-library/applications/{id}
 
 Get application
 
-operationId: `getApplicationById`
+operationId: `getResourceLibraryApplicationById`
 
 **Response** 200 → `result`
 
@@ -1073,21 +519,102 @@ operationId: `getApplicationById`
 - `application_source`: string **required** — Returns the application source.
 - `application_type`: string **required** — Returns the application type.
 - `application_type_description`: string **required** — Returns the application type description.
+- `category_id`: integer **required** — Numeric identifier for an application category.
 - `created_at`: string **required** — Returns the application creation time.
 - `gen_ai_score`: number **required** — GenAI score for the application. Returns -1 when no score is available.
-- `hostnames`: string[] **required** — Returns the list of hostnames for the application.
+- `hostnames`: string[] **required** — Hostnames matched by the application.
   [array]
-- `human_id`: string **required** — Returns the human readable ID.
-- `id`: string **required** — Returns the application ID.
-- `intel_id`: integer — Returns the Intel API ID for the application.
-- `ip_subnets`: string[] **required** — Returns the list of IP subnets for the application.
+- `human_id`: string **required** — Human-readable identifier for the application.
+- `id`: integer **required** — Numeric identifier for the application.
+- `ip_subnets`: string[] **required** — IP subnets for this application. Custom application create and update requests accept IPv4 prefix lengths /8 through /32 and IPv6 prefix len
   [array]
-- `name`: string **required** — Returns the application name.
-- `port_protocols`: string[] **required** — Returns the list of port protocols for the application.
+- `name`: string **required** — Application name.
+- `port_protocols`: string[] **required** — Ports matched by the application, in `protocol/port` or inclusive `protocol/start-end` format (for example, `tcp/443` or `udp/10000-20000`).
   [array]
-- `support_domains`: string[] **required** — Returns the list of support domains for the application.
+- `support_domains`: string[] **required** — Support domains matched by the application.
   [array]
 - `supported`: string[] **required** — Cloudflare products that support this application.
   [array]
 - `updated_at`: string **required** — Returns the application update time.
 - `version`: string **required** — Returns the application version.
+
+## PATCH /accounts/{account_id}/resource-library/applications/{id}
+
+Update application
+
+operationId: `updateResourceLibraryApplication`
+
+**Request** (application/json)
+
+- `hostnames`: string[] — Hostnames matched by the application.
+  [array]
+- `ip_subnets`: string[] — IP subnets for this application. Custom application create and update requests accept IPv4 prefix lengths /8 through /32 and IPv6 prefix len
+  [array]
+- `port_protocols`: string[] — Ports matched by the application, in `protocol/port` or inclusive `protocol/start-end` format (for example, `tcp/443` or `udp/10000-20000`).
+  [array]
+- `support_domains`: string[] — Support domains matched by the application.
+  [array]
+
+**Response** 200 → `result`
+
+- `application_confidence_score`: number **required** — Confidence score for the application. Returns -1 when no score is available.
+- `application_score_composition`: object — Returns the score composition breakdown for the application.
+- `application_source`: string **required** — Returns the application source.
+- `application_type`: string **required** — Returns the application type.
+- `application_type_description`: string **required** — Returns the application type description.
+- `category_id`: integer **required** — Numeric identifier for an application category.
+- `created_at`: string **required** — Returns the application creation time.
+- `gen_ai_score`: number **required** — GenAI score for the application. Returns -1 when no score is available.
+- `hostnames`: string[] **required** — Hostnames matched by the application.
+  [array]
+- `human_id`: string **required** — Human-readable identifier for the application.
+- `id`: integer **required** — Numeric identifier for the application.
+- `ip_subnets`: string[] **required** — IP subnets for this application. Custom application create and update requests accept IPv4 prefix lengths /8 through /32 and IPv6 prefix len
+  [array]
+- `name`: string **required** — Application name.
+- `port_protocols`: string[] **required** — Ports matched by the application, in `protocol/port` or inclusive `protocol/start-end` format (for example, `tcp/443` or `udp/10000-20000`).
+  [array]
+- `support_domains`: string[] **required** — Support domains matched by the application.
+  [array]
+- `supported`: string[] **required** — Cloudflare products that support this application.
+  [array]
+- `updated_at`: string **required** — Returns the application update time.
+- `version`: string **required** — Returns the application version.
+
+## POST /accounts/{account_id}/resource-library/applications/lookup
+
+Look up applications in a rule sentence
+
+operationId: `lookupResourceLibraryApplications` · query: `filter`, `limit`, `fields`
+
+**Request** (application/json)
+
+- `lookup`: string **required** — Rule sentence to search for complete application names. Leading and trailing
+
+**Response** 200 → `result`
+
+[array of]
+- `application_confidence_score`: number — Confidence score for the application. Returns -1 when no score is available.
+- `application_score_composition`: object — Returns the score composition breakdown for the application.
+- `application_source`: string — Returns the application source.
+- `application_type`: string — Returns the application type.
+- `application_type_description`: string — Returns the application type description.
+- `category_id`: integer — Numeric identifier for an application category.
+- `created_at`: string — Returns the application creation time.
+- `gen_ai_score`: number — GenAI score for the application. Returns -1 when no score is available.
+- `hostnames`: string[] — Hostnames matched by the application.
+  [array]
+- `human_id`: string — Human-readable identifier for the application.
+- `id`: integer **required** — Numeric identifier for the application.
+- `ip_subnets`: string[] — IP subnets for this application. Custom application create and update requests accept IPv4 prefix lengths /8 through /32 and IPv6 prefix len
+  [array]
+- `name`: string — Application name.
+- `port_protocols`: string[] — Ports matched by the application, in `protocol/port` or inclusive `protocol/start-end` format (for example, `tcp/443` or `udp/10000-20000`).
+  [array]
+- `review_status`: string enum: `approved`, `unapproved`, `in_review`, `unreviewed` — The account-specific Gateway review status. Applications with no assigned review status are returned as `unreviewed`.
+- `support_domains`: string[] — Support domains matched by the application.
+  [array]
+- `supported`: string[] — Cloudflare products that support this application.
+  [array]
+- `updated_at`: string — Returns the application update time.
+- `version`: string — Returns the application version.

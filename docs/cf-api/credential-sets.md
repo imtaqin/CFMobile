@@ -4,7 +4,7 @@
 
 ## GET /accounts/{account_id}/vuln_scanner/credential_sets
 
-List Credential Sets
+List credential sets
 
 operationId: `list-credential-sets` · query: `page`, `per_page`
 
@@ -16,7 +16,7 @@ operationId: `list-credential-sets` · query: `page`, `per_page`
 
 ## POST /accounts/{account_id}/vuln_scanner/credential_sets
 
-Create Credential Set
+Create credential set
 
 operationId: `create-credential-set`
 
@@ -31,7 +31,7 @@ operationId: `create-credential-set`
 
 ## DELETE /accounts/{account_id}/vuln_scanner/credential_sets/{credential_set_id}
 
-Delete Credential Set
+Delete credential set
 
 operationId: `delete-credential-set`
 
@@ -41,7 +41,7 @@ object
 
 ## GET /accounts/{account_id}/vuln_scanner/credential_sets/{credential_set_id}
 
-Get Credential Set
+Get credential set
 
 operationId: `get-credential-set`
 
@@ -52,7 +52,7 @@ operationId: `get-credential-set`
 
 ## PATCH /accounts/{account_id}/vuln_scanner/credential_sets/{credential_set_id}
 
-Edit Credential Set
+Edit credential set
 
 operationId: `edit-credential-set`
 
@@ -67,7 +67,7 @@ operationId: `edit-credential-set`
 
 ## PUT /accounts/{account_id}/vuln_scanner/credential_sets/{credential_set_id}
 
-Update Credential Set
+Update credential set
 
 operationId: `update-credential-set`
 

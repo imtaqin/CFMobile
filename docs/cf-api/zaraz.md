@@ -391,7 +391,7 @@ Update Zaraz workflow
 
 operationId: `put-zones-zone_identifier-zaraz-workflow`
 
-**Request** (application/json)
+**Request** (text/plain)
 
 string
 

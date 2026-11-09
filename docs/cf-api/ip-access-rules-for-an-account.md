@@ -22,8 +22,8 @@ operationId: `ip-access-rules-for-an-account-create-an-ip-access-rule`
 **Request** (application/json)
 
 - `configuration`: object **required** — The rule configuration.
-- `mode`: string **required** enum: `block`, `challenge`, `whitelist`, `js_challenge`, `managed_challenge` — The action to apply to a matched request.
-- `notes`: any
+- `mode`: any **required**
+- `notes`: any default: ``
 
 **Response** 200 → `result`
 
@@ -65,7 +65,7 @@ operationId: `ip-access-rules-for-an-account-update-an-ip-access-rule`
 - `configuration`: object **required** — The rule configuration.
 - `created_on`: string — The timestamp of when the rule was created.
 - `id`: string **required** — The unique identifier of the IP Access rule.
-- `mode`: string **required** enum: `block`, `challenge`, `whitelist`, `js_challenge`, `managed_challenge` — The action to apply to a matched request.
+- `mode`: any **required**
 - `modified_on`: string — The timestamp of when the rule was last modified.
 - `notes`: string — An informative summary of the rule, typically used as a reminder or explanation.
 - `scope`: object — All zones owned by the user will have the rule applied.

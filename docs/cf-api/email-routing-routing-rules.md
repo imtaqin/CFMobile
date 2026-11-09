@@ -14,7 +14,7 @@ operationId: `email-routing-routing-rules-list-account-routing-rules` · query: 
 - `actions`: object[] — List actions patterns.
   [array of]
   - `type`: string **required** enum: `drop`, `forward`, `worker` — Type of supported action.
-  - `value`: string[]
+  - `value`: string[] — List of values for the action. Currently limited to a single value.
     [array]
 - `enabled`: boolean enum: `true`, `false` default: `true` — Routing rule status.
 - `id`: string — Routing rule identifier.
@@ -52,7 +52,7 @@ operationId: `email-routing-routing-rules-plan-account-routing-rules`
   - `actions`: object[] **required** — List actions patterns.
     [array of]
     - `type`: string **required** enum: `drop`, `forward`, `worker` — Type of supported action.
-    - `value`: string[]
+    - `value`: string[] — List of values for the action. Currently limited to a single value.
   - `enabled`: boolean enum: `true`, `false` default: `true` — Routing rule status.
   - `matchers`: object[] **required** — Matching patterns to forward to your actions.
     [array of]
@@ -62,9 +62,9 @@ operationId: `email-routing-routing-rules-plan-account-routing-rules`
 
 **Response** 200 → `result`
 
-- `zones`: object[]
+- `zones`: object[] — Per-zone diff between the desired rules and the account's current Email Routing rules.
   [array of]
-  - `changes`: object[]
+  - `changes`: object[] — Rule changes planned for this zone.
     [array of]
     - `remote`: object
     - `target`: string — Canonical recipient address or catch-all target.
@@ -84,7 +84,7 @@ operationId: `email-routing-routing-rules-list-routing-rules` · query: `page`, 
 - `actions`: object[] — List actions patterns.
   [array of]
   - `type`: string **required** enum: `drop`, `forward`, `worker` — Type of supported action.
-  - `value`: string[]
+  - `value`: string[] — List of values for the action. Currently limited to a single value.
     [array]
 - `enabled`: boolean enum: `true`, `false` default: `true` — Routing rule status.
 - `id`: string — Routing rule identifier.
@@ -109,7 +109,7 @@ operationId: `email-routing-routing-rules-create-routing-rule`
 - `actions`: object[] **required** — List actions patterns.
   [array of]
   - `type`: string **required** enum: `drop`, `forward`, `worker` — Type of supported action.
-  - `value`: string[]
+  - `value`: string[] — List of values for the action. Currently limited to a single value.
     [array]
 - `enabled`: boolean enum: `true`, `false` default: `true` — Routing rule status.
 - `matchers`: object[] **required** — Matching patterns to forward to your actions.
@@ -127,7 +127,7 @@ operationId: `email-routing-routing-rules-create-routing-rule`
 - `actions`: object[] — List actions patterns.
   [array of]
   - `type`: string **required** enum: `drop`, `forward`, `worker` — Type of supported action.
-  - `value`: string[]
+  - `value`: string[] — List of values for the action. Currently limited to a single value.
     [array]
 - `enabled`: boolean enum: `true`, `false` default: `true` — Routing rule status.
 - `id`: string — Routing rule identifier.
@@ -152,7 +152,7 @@ operationId: `email-routing-routing-rules-delete-routing-rule`
 - `actions`: object[] — List actions patterns.
   [array of]
   - `type`: string **required** enum: `drop`, `forward`, `worker` — Type of supported action.
-  - `value`: string[]
+  - `value`: string[] — List of values for the action. Currently limited to a single value.
     [array]
 - `enabled`: boolean enum: `true`, `false` default: `true` — Routing rule status.
 - `id`: string — Routing rule identifier.
@@ -177,7 +177,7 @@ operationId: `email-routing-routing-rules-get-routing-rule`
 - `actions`: object[] — List actions patterns.
   [array of]
   - `type`: string **required** enum: `drop`, `forward`, `worker` — Type of supported action.
-  - `value`: string[]
+  - `value`: string[] — List of values for the action. Currently limited to a single value.
     [array]
 - `enabled`: boolean enum: `true`, `false` default: `true` — Routing rule status.
 - `id`: string — Routing rule identifier.
@@ -202,7 +202,7 @@ operationId: `email-routing-routing-rules-update-routing-rule`
 - `actions`: object[] **required** — List actions patterns.
   [array of]
   - `type`: string **required** enum: `drop`, `forward`, `worker` — Type of supported action.
-  - `value`: string[]
+  - `value`: string[] — List of values for the action. Currently limited to a single value.
     [array]
 - `enabled`: boolean enum: `true`, `false` default: `true` — Routing rule status.
 - `matchers`: object[] **required** — Matching patterns to forward to your actions.
@@ -220,7 +220,7 @@ operationId: `email-routing-routing-rules-update-routing-rule`
 - `actions`: object[] — List actions patterns.
   [array of]
   - `type`: string **required** enum: `drop`, `forward`, `worker` — Type of supported action.
-  - `value`: string[]
+  - `value`: string[] — List of values for the action. Currently limited to a single value.
     [array]
 - `enabled`: boolean enum: `true`, `false` default: `true` — Routing rule status.
 - `id`: string — Routing rule identifier.
@@ -245,7 +245,7 @@ operationId: `email-routing-routing-rules-get-catch-all-rule`
 - `actions`: object[] — List actions for the catch-all routing rule.
   [array of]
   - `type`: string **required** enum: `drop`, `forward`, `worker` — Type of action for catch-all rule.
-  - `value`: string[]
+  - `value`: string[] — List of values for the action. Currently limited to a single value.
     [array]
 - `enabled`: boolean enum: `true`, `false` default: `true` — Routing rule status.
 - `id`: string — Routing rule identifier.
@@ -267,7 +267,7 @@ operationId: `email-routing-routing-rules-update-catch-all-rule`
 - `actions`: object[] **required** — List actions for the catch-all routing rule.
   [array of]
   - `type`: string **required** enum: `drop`, `forward`, `worker` — Type of action for catch-all rule.
-  - `value`: string[]
+  - `value`: string[] — List of values for the action. Currently limited to a single value.
     [array]
 - `enabled`: boolean enum: `true`, `false` default: `true` — Routing rule status.
 - `matchers`: object[] **required** — List of matchers for the catch-all routing rule.
@@ -282,7 +282,7 @@ operationId: `email-routing-routing-rules-update-catch-all-rule`
 - `actions`: object[] — List actions for the catch-all routing rule.
   [array of]
   - `type`: string **required** enum: `drop`, `forward`, `worker` — Type of action for catch-all rule.
-  - `value`: string[]
+  - `value`: string[] — List of values for the action. Currently limited to a single value.
     [array]
 - `enabled`: boolean enum: `true`, `false` default: `true` — Routing rule status.
 - `id`: string — Routing rule identifier.

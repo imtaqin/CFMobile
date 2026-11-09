@@ -17,7 +17,7 @@ operationId: `zone-cloud-conenctor-rules-put`
 - `id`: string
 - `parameters`: object — Parameters of Cloud Connector Rule
   - `host`: string — Host to perform Cloud Connection to
-- `provider`: string enum: `aws_s3`, `cloudflare_r2`, `gcp_storage`, `azure_storage` — Cloud Provider type
+- `provider`: string enum: `aws_s3`, `cloudflare_r2`, `gcp_storage`, `azure_storage`, `oci_storage` — Cloud Provider type
 
 **Response** 200 → `result`
 
@@ -28,4 +28,4 @@ operationId: `zone-cloud-conenctor-rules-put`
 - `id`: string
 - `parameters`: object — Parameters of Cloud Connector Rule
   - `host`: string — Host to perform Cloud Connection to
-- `provider`: string enum: `aws_s3`, `cloudflare_r2`, `gcp_storage`, `azure_storage` — Cloud Provider type
+- `provider`: string enum: `aws_s3`, `cloudflare_r2`, `gcp_storage`, `azure_storage`, `oci_storage` — Cloud Provider type

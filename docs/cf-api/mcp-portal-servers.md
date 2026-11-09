@@ -26,10 +26,11 @@ operationId: `mcp-portals-api-list-servers` · query: `page`, `per_page`, `searc
     - `redirect_uris`: string[]
     - `scope`: string
     - `token_endpoint_auth_method`: string
-- `auth_type`: string **required** enum: `oauth`, `bearer`, `unauthenticated`
+- `auth_type`: string **required** enum: `oauth`, `bearer`, `unauthenticated` — Authentication method used to connect to the upstream MCP server.
+- `authentication_status`: string enum: `not_required`, `required`, `connected`, `stale`, `manual` — Whether administrative authentication is required before capabilities can be synced. Manual OAuth is user-managed and has no administrative 
 - `created_at`: string
 - `created_by`: string
-- `description`: string
+- `description`: string — Optional description of the MCP server.
 - `error`: string
 - `error_details`: object
   - `cause`: string — Underlying error message
@@ -37,32 +38,33 @@ operationId: `mcp-portals-api-list-servers` · query: `page`, `per_page`, `searc
   - `mcp_code`: number — MCP protocol error code
   - `retryable`: boolean — Whether the error is transient and worth retrying
   - `status_code`: number — HTTP status code from the server
-- `hostname`: string **required**
-- `id`: string **required** — server id
-- `is_shared_oauth_callback_enabled`: boolean default: `false` — When true, the gateway worker uses the shared Cloudflare-owned OAuth callback endpoint as the redirect_uri for upstream on-behalf OAuth, ins
+- `hostname`: string **required** — URL of the upstream MCP endpoint.
+- `id`: string **required** — Unique identifier for the MCP server.
+- `is_shared_oauth_callback_enabled`: boolean default: `false` — When true, per-user authorization uses the shared Cloudflare callback URL as the 'redirect_uri' instead of the portal callback URL. The defa
 - `last_successful_sync`: string
 - `last_synced`: string
 - `modified_at`: string
 - `modified_by`: string
-- `name`: string **required**
+- `name`: string **required** — Display name for the MCP server.
 - `prompts`: object[] **required**
   [array]
-- `secure_web_gateway`: boolean default: `false` — Route outbound traffic to this MCP server through Zero Trust Secure Web Gateway
+- `registered_at`: string — Timestamp of the most recent successful admin OAuth registration.
+- `secure_web_gateway`: boolean default: `false` — Route outbound traffic to this MCP server through Zero Trust Secure Web Gateway.
 - `status`: string enum: `waiting`, `ready`, `stale`, `error` default: `waiting` — Current sync state of the server
 - `tools`: object[] **required**
   [array]
-- `updated_prompts`: object[]
+- `updated_prompts`: object[] — Server-wide prompt capability overrides.
   [array of]
-  - `alias`: string
-  - `description`: string
-  - `enabled`: boolean
-  - `name`: string **required**
-- `updated_tools`: object[]
+  - `alias`: string — Custom name exposed for the capability.
+  - `description`: string — Custom description exposed for the capability.
+  - `enabled`: boolean — Whether the capability is available through the MCP server.
+  - `name`: string **required** — Name of the tool or prompt capability to override.
+- `updated_tools`: object[] — Server-wide tool capability overrides.
   [array of]
-  - `alias`: string
-  - `description`: string
-  - `enabled`: boolean
-  - `name`: string **required**
+  - `alias`: string — Custom name exposed for the capability.
+  - `description`: string — Custom description exposed for the capability.
+  - `enabled`: boolean — Whether the capability is available through the MCP server.
+  - `name`: string **required** — Name of the tool or prompt capability to override.
 
 ## POST /accounts/{account_id}/access/ai-controls/mcp/servers
 
@@ -72,27 +74,27 @@ operationId: `mcp-portals-api-create-servers`
 
 **Request** (application/json)
 
-- `auth_credentials`: string
-- `auth_type`: string **required** enum: `oauth`, `bearer`, `unauthenticated`
-- `client_secret`: string — Pre-registered OAuth client_secret. Write-only - accepted on create/update when auth_credentials.auth_mode is 'manual'. Stored AES-GCM-encry
-- `description`: string
-- `hostname`: string **required**
-- `id`: string **required** — server id
-- `is_shared_oauth_callback_enabled`: boolean default: `false` — When true, the gateway worker uses the shared Cloudflare-owned OAuth callback endpoint as the redirect_uri for upstream on-behalf OAuth, ins
-- `name`: string **required**
-- `secure_web_gateway`: boolean default: `false` — Route outbound traffic to this MCP server through Zero Trust Secure Web Gateway
-- `updated_prompts`: object[]
+- `auth_credentials`: string — Credential configuration for the upstream MCP server. For auth_type "bearer", either a raw token string (e.g. "sk-abc123"), which is wrapped
+- `auth_type`: string **required** enum: `oauth`, `bearer`, `unauthenticated` — Authentication method used to connect to the upstream MCP server.
+- `client_secret`: string — Provides 'client_secret' for a pre-registered OAuth client. This field is accepted on create or update only when 'auth_credentials.auth_mode
+- `description`: string — Optional description of the MCP server.
+- `hostname`: string **required** — URL of the upstream MCP endpoint.
+- `id`: string **required** — Unique identifier for the MCP server.
+- `is_shared_oauth_callback_enabled`: boolean default: `false` — When true, per-user authorization uses the shared Cloudflare callback URL as the 'redirect_uri' instead of the portal callback URL. The defa
+- `name`: string **required** — Display name for the MCP server.
+- `secure_web_gateway`: boolean default: `false` — Route outbound traffic to this MCP server through Zero Trust Secure Web Gateway.
+- `updated_prompts`: object[] — Server-wide prompt capability overrides.
   [array of]
-  - `alias`: string
-  - `description`: string
-  - `enabled`: boolean
-  - `name`: string **required**
-- `updated_tools`: object[]
+  - `alias`: string — Custom name exposed for the capability.
+  - `description`: string — Custom description exposed for the capability.
+  - `enabled`: boolean — Whether the capability is available through the MCP server.
+  - `name`: string **required** — Name of the tool or prompt capability to override.
+- `updated_tools`: object[] — Server-wide tool capability overrides.
   [array of]
-  - `alias`: string
-  - `description`: string
-  - `enabled`: boolean
-  - `name`: string **required**
+  - `alias`: string — Custom name exposed for the capability.
+  - `description`: string — Custom description exposed for the capability.
+  - `enabled`: boolean — Whether the capability is available through the MCP server.
+  - `name`: string **required** — Name of the tool or prompt capability to override.
 
 **Response** 201 → `result`
 
@@ -111,10 +113,11 @@ operationId: `mcp-portals-api-create-servers`
     - `redirect_uris`: string[]
     - `scope`: string
     - `token_endpoint_auth_method`: string
-- `auth_type`: string **required** enum: `oauth`, `bearer`, `unauthenticated`
+- `auth_type`: string **required** enum: `oauth`, `bearer`, `unauthenticated` — Authentication method used to connect to the upstream MCP server.
+- `authentication_status`: string enum: `not_required`, `required`, `connected`, `stale`, `manual` — Whether administrative authentication is required before capabilities can be synced. Manual OAuth is user-managed and has no administrative 
 - `created_at`: string
 - `created_by`: string
-- `description`: string
+- `description`: string — Optional description of the MCP server.
 - `error`: string
 - `error_details`: object
   - `cause`: string — Underlying error message
@@ -122,36 +125,37 @@ operationId: `mcp-portals-api-create-servers`
   - `mcp_code`: number — MCP protocol error code
   - `retryable`: boolean — Whether the error is transient and worth retrying
   - `status_code`: number — HTTP status code from the server
-- `hostname`: string **required**
-- `id`: string **required** — server id
-- `is_shared_oauth_callback_enabled`: boolean default: `false` — When true, the gateway worker uses the shared Cloudflare-owned OAuth callback endpoint as the redirect_uri for upstream on-behalf OAuth, ins
+- `hostname`: string **required** — URL of the upstream MCP endpoint.
+- `id`: string **required** — Unique identifier for the MCP server.
+- `is_shared_oauth_callback_enabled`: boolean default: `false` — When true, per-user authorization uses the shared Cloudflare callback URL as the 'redirect_uri' instead of the portal callback URL. The defa
 - `last_successful_sync`: string
 - `last_synced`: string
 - `modified_at`: string
 - `modified_by`: string
-- `name`: string **required**
+- `name`: string **required** — Display name for the MCP server.
 - `prompts`: object[] **required**
   [array]
-- `secure_web_gateway`: boolean default: `false` — Route outbound traffic to this MCP server through Zero Trust Secure Web Gateway
+- `registered_at`: string — Timestamp of the most recent successful admin OAuth registration.
+- `secure_web_gateway`: boolean default: `false` — Route outbound traffic to this MCP server through Zero Trust Secure Web Gateway.
 - `status`: string enum: `waiting`, `ready`, `stale`, `error` default: `waiting` — Current sync state of the server
 - `tools`: object[] **required**
   [array]
-- `updated_prompts`: object[]
+- `updated_prompts`: object[] — Server-wide prompt capability overrides.
   [array of]
-  - `alias`: string
-  - `description`: string
-  - `enabled`: boolean
-  - `name`: string **required**
-- `updated_tools`: object[]
+  - `alias`: string — Custom name exposed for the capability.
+  - `description`: string — Custom description exposed for the capability.
+  - `enabled`: boolean — Whether the capability is available through the MCP server.
+  - `name`: string **required** — Name of the tool or prompt capability to override.
+- `updated_tools`: object[] — Server-wide tool capability overrides.
   [array of]
-  - `alias`: string
-  - `description`: string
-  - `enabled`: boolean
-  - `name`: string **required**
+  - `alias`: string — Custom name exposed for the capability.
+  - `description`: string — Custom description exposed for the capability.
+  - `enabled`: boolean — Whether the capability is available through the MCP server.
+  - `name`: string **required** — Name of the tool or prompt capability to override.
 
 ## DELETE /accounts/{account_id}/access/ai-controls/mcp/servers/{id}
 
-Delete a MCP Server
+Delete an MCP Server
 
 operationId: `mcp-portals-api-delete-servers`
 
@@ -172,10 +176,11 @@ operationId: `mcp-portals-api-delete-servers`
     - `redirect_uris`: string[]
     - `scope`: string
     - `token_endpoint_auth_method`: string
-- `auth_type`: string **required** enum: `oauth`, `bearer`, `unauthenticated`
+- `auth_type`: string **required** enum: `oauth`, `bearer`, `unauthenticated` — Authentication method used to connect to the upstream MCP server.
+- `authentication_status`: string enum: `not_required`, `required`, `connected`, `stale`, `manual` — Whether administrative authentication is required before capabilities can be synced. Manual OAuth is user-managed and has no administrative 
 - `created_at`: string
 - `created_by`: string
-- `description`: string
+- `description`: string — Optional description of the MCP server.
 - `error`: string
 - `error_details`: object
   - `cause`: string — Underlying error message
@@ -183,36 +188,37 @@ operationId: `mcp-portals-api-delete-servers`
   - `mcp_code`: number — MCP protocol error code
   - `retryable`: boolean — Whether the error is transient and worth retrying
   - `status_code`: number — HTTP status code from the server
-- `hostname`: string **required**
-- `id`: string **required** — server id
-- `is_shared_oauth_callback_enabled`: boolean default: `false` — When true, the gateway worker uses the shared Cloudflare-owned OAuth callback endpoint as the redirect_uri for upstream on-behalf OAuth, ins
+- `hostname`: string **required** — URL of the upstream MCP endpoint.
+- `id`: string **required** — Unique identifier for the MCP server.
+- `is_shared_oauth_callback_enabled`: boolean default: `false` — When true, per-user authorization uses the shared Cloudflare callback URL as the 'redirect_uri' instead of the portal callback URL. The defa
 - `last_successful_sync`: string
 - `last_synced`: string
 - `modified_at`: string
 - `modified_by`: string
-- `name`: string **required**
+- `name`: string **required** — Display name for the MCP server.
 - `prompts`: object[] **required**
   [array]
-- `secure_web_gateway`: boolean default: `false` — Route outbound traffic to this MCP server through Zero Trust Secure Web Gateway
+- `registered_at`: string — Timestamp of the most recent successful admin OAuth registration.
+- `secure_web_gateway`: boolean default: `false` — Route outbound traffic to this MCP server through Zero Trust Secure Web Gateway.
 - `status`: string enum: `waiting`, `ready`, `stale`, `error` default: `waiting` — Current sync state of the server
 - `tools`: object[] **required**
   [array]
-- `updated_prompts`: object[]
+- `updated_prompts`: object[] — Server-wide prompt capability overrides.
   [array of]
-  - `alias`: string
-  - `description`: string
-  - `enabled`: boolean
-  - `name`: string **required**
-- `updated_tools`: object[]
+  - `alias`: string — Custom name exposed for the capability.
+  - `description`: string — Custom description exposed for the capability.
+  - `enabled`: boolean — Whether the capability is available through the MCP server.
+  - `name`: string **required** — Name of the tool or prompt capability to override.
+- `updated_tools`: object[] — Server-wide tool capability overrides.
   [array of]
-  - `alias`: string
-  - `description`: string
-  - `enabled`: boolean
-  - `name`: string **required**
+  - `alias`: string — Custom name exposed for the capability.
+  - `description`: string — Custom description exposed for the capability.
+  - `enabled`: boolean — Whether the capability is available through the MCP server.
+  - `name`: string **required** — Name of the tool or prompt capability to override.
 
 ## GET /accounts/{account_id}/access/ai-controls/mcp/servers/{id}
 
-Read the details of a MCP Server
+Read the details of an MCP Server
 
 operationId: `mcp-portals-api-fetch-servers`
 
@@ -233,10 +239,11 @@ operationId: `mcp-portals-api-fetch-servers`
     - `redirect_uris`: string[]
     - `scope`: string
     - `token_endpoint_auth_method`: string
-- `auth_type`: string **required** enum: `oauth`, `bearer`, `unauthenticated`
+- `auth_type`: string **required** enum: `oauth`, `bearer`, `unauthenticated` — Authentication method used to connect to the upstream MCP server.
+- `authentication_status`: string enum: `not_required`, `required`, `connected`, `stale`, `manual` — Whether administrative authentication is required before capabilities can be synced. Manual OAuth is user-managed and has no administrative 
 - `created_at`: string
 - `created_by`: string
-- `description`: string
+- `description`: string — Optional description of the MCP server.
 - `error`: string
 - `error_details`: object
   - `cause`: string — Underlying error message
@@ -244,59 +251,60 @@ operationId: `mcp-portals-api-fetch-servers`
   - `mcp_code`: number — MCP protocol error code
   - `retryable`: boolean — Whether the error is transient and worth retrying
   - `status_code`: number — HTTP status code from the server
-- `hostname`: string **required**
-- `id`: string **required** — server id
-- `is_shared_oauth_callback_enabled`: boolean default: `false` — When true, the gateway worker uses the shared Cloudflare-owned OAuth callback endpoint as the redirect_uri for upstream on-behalf OAuth, ins
+- `hostname`: string **required** — URL of the upstream MCP endpoint.
+- `id`: string **required** — Unique identifier for the MCP server.
+- `is_shared_oauth_callback_enabled`: boolean default: `false` — When true, per-user authorization uses the shared Cloudflare callback URL as the 'redirect_uri' instead of the portal callback URL. The defa
 - `last_successful_sync`: string
 - `last_synced`: string
 - `modified_at`: string
 - `modified_by`: string
-- `name`: string **required**
+- `name`: string **required** — Display name for the MCP server.
 - `prompts`: object[] **required**
   [array]
-- `secure_web_gateway`: boolean default: `false` — Route outbound traffic to this MCP server through Zero Trust Secure Web Gateway
+- `registered_at`: string — Timestamp of the most recent successful admin OAuth registration.
+- `secure_web_gateway`: boolean default: `false` — Route outbound traffic to this MCP server through Zero Trust Secure Web Gateway.
 - `status`: string enum: `waiting`, `ready`, `stale`, `error` default: `waiting` — Current sync state of the server
 - `tools`: object[] **required**
   [array]
-- `updated_prompts`: object[]
+- `updated_prompts`: object[] — Server-wide prompt capability overrides.
   [array of]
-  - `alias`: string
-  - `description`: string
-  - `enabled`: boolean
-  - `name`: string **required**
-- `updated_tools`: object[]
+  - `alias`: string — Custom name exposed for the capability.
+  - `description`: string — Custom description exposed for the capability.
+  - `enabled`: boolean — Whether the capability is available through the MCP server.
+  - `name`: string **required** — Name of the tool or prompt capability to override.
+- `updated_tools`: object[] — Server-wide tool capability overrides.
   [array of]
-  - `alias`: string
-  - `description`: string
-  - `enabled`: boolean
-  - `name`: string **required**
+  - `alias`: string — Custom name exposed for the capability.
+  - `description`: string — Custom description exposed for the capability.
+  - `enabled`: boolean — Whether the capability is available through the MCP server.
+  - `name`: string **required** — Name of the tool or prompt capability to override.
 
 ## PUT /accounts/{account_id}/access/ai-controls/mcp/servers/{id}
 
-Update a MCP Server
+Update an MCP Server
 
 operationId: `mcp-portals-api-update-servers`
 
 **Request** (application/json)
 
-- `auth_credentials`: string
-- `client_secret`: string — Pre-registered OAuth client_secret. Write-only - accepted on create/update when auth_credentials.auth_mode is 'manual'. Stored AES-GCM-encry
-- `description`: string
-- `is_shared_oauth_callback_enabled`: boolean default: `false` — When true, the gateway worker uses the shared Cloudflare-owned OAuth callback endpoint as the redirect_uri for upstream on-behalf OAuth, ins
-- `name`: string
-- `secure_web_gateway`: boolean default: `false` — Route outbound traffic to this MCP server through Zero Trust Secure Web Gateway
-- `updated_prompts`: object[]
+- `auth_credentials`: string — Credential configuration for the upstream MCP server. For auth_type "bearer", either a raw token string (e.g. "sk-abc123"), which is wrapped
+- `client_secret`: string — Provides 'client_secret' for a pre-registered OAuth client. This field is accepted on create or update only when 'auth_credentials.auth_mode
+- `description`: string — Optional description of the MCP server.
+- `is_shared_oauth_callback_enabled`: boolean default: `false` — When true, per-user authorization uses the shared Cloudflare callback URL as the 'redirect_uri' instead of the portal callback URL. The defa
+- `name`: string — Display name for the MCP server.
+- `secure_web_gateway`: boolean default: `false` — Route outbound traffic to this MCP server through Zero Trust Secure Web Gateway.
+- `updated_prompts`: object[] — Server-wide prompt capability overrides.
   [array of]
-  - `alias`: string
-  - `description`: string
-  - `enabled`: boolean
-  - `name`: string **required**
-- `updated_tools`: object[]
+  - `alias`: string — Custom name exposed for the capability.
+  - `description`: string — Custom description exposed for the capability.
+  - `enabled`: boolean — Whether the capability is available through the MCP server.
+  - `name`: string **required** — Name of the tool or prompt capability to override.
+- `updated_tools`: object[] — Server-wide tool capability overrides.
   [array of]
-  - `alias`: string
-  - `description`: string
-  - `enabled`: boolean
-  - `name`: string **required**
+  - `alias`: string — Custom name exposed for the capability.
+  - `description`: string — Custom description exposed for the capability.
+  - `enabled`: boolean — Whether the capability is available through the MCP server.
+  - `name`: string **required** — Name of the tool or prompt capability to override.
 
 **Response** 200 → `result`
 
@@ -315,10 +323,11 @@ operationId: `mcp-portals-api-update-servers`
     - `redirect_uris`: string[]
     - `scope`: string
     - `token_endpoint_auth_method`: string
-- `auth_type`: string **required** enum: `oauth`, `bearer`, `unauthenticated`
+- `auth_type`: string **required** enum: `oauth`, `bearer`, `unauthenticated` — Authentication method used to connect to the upstream MCP server.
+- `authentication_status`: string enum: `not_required`, `required`, `connected`, `stale`, `manual` — Whether administrative authentication is required before capabilities can be synced. Manual OAuth is user-managed and has no administrative 
 - `created_at`: string
 - `created_by`: string
-- `description`: string
+- `description`: string — Optional description of the MCP server.
 - `error`: string
 - `error_details`: object
   - `cause`: string — Underlying error message
@@ -326,32 +335,33 @@ operationId: `mcp-portals-api-update-servers`
   - `mcp_code`: number — MCP protocol error code
   - `retryable`: boolean — Whether the error is transient and worth retrying
   - `status_code`: number — HTTP status code from the server
-- `hostname`: string **required**
-- `id`: string **required** — server id
-- `is_shared_oauth_callback_enabled`: boolean default: `false` — When true, the gateway worker uses the shared Cloudflare-owned OAuth callback endpoint as the redirect_uri for upstream on-behalf OAuth, ins
+- `hostname`: string **required** — URL of the upstream MCP endpoint.
+- `id`: string **required** — Unique identifier for the MCP server.
+- `is_shared_oauth_callback_enabled`: boolean default: `false` — When true, per-user authorization uses the shared Cloudflare callback URL as the 'redirect_uri' instead of the portal callback URL. The defa
 - `last_successful_sync`: string
 - `last_synced`: string
 - `modified_at`: string
 - `modified_by`: string
-- `name`: string **required**
+- `name`: string **required** — Display name for the MCP server.
 - `prompts`: object[] **required**
   [array]
-- `secure_web_gateway`: boolean default: `false` — Route outbound traffic to this MCP server through Zero Trust Secure Web Gateway
+- `registered_at`: string — Timestamp of the most recent successful admin OAuth registration.
+- `secure_web_gateway`: boolean default: `false` — Route outbound traffic to this MCP server through Zero Trust Secure Web Gateway.
 - `status`: string enum: `waiting`, `ready`, `stale`, `error` default: `waiting` — Current sync state of the server
 - `tools`: object[] **required**
   [array]
-- `updated_prompts`: object[]
+- `updated_prompts`: object[] — Server-wide prompt capability overrides.
   [array of]
-  - `alias`: string
-  - `description`: string
-  - `enabled`: boolean
-  - `name`: string **required**
-- `updated_tools`: object[]
+  - `alias`: string — Custom name exposed for the capability.
+  - `description`: string — Custom description exposed for the capability.
+  - `enabled`: boolean — Whether the capability is available through the MCP server.
+  - `name`: string **required** — Name of the tool or prompt capability to override.
+- `updated_tools`: object[] — Server-wide tool capability overrides.
   [array of]
-  - `alias`: string
-  - `description`: string
-  - `enabled`: boolean
-  - `name`: string **required**
+  - `alias`: string — Custom name exposed for the capability.
+  - `description`: string — Custom description exposed for the capability.
+  - `enabled`: boolean — Whether the capability is available through the MCP server.
+  - `name`: string **required** — Name of the tool or prompt capability to override.
 
 ## POST /accounts/{account_id}/access/ai-controls/mcp/servers/{id}/sync
 

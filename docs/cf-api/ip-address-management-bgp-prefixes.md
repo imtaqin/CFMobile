@@ -37,7 +37,7 @@ operationId: `ip-address-management-prefixes-create-bgp-prefix`
 
 - `cidr`: string **required** — IP Prefix in Classless Inter-Domain Routing format.
 
-**Response** 200 → `result`
+**Response** 201 → `result`
 
 - `asn`: integer — Autonomous System Number (ASN) the prefix will be advertised under.
 - `asn_prepend_count`: integer default: `0` — Number of times to prepend the Cloudflare ASN to the BGP AS-Path attribute

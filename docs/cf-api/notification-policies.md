@@ -91,6 +91,8 @@ operationId: `notification-policies-list-notification-policies`
     [array]
   - `target_zone_name`: string[] — Used for configuring advanced_ddos_attack_l7_alert
     [array]
+  - `token_id`: string[] — Access service token IDs to include for expiring_service_token_alert. Omit this property to include all current and future service tokens.
+    [array]
   - `traffic_exclusions`: string[] — Used for configuring traffic_anomalies_alert
     [array]
   - `tunnel_id`: string[] — Used for configuring tunnel_health_event
@@ -203,6 +205,8 @@ operationId: `notification-policies-create-a-notification-policy`
   - `target_ip`: string[] — Used for configuring advanced_ddos_attack_l4_alert
     [array]
   - `target_zone_name`: string[] — Used for configuring advanced_ddos_attack_l7_alert
+    [array]
+  - `token_id`: string[] — Access service token IDs to include for expiring_service_token_alert. Omit this property to include all current and future service tokens.
     [array]
   - `traffic_exclusions`: string[] — Used for configuring traffic_anomalies_alert
     [array]
@@ -343,6 +347,8 @@ operationId: `notification-policies-get-a-notification-policy`
     [array]
   - `target_zone_name`: string[] — Used for configuring advanced_ddos_attack_l7_alert
     [array]
+  - `token_id`: string[] — Access service token IDs to include for expiring_service_token_alert. Omit this property to include all current and future service tokens.
+    [array]
   - `traffic_exclusions`: string[] — Used for configuring traffic_anomalies_alert
     [array]
   - `tunnel_id`: string[] — Used for configuring tunnel_health_event
@@ -455,6 +461,8 @@ operationId: `notification-policies-update-a-notification-policy`
   - `target_ip`: string[] — Used for configuring advanced_ddos_attack_l4_alert
     [array]
   - `target_zone_name`: string[] — Used for configuring advanced_ddos_attack_l7_alert
+    [array]
+  - `token_id`: string[] — Access service token IDs to include for expiring_service_token_alert. Omit this property to include all current and future service tokens.
     [array]
   - `traffic_exclusions`: string[] — Used for configuring traffic_anomalies_alert
     [array]

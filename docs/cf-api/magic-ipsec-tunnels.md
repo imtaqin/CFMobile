@@ -52,6 +52,10 @@ Update multiple IPsec tunnels
 
 operationId: `magic-ipsec-tunnels-update-multiple-ipsec-tunnels`
 
+**Request** (application/json)
+
+object
+
 **Response** 200 → `result`
 
 (one of 3 variants; showing the first)

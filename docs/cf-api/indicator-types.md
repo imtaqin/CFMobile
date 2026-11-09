@@ -4,7 +4,7 @@
 
 ## GET /accounts/{account_id}/cloudforce-one/events/indicator-types
 
-Lists indicator types across multiple datasets
+List indicator types
 
 operationId: `get_IndicatorTypesList` · query: `datasetIds`
 
@@ -16,7 +16,7 @@ operationId: `get_IndicatorTypesList` · query: `datasetIds`
 
 ## GET /accounts/{account_id}/cloudforce-one/events/indicatorTypes
 
-Lists all indicator types
+List indicator types (legacy)
 
 operationId: `get_LegacyIndicatorTypesList`
 

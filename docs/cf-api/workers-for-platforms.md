@@ -1,10 +1,10 @@
 # Workers for Platforms
 
-26 endpoints.
+27 endpoints.
 
 ## GET /accounts/{account_id}/workers/dispatch/namespaces
 
-List dispatch namespaces
+List Workers for Platforms Dispatch Namespaces
 
 operationId: `namespace-worker-list`
 
@@ -22,7 +22,7 @@ operationId: `namespace-worker-list`
 
 ## POST /accounts/{account_id}/workers/dispatch/namespaces
 
-Create dispatch namespace
+Create Workers for Platforms Dispatch Namespace
 
 operationId: `namespace-worker-create`
 
@@ -43,7 +43,7 @@ operationId: `namespace-worker-create`
 
 ## DELETE /accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}
 
-Delete dispatch namespace
+Delete Workers for Platforms Dispatch Namespace
 
 operationId: `namespace-worker-delete-namespace`
 
@@ -53,7 +53,7 @@ object
 
 ## GET /accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}
 
-Get dispatch namespace
+Get Workers for Platforms Dispatch Namespace
 
 operationId: `namespace-worker-get-namespace`
 
@@ -70,7 +70,7 @@ operationId: `namespace-worker-get-namespace`
 
 ## PATCH /accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}
 
-Patch dispatch namespace
+Patch Workers for Platforms Dispatch Namespace
 
 operationId: `namespace-worker-patch-namespace`
 
@@ -92,7 +92,7 @@ operationId: `namespace-worker-patch-namespace`
 
 ## PUT /accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}
 
-Update dispatch namespace
+Update Workers for Platforms Dispatch Namespace
 
 operationId: `namespace-worker-put-namespace`
 
@@ -114,7 +114,7 @@ operationId: `namespace-worker-put-namespace`
 
 ## DELETE /accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts
 
-Delete Scripts in Namespace
+Delete Workers for Platforms Scripts
 
 operationId: `namespace-worker-delete-scripts` · query: `tags`, `limit`
 
@@ -128,7 +128,7 @@ operationId: `namespace-worker-delete-scripts` · query: `tags`, `limit`
 
 ## GET /accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts
 
-List Scripts in Namespace
+List Workers for Platforms Scripts
 
 operationId: `namespace-worker-list-scripts` · query: `tags`
 
@@ -164,7 +164,9 @@ operationId: `namespace-worker-list-scripts` · query: `tags`
   - `observability`: object — Observability settings for the Worker.
     - `enabled`: boolean **required** — Whether observability is enabled for the Worker.
     - `head_sampling_rate`: number — The sampling rate for incoming requests. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
+    - `issues`: object — Real-time Issues settings for the Worker.
     - `logs`: object — Log settings for the Worker.
+    - `redact_query_string`: boolean default: `false` — Whether query strings are removed from request URLs in logs and traces.
     - `traces`: object — Trace settings for the Worker.
   - `placement`: object — Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). Specify mode='smart' for Smart
   - `placement_mode`: any
@@ -181,7 +183,7 @@ operationId: `namespace-worker-list-scripts` · query: `tags`
 
 ## DELETE /accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}
 
-Delete Worker
+Delete Workers for Platforms Script
 
 operationId: `namespace-worker-script-delete-worker` · query: `force`
 
@@ -191,7 +193,7 @@ object
 
 ## GET /accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}
 
-Worker Details
+Get Workers for Platforms Script details
 
 operationId: `namespace-worker-script-worker-details`
 
@@ -226,7 +228,9 @@ operationId: `namespace-worker-script-worker-details`
   - `observability`: object — Observability settings for the Worker.
     - `enabled`: boolean **required** — Whether observability is enabled for the Worker.
     - `head_sampling_rate`: number — The sampling rate for incoming requests. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
+    - `issues`: object — Real-time Issues settings for the Worker.
     - `logs`: object — Log settings for the Worker.
+    - `redact_query_string`: boolean default: `false` — Whether query strings are removed from request URLs in logs and traces.
     - `traces`: object — Trace settings for the Worker.
   - `placement`: object — Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). Specify mode='smart' for Smart
   - `placement_mode`: any
@@ -243,7 +247,7 @@ operationId: `namespace-worker-script-worker-details`
 
 ## PUT /accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}
 
-Upload Worker Module
+Upload Workers for Platforms Script
 
 operationId: `namespace-worker-script-upload-worker-module` · query: `bindings_inherit`
 
@@ -279,18 +283,21 @@ string
 - `observability`: object — Observability settings for the Worker.
   - `enabled`: boolean **required** — Whether observability is enabled for the Worker.
   - `head_sampling_rate`: number — The sampling rate for incoming requests. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
+  - `issues`: object — Real-time Issues settings for the Worker.
+    - `enabled`: boolean — Whether real-time Issues are enabled for the Worker.
   - `logs`: object — Log settings for the Worker.
     - `destinations`: string[] — A list of destinations where logs will be exported to.
     - `enabled`: boolean **required** — Whether logs are enabled for the Worker.
     - `head_sampling_rate`: number — The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
     - `invocation_logs`: boolean **required** — Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Wo
     - `persist`: boolean default: `true` — Whether log persistence is enabled for the Worker.
+  - `redact_query_string`: boolean default: `false` — Whether query strings are removed from request URLs in logs and traces.
   - `traces`: object — Trace settings for the Worker.
     - `destinations`: string[] — A list of destinations where traces will be exported to.
     - `enabled`: boolean — Whether traces are enabled for the Worker.
     - `head_sampling_rate`: number — The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
     - `persist`: boolean default: `true` — Whether trace persistence is enabled for the Worker.
-    - `propagation_policy`: string enum: `authenticated`, `accept` default: `authenticated` — Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" (default) honors inbou
+    - `propagation_policy`: string enum: `authenticated`, `accept`, `null` — Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace c
 - `placement`: object — Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). Specify mode='smart' for Smart
 - `placement_mode`: any
 - `placement_status`: any
@@ -308,7 +315,7 @@ string
 
 ## POST /accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/assets-upload-session
 
-Create Assets Upload Session
+Create Workers for Platforms Assets Upload Session
 
 operationId: `namespace-worker-script-update-create-assets-upload-session`
 
@@ -325,20 +332,20 @@ operationId: `namespace-worker-script-update-create-assets-upload-session`
 
 ## GET /accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/bindings
 
-Get Script Bindings
+Get Workers for Platforms Script Bindings
 
 operationId: `namespace-worker-get-script-bindings`
 
 **Response** 200 → `result`
 
 [array of]
-(one of 35 variants; showing the first)
+(one of 39 variants; showing the first)
 - `name`: string **required** — A JavaScript variable name for the binding.
 - `type`: string **required** enum: `ai` — The kind of resource that the binding provides.
 
 ## GET /accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/content
 
-Get Script Content
+Get Workers for Platforms Script Content
 
 operationId: `namespace-worker-get-script-content`
 
@@ -348,7 +355,7 @@ string
 
 ## PUT /accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/content
 
-Put Script Content
+Replace Workers for Platforms Script Content
 
 operationId: `namespace-worker-put-script-content`
 
@@ -388,18 +395,21 @@ operationId: `namespace-worker-put-script-content`
 - `observability`: object — Observability settings for the Worker.
   - `enabled`: boolean **required** — Whether observability is enabled for the Worker.
   - `head_sampling_rate`: number — The sampling rate for incoming requests. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
+  - `issues`: object — Real-time Issues settings for the Worker.
+    - `enabled`: boolean — Whether real-time Issues are enabled for the Worker.
   - `logs`: object — Log settings for the Worker.
     - `destinations`: string[] — A list of destinations where logs will be exported to.
     - `enabled`: boolean **required** — Whether logs are enabled for the Worker.
     - `head_sampling_rate`: number — The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
     - `invocation_logs`: boolean **required** — Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Wo
     - `persist`: boolean default: `true` — Whether log persistence is enabled for the Worker.
+  - `redact_query_string`: boolean default: `false` — Whether query strings are removed from request URLs in logs and traces.
   - `traces`: object — Trace settings for the Worker.
     - `destinations`: string[] — A list of destinations where traces will be exported to.
     - `enabled`: boolean — Whether traces are enabled for the Worker.
     - `head_sampling_rate`: number — The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
     - `persist`: boolean default: `true` — Whether trace persistence is enabled for the Worker.
-    - `propagation_policy`: string enum: `authenticated`, `accept` default: `authenticated` — Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" (default) honors inbou
+    - `propagation_policy`: string enum: `authenticated`, `accept`, `null` — Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace c
 - `placement`: object — Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). Specify mode='smart' for Smart
 - `placement_mode`: any
 - `placement_status`: any
@@ -415,7 +425,7 @@ operationId: `namespace-worker-put-script-content`
 
 ## GET /accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/secrets
 
-List Script Secrets
+List Workers for Platforms Script Secrets
 
 operationId: `namespace-worker-list-script-secrets`
 
@@ -429,7 +439,7 @@ operationId: `namespace-worker-list-script-secrets`
 
 ## PUT /accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/secrets
 
-Add script secret
+Add a secret to a Workers for Platforms script
 
 operationId: `namespace-worker-put-script-secrets`
 
@@ -449,7 +459,7 @@ operationId: `namespace-worker-put-script-secrets`
 
 ## PATCH /accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/secrets-bulk
 
-Patch multiple script secrets
+Patch multiple Workers for Platforms script secrets
 
 operationId: `namespace-worker-patch-script-secrets-bulk`
 
@@ -464,7 +474,7 @@ object
 
 ## DELETE /accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/secrets/{secret_name}
 
-Delete script secret
+Delete Workers for Platforms script secret
 
 operationId: `namespace-worker-delete-script-secret` · query: `url_encoded`
 
@@ -474,7 +484,7 @@ object
 
 ## GET /accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/secrets/{secret_name}
 
-Get secret binding
+Get Workers for Platforms Script Secret
 
 operationId: `namespace-worker-get-script-secrets` · query: `url_encoded`
 
@@ -487,7 +497,7 @@ operationId: `namespace-worker-get-script-secrets` · query: `url_encoded`
 
 ## GET /accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/settings
 
-Get Script Settings
+Get Workers for Platforms Script Settings
 
 operationId: `namespace-worker-get-script-settings`
 
@@ -509,18 +519,21 @@ operationId: `namespace-worker-get-script-settings`
 - `observability`: object — Observability settings for the Worker.
   - `enabled`: boolean **required** — Whether observability is enabled for the Worker.
   - `head_sampling_rate`: number — The sampling rate for incoming requests. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
+  - `issues`: object — Real-time Issues settings for the Worker.
+    - `enabled`: boolean — Whether real-time Issues are enabled for the Worker.
   - `logs`: object — Log settings for the Worker.
     - `destinations`: string[] — A list of destinations where logs will be exported to.
     - `enabled`: boolean **required** — Whether logs are enabled for the Worker.
     - `head_sampling_rate`: number — The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
     - `invocation_logs`: boolean **required** — Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Wo
     - `persist`: boolean default: `true` — Whether log persistence is enabled for the Worker.
+  - `redact_query_string`: boolean default: `false` — Whether query strings are removed from request URLs in logs and traces.
   - `traces`: object — Trace settings for the Worker.
     - `destinations`: string[] — A list of destinations where traces will be exported to.
     - `enabled`: boolean — Whether traces are enabled for the Worker.
     - `head_sampling_rate`: number — The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
     - `persist`: boolean default: `true` — Whether trace persistence is enabled for the Worker.
-    - `propagation_policy`: string enum: `authenticated`, `accept` default: `authenticated` — Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" (default) honors inbou
+    - `propagation_policy`: string enum: `authenticated`, `accept`, `null` — Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace c
 - `placement`: any
 - `tags`: any
 - `tail_consumers`: any
@@ -528,7 +541,7 @@ operationId: `namespace-worker-get-script-settings`
 
 ## PATCH /accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/settings
 
-Patch Script Settings
+Patch Workers for Platforms Script Settings
 
 operationId: `namespace-worker-patch-script-settings`
 
@@ -551,7 +564,9 @@ operationId: `namespace-worker-patch-script-settings`
   - `observability`: object — Observability settings for the Worker.
     - `enabled`: boolean **required** — Whether observability is enabled for the Worker.
     - `head_sampling_rate`: number — The sampling rate for incoming requests. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
+    - `issues`: object — Real-time Issues settings for the Worker.
     - `logs`: object — Log settings for the Worker.
+    - `redact_query_string`: boolean default: `false` — Whether query strings are removed from request URLs in logs and traces.
     - `traces`: object — Trace settings for the Worker.
   - `placement`: any
   - `tags`: any
@@ -576,18 +591,21 @@ operationId: `namespace-worker-patch-script-settings`
 - `observability`: object — Observability settings for the Worker.
   - `enabled`: boolean **required** — Whether observability is enabled for the Worker.
   - `head_sampling_rate`: number — The sampling rate for incoming requests. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
+  - `issues`: object — Real-time Issues settings for the Worker.
+    - `enabled`: boolean — Whether real-time Issues are enabled for the Worker.
   - `logs`: object — Log settings for the Worker.
     - `destinations`: string[] — A list of destinations where logs will be exported to.
     - `enabled`: boolean **required** — Whether logs are enabled for the Worker.
     - `head_sampling_rate`: number — The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
     - `invocation_logs`: boolean **required** — Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Wo
     - `persist`: boolean default: `true` — Whether log persistence is enabled for the Worker.
+  - `redact_query_string`: boolean default: `false` — Whether query strings are removed from request URLs in logs and traces.
   - `traces`: object — Trace settings for the Worker.
     - `destinations`: string[] — A list of destinations where traces will be exported to.
     - `enabled`: boolean — Whether traces are enabled for the Worker.
     - `head_sampling_rate`: number — The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1.
     - `persist`: boolean default: `true` — Whether trace persistence is enabled for the Worker.
-    - `propagation_policy`: string enum: `authenticated`, `accept` default: `authenticated` — Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" (default) honors inbou
+    - `propagation_policy`: string enum: `authenticated`, `accept`, `null` — Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace c
 - `placement`: any
 - `tags`: any
 - `tail_consumers`: any
@@ -595,7 +613,7 @@ operationId: `namespace-worker-patch-script-settings`
 
 ## GET /accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/tags
 
-Get Script Tags
+List Workers for Platforms Script Tags
 
 operationId: `namespace-worker-get-script-tags`
 
@@ -606,7 +624,7 @@ string
 
 ## PUT /accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/tags
 
-Put Script Tags
+Replace Workers for Platforms Script Tags
 
 operationId: `namespace-worker-put-script-tags`
 
@@ -622,7 +640,7 @@ string
 
 ## DELETE /accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/tags/{tag}
 
-Delete Script Tag
+Delete Workers for Platforms Script Tag
 
 operationId: `namespace-worker-delete-script-tag`
 
@@ -630,9 +648,23 @@ operationId: `namespace-worker-delete-script-tag`
 
 object
 
+## PATCH /accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/tags/{tag}
+
+Update Workers for Platforms Script Tag
+
+operationId: `namespace-worker-patch-script-tag`
+
+**Request** (application/json)
+
+- `value`: string **required**
+
+**Response** 200 → `result`
+
+object
+
 ## PUT /accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/tags/{tag}
 
-Put Script Tag
+Create Workers for Platforms Script Tag
 
 operationId: `namespace-worker-put-script-tag`
 

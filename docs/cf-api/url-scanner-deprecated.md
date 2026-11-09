@@ -37,7 +37,7 @@ operationId: `urlscanner-create-scan`
 
 **Request** (application/json)
 
-- `country`: string enum: `AF`, `AL`, `DZ`, `AD`, `AO`, `AG`, `AR`, `AM` — Country to geo egress from
+- `country`: string enum: `AE`, `AL`, `AM`, `AO`, `AR`, `AT`, `AU`, `AZ` — Country to geo egress from
 - `customHeaders`: object — Set custom headers.
 - `screenshotsResolutions`: string[] default: `desktop` — Take multiple screenshots targeting different device types.
   [array]

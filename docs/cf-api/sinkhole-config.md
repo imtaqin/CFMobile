@@ -109,7 +109,7 @@ operationId: `sinkhole-config-create-ingress`
 
 **Request** (application/json)
 
-- `cidr`: string **required** — The CIDR block for the ingress rule in IPv4 or IPv6 notation (e.g., 192.0.2.0/24). Must be a Cloudflare BYOIP associated with your account.
+- `cidr`: string **required** — The CIDR block for the ingress rule in IPv4 or IPv6 notation (e.g., 192.0.2.0/24). Provide a Cloudflare BYOIP CIDR that your account owns.
 
 **Response** 201 → `result`
 
@@ -153,7 +153,7 @@ operationId: `sinkhole-config-update-ingress`
 
 **Request** (application/json)
 
-- `cidr`: string **required** — The CIDR block for the ingress rule in IPv4 or IPv6 notation (e.g., 192.0.2.0/24). Must be a Cloudflare BYOIP associated with your account.
+- `cidr`: string **required** — The CIDR block for the ingress rule in IPv4 or IPv6 notation (e.g., 192.0.2.0/24). Provide a Cloudflare BYOIP CIDR that your account owns.
 
 **Response** 200 → `result`
 

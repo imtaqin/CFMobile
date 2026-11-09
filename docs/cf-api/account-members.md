@@ -27,14 +27,14 @@ operationId: `account-members-list-members` · query: `order`, `status`, `page`,
     - `id`: string **required** — Identifier of the resource group.
     - `meta`: object — Attributes associated to the resource group.
     - `name`: string — Name of the resource group.
-    - `scope`: object **required** — A scope is a combination of scope objects which provides additional context.
+    - `scope`: any **required** — The scope associated to the resource group
 - `roles`: object[] — Roles assigned to this Member.
   [array of]
   - `description`: string **required** — Description of role's permissions.
   - `id`: string **required** — Role identifier tag.
   - `name`: string **required** — Role name.
   - `permissions`: any **required**
-- `status`: any enum: `accepted`, `pending` — A member's status in the account.
+- `status`: string enum: `accepted`, `pending` — A member's status in the account.
 - `user`: object — Details of the user associated to the membership.
   - `email`: string **required** — The contact email address of the user.
   - `first_name`: string — User's first name
@@ -74,14 +74,14 @@ operationId: `account-members-add-member`
     - `id`: string **required** — Identifier of the resource group.
     - `meta`: object — Attributes associated to the resource group.
     - `name`: string — Name of the resource group.
-    - `scope`: object **required** — A scope is a combination of scope objects which provides additional context.
+    - `scope`: any **required** — The scope associated to the resource group
 - `roles`: object[] — Roles assigned to this Member.
   [array of]
   - `description`: string **required** — Description of role's permissions.
   - `id`: string **required** — Role identifier tag.
   - `name`: string **required** — Role name.
   - `permissions`: any **required**
-- `status`: any enum: `accepted`, `pending` — A member's status in the account.
+- `status`: string enum: `accepted`, `pending` — A member's status in the account.
 - `user`: object — Details of the user associated to the membership.
   - `email`: string **required** — The contact email address of the user.
   - `first_name`: string — User's first name
@@ -123,14 +123,14 @@ operationId: `account-members-member-details`
     - `id`: string **required** — Identifier of the resource group.
     - `meta`: object — Attributes associated to the resource group.
     - `name`: string — Name of the resource group.
-    - `scope`: object **required** — A scope is a combination of scope objects which provides additional context.
+    - `scope`: any **required** — The scope associated to the resource group
 - `roles`: object[] — Roles assigned to this Member.
   [array of]
   - `description`: string **required** — Description of role's permissions.
   - `id`: string **required** — Role identifier tag.
   - `name`: string **required** — Role name.
   - `permissions`: any **required**
-- `status`: any enum: `accepted`, `pending` — A member's status in the account.
+- `status`: string enum: `accepted`, `pending` — A member's status in the account.
 - `user`: object — Details of the user associated to the membership.
   - `email`: string **required** — The contact email address of the user.
   - `first_name`: string — User's first name
@@ -154,7 +154,7 @@ operationId: `account-members-update-member`
   - `id`: string **required** — Role identifier tag.
   - `name`: string **required** — Role name.
   - `permissions`: any **required**
-- `status`: any enum: `accepted`, `pending` — A member's status in the account.
+- `status`: string enum: `accepted`, `pending` — A member's status in the account.
 - `user`: object — Details of the user associated to the membership.
   - `email`: string **required** — The contact email address of the user.
   - `first_name`: string — User's first name
@@ -180,14 +180,14 @@ operationId: `account-members-update-member`
     - `id`: string **required** — Identifier of the resource group.
     - `meta`: object — Attributes associated to the resource group.
     - `name`: string — Name of the resource group.
-    - `scope`: object **required** — A scope is a combination of scope objects which provides additional context.
+    - `scope`: any **required** — The scope associated to the resource group
 - `roles`: object[] — Roles assigned to this Member.
   [array of]
   - `description`: string **required** — Description of role's permissions.
   - `id`: string **required** — Role identifier tag.
   - `name`: string **required** — Role name.
   - `permissions`: any **required**
-- `status`: any enum: `accepted`, `pending` — A member's status in the account.
+- `status`: string enum: `accepted`, `pending` — A member's status in the account.
 - `user`: object — Details of the user associated to the membership.
   - `email`: string **required** — The contact email address of the user.
   - `first_name`: string — User's first name

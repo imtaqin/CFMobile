@@ -65,7 +65,7 @@ operationId: `post-presets`
   - `disable_participant_screensharing`: boolean **required**
   - `disable_participant_video`: boolean **required**
   - `hidden_participant`: boolean **required** — Whether this participant is visible to others or not
-  - `is_recorder`: boolean default: `false`
+  - `is_recorder`: boolean
   - `kick_participant`: boolean **required**
   - `media`: object **required** — Media permissions
     - `audio`: object **required** — Audio permissions
@@ -81,7 +81,7 @@ operationId: `post-presets`
     - `can_create`: boolean **required** — Can create polls
     - `can_view`: boolean **required** — Can view polls
     - `can_vote`: boolean **required** — Can vote on polls
-  - `recorder_type`: string **required** enum: `RECORDER`, `LIVESTREAMER`, `NONE` default: `NONE` — Type of the recording peer
+  - `recorder_type`: string **required** enum: `RECORDER`, `LIVESTREAMER`, `NONE` — Type of the recording peer
   - `show_participant_list`: boolean **required**
   - `stage_access`: string enum: `ALLOWED`, `NOT_ALLOWED`, `CAN_REQUEST`
   - `stage_enabled`: boolean
@@ -95,7 +95,7 @@ operationId: `post-presets`
     - `font_family`: string
     - `google_font`: string
     - `logo`: string
-    - `spacing_base`: number **required** default: `4`
+    - `spacing_base`: number **required**
     - `theme`: string **required** enum: `darkest`, `dark`, `light`
 
 **Response** 201 → `result`
@@ -169,7 +169,7 @@ operationId: `patch-presets-preset_id`
   - `disable_participant_screensharing`: boolean
   - `disable_participant_video`: boolean
   - `hidden_participant`: boolean — Whether this participant is visible to others or not
-  - `is_recorder`: boolean default: `false`
+  - `is_recorder`: boolean
   - `kick_participant`: boolean
   - `media`: object — Media permissions
     - `audio`: object — Audio permissions
@@ -185,7 +185,7 @@ operationId: `patch-presets-preset_id`
     - `can_create`: boolean — Can create polls
     - `can_view`: boolean — Can view polls
     - `can_vote`: boolean — Can vote on polls
-  - `recorder_type`: string enum: `RECORDER`, `LIVESTREAMER`, `NONE` default: `NONE` — Type of the recording peer
+  - `recorder_type`: string enum: `RECORDER`, `LIVESTREAMER`, `NONE` — Type of the recording peer
   - `show_participant_list`: boolean
   - `stage_access`: string enum: `ALLOWED`, `NOT_ALLOWED`, `CAN_REQUEST`
   - `stage_enabled`: boolean
@@ -199,7 +199,7 @@ operationId: `patch-presets-preset_id`
     - `font_family`: string
     - `google_font`: string
     - `logo`: string
-    - `spacing_base`: number default: `4`
+    - `spacing_base`: number
     - `theme`: string enum: `darkest`, `dark`, `light`
 
 **Response** 200 → `result`
@@ -249,7 +249,7 @@ operationId: `put-presets-preset_id`
   - `disable_participant_screensharing`: boolean **required**
   - `disable_participant_video`: boolean **required**
   - `hidden_participant`: boolean **required** — Whether this participant is visible to others or not
-  - `is_recorder`: boolean default: `false`
+  - `is_recorder`: boolean
   - `kick_participant`: boolean **required**
   - `media`: object **required** — Media permissions
     - `audio`: object **required** — Audio permissions
@@ -265,7 +265,7 @@ operationId: `put-presets-preset_id`
     - `can_create`: boolean **required** — Can create polls
     - `can_view`: boolean **required** — Can view polls
     - `can_vote`: boolean **required** — Can vote on polls
-  - `recorder_type`: string **required** enum: `RECORDER`, `LIVESTREAMER`, `NONE` default: `NONE` — Type of the recording peer
+  - `recorder_type`: string **required** enum: `RECORDER`, `LIVESTREAMER`, `NONE` — Type of the recording peer
   - `show_participant_list`: boolean **required**
   - `stage_access`: string enum: `ALLOWED`, `NOT_ALLOWED`, `CAN_REQUEST`
   - `stage_enabled`: boolean
@@ -279,7 +279,7 @@ operationId: `put-presets-preset_id`
     - `font_family`: string
     - `google_font`: string
     - `logo`: string
-    - `spacing_base`: number **required** default: `4`
+    - `spacing_base`: number **required**
     - `theme`: string **required** enum: `darkest`, `dark`, `light`
 
 **Response** 200 → `result`

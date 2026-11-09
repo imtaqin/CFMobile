@@ -342,7 +342,6 @@ operationId: `smart-shield-update-health-check`
   - `message`: string **required**
 - `result`: any **required**
 - `success`: boolean **required** enum: `true` — Whether the API call was successful.
-- `result`: any
 - `result`: object
   - `address`: string — The hostname or IP address of the origin server to run health checks on.
   - `check_regions`: string[] — A list of regions from which to run health checks. Null means Cloudflare will pick a default region.

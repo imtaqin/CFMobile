@@ -125,7 +125,7 @@ operationId: `CreateFindingExportCSV`
   [array of]
   - `direction`: string **required** enum: `asc`, `desc` — Sort direction.
   - `name`: string **required** enum: `instance_count`, `finding.name`, `integration.name`, `latest_affliction_date`, `severity` — Which field to use when ordering the findings.
-- `product`: string — Filter by finding's category product.
+- `product`: string enum: `SaaS`, `Cloud` — Filter by finding's category product.
 - `search`: string — A search term.
 - `severities`: string[] — Filter by severity levels.
   [array]

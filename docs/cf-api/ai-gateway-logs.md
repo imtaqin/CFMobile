@@ -22,6 +22,7 @@ operationId: `aig-config-list-gateway-logs` · query: `search`, `page`, `per_pag
 
 [array of]
 - `cached`: boolean **required**
+- `collect_log_payload`: boolean — Whether the request and response bodies were eligible to be stored. False when the request sent `cf-aig-collect-log-payload: false`, logging
 - `cost`: number
 - `created_at`: string **required**
 - `custom_cost`: boolean
@@ -50,6 +51,7 @@ operationId: `aig-config-get-gateway-log-detail`
 **Response** 200 → `result`
 
 - `cached`: boolean **required**
+- `collect_log_payload`: boolean — Whether the request and response bodies were eligible to be stored. False when the request sent `cf-aig-collect-log-payload: false`, logging
 - `cost`: number
 - `created_at`: string **required**
 - `custom_cost`: boolean

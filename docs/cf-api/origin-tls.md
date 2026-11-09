@@ -53,7 +53,7 @@ operationId: `zone-cache-settings-get-origin-tls-compliance-modes-setting`
 - `editable`: boolean **required** — Whether the setting is editable.
 - `id`: string **required** — The identifier of the caching setting.
 - `modified_on`: string — The time when the setting was last modified.
-- `value`: string **required** — The value of the setting.
+- `value`: any **required** — The value of the setting.
 
 ## PATCH /zones/{zone_id}/settings/origin_tls_compliance_modes
 
@@ -71,7 +71,7 @@ operationId: `zone-cache-settings-change-origin-tls-compliance-modes-setting`
 - `editable`: boolean **required** — Whether the setting is editable.
 - `id`: string **required** — The identifier of the caching setting.
 - `modified_on`: string — The time when the setting was last modified.
-- `value`: string **required** — The value of the setting.
+- `value`: any **required** — The value of the setting.
 
 ## PUT /zones/{zone_id}/settings/origin_tls_compliance_modes
 
@@ -89,4 +89,4 @@ operationId: `zone-cache-settings-replace-origin-tls-compliance-modes-setting`
 - `editable`: boolean **required** — Whether the setting is editable.
 - `id`: string **required** — The identifier of the caching setting.
 - `modified_on`: string — The time when the setting was last modified.
-- `value`: string **required** — The value of the setting.
+- `value`: any **required** — The value of the setting.

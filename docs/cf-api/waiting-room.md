@@ -124,7 +124,6 @@ operationId: `waiting-room-create-waiting-room`
 
 **Response** 200 → `result`
 
-(one of 2 variants; showing the first)
 object
 
 ## DELETE /zones/{zone_id}/waiting_rooms/{waiting_room_id}
@@ -135,7 +134,6 @@ operationId: `waiting-room-delete-waiting-room`
 
 **Response** 200 → `result`
 
-(one of 2 variants; showing the first)
 object
 
 ## GET /zones/{zone_id}/waiting_rooms/{waiting_room_id}
@@ -146,7 +144,6 @@ operationId: `waiting-room-waiting-room-details`
 
 **Response** 200 → `result`
 
-(one of 2 variants; showing the first)
 object
 
 ## PATCH /zones/{zone_id}/waiting_rooms/{waiting_room_id}
@@ -187,7 +184,6 @@ operationId: `waiting-room-patch-waiting-room`
 
 **Response** 200 → `result`
 
-(one of 2 variants; showing the first)
 object
 
 ## PUT /zones/{zone_id}/waiting_rooms/{waiting_room_id}
@@ -228,7 +224,6 @@ operationId: `waiting-room-update-waiting-room`
 
 **Response** 200 → `result`
 
-(one of 2 variants; showing the first)
 object
 
 ## GET /zones/{zone_id}/waiting_rooms/{waiting_room_id}/events
@@ -285,7 +280,6 @@ operationId: `waiting-room-create-event`
 
 **Response** 200 → `result`
 
-(one of 2 variants; showing the first)
 object
 
 ## DELETE /zones/{zone_id}/waiting_rooms/{waiting_room_id}/events/{event_id}
@@ -296,7 +290,6 @@ operationId: `waiting-room-delete-event`
 
 **Response** 200 → `result`
 
-(one of 2 variants; showing the first)
 object
 
 ## GET /zones/{zone_id}/waiting_rooms/{waiting_room_id}/events/{event_id}
@@ -307,7 +300,6 @@ operationId: `waiting-room-event-details`
 
 **Response** 200 → `result`
 
-(one of 2 variants; showing the first)
 object
 
 ## PATCH /zones/{zone_id}/waiting_rooms/{waiting_room_id}/events/{event_id}
@@ -336,7 +328,6 @@ operationId: `waiting-room-patch-event`
 
 **Response** 200 → `result`
 
-(one of 2 variants; showing the first)
 object
 
 ## PUT /zones/{zone_id}/waiting_rooms/{waiting_room_id}/events/{event_id}
@@ -365,7 +356,6 @@ operationId: `waiting-room-update-event`
 
 **Response** 200 → `result`
 
-(one of 2 variants; showing the first)
 object
 
 ## GET /zones/{zone_id}/waiting_rooms/{waiting_room_id}/events/{event_id}/details
@@ -376,7 +366,6 @@ operationId: `waiting-room-preview-active-event-details`
 
 **Response** 200 → `result`
 
-(one of 2 variants; showing the first)
 object
 
 ## GET /zones/{zone_id}/waiting_rooms/{waiting_room_id}/rules
@@ -495,7 +484,6 @@ operationId: `waiting-room-get-waiting-room-status`
 
 **Response** 200 → `result`
 
-(one of 2 variants; showing the first)
 object
 
 ## POST /zones/{zone_id}/waiting_rooms/preview
@@ -510,7 +498,6 @@ operationId: `waiting-room-create-a-custom-waiting-room-page-preview`
 
 **Response** 200 → `result`
 
-(one of 2 variants; showing the first)
 object
 
 ## GET /zones/{zone_id}/waiting_rooms/settings
@@ -521,7 +508,6 @@ operationId: `waiting-room-get-zone-settings`
 
 **Response** 200 → `result`
 
-(one of 2 variants; showing the first)
 object
 
 ## PATCH /zones/{zone_id}/waiting_rooms/settings
@@ -536,7 +522,6 @@ operationId: `waiting-room-patch-zone-settings`
 
 **Response** 200 → `result`
 
-(one of 2 variants; showing the first)
 object
 
 ## PUT /zones/{zone_id}/waiting_rooms/settings
@@ -551,5 +536,4 @@ operationId: `waiting-room-update-zone-settings`
 
 **Response** 200 → `result`
 
-(one of 2 variants; showing the first)
 object

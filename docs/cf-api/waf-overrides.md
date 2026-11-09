@@ -8,10 +8,9 @@ List WAF overrides
 
 operationId: `waf-overrides-list-waf-overrides` · query: `page`, `per_page`
 
-**Response** 200 → `result`
+**Response** 410 → `result`
 
-(one of 3 variants; showing the first)
-object
+- `message`: string **required** enum: `This API has been deprecated. Please use the Rulesets API instead.`
 
 ## POST /zones/{zone_id}/firewall/waf/overrides
 
@@ -24,10 +23,9 @@ operationId: `waf-overrides-create-a-waf-override`
 - `urls`: string[] **required** — The URLs to include in the current WAF override. You can use wildcards. Each entered URL will be escaped before use, which means you can onl
   [array]
 
-**Response** 200 → `result`
+**Response** 410 → `result`
 
-(one of 3 variants; showing the first)
-object
+- `message`: string **required** enum: `This API has been deprecated. Please use the Rulesets API instead.`
 
 ## DELETE /zones/{zone_id}/firewall/waf/overrides/{overrides_id}
 
@@ -35,9 +33,9 @@ Delete a WAF override
 
 operationId: `waf-overrides-delete-a-waf-override`
 
-**Response** 200 → `result`
+**Response** 410 → `result`
 
-- `id`: string — The unique identifier of the WAF override.
+- `message`: string **required** enum: `This API has been deprecated. Please use the Rulesets API instead.`
 
 ## GET /zones/{zone_id}/firewall/waf/overrides/{overrides_id}
 
@@ -45,10 +43,9 @@ Get a WAF override
 
 operationId: `waf-overrides-get-a-waf-override`
 
-**Response** 200 → `result`
+**Response** 410 → `result`
 
-(one of 3 variants; showing the first)
-object
+- `message`: string **required** enum: `This API has been deprecated. Please use the Rulesets API instead.`
 
 ## PUT /zones/{zone_id}/firewall/waf/overrides/{overrides_id}
 
@@ -69,7 +66,6 @@ operationId: `waf-overrides-update-waf-override`
 - `urls`: string[] **required** — The URLs to include in the current WAF override. You can use wildcards. Each entered URL will be escaped before use, which means you can onl
   [array]
 
-**Response** 200 → `result`
+**Response** 410 → `result`
 
-(one of 3 variants; showing the first)
-object
+- `message`: string **required** enum: `This API has been deprecated. Please use the Rulesets API instead.`

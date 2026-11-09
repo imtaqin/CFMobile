@@ -1,6 +1,6 @@
 # AI Gateway
 
-13 endpoints.
+15 endpoints.
 
 ## GET /accounts/{account_id}/ai-gateway/billing/credit-balance
 
@@ -18,9 +18,9 @@ operationId: `aig-billing-get-credit-balance`
   - `last4`: string
 - `topup_config`: object **required**
   - `amount`: number **required**
-  - `disabledReason`: string **required**
-  - `error`: string **required**
-  - `lastFailedAt`: number **required**
+  - `disabledReason`: string
+  - `error`: string
+  - `lastFailedAt`: number
   - `threshold`: number **required**
 
 ## GET /accounts/{account_id}/ai-gateway/billing/invoice-history
@@ -89,7 +89,7 @@ operationId: `aig-billing-get-invoice-preview`
 
 ## DELETE /accounts/{account_id}/ai-gateway/billing/spending-limit
 
-Delete spending limit
+Delete spending limit (deprecated)
 
 operationId: `aig-billing-delete-spending-limit`
 
@@ -99,7 +99,7 @@ object
 
 ## GET /accounts/{account_id}/ai-gateway/billing/spending-limit
 
-Get spending limit
+Get spending limit (deprecated)
 
 operationId: `aig-billing-get-spending-limit`
 
@@ -136,14 +136,15 @@ operationId: `aig-billing-create-topup`
 **Request** (application/json)
 
 - `amount`: integer **required** — Top-up amount in cents (min 1000).
+- `payment_method_id`: string — Payment method to charge instead of the customer's default payment method.
 
 **Response** 200 → `result`
 
 - `brand`: string — Card brand (visa, mastercard, etc.).
-- `client_secret`: string **required** — Stripe PaymentIntent client secret.
+- `client_secret`: string **required** — Client secret used to complete payment authentication.
 - `last4`: string — Last 4 digits of card.
 - `onboarding`: boolean **required** — Whether the user was already onboarded.
-- `payment_intent_id`: string **required** — Stripe invoice ID.
+- `payment_intent_id`: string **required** — Top-up payment identifier.
 
 ## DELETE /accounts/{account_id}/ai-gateway/billing/topup/config
 
@@ -164,9 +165,9 @@ operationId: `aig-billing-get-topup-config`
 **Response** 200 → `result`
 
 - `amount`: number **required**
-- `disabledReason`: string **required**
-- `error`: string **required**
-- `lastFailedAt`: number **required**
+- `disabledReason`: string
+- `error`: string
+- `lastFailedAt`: number
 - `threshold`: number **required**
 
 ## POST /accounts/{account_id}/ai-gateway/billing/topup/config
@@ -177,13 +178,45 @@ operationId: `aig-billing-set-topup-config`
 
 **Request** (application/json)
 
+(one of 2 variants; showing the first)
 - `amount`: integer **required** — Auto top-up amount in cents (min 1000).
 - `threshold`: integer **required** — Balance threshold in cents that triggers auto top-up (min 500).
 
 **Response** 200 → `result`
 
+(one of 3 variants; showing the first)
 - `amount`: number **required**
 - `threshold`: number **required**
+
+## POST /accounts/{account_id}/ai-gateway/billing/topup/eligibility
+
+Get top-up eligibility
+
+operationId: `aig-billing-topup-eligibility`
+
+**Request** (application/json)
+
+- `contract_version`: number enum: `2`
+- `payment_method_id`: string
+- `payment_methods`: object[] — Account-level payment methods, forwarded by the dashboard for legacy eligibility only.
+  [array of]
+  - `default`: boolean — Whether this is the account default payment method.
+  - `last_four`: string — Last 4 digits, for display copy only.
+  - `type`: string — Payment-method type. Absent or unrecognized is treated as non-card (does not error). Known values: PAYPAL, CREDIT_CARD, APPLE_PAY, GOOGLE_PA
+
+**Response** 200 → `result`
+
+(one of 2 variants; showing the first)
+- `account_payment_method_state`: string **required** enum: `NONE`, `UNSUPPORTED_ONLY`, `SUPPORTED_PRESENT`, `UNKNOWN` — Account-level payment-method state derived from the provided list.
+- `aig_customer_state`: string **required** enum: `RESOLVED`, `RESOLUTION_FAILED` — AI Gateway billing profile resolution outcome.
+- `aig_default_payment_method_state`: string **required** enum: `PRESENT`, `MISSING` — Whether AI Gateway billing has a default payment method.
+- `display_payment_method`: object **required** — Card to reference in the UI, e.g. "use card ending 1234".
+  - `brand`: string
+  - `last4`: string **required**
+- `eligible`: boolean **required** — True only when reason === ELIGIBLE.
+- `reason`: string **required** enum: `ELIGIBLE`, `NO_ACCOUNT_PAYMENT_METHOD`, `UNSUPPORTED_ACCOUNT_PAYMENT_METHOD`, `ACCOUNT_PAYMENT_METHOD_NOT_DEFAULT`, `ACCOUNT_PAYMENT_METHOD_NOT_LINKED_TO_AIG`, `CONTRACT_BILLING_NOT_SELF_SERVE`, `AIG_CUSTOMER_RESOLUTION_FAILED`, `PENDING_3DS_AUTHENTICATION` — Canonical eligibility outcome for display and support triage.
+- `recommended_action`: string **required** enum: `NONE`, `ADD_SUPPORTED_PAYMENT_METHOD`, `USE_EXISTING_CARD`, `SET_CARD_AS_DEFAULT`, `CONTACT_SUPPORT`, `RESUME_AUTHENTICATION`, `RETRY` — Machine-readable next step.
+- `recoverable`: boolean **required** — Whether the customer can resolve this themselves (vs contact support).
 
 ## GET /accounts/{account_id}/ai-gateway/billing/topup/limits
 
@@ -205,7 +238,7 @@ operationId: `aig-billing-check-topup-status`
 
 **Request** (application/json)
 
-- `payment_intent_id`: string **required** — Stripe invoice ID to check status for.
+- `payment_intent_id`: string **required** — Top-up identifier to check status for.
 
 **Response** 200 → `result`
 
@@ -222,7 +255,38 @@ operationId: `aig-billing-get-usage-history` · query: `value_grouping_window`, 
 
 - `history`: object[] **required**
   [array of]
-  - `aggregated_value`: number **required**
+  - `aggregated_value`: number **required** — AI Gateway usage cost in the window, in US dollars.
   - `end_time`: number **required**
   - `id`: string **required**
   - `start_time`: number **required**
+
+## POST /accounts/{account_id}/ai/websearch
+
+Search the web through AI Gateway
+
+operationId: `workers-ai-ai-gateway-web-search`
+
+**Request** (application/json)
+
+- `byokAlias`: string
+- `limit`: integer
+- `options`: object **required**
+  - `gateway`: object **required**
+    - `id`: string **required**
+- `provider`: string
+- `query`: string **required**
+
+**Response** 200 → `result`
+
+- `items`: object[] **required**
+  [array of]
+  - `description`: string
+  - `faviconUrl`: string
+  - `imageUrl`: string
+  - `lastModifiedDate`: string
+  - `title`: string **required**
+  - `url`: string **required**
+- `metadata`: object **required**
+  - `latencyMs`: number **required**
+  - `query`: string **required**
+  - `requestId`: string **required**

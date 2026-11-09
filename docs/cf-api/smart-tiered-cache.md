@@ -25,7 +25,7 @@ operationId: `smart-tiered-cache-get-smart-tiered-cache-setting`
 - `editable`: boolean **required** — Whether the setting is editable.
 - `id`: string **required** — The identifier of the caching setting.
 - `modified_on`: string — The time when the setting was last modified.
-- `value`: string **required** — The value of the setting.
+- `value`: any **required** — The value of the setting.
 
 ## PATCH /zones/{zone_id}/cache/tiered_cache_smart_topology_enable
 
@@ -42,7 +42,7 @@ operationId: `smart-tiered-cache-patch-smart-tiered-cache-setting`
 - `editable`: boolean **required** — Whether the setting is editable.
 - `id`: string **required** — The identifier of the caching setting.
 - `modified_on`: string — The time when the setting was last modified.
-- `value`: string **required** — The value of the setting.
+- `value`: any **required** — The value of the setting.
 
 ## POST /zones/{zone_id}/cache/tiered_cache_smart_topology_enable
 
@@ -59,4 +59,4 @@ operationId: `smart-tiered-cache-create-smart-tiered-cache-setting`
 - `editable`: boolean **required** — Whether the setting is editable.
 - `id`: string **required** — The identifier of the caching setting.
 - `modified_on`: string — The time when the setting was last modified.
-- `value`: string **required** — The value of the setting.
+- `value`: any **required** — The value of the setting.

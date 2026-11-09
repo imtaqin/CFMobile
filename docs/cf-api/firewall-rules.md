@@ -34,6 +34,10 @@ Update priority of firewall rules
 
 operationId: `firewall-rules-update-priority-of-firewall-rules`
 
+**Request** (application/json)
+
+- `id`: string **required** — The unique identifier of the firewall rule.
+
 **Response** 200 → `result`
 
 (one of 3 variants; showing the first)
@@ -65,6 +69,10 @@ object
 Update firewall rules
 
 operationId: `firewall-rules-update-firewall-rules`
+
+**Request** (application/json)
+
+- `id`: string **required** — The unique identifier of the firewall rule.
 
 **Response** 200 → `result`
 

@@ -239,7 +239,7 @@ operationId: `postV4AccountsByAccount_idPipelinesV1Pipelines`
 
 ## DELETE /accounts/{account_id}/pipelines/v1/pipelines/{pipeline_id}
 
-Delete Pipelines
+Delete Pipeline
 
 operationId: `deleteV4AccountsByAccount_idPipelinesV1PipelinesByPipeline_id`
 
@@ -274,18 +274,18 @@ operationId: `getV4AccountsByAccount_idPipelinesV1PipelinesByPipeline_id`
 
 List Sinks
 
-operationId: `getV4AccountsByAccount_idPipelinesV1Sinks` · query: `pipeline_id`, `name`, `page`, `per_page`
+operationId: `getV4AccountsByAccount_idPipelinesV1Sinks` · query: `pipeline_id`, `name`, `order_by`, `direction`, `page`, `per_page`
 
 **Response** 200 → `result`
 
 [array of]
 - `config`: any — Defines the configuration of the R2 Sink.
 - `created_at`: string **required**
-- `format`: any
+- `format`: any — Defines the output data format of a sink.
 - `id`: string **required** — Indicates a unique identifier for this sink.
 - `modified_at`: string **required**
 - `name`: string **required** — Defines the name of the Sink.
-- `schema`: object
+- `schema`: object — Defines the schema of the events in the data stream.
   - `fields`: object[]
     [array of]
     - `type`: string **required** enum: `int32`
@@ -293,9 +293,8 @@ operationId: `getV4AccountsByAccount_idPipelinesV1Sinks` · query: `pipeline_id`
     - `name`: string **required**
     - `required`: boolean
     - `sql_name`: string
-  - `format`: any
   - `inferred`: boolean
-- `type`: string **required** enum: `r2`, `r2_data_catalog` — Specifies the type of sink.
+- `type`: string **required** enum: `r2`, `r2_data_catalog`, `basin_catalog` — Specifies the type of sink.
 
 ## POST /accounts/{account_id}/pipelines/v1/sinks
 
@@ -306,9 +305,9 @@ operationId: `postV4AccountsByAccount_idPipelinesV1Sinks`
 **Request** (application/json)
 
 - `config`: any — Defines the configuration of the R2 Sink.
-- `format`: any
+- `format`: any — Defines the output data format of a sink.
 - `name`: string **required** — Defines the name of the Sink.
-- `schema`: object
+- `schema`: object — Defines the schema of the events in the data stream.
   - `fields`: object[]
     [array of]
     - `type`: string **required** enum: `int32`
@@ -316,19 +315,18 @@ operationId: `postV4AccountsByAccount_idPipelinesV1Sinks`
     - `name`: string **required**
     - `required`: boolean
     - `sql_name`: string
-  - `format`: any
   - `inferred`: boolean
-- `type`: string **required** enum: `r2`, `r2_data_catalog` — Specifies the type of sink.
+- `type`: string **required** enum: `r2`, `r2_data_catalog`, `basin_catalog` — Specifies the type of sink.
 
 **Response** 200 → `result`
 
 - `config`: any
 - `created_at`: string **required**
-- `format`: any
+- `format`: any — Defines the output data format of a sink.
 - `id`: string **required** — Indicates a unique identifier for this sink.
 - `modified_at`: string **required**
 - `name`: string **required** — Defines the name of the Sink.
-- `schema`: object
+- `schema`: object — Defines the schema of the events in the data stream.
   - `fields`: object[]
     [array of]
     - `type`: string **required** enum: `int32`
@@ -336,15 +334,14 @@ operationId: `postV4AccountsByAccount_idPipelinesV1Sinks`
     - `name`: string **required**
     - `required`: boolean
     - `sql_name`: string
-  - `format`: any
   - `inferred`: boolean
-- `type`: string **required** enum: `r2`, `r2_data_catalog` — Specifies the type of sink.
+- `type`: string **required** enum: `r2`, `r2_data_catalog`, `basin_catalog` — Specifies the type of sink.
 
 ## DELETE /accounts/{account_id}/pipelines/v1/sinks/{sink_id}
 
 Delete Sink
 
-operationId: `deleteV4AccountsByAccount_idPipelinesV1SinksBySink_id` · query: `force`
+operationId: `deleteV4AccountsByAccount_idPipelinesV1SinksBySink_id`
 
 **Response** 200 → `result`
 
@@ -360,11 +357,11 @@ operationId: `getV4AccountsByAccount_idPipelinesV1SinksBySink_id`
 
 - `config`: any — Defines the configuration of the R2 Sink.
 - `created_at`: string **required**
-- `format`: any
+- `format`: any — Defines the output data format of a sink.
 - `id`: string **required** — Indicates a unique identifier for this sink.
 - `modified_at`: string **required**
 - `name`: string **required** — Defines the name of the Sink.
-- `schema`: object
+- `schema`: object — Defines the schema of the events in the data stream.
   - `fields`: object[]
     [array of]
     - `type`: string **required** enum: `int32`
@@ -372,22 +369,21 @@ operationId: `getV4AccountsByAccount_idPipelinesV1SinksBySink_id`
     - `name`: string **required**
     - `required`: boolean
     - `sql_name`: string
-  - `format`: any
   - `inferred`: boolean
-- `type`: string **required** enum: `r2`, `r2_data_catalog` — Specifies the type of sink.
+- `type`: string **required** enum: `r2`, `r2_data_catalog`, `basin_catalog` — Specifies the type of sink.
 
 ## GET /accounts/{account_id}/pipelines/v1/streams
 
 List Streams
 
-operationId: `getV4AccountsByAccount_idPipelinesV1Streams` · query: `pipeline_id`, `name`, `page`, `per_page`
+operationId: `getV4AccountsByAccount_idPipelinesV1Streams` · query: `pipeline_id`, `name`, `order_by`, `direction`, `page`, `per_page`
 
 **Response** 200 → `result`
 
 [array of]
 - `created_at`: string **required**
 - `endpoint`: string — Indicates the endpoint URL of this stream.
-- `format`: any
+- `format`: any — Defines the data format of the events.
 - `http`: object **required**
   - `authentication`: boolean **required** — Indicates that authentication is required for the HTTP endpoint.
   - `cors`: object — Specifies the CORS options for the HTTP endpoint.
@@ -396,7 +392,7 @@ operationId: `getV4AccountsByAccount_idPipelinesV1Streams` · query: `pipeline_i
 - `id`: string **required** — Indicates a unique identifier for this stream.
 - `modified_at`: string **required**
 - `name`: string **required** — Indicates the name of the Stream.
-- `schema`: object
+- `schema`: object — Defines the schema of the events in the data stream.
   - `fields`: object[]
     [array of]
     - `type`: string **required** enum: `int32`
@@ -404,7 +400,6 @@ operationId: `getV4AccountsByAccount_idPipelinesV1Streams` · query: `pipeline_i
     - `name`: string **required**
     - `required`: boolean
     - `sql_name`: string
-  - `format`: any
   - `inferred`: boolean
 - `version`: integer **required** — Indicates the current version of this stream.
 - `worker_binding`: object **required**
@@ -418,14 +413,14 @@ operationId: `postV4AccountsByAccount_idPipelinesV1Streams`
 
 **Request** (application/json)
 
-- `format`: any
+- `format`: any — Defines the data format of the events.
 - `http`: object default: `[object Object]`
   - `authentication`: boolean **required** — Indicates that authentication is required for the HTTP endpoint.
   - `cors`: object — Specifies the CORS options for the HTTP endpoint.
     - `origins`: string[]
   - `enabled`: boolean **required** — Indicates that the HTTP endpoint is enabled.
 - `name`: string **required** — Specifies the name of the Stream.
-- `schema`: object
+- `schema`: object — Defines the schema of the events in the data stream.
   - `fields`: object[]
     [array of]
     - `type`: string **required** enum: `int32`
@@ -433,7 +428,6 @@ operationId: `postV4AccountsByAccount_idPipelinesV1Streams`
     - `name`: string **required**
     - `required`: boolean
     - `sql_name`: string
-  - `format`: any
   - `inferred`: boolean
 - `worker_binding`: object default: `[object Object]`
   - `enabled`: boolean **required** — Indicates that the worker binding is enabled.
@@ -442,7 +436,7 @@ operationId: `postV4AccountsByAccount_idPipelinesV1Streams`
 
 - `created_at`: string **required**
 - `endpoint`: string — Indicates the endpoint URL of this stream.
-- `format`: any
+- `format`: any — Defines the data format of the events.
 - `http`: object **required**
   - `authentication`: boolean **required** — Indicates that authentication is required for the HTTP endpoint.
   - `cors`: object — Specifies the CORS options for the HTTP endpoint.
@@ -451,7 +445,7 @@ operationId: `postV4AccountsByAccount_idPipelinesV1Streams`
 - `id`: string **required** — Indicates a unique identifier for this stream.
 - `modified_at`: string **required**
 - `name`: string **required** — Indicates the name of the Stream.
-- `schema`: object
+- `schema`: object — Defines the schema of the events in the data stream.
   - `fields`: object[]
     [array of]
     - `type`: string **required** enum: `int32`
@@ -459,7 +453,6 @@ operationId: `postV4AccountsByAccount_idPipelinesV1Streams`
     - `name`: string **required**
     - `required`: boolean
     - `sql_name`: string
-  - `format`: any
   - `inferred`: boolean
 - `version`: integer **required** — Indicates the current version of this stream.
 - `worker_binding`: object **required**
@@ -469,7 +462,7 @@ operationId: `postV4AccountsByAccount_idPipelinesV1Streams`
 
 Delete Stream
 
-operationId: `deleteV4AccountsByAccount_idPipelinesV1StreamsByStream_id` · query: `force`
+operationId: `deleteV4AccountsByAccount_idPipelinesV1StreamsByStream_id`
 
 **Response** 200 → `result`
 
@@ -485,7 +478,7 @@ operationId: `getV4AccountsByAccount_idPipelinesV1StreamsByStream_id`
 
 - `created_at`: string **required**
 - `endpoint`: string — Indicates the endpoint URL of this stream.
-- `format`: any
+- `format`: any — Defines the data format of the events.
 - `http`: object **required**
   - `authentication`: boolean **required** — Indicates that authentication is required for the HTTP endpoint.
   - `cors`: object — Specifies the CORS options for the HTTP endpoint.
@@ -494,7 +487,7 @@ operationId: `getV4AccountsByAccount_idPipelinesV1StreamsByStream_id`
 - `id`: string **required** — Indicates a unique identifier for this stream.
 - `modified_at`: string **required**
 - `name`: string **required** — Indicates the name of the Stream.
-- `schema`: object
+- `schema`: object — Defines the schema of the events in the data stream.
   - `fields`: object[]
     [array of]
     - `type`: string **required** enum: `int32`
@@ -502,7 +495,6 @@ operationId: `getV4AccountsByAccount_idPipelinesV1StreamsByStream_id`
     - `name`: string **required**
     - `required`: boolean
     - `sql_name`: string
-  - `format`: any
   - `inferred`: boolean
 - `version`: integer **required** — Indicates the current version of this stream.
 - `worker_binding`: object **required**
@@ -528,7 +520,7 @@ operationId: `patchV4AccountsByAccount_idPipelinesV1StreamsByStream_id`
 
 - `created_at`: string **required**
 - `endpoint`: string — Indicates the endpoint URL of this stream.
-- `format`: any
+- `format`: any — Defines the data format of the events.
 - `http`: object **required**
   - `authentication`: boolean **required** — Indicates that authentication is required for the HTTP endpoint.
   - `cors`: object — Specifies the CORS options for the HTTP endpoint.
@@ -537,6 +529,15 @@ operationId: `patchV4AccountsByAccount_idPipelinesV1StreamsByStream_id`
 - `id`: string **required** — Indicates a unique identifier for this stream.
 - `modified_at`: string **required**
 - `name`: string **required** — Indicates the name of the Stream.
+- `schema`: object — Defines the schema of the events in the data stream.
+  - `fields`: object[]
+    [array of]
+    - `type`: string **required** enum: `int32`
+    - `metadata_key`: string
+    - `name`: string **required**
+    - `required`: boolean
+    - `sql_name`: string
+  - `inferred`: boolean
 - `version`: integer **required** — Indicates the current version of this stream.
 - `worker_binding`: object **required**
   - `enabled`: boolean **required** — Indicates that the worker binding is enabled.
@@ -553,7 +554,7 @@ operationId: `postV4AccountsByAccount_idPipelinesV1Validate_sql`
 
 **Response** 200 → `result`
 
-- `graph`: object
+- `graph`: object — Indicates the processing flow to implement the SQL.
   - `edges`: object[] **required**
     [array of]
     - `dest_id`: integer **required**

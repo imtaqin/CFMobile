@@ -1,6 +1,6 @@
 # Zero Trust users
 
-10 endpoints.
+11 endpoints.
 
 ## GET /accounts/{account_id}/access/users
 
@@ -203,12 +203,28 @@ operationId: `zero-trust-users-get-last-seen-identity`
 - `service_token_status`: boolean
 - `user_uuid`: string
 - `version`: number
+- `passkeys`: object[] — Active passkey enrollments for the user.
+  [array of]
+  - `created_at`: string
+  - `id`: string — Authenticator ID used to delete the passkey.
+  - `last_used_at`: string
+  - `name`: string
 
 ## DELETE /accounts/{account_id}/access/users/{user_id}/mfa_authenticators/{authenticator_id}
 
-Delete a user's MFA device
+Delete a user's authenticator
 
 operationId: `zero-trust-users-delete-mfa-authenticator`
+
+**Response** 200 → `result`
+
+object
+
+## DELETE /accounts/{account_id}/access/users/{user_id}/passkeys/{authenticator_id}
+
+Delete a user's passkey
+
+operationId: `zero-trust-users-delete-passkey`
 
 **Response** 200 → `result`
 

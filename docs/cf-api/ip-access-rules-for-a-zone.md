@@ -22,8 +22,8 @@ operationId: `ip-access-rules-for-a-zone-create-an-ip-access-rule`
 **Request** (application/json)
 
 - `configuration`: object **required** — The rule configuration.
-- `mode`: string **required** enum: `block`, `challenge`, `whitelist`, `js_challenge`, `managed_challenge` — The action to apply to a matched request.
-- `notes`: any
+- `mode`: any **required**
+- `notes`: any default: ``
 
 **Response** 200 → `result`
 
@@ -53,7 +53,7 @@ operationId: `ip-access-rules-for-a-zone-update-an-ip-access-rule`
 
 **Request** (application/json)
 
-- `mode`: string enum: `block`, `challenge`, `whitelist`, `js_challenge`, `managed_challenge` — The action to apply to a matched request.
+- `mode`: any
 - `notes`: string — An informative summary of the rule, typically used as a reminder or explanation.
 
 **Response** 200 → `result`

@@ -10,6 +10,7 @@ operationId: `listBuildTokens` · query: `page`, `per_page`
 
 **Response** 200 → `result`
 
+(one of 2 variants; showing the first)
 object
 
 ## POST /accounts/{account_id}/builds/tokens
@@ -26,14 +27,16 @@ operationId: `createBuildToken`
 
 **Response** 200 → `result`
 
+(one of 2 variants; showing the first)
 object
 
 ## DELETE /accounts/{account_id}/builds/tokens/{build_token_uuid}
 
-Delete build token
+Delete a build token
 
 operationId: `deleteBuildToken`
 
 **Response** 200 → `result`
 
+(one of 2 variants; showing the first)
 object

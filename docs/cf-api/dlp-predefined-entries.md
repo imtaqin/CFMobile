@@ -19,6 +19,7 @@ operationId: `dlp-entries-create-predefined-entry`
 - `confidence`: object **required**
   - `ai_context_available`: boolean **required** — Indicates whether this entry has AI remote service validation.
   - `available`: boolean **required** — Indicates whether this entry has any form of validation that is not an AI remote service.
+- `deprecated`: boolean — Whether this entry is deprecated for new use. This is computed from the static catalog and
 - `enabled`: boolean **required**
 - `id`: string **required**
 - `name`: string **required**

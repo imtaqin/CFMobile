@@ -4,7 +4,7 @@
 
 ## GET /accounts/{account_id}/workers/scripts/{script_name}/tails
 
-List Tails
+List Worker Tails
 
 operationId: `worker-tail-logs-list-tails`
 
@@ -16,7 +16,7 @@ operationId: `worker-tail-logs-list-tails`
 
 ## POST /accounts/{account_id}/workers/scripts/{script_name}/tails
 
-Start Tail
+Start Worker Tail
 
 operationId: `worker-tail-logs-start-tail`
 
@@ -28,7 +28,7 @@ operationId: `worker-tail-logs-start-tail`
 
 ## DELETE /accounts/{account_id}/workers/scripts/{script_name}/tails/{id}
 
-Delete Tail
+Delete Worker Tail
 
 operationId: `worker-tail-logs-delete-tail`
 

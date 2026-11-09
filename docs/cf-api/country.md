@@ -4,7 +4,7 @@
 
 ## GET /accounts/{account_id}/cloudforce-one/events/countries
 
-Retrieves countries information for all countries
+List countries
 
 operationId: `get_CountryRead`
 

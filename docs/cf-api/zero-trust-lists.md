@@ -6,7 +6,7 @@
 
 List Zero Trust lists
 
-operationId: `zero-trust-lists-list-zero-trust-lists` · query: `type`
+operationId: `zero-trust-lists-list-zero-trust-lists` · query: `type`, `filter`, `search`, `order_by`, `direction`
 
 **Response** 200 → `result`
 
@@ -149,7 +149,7 @@ operationId: `zero-trust-lists-update-zero-trust-list`
 
 Get Zero Trust list items
 
-operationId: `zero-trust-lists-zero-trust-list-items`
+operationId: `zero-trust-lists-zero-trust-list-items` · query: `page`, `per_page`
 
 **Response** 200 → `result`
 

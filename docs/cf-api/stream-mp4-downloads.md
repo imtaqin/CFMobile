@@ -6,7 +6,7 @@
 
 Delete downloads
 
-operationId: `stream-m-p-4-downloads-delete-downloads`
+operationId: `stream-mp4-downloads-delete-downloads`
 
 **Response** 200 → `result`
 
@@ -16,7 +16,7 @@ string
 
 List downloads
 
-operationId: `stream-m-p-4-downloads-list-downloads`
+operationId: `stream-mp4-downloads-list-downloads`
 
 **Response** 200 → `result`
 
@@ -27,7 +27,7 @@ operationId: `stream-m-p-4-downloads-list-downloads`
 
 Create downloads
 
-operationId: `stream-m-p-4-downloads-create-downloads`
+operationId: `stream-mp4-downloads-create-downloads`
 
 **Response** 200 → `result`
 

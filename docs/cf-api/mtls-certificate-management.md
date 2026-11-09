@@ -14,7 +14,7 @@ operationId: `m-tls-certificate-management-list-m-tls-certificates` · query: `t
 - `ca`: boolean — Indicates whether the certificate is a CA or leaf certificate.
 - `certificates`: string — The uploaded root CA certificate.
 - `expires_on`: string — When the certificate expires.
-- `id`: string — Identifier.
+- `id`: string — Certificate identifier tag.
 - `issuer`: string — The certificate authority that issued the certificate.
 - `name`: string — Optional unique name for the certificate. Only used for human readability.
 - `serial_number`: string — The certificate serial number.
@@ -40,7 +40,7 @@ operationId: `m-tls-certificate-management-upload-m-tls-certificate`
 - `ca`: boolean — Indicates whether the certificate is a CA or leaf certificate.
 - `certificates`: string — The uploaded root CA certificate.
 - `expires_on`: string — When the certificate expires.
-- `id`: string — Identifier.
+- `id`: string — Certificate identifier tag.
 - `issuer`: string — The certificate authority that issued the certificate.
 - `name`: string — Optional unique name for the certificate. Only used for human readability.
 - `serial_number`: string — The certificate serial number.
@@ -60,7 +60,7 @@ operationId: `m-tls-certificate-management-delete-m-tls-certificate`
 - `ca`: boolean — Indicates whether the certificate is a CA or leaf certificate.
 - `certificates`: string — The uploaded root CA certificate.
 - `expires_on`: string — When the certificate expires.
-- `id`: string — Identifier.
+- `id`: string — Certificate identifier tag.
 - `issuer`: string — The certificate authority that issued the certificate.
 - `name`: string — Optional unique name for the certificate. Only used for human readability.
 - `serial_number`: string — The certificate serial number.
@@ -79,7 +79,7 @@ operationId: `m-tls-certificate-management-get-m-tls-certificate`
 - `ca`: boolean — Indicates whether the certificate is a CA or leaf certificate.
 - `certificates`: string — The uploaded root CA certificate.
 - `expires_on`: string — When the certificate expires.
-- `id`: string — Identifier.
+- `id`: string — Certificate identifier tag.
 - `issuer`: string — The certificate authority that issued the certificate.
 - `name`: string — Optional unique name for the certificate. Only used for human readability.
 - `serial_number`: string — The certificate serial number.

@@ -74,6 +74,8 @@ operationId: `radar-get-ranking-top-domains` · query: `limit`, `name`, `locatio
     - `startTime`: string **required** — Adjusted start of date range.
   - `lastUpdated`: string **required** — Timestamp of the last dataset update.
   - `normalization`: string **required** enum: `PERCENTAGE`, `MIN0_MAX`, `MIN_MAX`, `RAW_VALUES`, `PERCENTAGE_CHANGE`, `ROLLING_AVERAGE`, `OVERLAPPED_PERCENTAGE`, `RATIO` — Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization
+  - `top_0`: object **required**
+    - `date`: string **required**
   - `units`: object[] **required** — Measurement units for the results.
     [array of]
     - `name`: string **required**
@@ -82,9 +84,9 @@ operationId: `radar-get-ranking-top-domains` · query: `limit`, `name`, `locatio
   [array of]
   - `categories`: object[] **required**
     [array of]
-    - `id`: number **required**
+    - `id`: integer **required**
     - `name`: string **required**
-    - `superCategoryId`: number **required**
+    - `superCategoryId`: integer **required**
   - `domain`: string **required**
   - `pctRankChange`: number — Only available in TRENDING rankings.
   - `rank`: integer **required**

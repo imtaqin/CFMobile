@@ -4,7 +4,7 @@
 
 ## GET /accounts/{account_id}/pages/projects/{project_name}/deployments
 
-Get deployments
+List Pages deployments
 
 operationId: `pages-deployment-get-deployments` · query: `env`, `page`, `per_page`
 
@@ -31,17 +31,17 @@ operationId: `pages-deployment-get-deployments` · query: `env`, `page`, `per_pa
 - `env_vars`: object **required** — Environment variables used for builds and Pages Functions.
 - `environment`: string **required** enum: `preview`, `production` — Type of deploy.
 - `id`: string **required** — Id of the deployment.
-- `is_skipped`: boolean **required** — If the deployment has been skipped.
+- `is_skipped`: boolean **required** — Whether the deployment was skipped.
 - `latest_stage`: object **required** — The status of the deployment.
   - `ended_on`: string **required** — When the stage ended.
   - `name`: string **required** enum: `queued`, `initialize`, `clone_repo`, `build`, `deploy` — The current build stage.
   - `started_on`: string **required** — When the stage started.
-  - `status`: string **required** enum: `success`, `idle`, `active`, `failure`, `canceled` — State of the current stage.
+  - `status`: string **required** enum: `success`, `idle`, `active`, `failure`, `canceled`, `skipped` — State of the current stage.
 - `modified_on`: string **required** — When the deployment was last modified.
 - `project_id`: string **required** — Id of the project.
-- `project_name`: string **required** — Name of the project.
+- `project_name`: string **required** — Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.
 - `short_id`: string **required** — Short Id (8 character) of the deployment.
-- `skip_reason`: string enum: `commit_message`, `preview_deployments_disabled`, `production_deployments_disabled`, `path_config`, `branch_config`, `pages_to_workers_conversion` — Why the deployment was skipped.
+- `skip_reason`: string enum: `commit_message`, `preview_deployments_disabled`, `production_deployments_disabled`, `path_config`, `branch_config`, `pages_to_workers_conversion`, `superseded_queued_build` — Why the deployment was skipped.
 - `source`: object **required** — Configs for the project source control.
   - `config`: object **required**
     - `deployments_enabled`: boolean **required** — Whether to enable automatic deployments when pushing to the source repository.
@@ -63,13 +63,13 @@ operationId: `pages-deployment-get-deployments` · query: `env`, `page`, `per_pa
   - `ended_on`: string **required** — When the stage ended.
   - `name`: string **required** enum: `queued`, `initialize`, `clone_repo`, `build`, `deploy` — The current build stage.
   - `started_on`: string **required** — When the stage started.
-  - `status`: string **required** enum: `success`, `idle`, `active`, `failure`, `canceled` — State of the current stage.
+  - `status`: string **required** enum: `success`, `idle`, `active`, `failure`, `canceled`, `skipped` — State of the current stage.
 - `url`: string **required** — The live URL to view this deployment.
 - `uses_functions`: boolean — Whether the deployment uses functions.
 
 ## POST /accounts/{account_id}/pages/projects/{project_name}/deployments
 
-Create deployment
+Create a Pages deployment
 
 operationId: `pages-deployment-create-deployment`
 
@@ -80,12 +80,12 @@ operationId: `pages-deployment-create-deployment`
 - `_routes.json`: string — Routes configuration file defining routing rules.
 - `_worker.bundle`: string — Worker bundle file in multipart/form-data format. Mutually exclusive with `_worker.js`.
 - `_worker.js`: string — Worker JavaScript file. Mutually exclusive with `_worker.bundle`.
-- `branch`: string — The branch to build the new deployment from. The `HEAD` of the branch will be used. If omitted, the production branch will be used by defaul
-- `commit_dirty`: string enum: `true`, `false` — Boolean string indicating if the working directory has uncommitted changes.
-- `commit_hash`: string — Git commit SHA associated with this deployment.
-- `commit_message`: string — Git commit message associated with this deployment.
+- `branch`: string — Git branch to deploy. Uses the branch's `HEAD`; defaults to the project's production branch.
+- `commit_dirty`: string enum: `true`, `false` — Whether the associated Git working tree has uncommitted changes. Provide `true` or `false`.
+- `commit_hash`: string — Git commit SHA associated with the deployment.
+- `commit_message`: string — Git commit message associated with the deployment.
 - `functions-filepath-routing-config.json`: string — Functions routing configuration file.
-- `manifest`: string — JSON string containing a manifest of files to deploy. Maps file paths to their content hashes.
+- `manifest`: string — JSON-encoded object mapping deployment file paths to their uploaded content hashes.
 - `pages_build_output_dir`: string — The build output directory path.
 - `wrangler_config_hash`: string — Hash of the Wrangler configuration file used for this deployment.
 
@@ -111,17 +111,17 @@ operationId: `pages-deployment-create-deployment`
 - `env_vars`: object **required** — Environment variables used for builds and Pages Functions.
 - `environment`: string **required** enum: `preview`, `production` — Type of deploy.
 - `id`: string **required** — Id of the deployment.
-- `is_skipped`: boolean **required** — If the deployment has been skipped.
+- `is_skipped`: boolean **required** — Whether the deployment was skipped.
 - `latest_stage`: object **required** — The status of the deployment.
   - `ended_on`: string **required** — When the stage ended.
   - `name`: string **required** enum: `queued`, `initialize`, `clone_repo`, `build`, `deploy` — The current build stage.
   - `started_on`: string **required** — When the stage started.
-  - `status`: string **required** enum: `success`, `idle`, `active`, `failure`, `canceled` — State of the current stage.
+  - `status`: string **required** enum: `success`, `idle`, `active`, `failure`, `canceled`, `skipped` — State of the current stage.
 - `modified_on`: string **required** — When the deployment was last modified.
 - `project_id`: string **required** — Id of the project.
-- `project_name`: string **required** — Name of the project.
+- `project_name`: string **required** — Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.
 - `short_id`: string **required** — Short Id (8 character) of the deployment.
-- `skip_reason`: string enum: `commit_message`, `preview_deployments_disabled`, `production_deployments_disabled`, `path_config`, `branch_config`, `pages_to_workers_conversion` — Why the deployment was skipped.
+- `skip_reason`: string enum: `commit_message`, `preview_deployments_disabled`, `production_deployments_disabled`, `path_config`, `branch_config`, `pages_to_workers_conversion`, `superseded_queued_build` — Why the deployment was skipped.
 - `source`: object **required** — Configs for the project source control.
   - `config`: object **required**
     - `deployments_enabled`: boolean **required** — Whether to enable automatic deployments when pushing to the source repository.
@@ -143,13 +143,13 @@ operationId: `pages-deployment-create-deployment`
   - `ended_on`: string **required** — When the stage ended.
   - `name`: string **required** enum: `queued`, `initialize`, `clone_repo`, `build`, `deploy` — The current build stage.
   - `started_on`: string **required** — When the stage started.
-  - `status`: string **required** enum: `success`, `idle`, `active`, `failure`, `canceled` — State of the current stage.
+  - `status`: string **required** enum: `success`, `idle`, `active`, `failure`, `canceled`, `skipped` — State of the current stage.
 - `url`: string **required** — The live URL to view this deployment.
 - `uses_functions`: boolean — Whether the deployment uses functions.
 
 ## DELETE /accounts/{account_id}/pages/projects/{project_name}/deployments/{deployment_id}
 
-Delete deployment
+Delete a Pages deployment
 
 operationId: `pages-deployment-delete-deployment` · query: `force`
 
@@ -159,7 +159,7 @@ object
 
 ## GET /accounts/{account_id}/pages/projects/{project_name}/deployments/{deployment_id}
 
-Get deployment info
+Get a Pages deployment
 
 operationId: `pages-deployment-get-deployment-info`
 
@@ -185,17 +185,17 @@ operationId: `pages-deployment-get-deployment-info`
 - `env_vars`: object **required** — Environment variables used for builds and Pages Functions.
 - `environment`: string **required** enum: `preview`, `production` — Type of deploy.
 - `id`: string **required** — Id of the deployment.
-- `is_skipped`: boolean **required** — If the deployment has been skipped.
+- `is_skipped`: boolean **required** — Whether the deployment was skipped.
 - `latest_stage`: object **required** — The status of the deployment.
   - `ended_on`: string **required** — When the stage ended.
   - `name`: string **required** enum: `queued`, `initialize`, `clone_repo`, `build`, `deploy` — The current build stage.
   - `started_on`: string **required** — When the stage started.
-  - `status`: string **required** enum: `success`, `idle`, `active`, `failure`, `canceled` — State of the current stage.
+  - `status`: string **required** enum: `success`, `idle`, `active`, `failure`, `canceled`, `skipped` — State of the current stage.
 - `modified_on`: string **required** — When the deployment was last modified.
 - `project_id`: string **required** — Id of the project.
-- `project_name`: string **required** — Name of the project.
+- `project_name`: string **required** — Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.
 - `short_id`: string **required** — Short Id (8 character) of the deployment.
-- `skip_reason`: string enum: `commit_message`, `preview_deployments_disabled`, `production_deployments_disabled`, `path_config`, `branch_config`, `pages_to_workers_conversion` — Why the deployment was skipped.
+- `skip_reason`: string enum: `commit_message`, `preview_deployments_disabled`, `production_deployments_disabled`, `path_config`, `branch_config`, `pages_to_workers_conversion`, `superseded_queued_build` — Why the deployment was skipped.
 - `source`: object **required** — Configs for the project source control.
   - `config`: object **required**
     - `deployments_enabled`: boolean **required** — Whether to enable automatic deployments when pushing to the source repository.
@@ -217,13 +217,13 @@ operationId: `pages-deployment-get-deployment-info`
   - `ended_on`: string **required** — When the stage ended.
   - `name`: string **required** enum: `queued`, `initialize`, `clone_repo`, `build`, `deploy` — The current build stage.
   - `started_on`: string **required** — When the stage started.
-  - `status`: string **required** enum: `success`, `idle`, `active`, `failure`, `canceled` — State of the current stage.
+  - `status`: string **required** enum: `success`, `idle`, `active`, `failure`, `canceled`, `skipped` — State of the current stage.
 - `url`: string **required** — The live URL to view this deployment.
 - `uses_functions`: boolean — Whether the deployment uses functions.
 
 ## GET /accounts/{account_id}/pages/projects/{project_name}/deployments/{deployment_id}/history/logs
 
-Get deployment logs
+Get Pages deployment logs
 
 operationId: `pages-deployment-get-deployment-logs`
 
@@ -238,7 +238,7 @@ operationId: `pages-deployment-get-deployment-logs`
 
 ## POST /accounts/{account_id}/pages/projects/{project_name}/deployments/{deployment_id}/retry
 
-Retry deployment
+Retry a Pages deployment
 
 operationId: `pages-deployment-retry-deployment`
 
@@ -264,17 +264,17 @@ operationId: `pages-deployment-retry-deployment`
 - `env_vars`: object **required** — Environment variables used for builds and Pages Functions.
 - `environment`: string **required** enum: `preview`, `production` — Type of deploy.
 - `id`: string **required** — Id of the deployment.
-- `is_skipped`: boolean **required** — If the deployment has been skipped.
+- `is_skipped`: boolean **required** — Whether the deployment was skipped.
 - `latest_stage`: object **required** — The status of the deployment.
   - `ended_on`: string **required** — When the stage ended.
   - `name`: string **required** enum: `queued`, `initialize`, `clone_repo`, `build`, `deploy` — The current build stage.
   - `started_on`: string **required** — When the stage started.
-  - `status`: string **required** enum: `success`, `idle`, `active`, `failure`, `canceled` — State of the current stage.
+  - `status`: string **required** enum: `success`, `idle`, `active`, `failure`, `canceled`, `skipped` — State of the current stage.
 - `modified_on`: string **required** — When the deployment was last modified.
 - `project_id`: string **required** — Id of the project.
-- `project_name`: string **required** — Name of the project.
+- `project_name`: string **required** — Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.
 - `short_id`: string **required** — Short Id (8 character) of the deployment.
-- `skip_reason`: string enum: `commit_message`, `preview_deployments_disabled`, `production_deployments_disabled`, `path_config`, `branch_config`, `pages_to_workers_conversion` — Why the deployment was skipped.
+- `skip_reason`: string enum: `commit_message`, `preview_deployments_disabled`, `production_deployments_disabled`, `path_config`, `branch_config`, `pages_to_workers_conversion`, `superseded_queued_build` — Why the deployment was skipped.
 - `source`: object **required** — Configs for the project source control.
   - `config`: object **required**
     - `deployments_enabled`: boolean **required** — Whether to enable automatic deployments when pushing to the source repository.
@@ -296,13 +296,13 @@ operationId: `pages-deployment-retry-deployment`
   - `ended_on`: string **required** — When the stage ended.
   - `name`: string **required** enum: `queued`, `initialize`, `clone_repo`, `build`, `deploy` — The current build stage.
   - `started_on`: string **required** — When the stage started.
-  - `status`: string **required** enum: `success`, `idle`, `active`, `failure`, `canceled` — State of the current stage.
+  - `status`: string **required** enum: `success`, `idle`, `active`, `failure`, `canceled`, `skipped` — State of the current stage.
 - `url`: string **required** — The live URL to view this deployment.
 - `uses_functions`: boolean — Whether the deployment uses functions.
 
 ## POST /accounts/{account_id}/pages/projects/{project_name}/deployments/{deployment_id}/rollback
 
-Rollback deployment
+Roll back a Pages deployment
 
 operationId: `pages-deployment-rollback-deployment`
 
@@ -328,17 +328,17 @@ operationId: `pages-deployment-rollback-deployment`
 - `env_vars`: object **required** — Environment variables used for builds and Pages Functions.
 - `environment`: string **required** enum: `preview`, `production` — Type of deploy.
 - `id`: string **required** — Id of the deployment.
-- `is_skipped`: boolean **required** — If the deployment has been skipped.
+- `is_skipped`: boolean **required** — Whether the deployment was skipped.
 - `latest_stage`: object **required** — The status of the deployment.
   - `ended_on`: string **required** — When the stage ended.
   - `name`: string **required** enum: `queued`, `initialize`, `clone_repo`, `build`, `deploy` — The current build stage.
   - `started_on`: string **required** — When the stage started.
-  - `status`: string **required** enum: `success`, `idle`, `active`, `failure`, `canceled` — State of the current stage.
+  - `status`: string **required** enum: `success`, `idle`, `active`, `failure`, `canceled`, `skipped` — State of the current stage.
 - `modified_on`: string **required** — When the deployment was last modified.
 - `project_id`: string **required** — Id of the project.
-- `project_name`: string **required** — Name of the project.
+- `project_name`: string **required** — Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.
 - `short_id`: string **required** — Short Id (8 character) of the deployment.
-- `skip_reason`: string enum: `commit_message`, `preview_deployments_disabled`, `production_deployments_disabled`, `path_config`, `branch_config`, `pages_to_workers_conversion` — Why the deployment was skipped.
+- `skip_reason`: string enum: `commit_message`, `preview_deployments_disabled`, `production_deployments_disabled`, `path_config`, `branch_config`, `pages_to_workers_conversion`, `superseded_queued_build` — Why the deployment was skipped.
 - `source`: object **required** — Configs for the project source control.
   - `config`: object **required**
     - `deployments_enabled`: boolean **required** — Whether to enable automatic deployments when pushing to the source repository.
@@ -360,7 +360,7 @@ operationId: `pages-deployment-rollback-deployment`
   - `ended_on`: string **required** — When the stage ended.
   - `name`: string **required** enum: `queued`, `initialize`, `clone_repo`, `build`, `deploy` — The current build stage.
   - `started_on`: string **required** — When the stage started.
-  - `status`: string **required** enum: `success`, `idle`, `active`, `failure`, `canceled` — State of the current stage.
+  - `status`: string **required** enum: `success`, `idle`, `active`, `failure`, `canceled`, `skipped` — State of the current stage.
 - `url`: string **required** — The live URL to view this deployment.
 - `uses_functions`: boolean — Whether the deployment uses functions.
 

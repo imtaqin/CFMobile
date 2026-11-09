@@ -24,7 +24,7 @@ operationId: `accounts-turnstile-widgets-list` · query: `page`, `per_page`, `or
 - `name`: string **required** — Human readable widget name. Not unique. Cloudflare suggests that you
 - `offlabel`: boolean **required** — Do not show any Cloudflare branding on the widget (ENT only).
 - `region`: string **required** enum: `world`, `china` default: `world` — Region where this widget can be used. This cannot be changed after creation.
-- `sitekey`: string **required** — Widget item identifier tag.
+- `sitekey`: string **required** — Unique identifier for a Turnstile widget.
 
 ## POST /accounts/{account_id}/challenges/widgets
 
@@ -39,7 +39,7 @@ operationId: `accounts-turnstile-widget-create` · query: `page`, `per_page`, `o
 - `domains`: string[] **required**
   [array]
 - `ephemeral_id`: boolean — Return the Ephemeral ID in /siteverify (ENT only).
-- `mode`: string **required** enum: `non-interactive`, `invisible`, `managed` — Widget Mode
+- `mode`: any **required**
 - `name`: string **required** — Human readable widget name. Not unique. Cloudflare suggests that you
 - `offlabel`: boolean — Do not show any Cloudflare branding on the widget (ENT only).
 - `region`: string enum: `world`, `china` default: `world` — Region where this widget can be used. This cannot be changed after creation.
@@ -60,7 +60,7 @@ operationId: `accounts-turnstile-widget-create` · query: `page`, `per_page`, `o
 - `offlabel`: boolean **required** — Do not show any Cloudflare branding on the widget (ENT only).
 - `region`: string **required** enum: `world`, `china` default: `world` — Region where this widget can be used. This cannot be changed after creation.
 - `secret`: string **required** — Secret key for this widget.
-- `sitekey`: string **required** — Widget item identifier tag.
+- `sitekey`: string **required** — Unique identifier for a Turnstile widget.
 
 ## DELETE /accounts/{account_id}/challenges/widgets/{sitekey}
 
@@ -84,7 +84,7 @@ operationId: `accounts-turnstile-widget-delete`
 - `offlabel`: boolean **required** — Do not show any Cloudflare branding on the widget (ENT only).
 - `region`: string **required** enum: `world`, `china` default: `world` — Region where this widget can be used. This cannot be changed after creation.
 - `secret`: string **required** — Secret key for this widget.
-- `sitekey`: string **required** — Widget item identifier tag.
+- `sitekey`: string **required** — Unique identifier for a Turnstile widget.
 
 ## GET /accounts/{account_id}/challenges/widgets/{sitekey}
 
@@ -108,7 +108,7 @@ operationId: `accounts-turnstile-widget-get`
 - `offlabel`: boolean **required** — Do not show any Cloudflare branding on the widget (ENT only).
 - `region`: string **required** enum: `world`, `china` default: `world` — Region where this widget can be used. This cannot be changed after creation.
 - `secret`: string **required** — Secret key for this widget.
-- `sitekey`: string **required** — Widget item identifier tag.
+- `sitekey`: string **required** — Unique identifier for a Turnstile widget.
 
 ## PUT /accounts/{account_id}/challenges/widgets/{sitekey}
 
@@ -123,7 +123,7 @@ operationId: `accounts-turnstile-widget-update`
 - `domains`: string[] **required**
   [array]
 - `ephemeral_id`: boolean — Return the Ephemeral ID in /siteverify (ENT only).
-- `mode`: string **required** enum: `non-interactive`, `invisible`, `managed` — Widget Mode
+- `mode`: any **required**
 - `name`: string **required** — Human readable widget name. Not unique. Cloudflare suggests that you
 - `offlabel`: boolean — Do not show any Cloudflare branding on the widget (ENT only).
 - `region`: string enum: `world`, `china` default: `world` — Region where this widget can be used. This cannot be changed after creation.
@@ -144,7 +144,7 @@ operationId: `accounts-turnstile-widget-update`
 - `offlabel`: boolean **required** — Do not show any Cloudflare branding on the widget (ENT only).
 - `region`: string **required** enum: `world`, `china` default: `world` — Region where this widget can be used. This cannot be changed after creation.
 - `secret`: string **required** — Secret key for this widget.
-- `sitekey`: string **required** — Widget item identifier tag.
+- `sitekey`: string **required** — Unique identifier for a Turnstile widget.
 
 ## POST /accounts/{account_id}/challenges/widgets/{sitekey}/rotate_secret
 
@@ -172,4 +172,4 @@ operationId: `accounts-turnstile-widget-rotate-secret`
 - `offlabel`: boolean **required** — Do not show any Cloudflare branding on the widget (ENT only).
 - `region`: string **required** enum: `world`, `china` default: `world` — Region where this widget can be used. This cannot be changed after creation.
 - `secret`: string **required** — Secret key for this widget.
-- `sitekey`: string **required** — Widget item identifier tag.
+- `sitekey`: string **required** — Unique identifier for a Turnstile widget.

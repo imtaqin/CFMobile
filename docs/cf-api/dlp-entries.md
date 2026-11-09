@@ -22,6 +22,8 @@ operationId: `dlp-entries-list-all-entries`
   - `validation`: any
 - `profile_id`: string
 - `updated_at`: string **required**
+- `validator_ids`: string[] — Validators this entry references, by id, at most 10. An empty list means the entry
+  [array]
 - `type`: string **required** enum: `custom`
 - `upload_status`: any
 
@@ -40,6 +42,8 @@ operationId: `dlp-entries-create-entry`
   - `regex`: string **required**
   - `validation`: any
 - `profile_id`: string
+- `validator_ids`: string[] — Validators the new entry should reference, by id, at most 10.
+  [array]
 
 **Response** 200 → `result`
 
@@ -53,6 +57,8 @@ operationId: `dlp-entries-create-entry`
   - `validation`: any
 - `profile_id`: string
 - `updated_at`: string **required**
+- `validator_ids`: string[] — Validators this entry references, by id, at most 10. An empty list means the entry
+  [array]
 
 ## DELETE /accounts/{account_id}/dlp/entries/{entry_id}
 
@@ -83,6 +89,8 @@ operationId: `dlp-entries-get-dlp-entry`
   - `validation`: any
 - `profile_id`: string
 - `updated_at`: string **required**
+- `validator_ids`: string[] — Validators this entry references, by id, at most 10. An empty list means the entry
+  [array]
 - `type`: string **required** enum: `custom`
 - `upload_status`: any
 - `profiles`: object[] **required**
@@ -105,6 +113,8 @@ operationId: `dlp-entries-update-entry`
   - `regex`: string **required**
   - `validation`: any
 - `type`: string **required** enum: `custom`
+- `validator_ids`: string[] — Validators this entry should reference, by id, at most 10. Replaces the current set.
+  [array]
 - `enabled`: boolean **required**
 
 **Response** 200 → `result`
@@ -120,6 +130,8 @@ operationId: `dlp-entries-update-entry`
   - `validation`: any
 - `profile_id`: string
 - `updated_at`: string **required**
+- `validator_ids`: string[] — Validators this entry references, by id, at most 10. An empty list means the entry
+  [array]
 - `type`: string **required** enum: `custom`
 
 ## PUT /accounts/{account_id}/dlp/entries/custom/{entry_id}
@@ -135,6 +147,8 @@ operationId: `dlp-entries-update-custom-entry`
 - `pattern`: object **required**
   - `regex`: string **required**
   - `validation`: any
+- `validator_ids`: string[] — Validators this entry should reference, by id, at most 10. Replaces the current set.
+  [array]
 - `enabled`: boolean **required**
 
 **Response** 200 → `result`
@@ -149,6 +163,8 @@ operationId: `dlp-entries-update-custom-entry`
   - `validation`: any
 - `profile_id`: string
 - `updated_at`: string **required**
+- `validator_ids`: string[] — Validators this entry references, by id, at most 10. An empty list means the entry
+  [array]
 
 ## PUT /accounts/{account_id}/dlp/entries/predefined/{entry_id}
 
@@ -165,6 +181,7 @@ operationId: `dlp-entries-update-predefined-entry`
 - `confidence`: object **required**
   - `ai_context_available`: boolean **required** — Indicates whether this entry has AI remote service validation.
   - `available`: boolean **required** — Indicates whether this entry has any form of validation that is not an AI remote service.
+- `deprecated`: boolean — Whether this entry is deprecated for new use. This is computed from the static catalog and
 - `enabled`: boolean **required**
 - `id`: string **required**
 - `name`: string **required**

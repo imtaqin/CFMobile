@@ -50,10 +50,7 @@ operationId: `KickPartcipants`
 
 **Request** (application/json)
 
-- `custom_participant_ids`: string[] **required**
-  [array]
-- `participant_ids`: string[] **required**
-  [array]
+(one of 2 variants; showing the first)
 
 **Response** 200 → `result`
 
@@ -90,10 +87,7 @@ operationId: `MuteParticipants`
 
 **Request** (application/json)
 
-- `custom_participant_ids`: string[] **required**
-  [array]
-- `participant_ids`: string[] **required**
-  [array]
+(one of 2 variants; showing the first)
 
 **Response** 200 → `result`
 
@@ -117,7 +111,7 @@ operationId: `MuteAllParticipants`
 
 **Request** (application/json)
 
-- `allow_unmute`: boolean **required** — if false, participants won't be able to unmute themselves after they are muted
+- `allow_unmute`: boolean default: `false` — if false, participants won't be able to unmute themselves after they are muted
 
 **Response** 200 → `result`
 

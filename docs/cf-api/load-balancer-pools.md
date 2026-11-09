@@ -17,6 +17,8 @@ operationId: `load-balancer-pools-list-pools` · query: `monitor`
 - `description`: string default: `` — A human-readable description of the pool.
 - `disabled_at`: string — This field shows up only if the pool is disabled. This field is set with the time the pool was disabled at.
 - `enabled`: boolean default: `true` — Whether to enable (the default) or disable this pool. Disabled pools will not receive traffic and are excluded from health checks. Disabling
+- `health_sources`: string[] — A list of health sources, ordered from highest to lowest priority, used to evaluate individual origin health and overall pool health. The lo
+  [array]
 - `id`: string
 - `latitude`: number — The latitude of the data center containing the origins used in this pool in decimal degrees. If this is set, longitude must also be set.
 - `load_shedding`: object — Configures load shedding policies and percentages for the pool.
@@ -74,6 +76,8 @@ operationId: `load-balancer-pools-patch-pools`
 - `description`: string default: `` — A human-readable description of the pool.
 - `disabled_at`: string — This field shows up only if the pool is disabled. This field is set with the time the pool was disabled at.
 - `enabled`: boolean default: `true` — Whether to enable (the default) or disable this pool. Disabled pools will not receive traffic and are excluded from health checks. Disabling
+- `health_sources`: string[] — A list of health sources, ordered from highest to lowest priority, used to evaluate individual origin health and overall pool health. The lo
+  [array]
 - `id`: string
 - `latitude`: number — The latitude of the data center containing the origins used in this pool in decimal degrees. If this is set, longitude must also be set.
 - `load_shedding`: object — Configures load shedding policies and percentages for the pool.
@@ -124,6 +128,8 @@ operationId: `load-balancer-pools-create-pool`
   [array]
 - `description`: string default: `` — A human-readable description of the pool.
 - `enabled`: boolean default: `true` — Whether to enable (the default) or disable this pool. Disabled pools will not receive traffic and are excluded from health checks. Disabling
+- `health_sources`: string[] — A list of health sources, ordered from highest to lowest priority, used to evaluate individual origin health and overall pool health. The lo
+  [array]
 - `latitude`: number — The latitude of the data center containing the origins used in this pool in decimal degrees. If this is set, longitude must also be set.
 - `load_shedding`: object — Configures load shedding policies and percentages for the pool.
   - `default_percent`: number default: `0` — The percent of traffic to shed from the pool, according to the default policy. Applies to new sessions and traffic without session affinity.
@@ -200,6 +206,8 @@ operationId: `load-balancer-pools-patch-pool`
 - `description`: string default: `` — A human-readable description of the pool.
 - `disabled_at`: string — This field shows up only if the pool is disabled. This field is set with the time the pool was disabled at.
 - `enabled`: boolean default: `true` — Whether to enable (the default) or disable this pool. Disabled pools will not receive traffic and are excluded from health checks. Disabling
+- `health_sources`: string[] — A list of health sources, ordered from highest to lowest priority, used to evaluate individual origin health and overall pool health. The lo
+  [array]
 - `latitude`: number — The latitude of the data center containing the origins used in this pool in decimal degrees. If this is set, longitude must also be set.
 - `load_shedding`: object — Configures load shedding policies and percentages for the pool.
   - `default_percent`: number default: `0` — The percent of traffic to shed from the pool, according to the default policy. Applies to new sessions and traffic without session affinity.
@@ -211,6 +219,8 @@ operationId: `load-balancer-pools-patch-pool`
 - `monitor`: string — The ID of the Monitor to use for checking the health of origins within this pool.
 - `monitor_group`: string — The ID of the Monitor Group to use for checking the health of origins within this pool.
 - `name`: string — A short name (tag) for the pool. Only alphanumeric characters, hyphens, and underscores are allowed.
+- `networks`: string[] — List of networks where Load Balancer or Pool is enabled.
+  [array]
 - `notification_email`: string default: `` — This field is now deprecated. It has been moved to Cloudflare's Centralized Notification service https://developers.cloudflare.com/fundament
 - `notification_filter`: object — Filter pool and origin health notifications by resource type or health status. Use null to reset.
   - `origin`: object — Filter options for a particular resource type (pool or origin). Use null to reset.
@@ -252,6 +262,8 @@ operationId: `load-balancer-pools-update-pool`
 - `description`: string default: `` — A human-readable description of the pool.
 - `disabled_at`: string — This field shows up only if the pool is disabled. This field is set with the time the pool was disabled at.
 - `enabled`: boolean default: `true` — Whether to enable (the default) or disable this pool. Disabled pools will not receive traffic and are excluded from health checks. Disabling
+- `health_sources`: string[] — A list of health sources, ordered from highest to lowest priority, used to evaluate individual origin health and overall pool health. The lo
+  [array]
 - `latitude`: number — The latitude of the data center containing the origins used in this pool in decimal degrees. If this is set, longitude must also be set.
 - `load_shedding`: object — Configures load shedding policies and percentages for the pool.
   - `default_percent`: number default: `0` — The percent of traffic to shed from the pool, according to the default policy. Applies to new sessions and traffic without session affinity.

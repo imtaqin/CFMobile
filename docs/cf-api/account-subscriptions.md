@@ -1,6 +1,6 @@
 # Account Subscriptions
 
-6 endpoints.
+10 endpoints.
 
 ## POST /accounts/{account_id}/bulk/subscriptions
 
@@ -14,9 +14,9 @@ operationId: `account-subscriptions-bulk-create-subscription` · query: `idemp_k
 - `payment_hold_id`: integer
 - `subscriptions`: object[]
   [array of]
-  - `app`: object
+  - `app`: object — Cloudflare Apps Marketplace is sunset. This field is retained for legacy grandfathered app subscriptions only.
     - `install_id`: string — app install id.
-  - `component_values`: object[] — The list of add-ons subscribed to.
+  - `component_values`: object[] — Configurable component values for the subscription.
     [array of]
     - `default`: number — The default amount assigned.
     - `display_name`: string — A human-readable version of the component name.
@@ -39,9 +39,7 @@ operationId: `account-subscriptions-bulk-create-subscription` · query: `idemp_k
     - `scope`: string — The scope that this rate plan applies to.
     - `sets`: string[] — The list of sets this rate plan applies to. Returns array of strings.
   - `state`: string enum: `Trial`, `Provisioned`, `Paid`, `AwaitingPayment`, `Cancelled`, `Failed`, `Expired` — The state that the subscription is in.
-  - `zone`: object — A simple zone object. May have null properties if not a zone subscription.
-    - `id`: string — Identifier
-    - `name`: string — The domain name
+  - `zone`: any
 - `user_is_on_session`: boolean
 
 **Response** 200 → `result`
@@ -68,9 +66,9 @@ operationId: `account-subscriptions-create-subscription`
 
 **Request** (application/json)
 
-- `app`: object
+- `app`: object — Cloudflare Apps Marketplace is sunset. This field is retained for legacy grandfathered app subscriptions only.
   - `install_id`: string — app install id.
-- `component_values`: object[] — The list of add-ons subscribed to.
+- `component_values`: object[] — Configurable component values for the subscription.
   [array of]
   - `default`: number — The default amount assigned.
   - `display_name`: string — A human-readable version of the component name.
@@ -94,9 +92,7 @@ operationId: `account-subscriptions-create-subscription`
   - `sets`: string[] — The list of sets this rate plan applies to. Returns array of strings.
     [array]
 - `state`: string enum: `Trial`, `Provisioned`, `Paid`, `AwaitingPayment`, `Cancelled`, `Failed`, `Expired` — The state that the subscription is in.
-- `zone`: object — A simple zone object. May have null properties if not a zone subscription.
-  - `id`: string — Identifier
-  - `name`: string — The domain name
+- `zone`: any
 
 **Response** 200 → `result`
 
@@ -114,6 +110,17 @@ operationId: `account-subscriptions-delete-subscription`
 (one of 3 variants; showing the first)
 object
 
+## GET /accounts/{account_id}/subscriptions/{subscription_identifier}
+
+Get Subscription
+
+operationId: `account-subscriptions-get-subscription`
+
+**Response** 200 → `result`
+
+(one of 3 variants; showing the first)
+object
+
 ## PUT /accounts/{account_id}/subscriptions/{subscription_identifier}
 
 Update Subscription
@@ -122,9 +129,9 @@ operationId: `account-subscriptions-update-subscription`
 
 **Request** (application/json)
 
-- `app`: object
+- `app`: object — Cloudflare Apps Marketplace is sunset. This field is retained for legacy grandfathered app subscriptions only.
   - `install_id`: string — app install id.
-- `component_values`: object[] — The list of add-ons subscribed to.
+- `component_values`: object[] — Configurable component values for the subscription.
   [array of]
   - `default`: number — The default amount assigned.
   - `display_name`: string — A human-readable version of the component name.
@@ -148,9 +155,7 @@ operationId: `account-subscriptions-update-subscription`
   - `sets`: string[] — The list of sets this rate plan applies to. Returns array of strings.
     [array]
 - `state`: string enum: `Trial`, `Provisioned`, `Paid`, `AwaitingPayment`, `Cancelled`, `Failed`, `Expired` — The state that the subscription is in.
-- `zone`: object — A simple zone object. May have null properties if not a zone subscription.
-  - `id`: string — Identifier
-  - `name`: string — The domain name
+- `zone`: any
 
 **Response** 200 → `result`
 
@@ -165,9 +170,9 @@ operationId: `account-subscriptions-action-append-subscription`
 
 **Request** (application/json)
 
-- `app`: object
+- `app`: object — Cloudflare Apps Marketplace is sunset. This field is retained for legacy grandfathered app subscriptions only.
   - `install_id`: string — app install id.
-- `component_values`: object[] — The list of add-ons subscribed to.
+- `component_values`: object[] — Configurable component values for the subscription.
   [array of]
   - `default`: number — The default amount assigned.
   - `display_name`: string — A human-readable version of the component name.
@@ -191,9 +196,51 @@ operationId: `account-subscriptions-action-append-subscription`
   - `sets`: string[] — The list of sets this rate plan applies to. Returns array of strings.
     [array]
 - `state`: string enum: `Trial`, `Provisioned`, `Paid`, `AwaitingPayment`, `Cancelled`, `Failed`, `Expired` — The state that the subscription is in.
-- `zone`: object — A simple zone object. May have null properties if not a zone subscription.
-  - `id`: string — Identifier
-  - `name`: string — The domain name
+- `zone`: any
+
+**Response** 200 → `result`
+
+(one of 3 variants; showing the first)
+object
+
+## GET /accounts/{account_id}/subscriptions/{subscription_identifier}/cancel-reason
+
+Get Cancel Reason
+
+operationId: `account-subscriptions-get-cancel-reason`
+
+**Response** 200 → `result`
+
+(one of 3 variants; showing the first)
+object
+
+## POST /accounts/{account_id}/subscriptions/{subscription_identifier}/cancel-reason
+
+Create Cancel Reason
+
+operationId: `account-subscriptions-create-cancel-reason`
+
+**Request** (application/json)
+
+- `other`: string — Additional cancellation details.
+- `reason_code`: string[] — The cancellation reason codes.
+  [array]
+
+**Response** 200 → `result`
+
+(one of 3 variants; showing the first)
+object
+
+## POST /accounts/{account_id}/subscriptions/cancel-downgrade
+
+Cancel Delayed Downgrade
+
+operationId: `account-subscriptions-cancel-delayed-downgrade`
+
+**Request** (application/json)
+
+- `subscription_ids`: string[] — List of subscription identifiers to cancel downgrades for.
+  [array]
 
 **Response** 200 → `result`
 

@@ -12,7 +12,6 @@ operationId: `destination.list` · query: `page`, `perPage`, `order`, `orderBy`
 
 [array of]
 - `configuration`: object **required**
-  - `destination_conf`: string **required**
   - `headers`: object **required**
   - `jobStatus`: object **required**
     - `error_message`: string **required**
@@ -47,9 +46,12 @@ operationId: `destination.create`
 **Response** 201 → `result`
 
 - `configuration`: object **required**
-  - `destination_conf`: string **required**
+  - `headers`: object **required**
+  - `jobStatus`: object **required**
+    - `error_message`: string **required**
+    - `last_complete`: string **required**
+    - `last_error`: string **required**
   - `logpushDataset`: any **required**
-  - `logpushJob`: number **required**
   - `type`: string **required** enum: `logpush`
   - `url`: string **required**
 - `enabled`: boolean **required**
@@ -67,9 +69,12 @@ operationId: `destinations.delete`
 **Response** 200 → `result`
 
 - `configuration`: object **required**
-  - `destination_conf`: string **required**
+  - `headers`: object **required**
+  - `jobStatus`: object **required**
+    - `error_message`: string **required**
+    - `last_complete`: string **required**
+    - `last_error`: string **required**
   - `logpushDataset`: any **required**
-  - `logpushJob`: number **required**
   - `type`: string **required** enum: `logpush`
   - `url`: string **required**
 - `enabled`: boolean **required**
@@ -86,8 +91,9 @@ operationId: `destination.update`
 
 **Request** (application/json)
 
-- `configuration`: object **required**
+- `configuration`: object
   - `headers`: object **required**
+  - `replaceHeaders`: boolean
   - `type`: string **required** enum: `logpush`
   - `url`: string **required**
 - `enabled`: boolean **required**
@@ -95,9 +101,12 @@ operationId: `destination.update`
 **Response** 200 → `result`
 
 - `configuration`: object **required**
-  - `destination_conf`: string **required**
+  - `headers`: object **required**
+  - `jobStatus`: object **required**
+    - `error_message`: string **required**
+    - `last_complete`: string **required**
+    - `last_error`: string **required**
   - `logpushDataset`: any **required**
-  - `logpushJob`: number **required**
   - `type`: string **required** enum: `logpush`
   - `url`: string **required**
 - `enabled`: boolean **required**

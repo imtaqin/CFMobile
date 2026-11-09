@@ -99,7 +99,7 @@ operationId: `lists-delete-list-items`
 
 **Request** (application/json)
 
-- `items`: object[]
+- `items`: object[] — The list items to delete, identified by their unique IDs.
   [array of]
   - `id`: string **required** — Defines the unique ID of the item in the List.
 

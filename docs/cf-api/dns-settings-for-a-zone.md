@@ -11,7 +11,6 @@ operationId: `dns-settings-for-a-zone-list-dns-settings`
 **Response** 200 → `result`
 
 - `flatten_all_cnames`: boolean — Whether to flatten all CNAME records in the zone. Note that, due to DNS limitations, a CNAME record at the zone apex will always be flattene
-- `foundation_dns`: boolean — Deprecated. Use nameservers.type to configure Advanced Nameservers.
 - `internal_dns`: object — Settings for this internal zone.
   - `reference_zone_id`: string — The ID of the zone to fallback to.
 - `multi_provider`: boolean — Whether to enable multi-provider DNS, which causes Cloudflare to activate the zone even when non-Cloudflare NS records exist, and to respect
@@ -28,9 +27,7 @@ operationId: `dns-settings-for-a-zone-list-dns-settings`
 - `zone_mode`: string enum: `standard`, `cdn_only`, `dns_only` — Whether the zone mode is a regular or CDN/DNS only zone.
 - `internal_dns`: object **required**
 - `soa`: object **required**
-- `nameservers`: object **required** — Settings determining the nameservers through which the zone should be available.
-  - `ns_set`: integer — Configured nameserver set to be used for this zone
-  - `type`: string **required** enum: `cloudflare.standard`, `cloudflare.advanced`, `custom.account`, `custom.tenant`, `custom.zone` — Nameserver type
+- `nameservers`: object **required** — Controls the nameservers through which the zone is available.
 
 ## PATCH /zones/{zone_id}/dns_settings
 
@@ -41,7 +38,6 @@ operationId: `dns-settings-for-a-zone-update-dns-settings`
 **Request** (application/json)
 
 - `flatten_all_cnames`: boolean — Whether to flatten all CNAME records in the zone. Note that, due to DNS limitations, a CNAME record at the zone apex will always be flattene
-- `foundation_dns`: boolean — Deprecated. Use nameservers.type to configure Advanced Nameservers.
 - `internal_dns`: object — Settings for this internal zone.
   - `reference_zone_id`: string — The ID of the zone to fallback to.
 - `multi_provider`: boolean — Whether to enable multi-provider DNS, which causes Cloudflare to activate the zone even when non-Cloudflare NS records exist, and to respect
@@ -56,14 +52,11 @@ operationId: `dns-settings-for-a-zone-update-dns-settings`
   - `rname`: string — The email address of the zone administrator, with the first label representing the local part of the email address.
   - `ttl`: number — The time to live (TTL) of the SOA record itself.
 - `zone_mode`: string enum: `standard`, `cdn_only`, `dns_only` — Whether the zone mode is a regular or CDN/DNS only zone.
-- `nameservers`: object — Settings determining the nameservers through which the zone should be available.
-  - `ns_set`: integer — Configured nameserver set to be used for this zone
-  - `type`: string enum: `cloudflare.standard`, `cloudflare.advanced`, `custom.account`, `custom.tenant`, `custom.zone` — Nameserver type
+- `nameservers`: any
 
 **Response** 200 → `result`
 
 - `flatten_all_cnames`: boolean — Whether to flatten all CNAME records in the zone. Note that, due to DNS limitations, a CNAME record at the zone apex will always be flattene
-- `foundation_dns`: boolean — Deprecated. Use nameservers.type to configure Advanced Nameservers.
 - `internal_dns`: object — Settings for this internal zone.
   - `reference_zone_id`: string — The ID of the zone to fallback to.
 - `multi_provider`: boolean — Whether to enable multi-provider DNS, which causes Cloudflare to activate the zone even when non-Cloudflare NS records exist, and to respect
@@ -80,6 +73,4 @@ operationId: `dns-settings-for-a-zone-update-dns-settings`
 - `zone_mode`: string enum: `standard`, `cdn_only`, `dns_only` — Whether the zone mode is a regular or CDN/DNS only zone.
 - `internal_dns`: object **required**
 - `soa`: object **required**
-- `nameservers`: object **required** — Settings determining the nameservers through which the zone should be available.
-  - `ns_set`: integer — Configured nameserver set to be used for this zone
-  - `type`: string **required** enum: `cloudflare.standard`, `cloudflare.advanced`, `custom.account`, `custom.tenant`, `custom.zone` — Nameserver type
+- `nameservers`: object **required** — Controls the nameservers through which the zone is available.

@@ -72,19 +72,19 @@ operationId: `account-load-balancers-list-account-load-balancers`
     - `pool_weights`: object — A mapping of pool IDs to custom weights, relative to the other pools. The declarative alternative to `random_steering.pool_weights`; mutuall
     - `pools`: string[] — A flat, ordered list of pool IDs to route the matched audience to. Replaces the resolved topology with exactly these pools. Mutually exclusi
     - `pop_pools`: object — Enterprise only: A mapping of Cloudflare PoP identifiers to a list of pool IDs (ordered by their failover priority) for the PoP (datacenter)
-    - `random_steering`: object — Configures pool weights.
+    - `random_steering`: object — Configures pool weights for a rule override. An omitted default_weight inherits the load balancer's default weight.
     - `region_pools`: object — A mapping of region codes to a list of pool IDs (ordered by their failover priority) for the given region. Any regions not explicitly define
     - `session_affinity`: string enum: `none`, `cookie`, `ip_cookie`, `header` default: `none` — Specifies the type of session affinity the load balancer should use unless specified as `"none"`. The supported types are: - `"cookie"`: On 
     - `session_affinity_attributes`: object — Configures attributes for session affinity.
     - `session_affinity_ttl`: number — Time, in seconds, until a client's session expires after being created. Once the expiry time has been reached, subsequent requests may get s
     - `steering_policy`: string enum: `off`, `geo`, `random`, `dynamic_latency`, `proximity`, `least_outstanding_requests`, `least_connections`, `` default: `` — Steering Policy for this load balancer.
     - `ttl`: number — Time to live (TTL) of the DNS entry for the IP address returned by this load balancer. This only applies to gray-clouded (unproxied) load ba
-  - `priority`: integer default: `0` — The order in which rules should be executed in relation to each other. Lower values are executed first. Values do not need to be sequential.
+  - `priority`: integer — The order in which rules should be executed in relation to each other. Lower values are executed first. Values do not need to be sequential.
   - `terminates`: boolean — If this rule's condition is true, this causes rule evaluation to stop after processing this rule.
 - `session_affinity`: string enum: `none`, `cookie`, `ip_cookie`, `header` default: `none` — Specifies the type of session affinity the load balancer should use unless specified as `"none"`. The supported types are: - `"cookie"`: On 
 - `session_affinity_attributes`: object — Configures attributes for session affinity.
   - `drain_duration`: number — Configures the drain duration in seconds. This field is only used when session affinity is enabled on the load balancer.
-  - `headers`: string[] default: `none` — Configures the names of HTTP headers to base session affinity on when header `session_affinity` is enabled. At least one HTTP header name mu
+  - `headers`: string[] default: `` — Configures the names of HTTP headers to base session affinity on when header `session_affinity` is enabled. At least one HTTP header name mu
     [array]
   - `require_all_headers`: boolean default: `false` — When header `session_affinity` is enabled, this option can be used to specify how HTTP headers on load balancing requests will be used. The 
   - `samesite`: string enum: `Auto`, `Lax`, `None`, `Strict` default: `Auto` — Configures the SameSite attribute on session affinity cookie. Value "Auto" will be translated to "Lax" or "None" depending if Always Use HTT
@@ -117,6 +117,24 @@ operationId: `account-load-balancers-create-account-load-balancer`
 - `name`: string — The DNS hostname to associate with your Load Balancer. If this hostname already exists as a DNS record in Cloudflare's DNS, the Load Balance
 - `networks`: string[] — List of networks where Load Balancer or Pool is enabled.
   [array]
+- `pool_sets`: object[] — An optional list of pool sets, evaluated in array order with first match wins. Pool sets are independent from the standard steering fields (
+  [array of]
+  - `disabled`: boolean default: `false` — Disable this specific pool set. It will no longer be evaluated.
+  - `fixed_response`: object — A collection of fields used to directly respond to the client instead of routing to a pool. When supplied on a rule, that rule stops further
+    - `content_type`: string — The http 'Content-Type' header to include in the response.
+    - `location`: string — The http 'Location' header to include in the response.
+    - `message_body`: string — Text to include as the http body.
+    - `status_code`: integer — The http status code to respond with.
+  - `match`: object — Determines which requests a pool set applies to. Set `topology` to match by location or `default: true` to match all requests; the two are m
+    - `default`: boolean default: `false` — When true, matches every request. Cannot be combined with `topology`.
+    - `topology`: object — Matches requests by location. Set any combination of `pops`, `countries`, and `regions` (at least one is required); a request matches when i
+  - `name`: string — A human-readable name for this pool set.
+  - `overrides`: object — The behavior a pool set applies when its `match` succeeds. A strict subset of a rule's `overrides`: a pool set replaces the topology wholesa
+    - `fallback_pool`: string — The pool ID to use when all other pools are detected as unhealthy.
+    - `pool_default_weight`: number — The default weight for pools not listed in `pool_weights`. The declarative alternative to `random_steering.default_weight`; mutually exclusi
+    - `pool_weights`: object — A mapping of pool IDs to custom weights, relative to the other pools. The declarative alternative to `random_steering.pool_weights`; mutuall
+    - `pools`: string[] — A flat, ordered list of pool IDs to route the matched audience to. Replaces the resolved topology with exactly these pools. Mutually exclusi
+    - `steering_policy`: string enum: `off`, `geo`, `random`, `dynamic_latency`, `proximity`, `least_outstanding_requests`, `least_connections`, `` default: `` — Steering Policy for this load balancer.
 - `pop_pools`: object — Enterprise only: A mapping of Cloudflare PoP identifiers to a list of pool IDs (ordered by their failover priority) for the PoP (datacenter)
 - `proxied`: boolean default: `false` — Whether the hostname should be gray clouded (false) or orange clouded (true).
 - `random_steering`: object — Configures pool weights.
@@ -143,19 +161,19 @@ operationId: `account-load-balancers-create-account-load-balancer`
     - `pool_weights`: object — A mapping of pool IDs to custom weights, relative to the other pools. The declarative alternative to `random_steering.pool_weights`; mutuall
     - `pools`: string[] — A flat, ordered list of pool IDs to route the matched audience to. Replaces the resolved topology with exactly these pools. Mutually exclusi
     - `pop_pools`: object — Enterprise only: A mapping of Cloudflare PoP identifiers to a list of pool IDs (ordered by their failover priority) for the PoP (datacenter)
-    - `random_steering`: object — Configures pool weights.
+    - `random_steering`: object — Configures pool weights for a rule override. An omitted default_weight inherits the load balancer's default weight.
     - `region_pools`: object — A mapping of region codes to a list of pool IDs (ordered by their failover priority) for the given region. Any regions not explicitly define
     - `session_affinity`: string enum: `none`, `cookie`, `ip_cookie`, `header` default: `none` — Specifies the type of session affinity the load balancer should use unless specified as `"none"`. The supported types are: - `"cookie"`: On 
     - `session_affinity_attributes`: object — Configures attributes for session affinity.
     - `session_affinity_ttl`: number — Time, in seconds, until a client's session expires after being created. Once the expiry time has been reached, subsequent requests may get s
     - `steering_policy`: string enum: `off`, `geo`, `random`, `dynamic_latency`, `proximity`, `least_outstanding_requests`, `least_connections`, `` default: `` — Steering Policy for this load balancer.
     - `ttl`: number — Time to live (TTL) of the DNS entry for the IP address returned by this load balancer. This only applies to gray-clouded (unproxied) load ba
-  - `priority`: integer default: `0` — The order in which rules should be executed in relation to each other. Lower values are executed first. Values do not need to be sequential.
+  - `priority`: integer — The order in which rules should be executed in relation to each other. Lower values are executed first. Values do not need to be sequential.
   - `terminates`: boolean — If this rule's condition is true, this causes rule evaluation to stop after processing this rule.
 - `session_affinity`: string enum: `none`, `cookie`, `ip_cookie`, `header` default: `none` — Specifies the type of session affinity the load balancer should use unless specified as `"none"`. The supported types are: - `"cookie"`: On 
 - `session_affinity_attributes`: object — Configures attributes for session affinity.
   - `drain_duration`: number — Configures the drain duration in seconds. This field is only used when session affinity is enabled on the load balancer.
-  - `headers`: string[] default: `none` — Configures the names of HTTP headers to base session affinity on when header `session_affinity` is enabled. At least one HTTP header name mu
+  - `headers`: string[] default: `` — Configures the names of HTTP headers to base session affinity on when header `session_affinity` is enabled. At least one HTTP header name mu
     [array]
   - `require_all_headers`: boolean default: `false` — When header `session_affinity` is enabled, this option can be used to specify how HTTP headers on load balancing requests will be used. The 
   - `samesite`: string enum: `Auto`, `Lax`, `None`, `Strict` default: `Auto` — Configures the SameSite attribute on session affinity cookie. Value "Auto" will be translated to "Lax" or "None" depending if Always Use HTT
@@ -215,6 +233,24 @@ operationId: `account-load-balancers-patch-account-load-balancer`
 - `name`: string — The DNS hostname to associate with your Load Balancer. If this hostname already exists as a DNS record in Cloudflare's DNS, the Load Balance
 - `networks`: string[] — List of networks where Load Balancer or Pool is enabled.
   [array]
+- `pool_sets`: object[] — An optional list of pool sets, evaluated in array order with first match wins. Pool sets are independent from the standard steering fields (
+  [array of]
+  - `disabled`: boolean default: `false` — Disable this specific pool set. It will no longer be evaluated.
+  - `fixed_response`: object — A collection of fields used to directly respond to the client instead of routing to a pool. When supplied on a rule, that rule stops further
+    - `content_type`: string — The http 'Content-Type' header to include in the response.
+    - `location`: string — The http 'Location' header to include in the response.
+    - `message_body`: string — Text to include as the http body.
+    - `status_code`: integer — The http status code to respond with.
+  - `match`: object — Determines which requests a pool set applies to. Set `topology` to match by location or `default: true` to match all requests; the two are m
+    - `default`: boolean default: `false` — When true, matches every request. Cannot be combined with `topology`.
+    - `topology`: object — Matches requests by location. Set any combination of `pops`, `countries`, and `regions` (at least one is required); a request matches when i
+  - `name`: string — A human-readable name for this pool set.
+  - `overrides`: object — The behavior a pool set applies when its `match` succeeds. A strict subset of a rule's `overrides`: a pool set replaces the topology wholesa
+    - `fallback_pool`: string — The pool ID to use when all other pools are detected as unhealthy.
+    - `pool_default_weight`: number — The default weight for pools not listed in `pool_weights`. The declarative alternative to `random_steering.default_weight`; mutually exclusi
+    - `pool_weights`: object — A mapping of pool IDs to custom weights, relative to the other pools. The declarative alternative to `random_steering.pool_weights`; mutuall
+    - `pools`: string[] — A flat, ordered list of pool IDs to route the matched audience to. Replaces the resolved topology with exactly these pools. Mutually exclusi
+    - `steering_policy`: string enum: `off`, `geo`, `random`, `dynamic_latency`, `proximity`, `least_outstanding_requests`, `least_connections`, `` default: `` — Steering Policy for this load balancer.
 - `pop_pools`: object — Enterprise only: A mapping of Cloudflare PoP identifiers to a list of pool IDs (ordered by their failover priority) for the PoP (datacenter)
 - `proxied`: boolean default: `false` — Whether the hostname should be gray clouded (false) or orange clouded (true).
 - `random_steering`: object — Configures pool weights.
@@ -241,19 +277,19 @@ operationId: `account-load-balancers-patch-account-load-balancer`
     - `pool_weights`: object — A mapping of pool IDs to custom weights, relative to the other pools. The declarative alternative to `random_steering.pool_weights`; mutuall
     - `pools`: string[] — A flat, ordered list of pool IDs to route the matched audience to. Replaces the resolved topology with exactly these pools. Mutually exclusi
     - `pop_pools`: object — Enterprise only: A mapping of Cloudflare PoP identifiers to a list of pool IDs (ordered by their failover priority) for the PoP (datacenter)
-    - `random_steering`: object — Configures pool weights.
+    - `random_steering`: object — Configures pool weights for a rule override. An omitted default_weight inherits the load balancer's default weight.
     - `region_pools`: object — A mapping of region codes to a list of pool IDs (ordered by their failover priority) for the given region. Any regions not explicitly define
     - `session_affinity`: string enum: `none`, `cookie`, `ip_cookie`, `header` default: `none` — Specifies the type of session affinity the load balancer should use unless specified as `"none"`. The supported types are: - `"cookie"`: On 
     - `session_affinity_attributes`: object — Configures attributes for session affinity.
     - `session_affinity_ttl`: number — Time, in seconds, until a client's session expires after being created. Once the expiry time has been reached, subsequent requests may get s
     - `steering_policy`: string enum: `off`, `geo`, `random`, `dynamic_latency`, `proximity`, `least_outstanding_requests`, `least_connections`, `` default: `` — Steering Policy for this load balancer.
     - `ttl`: number — Time to live (TTL) of the DNS entry for the IP address returned by this load balancer. This only applies to gray-clouded (unproxied) load ba
-  - `priority`: integer default: `0` — The order in which rules should be executed in relation to each other. Lower values are executed first. Values do not need to be sequential.
+  - `priority`: integer — The order in which rules should be executed in relation to each other. Lower values are executed first. Values do not need to be sequential.
   - `terminates`: boolean — If this rule's condition is true, this causes rule evaluation to stop after processing this rule.
 - `session_affinity`: string enum: `none`, `cookie`, `ip_cookie`, `header` default: `none` — Specifies the type of session affinity the load balancer should use unless specified as `"none"`. The supported types are: - `"cookie"`: On 
 - `session_affinity_attributes`: object — Configures attributes for session affinity.
   - `drain_duration`: number — Configures the drain duration in seconds. This field is only used when session affinity is enabled on the load balancer.
-  - `headers`: string[] default: `none` — Configures the names of HTTP headers to base session affinity on when header `session_affinity` is enabled. At least one HTTP header name mu
+  - `headers`: string[] default: `` — Configures the names of HTTP headers to base session affinity on when header `session_affinity` is enabled. At least one HTTP header name mu
     [array]
   - `require_all_headers`: boolean default: `false` — When header `session_affinity` is enabled, this option can be used to specify how HTTP headers on load balancing requests will be used. The 
   - `samesite`: string enum: `Auto`, `Lax`, `None`, `Strict` default: `Auto` — Configures the SameSite attribute on session affinity cookie. Value "Auto" will be translated to "Lax" or "None" depending if Always Use HTT
@@ -290,6 +326,24 @@ operationId: `account-load-balancers-update-account-load-balancer`
 - `name`: string — The DNS hostname to associate with your Load Balancer. If this hostname already exists as a DNS record in Cloudflare's DNS, the Load Balance
 - `networks`: string[] — List of networks where Load Balancer or Pool is enabled.
   [array]
+- `pool_sets`: object[] — An optional list of pool sets, evaluated in array order with first match wins. Pool sets are independent from the standard steering fields (
+  [array of]
+  - `disabled`: boolean default: `false` — Disable this specific pool set. It will no longer be evaluated.
+  - `fixed_response`: object — A collection of fields used to directly respond to the client instead of routing to a pool. When supplied on a rule, that rule stops further
+    - `content_type`: string — The http 'Content-Type' header to include in the response.
+    - `location`: string — The http 'Location' header to include in the response.
+    - `message_body`: string — Text to include as the http body.
+    - `status_code`: integer — The http status code to respond with.
+  - `match`: object — Determines which requests a pool set applies to. Set `topology` to match by location or `default: true` to match all requests; the two are m
+    - `default`: boolean default: `false` — When true, matches every request. Cannot be combined with `topology`.
+    - `topology`: object — Matches requests by location. Set any combination of `pops`, `countries`, and `regions` (at least one is required); a request matches when i
+  - `name`: string — A human-readable name for this pool set.
+  - `overrides`: object — The behavior a pool set applies when its `match` succeeds. A strict subset of a rule's `overrides`: a pool set replaces the topology wholesa
+    - `fallback_pool`: string — The pool ID to use when all other pools are detected as unhealthy.
+    - `pool_default_weight`: number — The default weight for pools not listed in `pool_weights`. The declarative alternative to `random_steering.default_weight`; mutually exclusi
+    - `pool_weights`: object — A mapping of pool IDs to custom weights, relative to the other pools. The declarative alternative to `random_steering.pool_weights`; mutuall
+    - `pools`: string[] — A flat, ordered list of pool IDs to route the matched audience to. Replaces the resolved topology with exactly these pools. Mutually exclusi
+    - `steering_policy`: string enum: `off`, `geo`, `random`, `dynamic_latency`, `proximity`, `least_outstanding_requests`, `least_connections`, `` default: `` — Steering Policy for this load balancer.
 - `pop_pools`: object — Enterprise only: A mapping of Cloudflare PoP identifiers to a list of pool IDs (ordered by their failover priority) for the PoP (datacenter)
 - `proxied`: boolean default: `false` — Whether the hostname should be gray clouded (false) or orange clouded (true).
 - `random_steering`: object — Configures pool weights.
@@ -316,19 +370,19 @@ operationId: `account-load-balancers-update-account-load-balancer`
     - `pool_weights`: object — A mapping of pool IDs to custom weights, relative to the other pools. The declarative alternative to `random_steering.pool_weights`; mutuall
     - `pools`: string[] — A flat, ordered list of pool IDs to route the matched audience to. Replaces the resolved topology with exactly these pools. Mutually exclusi
     - `pop_pools`: object — Enterprise only: A mapping of Cloudflare PoP identifiers to a list of pool IDs (ordered by their failover priority) for the PoP (datacenter)
-    - `random_steering`: object — Configures pool weights.
+    - `random_steering`: object — Configures pool weights for a rule override. An omitted default_weight inherits the load balancer's default weight.
     - `region_pools`: object — A mapping of region codes to a list of pool IDs (ordered by their failover priority) for the given region. Any regions not explicitly define
     - `session_affinity`: string enum: `none`, `cookie`, `ip_cookie`, `header` default: `none` — Specifies the type of session affinity the load balancer should use unless specified as `"none"`. The supported types are: - `"cookie"`: On 
     - `session_affinity_attributes`: object — Configures attributes for session affinity.
     - `session_affinity_ttl`: number — Time, in seconds, until a client's session expires after being created. Once the expiry time has been reached, subsequent requests may get s
     - `steering_policy`: string enum: `off`, `geo`, `random`, `dynamic_latency`, `proximity`, `least_outstanding_requests`, `least_connections`, `` default: `` — Steering Policy for this load balancer.
     - `ttl`: number — Time to live (TTL) of the DNS entry for the IP address returned by this load balancer. This only applies to gray-clouded (unproxied) load ba
-  - `priority`: integer default: `0` — The order in which rules should be executed in relation to each other. Lower values are executed first. Values do not need to be sequential.
+  - `priority`: integer — The order in which rules should be executed in relation to each other. Lower values are executed first. Values do not need to be sequential.
   - `terminates`: boolean — If this rule's condition is true, this causes rule evaluation to stop after processing this rule.
 - `session_affinity`: string enum: `none`, `cookie`, `ip_cookie`, `header` default: `none` — Specifies the type of session affinity the load balancer should use unless specified as `"none"`. The supported types are: - `"cookie"`: On 
 - `session_affinity_attributes`: object — Configures attributes for session affinity.
   - `drain_duration`: number — Configures the drain duration in seconds. This field is only used when session affinity is enabled on the load balancer.
-  - `headers`: string[] default: `none` — Configures the names of HTTP headers to base session affinity on when header `session_affinity` is enabled. At least one HTTP header name mu
+  - `headers`: string[] default: `` — Configures the names of HTTP headers to base session affinity on when header `session_affinity` is enabled. At least one HTTP header name mu
     [array]
   - `require_all_headers`: boolean default: `false` — When header `session_affinity` is enabled, this option can be used to specify how HTTP headers on load balancing requests will be used. The 
   - `samesite`: string enum: `Auto`, `Lax`, `None`, `Strict` default: `Auto` — Configures the SameSite attribute on session affinity cookie. Value "Auto" will be translated to "Lax" or "None" depending if Always Use HTT

@@ -1,6 +1,6 @@
 # Workflows
 
-24 endpoints.
+31 endpoints.
 
 ## DELETE /accounts/{account_id}/triggers/{script_name}
 
@@ -104,21 +104,14 @@ operationId: `wor-list-workflows` · query: `per_page`, `page`, `search`
 - `created_on`: string **required**
 - `id`: string **required**
 - `instances`: object **required**
-  - `complete`: number
-  - `errored`: number
-  - `paused`: number
-  - `queued`: number
-  - `rollingBack`: number
-  - `running`: number
-  - `terminated`: number
-  - `waiting`: number
-  - `waitingForPause`: number
+- `jurisdiction`: string enum: `eu`, `fedramp`, `us` — Jurisdiction where instances of this workflow run and store data. Set when the workflow is created and cannot be changed.
 - `modified_on`: string **required**
 - `name`: string **required**
 - `schedules`: object[]
   [array of]
   - `cron`: string **required**
   - `next_instance`: string **required**
+- `script_deleted`: boolean — Whether the bound Worker was deleted, leaving this Workflow inactive.
 - `script_name`: string **required**
 - `triggered_on`: string **required**
 
@@ -145,21 +138,14 @@ operationId: `wor-get-workflow-details`
 - `created_on`: string **required**
 - `id`: string **required**
 - `instances`: object **required**
-  - `complete`: number
-  - `errored`: number
-  - `paused`: number
-  - `queued`: number
-  - `rollingBack`: number
-  - `running`: number
-  - `terminated`: number
-  - `waiting`: number
-  - `waitingForPause`: number
+- `jurisdiction`: string enum: `eu`, `fedramp`, `us` — Jurisdiction where instances of this workflow run and store data. Set when the workflow is created and cannot be changed.
 - `modified_on`: string **required**
 - `name`: string **required**
 - `schedules`: object[]
   [array of]
   - `cron`: string **required**
   - `next_instance`: string **required**
+- `script_deleted`: boolean — Whether the bound Worker was deleted, leaving this Workflow inactive.
 - `script_name`: string **required**
 - `triggered_on`: string **required**
 
@@ -172,9 +158,12 @@ operationId: `wor-create-or-modify-workflow`
 **Request** (application/json)
 
 - `class_name`: string **required**
+- `concurrency`: object
+  - `limit`: integer — Maximum number of instances of this workflow that can run concurrently. Additional instances are queued and started as running instances com
 - `default_retention`: object — Default retention applied to instances of this version when they do not set their own retention.
   - `error_retention`: any — Specifies the duration in milliseconds or as a string like '5 minutes'.
   - `success_retention`: any — Specifies the duration in milliseconds or as a string like '5 minutes'.
+- `jurisdiction`: string enum: `eu`, `fedramp`, `us` — Jurisdiction where instances of this workflow run and store data. Can only be set when the workflow is created and cannot be changed afterwa
 - `limits`: object
   - `steps`: integer
 - `schedules`: object[]
@@ -188,6 +177,7 @@ operationId: `wor-create-or-modify-workflow`
 - `created_on`: string **required**
 - `id`: string **required**
 - `is_deleted`: number **required**
+- `jurisdiction`: string enum: `eu`, `fedramp`, `us` — Jurisdiction where instances of this workflow run and store data. Set when the workflow is created and cannot be changed.
 - `modified_on`: string **required**
 - `name`: string **required**
 - `script_name`: string **required**
@@ -222,10 +212,11 @@ operationId: `wor-create-new-workflow-instance`
 
 **Request** (application/json)
 
-- `instance_id`: string
+- `instance_id`: string — The system reserves IDs that consist of the `cf_` prefix and exactly 64 lowercase hexadecimal characters.
 - `instance_retention`: object
   - `error_retention`: any — Specifies the duration in milliseconds or as a string like '5 minutes'.
   - `success_retention`: any — Specifies the duration in milliseconds or as a string like '5 minutes'.
+- `location_hint`: string enum: `wnam`, `weur`, `enam`, `eeur`, `apac`, `apac-ne`, `apac-se`, `oc`
 - `params`: string — JSON-encoded event payload passed into the new instance.
 
 **Response** 200 → `result`
@@ -308,7 +299,8 @@ object
 
 **Response** 200 → `result`
 
-object
+- `instanceId`: string **required**
+- `timestamp`: string **required** — Accepts ISO 8601 with no timezone offsets and in UTC.
 
 ## PATCH /accounts/{account_id}/workflows/{workflow_name}/instances/{instance_id}/status
 
@@ -337,8 +329,20 @@ operationId: `wor-get-workflow-instance-step` · query: `name`, `type`, `attempt
 - `error`: object **required** — Error details when status='errored'; null otherwise.
   - `message`: string **required**
   - `name`: string **required**
-- `output`: object — Full step output or waitForEvent payload without truncation. Sensitive outputs are returned as '[REDACTED]'. Populated when status='complete
+- `event_type`: string — The event type the step is waiting on, as supplied to step.waitForEvent. Only present when type='waitForEvent'.
+- `output`: object — Contains the full step output or waitForEvent payload without truncation. Uses '[REDACTED]' for sensitive outputs. Contains a value when sta
 - `status`: string **required** enum: `queued`, `running`, `paused`, `errored`, `terminated`, `complete`, `waitingForPause`, `waiting`
+
+## GET /accounts/{account_id}/workflows/{workflow_name}/instances/{instance_id}/subscribe/token
+
+Create a workflow instance event subscription token
+
+operationId: `wor-create-workflow-instance-subscription-token`
+
+**Response** 200 → `result`
+
+- `token`: string **required**
+- `websocketUrl`: string **required**
 
 ## POST /accounts/{account_id}/workflows/{workflow_name}/instances/batch
 
@@ -349,10 +353,11 @@ operationId: `wor-batch-create-workflow-instance`
 **Request** (application/json)
 
 [array of]
-- `instance_id`: string
+- `instance_id`: string — The system reserves IDs that consist of the `cf_` prefix and exactly 64 lowercase hexadecimal characters.
 - `instance_retention`: object
   - `error_retention`: any — Specifies the duration in milliseconds or as a string like '5 minutes'.
   - `success_retention`: any — Specifies the duration in milliseconds or as a string like '5 minutes'.
+- `location_hint`: string enum: `wnam`, `weur`, `enam`, `eeur`, `apac`, `apac-ne`, `apac-se`, `oc`
 - `params`: string — JSON-encoded event payload passed into the new instance.
 
 **Response** 200 → `result`
@@ -363,6 +368,28 @@ operationId: `wor-batch-create-workflow-instance`
 - `trigger_source`: string enum: `unknown`, `api`, `binding`, `event`, `cron`
 - `version_id`: string **required**
 - `workflow_id`: string **required**
+
+## POST /accounts/{account_id}/workflows/{workflow_name}/instances/batch/delete
+
+Batch delete instances of a workflow
+
+operationId: `wor-batch-delete-workflow-instances`
+
+**Request** (application/json)
+
+- `instances`: string[] **required**
+  [array]
+
+**Response** 200 → `result`
+
+- `deleted`: object[] **required**
+  [array of]
+  - `id`: string **required**
+- `errors`: object[] **required**
+  [array of]
+  - `code`: number **required**
+  - `id`: string **required**
+  - `message`: string **required**
 
 ## POST /accounts/{account_id}/workflows/{workflow_name}/instances/batch/terminate
 
@@ -400,13 +427,15 @@ operationId: `wor-list-workflow-versions` · query: `per_page`, `page`
 
 [array of]
 - `class_name`: string **required**
+- `concurrency`: object
+  - `limit`: integer — Maximum number of instances of this workflow that can run concurrently. Additional instances are queued and started as running instances com
 - `created_on`: string **required**
 - `default_retention`: object
   - `error_retention`: integer — Default error retention in milliseconds.
   - `success_retention`: integer — Default success retention in milliseconds.
 - `has_dag`: boolean **required**
 - `id`: string **required**
-- `language`: string **required** enum: `javascript`, `python` — The programming language of the workflow implementation
+- `language`: string **required** enum: `javascript`, `python` — The programming language of the workflow implementation.
 - `limits`: object
   - `steps`: integer
 - `modified_on`: string **required**
@@ -421,13 +450,15 @@ operationId: `wor-describe-workflow-versions`
 **Response** 200 → `result`
 
 - `class_name`: string **required**
+- `concurrency`: object
+  - `limit`: integer — Maximum number of instances of this workflow that can run concurrently. Additional instances are queued and started as running instances com
 - `created_on`: string **required**
 - `default_retention`: object
   - `error_retention`: integer — Default error retention in milliseconds.
   - `success_retention`: integer — Default success retention in milliseconds.
 - `has_dag`: boolean **required**
 - `id`: string **required**
-- `language`: string **required** enum: `javascript`, `python` — The programming language of the workflow implementation
+- `language`: string **required** enum: `javascript`, `python` — The programming language of the workflow implementation.
 - `limits`: object
   - `steps`: integer
 - `modified_on`: string **required**
@@ -468,6 +499,83 @@ operationId: `wor-describe-workflow-versions-graph`
 - `id`: string **required**
 - `modified_on`: string **required**
 - `workflow_id`: string **required**
+
+## GET /accounts/{account_id}/workflows/concurrency
+
+List concurrency keys
+
+operationId: `wor-list-concurrency-keys` · query: `per_page`, `page`
+
+**Response** 200 → `result`
+
+[array of]
+- `created_on`: string **required**
+- `id`: string **required** — Stable identifier of the concurrency key.
+- `limit`: integer **required** — Maximum number of steps that may concurrently hold this key.
+- `name`: string **required** — Unique (per account) name of the concurrency key. Referenced by workflow steps via step config.
+
+## POST /accounts/{account_id}/workflows/concurrency
+
+Create a concurrency key
+
+operationId: `wor-create-concurrency-key`
+
+**Request** (application/json)
+
+- `limit`: integer **required** — Maximum number of steps that may concurrently hold this key.
+- `name`: string **required** — Unique (per account) name of the concurrency key. Referenced by workflow steps via step config.
+
+**Response** 200 → `result`
+
+- `created_on`: string **required**
+- `id`: string **required** — Stable identifier of the concurrency key.
+- `limit`: integer **required** — Maximum number of steps that may concurrently hold this key.
+- `name`: string **required** — Unique (per account) name of the concurrency key. Referenced by workflow steps via step config.
+
+## DELETE /accounts/{account_id}/workflows/concurrency/{key_id}
+
+Delete a concurrency key
+
+operationId: `wor-delete-concurrency-key`
+
+**Response** 200 → `result`
+
+- `status`: string **required** enum: `ok`
+- `success`: boolean **required**
+
+## GET /accounts/{account_id}/workflows/concurrency/{key_id}
+
+Get concurrency key details
+
+operationId: `wor-get-concurrency-key`
+
+**Response** 200 → `result`
+
+- `created_on`: string **required**
+- `id`: string **required** — Stable identifier of the concurrency key.
+- `limit`: integer **required** — Maximum number of steps that may concurrently hold this key.
+- `name`: string **required** — Unique (per account) name of the concurrency key. Referenced by workflow steps via step config.
+- `referencing_workflows`: object[] **required** — Workflows whose latest deployed version references this key. Blocks deletion while non-empty.
+  [array of]
+  - `version_id`: string **required**
+  - `workflow_name`: string **required**
+
+## PATCH /accounts/{account_id}/workflows/concurrency/{key_id}
+
+Update a concurrency key
+
+operationId: `wor-update-concurrency-key`
+
+**Request** (application/json)
+
+- `limit`: integer **required** — Maximum number of steps that may concurrently hold this key.
+
+**Response** 200 → `result`
+
+- `created_on`: string **required**
+- `id`: string **required** — Stable identifier of the concurrency key.
+- `limit`: integer **required** — Maximum number of steps that may concurrently hold this key.
+- `name`: string **required** — Unique (per account) name of the concurrency key. Referenced by workflow steps via step config.
 
 ## GET /accounts/{account_id}/workflows/settings
 

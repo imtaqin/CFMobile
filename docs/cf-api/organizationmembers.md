@@ -14,6 +14,16 @@ operationId: `Members_list` · query: `status`, `user.email`, `user.email.contai
 - `create_time`: string **required**
 - `id`: string **required** — Organization Member ID
 - `meta`: object **required**
+- `policies`: object[] — Direct policies of the membership. Present only for DSR members enrolled in Organization Roles.
+  [array of]
+  - `id`: string — Omit to create a policy. An unchanged policy keeps its ID; a changed policy is replaced under a new ID.
+  - `roles`: object[] **required**
+    [array of]
+    - `id`: string **required**
+  - `scopes`: object[] **required**
+    [array of]
+    - `key`: string **required** — An Organization (`com.cloudflare.api.tenant.unit.<tag>`) or Account (`com.cloudflare.api.account.<tag>`) key.
+    - `subset_of`: object[] — The route Organization for Account scopes. Optional in requests and always returned for Account scopes.
 - `status`: string **required** enum: `active`, `pending`, `rejected`, `canceled`
 - `update_time`: string **required**
 - `user`: object **required**
@@ -31,7 +41,6 @@ operationId: `Members_create`
 **Request** (application/json)
 
 - `member`: object **required**
-  - `status`: string enum: `active`, `canceled`
   - `user`: object **required**
     - `email`: string **required**
 
@@ -40,6 +49,16 @@ operationId: `Members_create`
 - `create_time`: string **required**
 - `id`: string **required** — Organization Member ID
 - `meta`: object **required**
+- `policies`: object[] — Direct policies of the membership. Present only for DSR members enrolled in Organization Roles.
+  [array of]
+  - `id`: string — Omit to create a policy. An unchanged policy keeps its ID; a changed policy is replaced under a new ID.
+  - `roles`: object[] **required**
+    [array of]
+    - `id`: string **required**
+  - `scopes`: object[] **required**
+    [array of]
+    - `key`: string **required** — An Organization (`com.cloudflare.api.tenant.unit.<tag>`) or Account (`com.cloudflare.api.account.<tag>`) key.
+    - `subset_of`: object[] — The route Organization for Account scopes. Optional in requests and always returned for Account scopes.
 - `status`: string **required** enum: `active`, `pending`, `rejected`, `canceled`
 - `update_time`: string **required**
 - `user`: object **required**
@@ -56,9 +75,8 @@ operationId: `Members_batchCreate`
 
 **Request** (application/json)
 
-- `members`: object[] **required**
+- `members`: object[] — Omitted or null members are treated as an empty batch.
   [array of]
-  - `status`: string enum: `active`, `canceled`
   - `user`: object **required**
     - `email`: string **required**
 
@@ -68,6 +86,16 @@ operationId: `Members_batchCreate`
 - `create_time`: string **required**
 - `id`: string **required** — Organization Member ID
 - `meta`: object **required**
+- `policies`: object[] — Direct policies of the membership. Present only for DSR members enrolled in Organization Roles.
+  [array of]
+  - `id`: string — Omit to create a policy. An unchanged policy keeps its ID; a changed policy is replaced under a new ID.
+  - `roles`: object[] **required**
+    [array of]
+    - `id`: string **required**
+  - `scopes`: object[] **required**
+    [array of]
+    - `key`: string **required** — An Organization (`com.cloudflare.api.tenant.unit.<tag>`) or Account (`com.cloudflare.api.account.<tag>`) key.
+    - `subset_of`: object[] — The route Organization for Account scopes. Optional in requests and always returned for Account scopes.
 - `status`: string **required** enum: `active`, `pending`, `rejected`, `canceled`
 - `update_time`: string **required**
 - `user`: object **required**
@@ -82,9 +110,9 @@ Delete organization member
 
 operationId: `Members_delete`
 
-**Request** (application/json)
+**Response** 200 → `result`
 
-- `member_id`: string **required** — Organization Member ID
+- `id`: string **required**
 
 ## GET /organizations/{organization_id}/members/{member_id}
 
@@ -97,6 +125,16 @@ operationId: `Members_retrieve`
 - `create_time`: string **required**
 - `id`: string **required** — Organization Member ID
 - `meta`: object **required**
+- `policies`: object[] — Direct policies of the membership. Present only for DSR members enrolled in Organization Roles.
+  [array of]
+  - `id`: string — Omit to create a policy. An unchanged policy keeps its ID; a changed policy is replaced under a new ID.
+  - `roles`: object[] **required**
+    [array of]
+    - `id`: string **required**
+  - `scopes`: object[] **required**
+    [array of]
+    - `key`: string **required** — An Organization (`com.cloudflare.api.tenant.unit.<tag>`) or Account (`com.cloudflare.api.account.<tag>`) key.
+    - `subset_of`: object[] — The route Organization for Account scopes. Optional in requests and always returned for Account scopes.
 - `status`: string **required** enum: `active`, `pending`, `rejected`, `canceled`
 - `update_time`: string **required**
 - `user`: object **required**

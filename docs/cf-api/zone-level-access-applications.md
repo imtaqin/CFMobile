@@ -40,11 +40,11 @@ operationId: `zone-level-access-applications-list-access-applications`
   - `allow_all_methods`: boolean — Allows all HTTP request methods.
   - `allow_all_origins`: boolean — Allows all origins.
   - `allow_credentials`: boolean — When set to `true`, includes credentials (cookies, authorization headers, or TLS client certificates) with requests.
-  - `allowed_headers`: object[] — Allowed HTTP request headers.
+  - `allowed_headers`: string[] — Allowed HTTP request headers.
     [array]
   - `allowed_methods`: string[] — Allowed HTTP request methods.
     [array]
-  - `allowed_origins`: object[] — Allowed origins.
+  - `allowed_origins`: string[] — Allowed origins.
     [array]
   - `max_age`: number — The maximum number of seconds the results of a preflight request can be cached.
 - `custom_deny_message`: string — The custom error message shown to a user when they are denied access to the application.
@@ -100,11 +100,11 @@ operationId: `zone-level-access-applications-add-a-bookmark-application`
   - `allow_all_methods`: boolean — Allows all HTTP request methods.
   - `allow_all_origins`: boolean — Allows all origins.
   - `allow_credentials`: boolean — When set to `true`, includes credentials (cookies, authorization headers, or TLS client certificates) with requests.
-  - `allowed_headers`: object[] — Allowed HTTP request headers.
+  - `allowed_headers`: string[] — Allowed HTTP request headers.
     [array]
   - `allowed_methods`: string[] — Allowed HTTP request methods.
     [array]
-  - `allowed_origins`: object[] — Allowed origins.
+  - `allowed_origins`: string[] — Allowed origins.
     [array]
   - `max_age`: number — The maximum number of seconds the results of a preflight request can be cached.
 - `custom_deny_message`: string — The custom error message shown to a user when they are denied access to the application.
@@ -154,11 +154,11 @@ operationId: `zone-level-access-applications-add-a-bookmark-application`
   - `allow_all_methods`: boolean — Allows all HTTP request methods.
   - `allow_all_origins`: boolean — Allows all origins.
   - `allow_credentials`: boolean — When set to `true`, includes credentials (cookies, authorization headers, or TLS client certificates) with requests.
-  - `allowed_headers`: object[] — Allowed HTTP request headers.
+  - `allowed_headers`: string[] — Allowed HTTP request headers.
     [array]
   - `allowed_methods`: string[] — Allowed HTTP request methods.
     [array]
-  - `allowed_origins`: object[] — Allowed origins.
+  - `allowed_origins`: string[] — Allowed origins.
     [array]
   - `max_age`: number — The maximum number of seconds the results of a preflight request can be cached.
 - `custom_deny_message`: string — The custom error message shown to a user when they are denied access to the application.
@@ -224,11 +224,11 @@ operationId: `zone-level-access-applications-get-an-access-application`
   - `allow_all_methods`: boolean — Allows all HTTP request methods.
   - `allow_all_origins`: boolean — Allows all origins.
   - `allow_credentials`: boolean — When set to `true`, includes credentials (cookies, authorization headers, or TLS client certificates) with requests.
-  - `allowed_headers`: object[] — Allowed HTTP request headers.
+  - `allowed_headers`: string[] — Allowed HTTP request headers.
     [array]
   - `allowed_methods`: string[] — Allowed HTTP request methods.
     [array]
-  - `allowed_origins`: object[] — Allowed origins.
+  - `allowed_origins`: string[] — Allowed origins.
     [array]
   - `max_age`: number — The maximum number of seconds the results of a preflight request can be cached.
 - `custom_deny_message`: string — The custom error message shown to a user when they are denied access to the application.
@@ -284,11 +284,11 @@ operationId: `zone-level-access-applications-update-a-bookmark-application`
   - `allow_all_methods`: boolean — Allows all HTTP request methods.
   - `allow_all_origins`: boolean — Allows all origins.
   - `allow_credentials`: boolean — When set to `true`, includes credentials (cookies, authorization headers, or TLS client certificates) with requests.
-  - `allowed_headers`: object[] — Allowed HTTP request headers.
+  - `allowed_headers`: string[] — Allowed HTTP request headers.
     [array]
   - `allowed_methods`: string[] — Allowed HTTP request methods.
     [array]
-  - `allowed_origins`: object[] — Allowed origins.
+  - `allowed_origins`: string[] — Allowed origins.
     [array]
   - `max_age`: number — The maximum number of seconds the results of a preflight request can be cached.
 - `custom_deny_message`: string — The custom error message shown to a user when they are denied access to the application.
@@ -338,11 +338,11 @@ operationId: `zone-level-access-applications-update-a-bookmark-application`
   - `allow_all_methods`: boolean — Allows all HTTP request methods.
   - `allow_all_origins`: boolean — Allows all origins.
   - `allow_credentials`: boolean — When set to `true`, includes credentials (cookies, authorization headers, or TLS client certificates) with requests.
-  - `allowed_headers`: object[] — Allowed HTTP request headers.
+  - `allowed_headers`: string[] — Allowed HTTP request headers.
     [array]
   - `allowed_methods`: string[] — Allowed HTTP request methods.
     [array]
-  - `allowed_origins`: object[] — Allowed origins.
+  - `allowed_origins`: string[] — Allowed origins.
     [array]
   - `max_age`: number — The maximum number of seconds the results of a preflight request can be cached.
 - `custom_deny_message`: string — The custom error message shown to a user when they are denied access to the application.

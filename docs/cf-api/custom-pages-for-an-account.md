@@ -2,7 +2,7 @@
 
 4 endpoints.
 
-## GET /accounts/{account_identifier}/custom_pages
+## GET /accounts/{account_id}/custom_pages
 
 List custom pages
 
@@ -21,7 +21,7 @@ operationId: `custom-pages-for-an-account-list-custom-pages`
 - `state`: string enum: `default`, `customized` — The custom page state.
 - `url`: string default: `` — The URL associated with the custom page.
 
-## GET /accounts/{account_identifier}/custom_pages/{identifier}
+## GET /accounts/{account_id}/custom_pages/{identifier}
 
 Get a custom page
 
@@ -39,7 +39,7 @@ operationId: `custom-pages-for-an-account-get-a-custom-page`
 - `state`: string enum: `default`, `customized` — The custom page state.
 - `url`: string default: `` — The URL associated with the custom page.
 
-## PUT /accounts/{account_identifier}/custom_pages/{identifier}
+## PUT /accounts/{account_id}/custom_pages/{identifier}
 
 Update a custom page
 
@@ -62,7 +62,7 @@ operationId: `custom-pages-for-an-account-update-a-custom-page`
 - `state`: string enum: `default`, `customized` — The custom page state.
 - `url`: string default: `` — The URL associated with the custom page.
 
-## POST /accounts/{account_identifier}/custom_pages/preview_tokens
+## POST /accounts/{account_id}/custom_pages/preview_tokens
 
 Create a preview token
 

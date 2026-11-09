@@ -4,7 +4,7 @@
 
 ## GET /accounts/{account_id}/pages/projects/{project_name}/domains
 
-Get domains
+List Pages custom domains
 
 operationId: `pages-domains-get-domains`
 
@@ -15,7 +15,7 @@ operationId: `pages-domains-get-domains`
 - `created_on`: string **required**
 - `domain_id`: string **required**
 - `id`: string **required**
-- `name`: string **required** — The domain name.
+- `name`: string **required** — Fully qualified domain name for the Pages project, such as `example.com`.
 - `status`: string **required** enum: `initializing`, `pending`, `active`, `deactivated`, `blocked`, `error`
 - `validation_data`: object **required**
   - `error_message`: string
@@ -30,13 +30,13 @@ operationId: `pages-domains-get-domains`
 
 ## POST /accounts/{account_id}/pages/projects/{project_name}/domains
 
-Add domain
+Add a Pages custom domain
 
 operationId: `pages-domains-add-domain`
 
 **Request** (application/json)
 
-- `name`: string **required** — The domain name.
+- `name`: string **required** — Fully qualified domain name for the Pages project, such as `example.com`.
 
 **Response** 200 → `result`
 
@@ -44,7 +44,7 @@ operationId: `pages-domains-add-domain`
 - `created_on`: string **required**
 - `domain_id`: string **required**
 - `id`: string **required**
-- `name`: string **required** — The domain name.
+- `name`: string **required** — Fully qualified domain name for the Pages project, such as `example.com`.
 - `status`: string **required** enum: `initializing`, `pending`, `active`, `deactivated`, `blocked`, `error`
 - `validation_data`: object **required**
   - `error_message`: string
@@ -59,7 +59,7 @@ operationId: `pages-domains-add-domain`
 
 ## DELETE /accounts/{account_id}/pages/projects/{project_name}/domains/{domain_name}
 
-Delete domain
+Delete a Pages custom domain
 
 operationId: `pages-domains-delete-domain`
 
@@ -69,7 +69,7 @@ object
 
 ## GET /accounts/{account_id}/pages/projects/{project_name}/domains/{domain_name}
 
-Get domain
+Get a Pages custom domain
 
 operationId: `pages-domains-get-domain`
 
@@ -79,7 +79,7 @@ operationId: `pages-domains-get-domain`
 - `created_on`: string **required**
 - `domain_id`: string **required**
 - `id`: string **required**
-- `name`: string **required** — The domain name.
+- `name`: string **required** — Fully qualified domain name for the Pages project, such as `example.com`.
 - `status`: string **required** enum: `initializing`, `pending`, `active`, `deactivated`, `blocked`, `error`
 - `validation_data`: object **required**
   - `error_message`: string
@@ -94,7 +94,7 @@ operationId: `pages-domains-get-domain`
 
 ## PATCH /accounts/{account_id}/pages/projects/{project_name}/domains/{domain_name}
 
-Patch domain
+Retry custom domain validation
 
 operationId: `pages-domains-patch-domain`
 
@@ -104,7 +104,7 @@ operationId: `pages-domains-patch-domain`
 - `created_on`: string **required**
 - `domain_id`: string **required**
 - `id`: string **required**
-- `name`: string **required** — The domain name.
+- `name`: string **required** — Fully qualified domain name for the Pages project, such as `example.com`.
 - `status`: string **required** enum: `initializing`, `pending`, `active`, `deactivated`, `blocked`, `error`
 - `validation_data`: object **required**
   - `error_message`: string

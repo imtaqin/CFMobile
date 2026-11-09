@@ -29,6 +29,10 @@ operationId: `magic-site-lans-create-lan`
 - `nat`: object
   - `static_prefix`: string — A valid CIDR notation representing an IP range.
 - `physport`: integer
+- `remote_subnets`: object[]
+  [array of]
+  - `local_alias_prefix`: string **required** — A valid CIDR notation representing an IP range.
+  - `remote_prefix`: string **required** — A valid CIDR notation representing an IP range.
 - `routed_subnets`: object[]
   [array of]
   - `nat`: object
@@ -43,7 +47,7 @@ operationId: `magic-site-lans-create-lan`
     - `dhcp_options`: object[] — Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled.
     - `dhcp_pool_end`: string — A valid IPv4 address.
     - `dhcp_pool_start`: string — A valid IPv4 address.
-    - `dns_server`: string — A valid IPv4 address.
+    - `dns_server`: any
     - `dns_servers`: string[]
     - `reservations`: object — Mapping of MAC addresses to IP addresses
   - `secondary_address`: string — A valid CIDR notation representing an IP range.
@@ -86,12 +90,17 @@ operationId: `magic-site-lans-patch-lan`
 **Request** (application/json)
 
 - `bond_id`: integer
+- `ha_link`: boolean — mark true to use this LAN for HA probing. only works for site with HA turned on. only one LAN can be set as the ha_link.
 - `is_breakout`: boolean — mark true to use this LAN for source-based breakout traffic
 - `is_prioritized`: boolean — mark true to use this LAN for source-based prioritized traffic
 - `name`: string
 - `nat`: object
   - `static_prefix`: string — A valid CIDR notation representing an IP range.
 - `physport`: integer
+- `remote_subnets`: object[]
+  [array of]
+  - `local_alias_prefix`: string **required** — A valid CIDR notation representing an IP range.
+  - `remote_prefix`: string **required** — A valid CIDR notation representing an IP range.
 - `routed_subnets`: object[]
   [array of]
   - `nat`: object
@@ -106,7 +115,7 @@ operationId: `magic-site-lans-patch-lan`
     - `dhcp_options`: object[] — Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled.
     - `dhcp_pool_end`: string — A valid IPv4 address.
     - `dhcp_pool_start`: string — A valid IPv4 address.
-    - `dns_server`: string — A valid IPv4 address.
+    - `dns_server`: any
     - `dns_servers`: string[]
     - `reservations`: object — Mapping of MAC addresses to IP addresses
   - `secondary_address`: string — A valid CIDR notation representing an IP range.
@@ -127,12 +136,17 @@ operationId: `magic-site-lans-update-lan`
 **Request** (application/json)
 
 - `bond_id`: integer
+- `ha_link`: boolean — mark true to use this LAN for HA probing. only works for site with HA turned on. only one LAN can be set as the ha_link.
 - `is_breakout`: boolean — mark true to use this LAN for source-based breakout traffic
 - `is_prioritized`: boolean — mark true to use this LAN for source-based prioritized traffic
 - `name`: string
 - `nat`: object
   - `static_prefix`: string — A valid CIDR notation representing an IP range.
 - `physport`: integer
+- `remote_subnets`: object[]
+  [array of]
+  - `local_alias_prefix`: string **required** — A valid CIDR notation representing an IP range.
+  - `remote_prefix`: string **required** — A valid CIDR notation representing an IP range.
 - `routed_subnets`: object[]
   [array of]
   - `nat`: object
@@ -147,7 +161,7 @@ operationId: `magic-site-lans-update-lan`
     - `dhcp_options`: object[] — Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled.
     - `dhcp_pool_end`: string — A valid IPv4 address.
     - `dhcp_pool_start`: string — A valid IPv4 address.
-    - `dns_server`: string — A valid IPv4 address.
+    - `dns_server`: any
     - `dns_servers`: string[]
     - `reservations`: object — Mapping of MAC addresses to IP addresses
   - `secondary_address`: string — A valid CIDR notation representing an IP range.

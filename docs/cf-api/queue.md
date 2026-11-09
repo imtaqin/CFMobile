@@ -1,6 +1,6 @@
 # Queue
 
-25 endpoints.
+28 endpoints.
 
 ## GET /accounts/{account_id}/event_subscriptions/subscriptions
 
@@ -135,6 +135,7 @@ operationId: `queues-list`
   - `type`: string enum: `worker`
 - `consumers_total_count`: number
 - `created_on`: string
+- `jurisdiction`: string enum: `eu`, `us`, `fedramp`
 - `modified_on`: string
 - `producers`: object[]
   [array of]
@@ -156,6 +157,7 @@ operationId: `queues-create`
 
 **Request** (application/json)
 
+- `jurisdiction`: string enum: `eu`, `us`, `fedramp`
 - `queue_name`: string **required**
 
 **Response** 200 → `result`
@@ -176,6 +178,7 @@ operationId: `queues-create`
   - `type`: string enum: `worker`
 - `consumers_total_count`: number
 - `created_on`: string
+- `jurisdiction`: string enum: `eu`, `us`, `fedramp`
 - `modified_on`: string
 - `producers`: object[]
   [array of]
@@ -229,6 +232,7 @@ operationId: `queues-get`
   - `type`: string enum: `worker`
 - `consumers_total_count`: number
 - `created_on`: string
+- `jurisdiction`: string enum: `eu`, `us`, `fedramp`
 - `modified_on`: string
 - `producers`: object[]
   [array of]
@@ -266,6 +270,7 @@ operationId: `queues-update-partial`
   - `type`: string enum: `worker`
 - `consumers_total_count`: number
 - `created_on`: string
+- `jurisdiction`: string enum: `eu`, `us`, `fedramp`
 - `modified_on`: string
 - `producers`: object[]
   [array of]
@@ -297,6 +302,7 @@ operationId: `queues-update-partial`
   - `type`: string enum: `worker`
 - `consumers_total_count`: number
 - `created_on`: string
+- `jurisdiction`: string enum: `eu`, `us`, `fedramp`
 - `modified_on`: string
 - `producers`: object[]
   [array of]
@@ -334,6 +340,7 @@ operationId: `queues-update`
   - `type`: string enum: `worker`
 - `consumers_total_count`: number
 - `created_on`: string
+- `jurisdiction`: string enum: `eu`, `us`, `fedramp`
 - `modified_on`: string
 - `producers`: object[]
   [array of]
@@ -365,6 +372,7 @@ operationId: `queues-update`
   - `type`: string enum: `worker`
 - `consumers_total_count`: number
 - `created_on`: string
+- `jurisdiction`: string enum: `eu`, `us`, `fedramp`
 - `modified_on`: string
 - `producers`: object[]
   [array of]
@@ -575,6 +583,45 @@ operationId: `queues-push-messages`
     - `backlog_count`: number **required** — The number of unacknowledged messages in the queue.
     - `oldest_message_timestamp_ms`: number **required** — Unix timestamp in milliseconds of the oldest unacknowledged message in the queue. Returns 0 if unknown.
 
+## POST /accounts/{account_id}/queues/{queue_id}/messages/extend
+
+Extend Message Leases
+
+operationId: `queues-extend-messages`
+
+**Request** (application/json)
+
+- `extend`: object[]
+  [array of]
+  - `lease_id`: string — An ID that represents an "in-flight" message that has been pulled from a Queue. You must hold on to this ID and use it to acknowledge this m
+- `visibility_timeout_ms`: number — The number of milliseconds that a message is exclusively leased. After the timeout, the message becomes available for another attempt.
+
+**Response** 200 → `result`
+
+- `extendCount`: number — The number of message leases that were succesfully extended.
+- `warnings`: object — Map of lease IDs to warning messages encountered during extensions.
+
+## POST /accounts/{account_id}/queues/{queue_id}/messages/peek
+
+Peek Queue Messages
+
+operationId: `queues-peek-messages`
+
+**Request** (application/json)
+
+- `batch_size`: number — The maximum number of messages to include in a batch.
+
+**Response** 200 → `result`
+
+- `messages`: object[]
+  [array of]
+  - `attempts`: number
+  - `body`: string
+  - `id`: string
+  - `metadata`: object
+  - `ref`: string — An opaque reference to a peeked message. You must hold on to this value and use it to purge the message.
+  - `timestamp_ms`: number
+
 ## POST /accounts/{account_id}/queues/{queue_id}/messages/preview
 
 Preview Queue Messages
@@ -644,6 +691,25 @@ operationId: `queues-pull-messages`
     - `backlog_count`: number **required** — The number of unacknowledged messages in the queue.
     - `oldest_message_timestamp_ms`: number **required** — Unix timestamp in milliseconds of the oldest unacknowledged message in the queue. Returns 0 if unknown.
 
+## POST /accounts/{account_id}/queues/{queue_id}/messages/purge
+
+Purge Peeked Queue Messages
+
+operationId: `queues-purge-messages`
+
+**Request** (application/json)
+
+- `refs`: object[] **required**
+  [array of]
+  - `ref`: string **required** — An opaque reference to a peeked message. You must hold on to this value and use it to purge the message.
+
+**Response** 200 → `result`
+
+- `errors`: object[] — Errors encountered while purging messages.
+  [array of]
+  - `message`: string
+- `warnings`: object — Map of refs to warning messages encountered during purge.
+
 ## GET /accounts/{account_id}/queues/{queue_id}/metrics
 
 Get Queue Metrics
@@ -675,7 +741,7 @@ operationId: `queues-purge`
 
 **Request** (application/json)
 
-- `delete_messages_permanently`: boolean — Confimation that all messages will be deleted permanently.
+- `delete_messages_permanently`: boolean — Confirms that all messages will be permanently deleted.
 
 **Response** 200 → `result`
 
@@ -695,6 +761,7 @@ operationId: `queues-purge`
   - `type`: string enum: `worker`
 - `consumers_total_count`: number
 - `created_on`: string
+- `jurisdiction`: string enum: `eu`, `us`, `fedramp`
 - `modified_on`: string
 - `producers`: object[]
   [array of]

@@ -22,7 +22,7 @@ operationId: `page-rules-list-page-rules` · query: `order`, `direction`, `match
 - `targets`: object[] **required** — The rule targets to evaluate on each request.
   [array of]
   - `constraint`: object — The constraint of a target.
-  - `target`: any enum: `url` — A target based on the URL of the request.
+  - `target`: string enum: `url` — A target based on the URL of the request.
 
 ## POST /zones/{zone_id}/pagerules
 
@@ -40,7 +40,7 @@ operationId: `page-rules-create-a-page-rule`
 - `targets`: object[] **required** — The rule targets to evaluate on each request.
   [array of]
   - `constraint`: object — The constraint of a target.
-  - `target`: any enum: `url` — A target based on the URL of the request.
+  - `target`: string enum: `url` — A target based on the URL of the request.
 
 **Response** 200 → `result`
 
@@ -55,7 +55,7 @@ operationId: `page-rules-create-a-page-rule`
 - `targets`: object[] **required** — The rule targets to evaluate on each request.
   [array of]
   - `constraint`: object — The constraint of a target.
-  - `target`: any enum: `url` — A target based on the URL of the request.
+  - `target`: string enum: `url` — A target based on the URL of the request.
 
 ## DELETE /zones/{zone_id}/pagerules/{pagerule_id}
 
@@ -86,7 +86,7 @@ operationId: `page-rules-get-a-page-rule`
 - `targets`: object[] **required** — The rule targets to evaluate on each request.
   [array of]
   - `constraint`: object — The constraint of a target.
-  - `target`: any enum: `url` — A target based on the URL of the request.
+  - `target`: string enum: `url` — A target based on the URL of the request.
 
 ## PATCH /zones/{zone_id}/pagerules/{pagerule_id}
 
@@ -104,7 +104,7 @@ operationId: `page-rules-edit-a-page-rule`
 - `targets`: object[] — The rule targets to evaluate on each request.
   [array of]
   - `constraint`: object — The constraint of a target.
-  - `target`: any enum: `url` — A target based on the URL of the request.
+  - `target`: string enum: `url` — A target based on the URL of the request.
 
 **Response** 200 → `result`
 
@@ -119,7 +119,7 @@ operationId: `page-rules-edit-a-page-rule`
 - `targets`: object[] **required** — The rule targets to evaluate on each request.
   [array of]
   - `constraint`: object — The constraint of a target.
-  - `target`: any enum: `url` — A target based on the URL of the request.
+  - `target`: string enum: `url` — A target based on the URL of the request.
 
 ## PUT /zones/{zone_id}/pagerules/{pagerule_id}
 
@@ -137,7 +137,7 @@ operationId: `page-rules-update-a-page-rule`
 - `targets`: object[] **required** — The rule targets to evaluate on each request.
   [array of]
   - `constraint`: object — The constraint of a target.
-  - `target`: any enum: `url` — A target based on the URL of the request.
+  - `target`: string enum: `url` — A target based on the URL of the request.
 
 **Response** 200 → `result`
 
@@ -152,4 +152,4 @@ operationId: `page-rules-update-a-page-rule`
 - `targets`: object[] **required** — The rule targets to evaluate on each request.
   [array of]
   - `constraint`: object — The constraint of a target.
-  - `target`: any enum: `url` — A target based on the URL of the request.
+  - `target`: string enum: `url` — A target based on the URL of the request.

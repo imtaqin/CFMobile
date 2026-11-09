@@ -10,6 +10,7 @@ operationId: `diagnostics-endpoint-healthcheck-list`
 
 **Response** 200 → `result`
 
+[array of]
 - `check_type`: string **required** enum: `icmp` default: `icmp` — type of check to perform
 - `endpoint`: string **required** — the IP address of the host to perform checks against
 - `name`: string — Optional name associated with this check

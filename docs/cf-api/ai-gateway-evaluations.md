@@ -4,7 +4,7 @@
 
 ## GET /accounts/{account_id}/ai-gateway/evaluation-types
 
-List Evaluators
+List evaluator types (deprecated)
 
 operationId: `aig-config-list-evaluators` · query: `page`, `per_page`, `order_by`, `order_by_direction`
 
@@ -22,7 +22,7 @@ operationId: `aig-config-list-evaluators` · query: `page`, `per_page`, `order_b
 
 ## GET /accounts/{account_id}/ai-gateway/gateways/{gateway_id}/evaluations
 
-List Evaluations
+List evaluations (deprecated)
 
 operationId: `aig-config-list-evaluations` · query: `page`, `per_page`, `name`, `processed`, `search`
 
@@ -41,11 +41,11 @@ operationId: `aig-config-list-evaluations` · query: `page`, `per_page`, `name`,
     - `key`: string **required** enum: `created_at`, `request_content_type`, `response_content_type`, `success`, `cached`, `provider`, `model`, `cost`
     - `operator`: string **required** enum: `eq`, `contains`, `lt`, `gt`
     - `value`: object[] **required**
-  - `gateway_id`: string **required** — gateway id
+  - `gateway_id`: string **required** — Unique identifier of the AI Gateway within the account.
   - `id`: string **required**
   - `modified_at`: string **required**
   - `name`: string **required**
-- `gateway_id`: string **required** — gateway id
+- `gateway_id`: string **required** — Unique identifier of the AI Gateway within the account.
 - `id`: string **required**
 - `modified_at`: string **required**
 - `name`: string **required**
@@ -65,7 +65,7 @@ operationId: `aig-config-list-evaluations` · query: `page`, `per_page`, `name`,
 
 ## POST /accounts/{account_id}/ai-gateway/gateways/{gateway_id}/evaluations
 
-Create a new Evaluation
+Create an evaluation (deprecated)
 
 operationId: `aig-config-create-evaluations`
 
@@ -91,11 +91,11 @@ operationId: `aig-config-create-evaluations`
     - `key`: string **required** enum: `created_at`, `request_content_type`, `response_content_type`, `success`, `cached`, `provider`, `model`, `cost`
     - `operator`: string **required** enum: `eq`, `contains`, `lt`, `gt`
     - `value`: object[] **required**
-  - `gateway_id`: string **required** — gateway id
+  - `gateway_id`: string **required** — Unique identifier of the AI Gateway within the account.
   - `id`: string **required**
   - `modified_at`: string **required**
   - `name`: string **required**
-- `gateway_id`: string **required** — gateway id
+- `gateway_id`: string **required** — Unique identifier of the AI Gateway within the account.
 - `id`: string **required**
 - `modified_at`: string **required**
 - `name`: string **required**
@@ -115,7 +115,7 @@ operationId: `aig-config-create-evaluations`
 
 ## DELETE /accounts/{account_id}/ai-gateway/gateways/{gateway_id}/evaluations/{id}
 
-Delete a Evaluation
+Delete an evaluation (deprecated)
 
 operationId: `aig-config-delete-evaluations`
 
@@ -133,11 +133,11 @@ operationId: `aig-config-delete-evaluations`
     - `key`: string **required** enum: `created_at`, `request_content_type`, `response_content_type`, `success`, `cached`, `provider`, `model`, `cost`
     - `operator`: string **required** enum: `eq`, `contains`, `lt`, `gt`
     - `value`: object[] **required**
-  - `gateway_id`: string **required** — gateway id
+  - `gateway_id`: string **required** — Unique identifier of the AI Gateway within the account.
   - `id`: string **required**
   - `modified_at`: string **required**
   - `name`: string **required**
-- `gateway_id`: string **required** — gateway id
+- `gateway_id`: string **required** — Unique identifier of the AI Gateway within the account.
 - `id`: string **required**
 - `modified_at`: string **required**
 - `name`: string **required**
@@ -157,7 +157,7 @@ operationId: `aig-config-delete-evaluations`
 
 ## GET /accounts/{account_id}/ai-gateway/gateways/{gateway_id}/evaluations/{id}
 
-Fetch a Evaluation
+Get an evaluation (deprecated)
 
 operationId: `aig-config-fetch-evaluations`
 
@@ -175,11 +175,11 @@ operationId: `aig-config-fetch-evaluations`
     - `key`: string **required** enum: `created_at`, `request_content_type`, `response_content_type`, `success`, `cached`, `provider`, `model`, `cost`
     - `operator`: string **required** enum: `eq`, `contains`, `lt`, `gt`
     - `value`: object[] **required**
-  - `gateway_id`: string **required** — gateway id
+  - `gateway_id`: string **required** — Unique identifier of the AI Gateway within the account.
   - `id`: string **required**
   - `modified_at`: string **required**
   - `name`: string **required**
-- `gateway_id`: string **required** — gateway id
+- `gateway_id`: string **required** — Unique identifier of the AI Gateway within the account.
 - `id`: string **required**
 - `modified_at`: string **required**
 - `name`: string **required**

@@ -1,6 +1,6 @@
 # Email Sending
 
-4 endpoints.
+5 endpoints.
 
 ## GET /accounts/{account_id}/email/sending/limits
 
@@ -13,6 +13,7 @@ operationId: `email-sending-get-sending-limits`
 - `quota`: object — The resolved daily sending quota for the account. Null when the quota is not yet available.
   - `unit`: string enum: `day`, `hour` — The time period for the quota.
   - `value`: integer — The quota limit.
+- `recipient_mode`: string enum: `arbitrary`, `verified_only` — Which recipients the account can send to, derived from the account's Email Sending entitlement. arbitrary: any recipient. verified_only: onl
 - `usage`: object — The account's current daily sending usage. Null when there is no resolved quota or usage is temporarily unavailable.
   - `over_quota`: boolean — Whether the account has exceeded its daily sending quota.
   - `resets_at`: string — When the current daily quota window resets. Null when there is no active window.
@@ -28,6 +29,20 @@ operationId: `email-sending-get-email-message`
 
 string
 
+## GET /accounts/{account_id}/email/sending/reputation
+
+Get account reputation
+
+operationId: `email-sending-get-reputation`
+
+**Response** 200 → `result`
+
+- `active_policy`: any **required** — The reputation policy thresholds currently applied to the account.
+- `evaluated_at`: string **required** — When the account's reputation was last evaluated. Null when the account has never been evaluated.
+- `grace_started_at`: string **required** — When the current At Risk suspension grace period started. This can be later than status_since if the grace period was restarted. Null outsid
+- `status`: string **required** enum: `healthy`, `warning`, `at_risk`, `suspended` — The account's current reputation status.
+- `status_since`: string **required** — When the account most recently transitioned into its current status. Null if the account has been Healthy since it was first tracked and has
+
 ## POST /accounts/{account_id}/email/sending/send
 
 Send an email
@@ -36,22 +51,10 @@ operationId: `email-sending-account-send-builder`
 
 **Request** (application/json)
 
-- `attachments`: object[] — File attachments and inline images.
-  [array of]
-  - `content`: string **required** — Base64-encoded content of the attachment.
-  - `content_id`: string **required** — Content ID used to reference this attachment in HTML via cid: URI (e.g., <img src="cid:logo">).
-  - `disposition`: string **required** enum: `inline` — Must be 'inline'. Embeds the attachment in the email body.
-  - `filename`: string **required** — Filename for the attachment.
-  - `type`: string **required** — MIME type of the attachment (e.g., 'image/png', 'text/plain').
-- `bcc`: any
-- `cc`: any
-- `from`: any **required** — Sender email address. Either a plain string or an object with address and name.
-- `headers`: object — Custom email headers as key-value pairs.
-- `html`: string — HTML body of the email. Provide at least one of text or html (non-empty).
-- `reply_to`: any — Reply-to address. Either a plain string or an object with address and name.
-- `subject`: string **required** — Email subject line.
-- `text`: string — Plain text body of the email. Provide at least one of text or html (non-empty).
-- `to`: any — Recipient(s). Optional if cc or bcc is provided. A single email string, a named address object, or an array of either.
+(one of 3 variants; showing the first)
+object
+(one of 2 variants; showing the first)
+object
 
 **Response** 200 → `result`
 
@@ -61,6 +64,8 @@ operationId: `email-sending-account-send-builder`
 - `permanent_bounces`: string[] **required** — Email addresses that permanently bounced.
   [array]
 - `queued`: string[] **required** — Email addresses for which delivery was queued for later.
+  [array]
+- `suppressed_recipients`: string[] **required** — Email addresses dropped because they are on the suppression list. Returned when suppressed-recipient dropping is enabled for the sending sub
   [array]
 
 ## POST /accounts/{account_id}/email/sending/send_raw
@@ -84,4 +89,6 @@ operationId: `email-sending-account-send-raw-message`
 - `permanent_bounces`: string[] **required** — Email addresses that permanently bounced.
   [array]
 - `queued`: string[] **required** — Email addresses for which delivery was queued for later.
+  [array]
+- `suppressed_recipients`: string[] **required** — Email addresses dropped because they are on the suppression list. Returned when suppressed-recipient dropping is enabled for the sending sub
   [array]

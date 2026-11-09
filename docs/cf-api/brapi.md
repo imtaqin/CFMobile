@@ -6,11 +6,13 @@
 
 Get accessibility tree page
 
-operationId: `brapi-post_AccessibilityTree` · query: `cacheTTL`
+operationId: `brapi-post_AccessibilityTree` · query: `cacheTTL`, `browser`
 
 **Request** (application/json)
 
 (one of 2 variants; showing the first)
+- `html`: string
+- `url`: string **required**
 
 **Response** 200 → `result`
 
@@ -20,11 +22,13 @@ operationId: `brapi-post_AccessibilityTree` · query: `cacheTTL`
 
 Get HTML content.
 
-operationId: `brapi-post_Content` · query: `cacheTTL`
+operationId: `brapi-post_Content` · query: `cacheTTL`, `browser`
 
 **Request** (application/json)
 
 (one of 2 variants; showing the first)
+- `html`: string
+- `url`: string **required**
 
 **Response** 200 → `result`
 
@@ -40,7 +44,7 @@ operationId: `brapi-post_Crawl` · query: `cacheTTL`
 
 (one of 2 variants; showing the first)
 - `actionTimeout`: number — The maximum duration allowed for the browser action to complete after the page has loaded (such as taking screenshots, extracting content, o
-- `addScriptTag`: object[] — Adds a `<script>` tag into the page with the desired URL or content.
+- `addScriptTag`: object[] — Adds a script element into the page with the desired URL or content.
   [array of]
   - `content`: string
   - `id`: string
@@ -50,14 +54,16 @@ operationId: `brapi-post_Crawl` · query: `cacheTTL`
   [array of]
   - `content`: string
   - `url`: string
-- `allowRequestPattern`: string[] — Only allow requests that match the provided regex patterns, eg. '/^.*\.(css)'.
+- `allowRequestPattern`: string[] — Only allow requests that match the provided regex patterns, eg. '/^.*\.(css)'. Reject rules are applied first.
   [array]
-- `allowResourceTypes`: object[] — Only allow requests that match the provided resource types, eg. 'image' or 'script'.
+- `allowResourceTypes`: object[] — Only allow requests that match the provided resource types, eg. 'image' or 'script'. Reject rules are applied first.
   [array]
 - `authenticate`: object — Provide credentials for HTTP authentication.
   - `password`: string **required**
   - `username`: string **required**
 - `bestAttempt`: boolean — Attempt to proceed when 'awaited' events fail or timeout.
+- `browser`: string enum: `kitesurf` — Rendering backend for this crawl. Set to `kitesurf` to render pages with Kitesurf (beta). Only valid when `render` is `true`.
+- `contentUse`: any default: `full` — Intended content use level to respect the `use` Content-Signal directive in robots.txt. Levels (least to most permissive): 'reference', 'ful
 - `cookies`: object[] — Check [options](https://pptr.dev/api/puppeteer.page.setcookie).
   [array of]
   - `domain`: string
@@ -159,27 +165,41 @@ operationId: `brapi-get_CrawlResult` · query: `cacheTTL`, `status`, `cursor`, `
   - `html`: string — HTML content of the crawled URL.
   - `json`: object — JSON of the content of the crawled URL.
   - `markdown`: string — Markdown of the content of the crawled URL.
-  - `metadata`: object **required**
+  - `metadata`: object — Absent for urls that never reached a fetch.
+    - `lastModified`: string — Value of the Last-Modified response header, when provided by the origin.
+    - `og:description`: string — Open Graph description of the crawled page.
+    - `og:image`: string — Open Graph image of the crawled page.
+    - `og:site_name`: string — Open Graph site name of the crawled page.
+    - `og:title`: string — Open Graph title of the crawled page.
+    - `og:type`: string — Open Graph type of the crawled page.
     - `status`: number **required** — HTTP status code of the crawled page.
     - `title`: string — Title of the crawled page.
     - `url`: string **required** — Final URL of the crawled page.
+  - `outcome`: string enum: `success`, `robots_disallowed`, `crawl_purpose_disallowed`, `content_use_disallowed`, `connection_error`, `timeout`, `browser_unavailable`, `format_generation_error` — Result of processing the URL. Absent for older records.
   - `status`: string **required** enum: `queued`, `errored`, `completed`, `disallowed`, `skipped`, `cancelled` — Current status of the crawled URL.
   - `url`: string **required** — Crawled URL.
+- `robots`: object[] **required** — Robots.txt state for the first 50 origins encountered by the crawl.
+  [array of]
+  - `origin`: string **required** — Origin whose robots.txt was checked.
+  - `state`: string **required** enum: `available`, `absent`, `fetch_failed` — Whether usable robots.txt rules were available.
+  - `status`: number — HTTP status that established the current robots.txt state. Absent when no HTTP response was received.
 - `skipped`: number **required** — Total number of URLs that were skipped due to include/exclude/subdomain filters. Skipped URLs are included in records but are not counted to
 - `status`: string **required** — Current crawl job status.
 - `total`: number **required** — Total current number of URLs in the crawl job.
-
-## GET /accounts/{account_id}/browser-rendering/devtools/browser
-
-Acquire and connect to browser session.
-
-operationId: `brapi-get_DevtoolsBrowserAcquire` · query: `keep_alive`, `lab`, `recording`
 
 ## POST /accounts/{account_id}/browser-rendering/devtools/browser
 
 Get a browser session ID.
 
 operationId: `brapi-post_DevtoolsAcquire` · query: `keep_alive`, `lab`, `targets`, `liveViewUrlExpiresInMs`, `recording`
+
+**Request** (application/json)
+
+- `guardrails`: object
+  - `allowedDomainSets`: string[] — Max 4 entries: curated preset names (common-cdns) and/or https URLs of newline-separated hostname lists.
+    [array]
+  - `allowedDomains`: string[] — Hostname patterns, max 50. Supports exact hosts (example.com) or a single * wildcard anywhere. Prefer *.example.com (subdomain wildcard) ove
+    [array]
 
 **Response** 200 → `result`
 
@@ -195,12 +215,6 @@ operationId: `brapi-delete_DevtoolsBrowserDelete`
 **Response** 200 → `result`
 
 - `status`: string **required** enum: `closing`, `closed`
-
-## GET /accounts/{account_id}/browser-rendering/devtools/browser/{session_id}
-
-Connect to browser session.
-
-operationId: `brapi-get_DevtoolsBrowser` · query: `keep_alive`, `lab`, `recording`
 
 ## GET /accounts/{account_id}/browser-rendering/devtools/browser/{session_id}/json
 
@@ -327,11 +341,29 @@ operationId: `brapi-get_DevtoolsJsonVersion`
 - `WebKit-Version`: string **required** — WebKit version.
 - `webSocketDebuggerUrl`: string **required** — WebSocket URL for debugging the browser.
 
-## GET /accounts/{account_id}/browser-rendering/devtools/browser/{session_id}/page/{target_id}
+## POST /accounts/{account_id}/browser-rendering/devtools/browser/{session_id}/live_view
 
-Connect to a specific Chrome DevTools page.
+Mint live view URLs for a browser session
 
-operationId: `brapi-get_DevtoolsPage`
+operationId: `brapi-post_DevtoolsLiveView`
+
+**Request** (application/json)
+
+- `expiresInMs`: number default: `300000` — How long the live view URLs remain valid, in milliseconds. Default: 5 minutes. Max: 60 minutes.
+- `guardrails`: object — Connection guardrails. Use `{ mode: 'readonly' }` to generate a view-only link.
+  - `mode`: string **required** enum: `readonly`
+- `mode`: string enum: `devtools`, `tab`, `full` default: `devtools` — UI mode: 'devtools' (Chrome DevTools), 'tab' (single tab view), 'full' (multi-tab browser)
+- `targetId`: string — Target ID (page) to connect to. If omitted, auto-resolves to the first active page.
+
+**Response** 200 → `result`
+
+- `devtoolsFrontendUrl`: string **required** — URL to open the live view in a browser
+- `id`: string **required** — Target ID
+- `options`: object **required**
+  - `guardrails`: object — Connection guardrails applied to this link
+    - `mode`: string **required** enum: `readonly`
+  - `mode`: string **required** enum: `devtools`, `tab`, `full` — UI mode for the live view
+- `webSocketDebuggerUrl`: string **required** — WebSocket URL for CDP connection
 
 ## GET /accounts/{account_id}/browser-rendering/devtools/session
 
@@ -342,7 +374,7 @@ operationId: `brapi-get_DevtoolsSessionList` · query: `limit`, `offset`
 **Response** 200 → `result`
 
 [array of]
-- `closeReason`: string — Reason for session closure.
+- `closeReason`: number — Reason code for session closure.
 - `closeReasonText`: string — Human-readable close reason.
 - `connectionEndTime`: number — Connection end time.
 - `connectionId`: string — Connection ID.
@@ -362,7 +394,7 @@ operationId: `brapi-get_DevtoolsSessionDetails`
 
 **Response** 200 → `result`
 
-- `closeReason`: string — Reason for session closure.
+- `closeReason`: number — Reason code for session closure.
 - `closeReasonText`: string — Human-readable close reason.
 - `connectionEndTime`: number — Connection end time.
 - `connectionId`: string — Connection ID.
@@ -378,11 +410,13 @@ operationId: `brapi-get_DevtoolsSessionDetails`
 
 Get json.
 
-operationId: `brapi-post_Json` · query: `cacheTTL`
+operationId: `brapi-post_Json` · query: `cacheTTL`, `browser`
 
 **Request** (application/json)
 
 (one of 2 variants; showing the first)
+- `html`: string
+- `url`: string **required**
 
 **Response** 200 → `result`
 
@@ -392,11 +426,13 @@ object
 
 Get Links.
 
-operationId: `brapi-post_Links` · query: `cacheTTL`
+operationId: `brapi-post_Links` · query: `cacheTTL`, `browser`
 
 **Request** (application/json)
 
 (one of 2 variants; showing the first)
+- `html`: string
+- `url`: string **required**
 
 **Response** 200 → `result`
 
@@ -407,11 +443,13 @@ string
 
 Get markdown.
 
-operationId: `brapi-post_Markdown` · query: `cacheTTL`
+operationId: `brapi-post_Markdown` · query: `cacheTTL`, `browser`
 
 **Request** (application/json)
 
 (one of 2 variants; showing the first)
+- `html`: string
+- `url`: string **required**
 
 **Response** 200 → `result`
 
@@ -421,25 +459,51 @@ string
 
 Get PDF.
 
-operationId: `brapi-post_Pdf` · query: `cacheTTL`
+operationId: `brapi-post_Pdf` · query: `cacheTTL`, `browser`
 
 **Request** (application/json)
 
 (one of 2 variants; showing the first)
+- `html`: string
+- `url`: string **required**
 
 **Response** 200 → `result`
 
 string
 
+## GET /accounts/{account_id}/browser-rendering/recording/{session_id}
+
+Get recording data.
+
+operationId: `brapi-get_Recording`
+
+**Response** 200 → `result`
+
+- `duration`: number **required** — Recording duration in milliseconds.
+- `events`: object **required** — Recording events by target ID.
+- `sessionId`: string **required** — Session ID.
+
+## GET /accounts/{account_id}/browser-rendering/recording/{session_id}/network
+
+Get network recording data.
+
+operationId: `brapi-get_RecordingNetwork` · query: `format`, `target`
+
+**Response** 200 → `result`
+
+object
+
 ## POST /accounts/{account_id}/browser-rendering/scrape
 
 Scrape elements.
 
-operationId: `brapi-post_Scrape` · query: `cacheTTL`
+operationId: `brapi-post_Scrape` · query: `cacheTTL`, `browser`
 
 **Request** (application/json)
 
 (one of 2 variants; showing the first)
+- `html`: string
+- `url`: string **required**
 
 **Response** 200 → `result`
 
@@ -461,11 +525,13 @@ operationId: `brapi-post_Scrape` · query: `cacheTTL`
 
 Get screenshot.
 
-operationId: `brapi-post_Screenshot` · query: `cacheTTL`
+operationId: `brapi-post_Screenshot` · query: `cacheTTL`, `browser`
 
 **Request** (application/json)
 
 (one of 2 variants; showing the first)
+- `html`: string
+- `url`: string **required**
 
 **Response** 200 → `result`
 
@@ -479,11 +545,13 @@ operationId: `brapi-post_Screenshot` · query: `cacheTTL`
 
 Get HTML content and screenshot.
 
-operationId: `brapi-post_Snapshot` · query: `cacheTTL`
+operationId: `brapi-post_Snapshot` · query: `cacheTTL`, `browser`
 
 **Request** (application/json)
 
 (one of 2 variants; showing the first)
+- `html`: string
+- `url`: string **required**
 
 **Response** 200 → `result`
 
@@ -542,5 +610,5 @@ operationId: `brapi-post_Snapshot` · query: `cacheTTL`
   - `valuemin`: number
   - `valuetext`: string
 - `content`: string — HTML content.
-- `markdown`: string — Markdown content.
+- `markdown`: string — Markdown content. Prefixed with YAML frontmatter (e.g. `title`) when the page provides that metadata.
 - `screenshot`: string — Base64 encoded image.

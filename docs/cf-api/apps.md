@@ -1,6 +1,6 @@
 # Apps
 
-8 endpoints.
+9 endpoints.
 
 ## GET /accounts/{account_id}/flagship/apps
 
@@ -25,7 +25,7 @@ operationId: `flagship_create_app`
 
 **Request** (application/json)
 
-- `name`: string **required**
+- `name`: string **required** — Name of the Flagship app (1–64 letters, numbers, hyphens, or underscores).
 
 **Response** 201 → `result`
 
@@ -67,7 +67,7 @@ operationId: `flagship_update_app`
 
 **Request** (application/json)
 
-- `name`: string
+- `name`: string — Name of the Flagship app (1–64 letters, numbers, hyphens, or underscores).
 
 **Response** 200 → `result`
 
@@ -128,3 +128,23 @@ operationId: `get_app`
   - `id`: string
   - `name`: string
 - `success`: boolean
+
+## PATCH /accounts/{account_id}/realtime/kit/apps/{app_id}
+
+Update an app
+
+operationId: `update_app`
+
+**Request** (application/json)
+
+- `name`: string **required** — The app name. Leading and trailing whitespace is removed, and the name must contain at least one non-whitespace character.
+
+**Response** 200 → `result`
+
+- `data`: object **required**
+  - `cf_account_tag`: string
+  - `created_at`: string
+  - `id`: string
+  - `is_org_on_kv`: boolean
+  - `name`: string
+- `success`: boolean **required** enum: `true`

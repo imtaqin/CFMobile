@@ -21,7 +21,7 @@ operationId: `device-managed-networks-create-device-managed-network`
 
 **Request** (application/json)
 
-- `config`: object **required** — The configuration object containing information for the WARP client to detect the managed network.
+- `config`: any **required**
 - `name`: string **required** — The name of the device managed network. This name must be unique.
 - `type`: string **required** enum: `tls` — The type of device managed network.
 
@@ -60,7 +60,7 @@ operationId: `device-managed-networks-update-device-managed-network`
 
 **Request** (application/json)
 
-- `config`: object — The configuration object containing information for the WARP client to detect the managed network.
+- `config`: any
 - `name`: string — The name of the device managed network. This name must be unique.
 - `type`: string enum: `tls` — The type of device managed network.
 

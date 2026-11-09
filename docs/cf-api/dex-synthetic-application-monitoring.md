@@ -201,7 +201,8 @@ operationId: `device-dex-test-details` · query: `page`, `per_page`, `testName`,
 
 **Response** 200 → `result`
 
-[array]
+[array of]
+object
 
 ## POST /accounts/{account_id}/dex/devices/dex_tests
 
@@ -506,7 +507,7 @@ operationId: `dex-endpoints-http-test-details` · query: `deviceId`, `from`, `to
     - `slots`: object[] **required**
   - `uniqueDevicesTotal`: integer **required** — Count of unique devices that have run this test in the given time period.
 - `interval`: string — The interval at which the HTTP synthetic application test is set to run.
-- `kind`: any enum: `http`
+- `kind`: string enum: `http`
 - `method`: string — The HTTP method to use when running the test.
 - `name`: string — The name of the HTTP synthetic application test.
 - `target_policies`: object[]
@@ -634,7 +635,7 @@ operationId: `dex-endpoints-traceroute-test-details` · query: `deviceId`, `from
 
 - `host`: string **required** — The host of the Traceroute synthetic application test.
 - `interval`: string **required** — The interval at which the Traceroute synthetic application test is set to run.
-- `kind`: any **required** enum: `traceroute`
+- `kind`: string **required** enum: `traceroute`
 - `name`: string **required** — The name of the Traceroute synthetic application test.
 - `target_policies`: object[]
   [array of]
@@ -700,11 +701,11 @@ operationId: `dex-endpoints-traceroute-test-network-path` · query: `deviceId`, 
 - `deviceName`: string — Name of the device that ran the test.
 - `id`: string **required** — API Resource UUID tag.
 - `interval`: string — The interval at which the Traceroute synthetic application test is set to run.
-- `kind`: any enum: `traceroute`
+- `kind`: string enum: `traceroute`
 - `name`: string
 - `networkPath`: object
   - `sampling`: object — Specifies the sampling applied, if any, to the slots response. When sampled, results shown represent the first test run to the start of each
-    - `unit`: any **required** enum: `hours`
+    - `unit`: string **required** enum: `hours`
     - `value`: integer **required**
   - `slots`: object[] **required**
     [array of]

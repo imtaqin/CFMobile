@@ -10,7 +10,7 @@ operationId: `client-certificate-for-a-zone-list-hostname-associations` · query
 
 **Response** 200 → `result`
 
-- `hostnames`: string[]
+- `hostnames`: string[] — Hostnames are returned in lowercase punycode, in no particular order. Null when there are no associations.
   [array]
 
 ## PUT /zones/{zone_id}/certificate_authorities/hostname_associations
@@ -21,13 +21,13 @@ operationId: `client-certificate-for-a-zone-put-hostname-associations`
 
 **Request** (application/json)
 
-- `hostnames`: string[]
+- `hostnames`: string[] — Unordered set of hostnames. Hostnames are stored as lowercase punycode.
   [array]
 - `mtls_certificate_id`: string — The UUID for a certificate that was uploaded to the mTLS Certificate Management endpoint. If no mtls_certificate_id is given, the hostnames 
 
 **Response** 200 → `result`
 
-- `hostnames`: string[]
+- `hostnames`: string[] — Hostnames are returned in lowercase punycode, in no particular order. Null when there are no associations.
   [array]
 
 ## GET /zones/{zone_id}/client_certificates
@@ -48,7 +48,7 @@ operationId: `client-certificate-for-a-zone-list-client-certificates` · query: 
 - `csr`: string — The Certificate Signing Request (CSR). Must be newline-encoded.
 - `expires_on`: string — Date that the Client Certificate expires.
 - `fingerprint_sha256`: string — Unique identifier of the Client Certificate.
-- `id`: string — Identifier.
+- `id`: string — Client Certificate Tag
 - `issued_on`: string — Date that the Client Certificate was issued by the Certificate Authority.
 - `location`: string — Location, provided by the CSR.
 - `organization`: string — Organization, provided by the CSR.
@@ -82,7 +82,7 @@ operationId: `client-certificate-for-a-zone-create-client-certificate`
 - `csr`: string — The Certificate Signing Request (CSR). Must be newline-encoded.
 - `expires_on`: string — Date that the Client Certificate expires.
 - `fingerprint_sha256`: string — Unique identifier of the Client Certificate.
-- `id`: string — Identifier.
+- `id`: string — Client Certificate Tag
 - `issued_on`: string — Date that the Client Certificate was issued by the Certificate Authority.
 - `location`: string — Location, provided by the CSR.
 - `organization`: string — Organization, provided by the CSR.
@@ -111,7 +111,7 @@ operationId: `client-certificate-for-a-zone-delete-client-certificate`
 - `csr`: string — The Certificate Signing Request (CSR). Must be newline-encoded.
 - `expires_on`: string — Date that the Client Certificate expires.
 - `fingerprint_sha256`: string — Unique identifier of the Client Certificate.
-- `id`: string — Identifier.
+- `id`: string — Client Certificate Tag
 - `issued_on`: string — Date that the Client Certificate was issued by the Certificate Authority.
 - `location`: string — Location, provided by the CSR.
 - `organization`: string — Organization, provided by the CSR.
@@ -140,7 +140,7 @@ operationId: `client-certificate-for-a-zone-client-certificate-details`
 - `csr`: string — The Certificate Signing Request (CSR). Must be newline-encoded.
 - `expires_on`: string — Date that the Client Certificate expires.
 - `fingerprint_sha256`: string — Unique identifier of the Client Certificate.
-- `id`: string — Identifier.
+- `id`: string — Client Certificate Tag
 - `issued_on`: string — Date that the Client Certificate was issued by the Certificate Authority.
 - `location`: string — Location, provided by the CSR.
 - `organization`: string — Organization, provided by the CSR.
@@ -173,7 +173,7 @@ operationId: `client-certificate-for-a-zone-edit-client-certificate`
 - `csr`: string — The Certificate Signing Request (CSR). Must be newline-encoded.
 - `expires_on`: string — Date that the Client Certificate expires.
 - `fingerprint_sha256`: string — Unique identifier of the Client Certificate.
-- `id`: string — Identifier.
+- `id`: string — Client Certificate Tag
 - `issued_on`: string — Date that the Client Certificate was issued by the Certificate Authority.
 - `location`: string — Location, provided by the CSR.
 - `organization`: string — Organization, provided by the CSR.

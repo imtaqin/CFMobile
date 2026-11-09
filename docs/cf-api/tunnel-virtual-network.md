@@ -48,12 +48,6 @@ Get a virtual network
 
 operationId: `tunnel-virtual-network-get`
 
-**Request** (application/json)
-
-- `comment`: string default: `` — Optional remark describing the virtual network.
-- `is_default_network`: boolean — If `true`, this virtual network is the default for the account.
-- `name`: string — A user-friendly name for the virtual network.
-
 **Response** 200 → `result`
 
 (one of 3 variants; showing the first)

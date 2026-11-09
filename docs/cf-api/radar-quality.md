@@ -25,9 +25,9 @@ operationId: `radar-get-quality-index-summary` · query: `name`, `dateRange`, `d
     - `name`: string **required**
     - `value`: string **required**
 - `summary_0`: object **required**
-  - `p25`: string **required**
-  - `p50`: string **required**
-  - `p75`: string **required**
+  - `p25`: string **required** — A numeric string.
+  - `p50`: string **required** — A numeric string.
+  - `p75`: string **required** — A numeric string.
 
 ## GET /radar/quality/iqi/timeseries_groups
 
@@ -112,13 +112,13 @@ operationId: `radar-get-quality-speed-summary` · query: `name`, `dateEnd`, `asn
     - `name`: string **required**
     - `value`: string **required**
 - `summary_0`: object **required**
-  - `bandwidthDownload`: string **required**
-  - `bandwidthUpload`: string **required**
-  - `jitterIdle`: string **required**
-  - `jitterLoaded`: string **required**
-  - `latencyIdle`: string **required**
-  - `latencyLoaded`: string **required**
-  - `packetLoss`: string **required**
+  - `bandwidthDownload`: string **required** — A numeric string.
+  - `bandwidthUpload`: string **required** — A numeric string.
+  - `jitterIdle`: string **required** — A numeric string.
+  - `jitterLoaded`: string **required** — A numeric string.
+  - `latencyIdle`: string **required** — A numeric string.
+  - `latencyLoaded`: string **required** — A numeric string.
+  - `packetLoss`: string **required** — A numeric string.
 
 ## GET /radar/quality/speed/top/ases
 
@@ -144,15 +144,15 @@ operationId: `radar-get-quality-speed-top-ases` · query: `limit`, `name`, `date
     - `value`: string **required**
 - `top_0`: object[] **required**
   [array of]
-  - `bandwidthDownload`: string **required**
-  - `bandwidthUpload`: string **required**
-  - `clientASN`: number **required**
+  - `bandwidthDownload`: string **required** — A numeric string.
+  - `bandwidthUpload`: string **required** — A numeric string.
+  - `clientASN`: integer **required**
   - `clientASName`: string **required**
-  - `jitterIdle`: string **required**
-  - `jitterLoaded`: string **required**
-  - `latencyIdle`: string **required**
-  - `latencyLoaded`: string **required**
-  - `numTests`: number **required**
+  - `jitterIdle`: string **required** — A numeric string.
+  - `jitterLoaded`: string **required** — A numeric string.
+  - `latencyIdle`: string **required** — A numeric string.
+  - `latencyLoaded`: string **required** — A numeric string.
+  - `numTests`: integer **required**
   - `rankPower`: number **required**
 
 ## GET /radar/quality/speed/top/locations
@@ -179,13 +179,13 @@ operationId: `radar-get-quality-speed-top-locations` · query: `limit`, `name`, 
     - `value`: string **required**
 - `top_0`: object[] **required**
   [array of]
-  - `bandwidthDownload`: string **required**
-  - `bandwidthUpload`: string **required**
+  - `bandwidthDownload`: string **required** — A numeric string.
+  - `bandwidthUpload`: string **required** — A numeric string.
   - `clientCountryAlpha2`: string **required**
   - `clientCountryName`: string **required**
-  - `jitterIdle`: string **required**
-  - `jitterLoaded`: string **required**
-  - `latencyIdle`: string **required**
-  - `latencyLoaded`: string **required**
-  - `numTests`: number **required**
+  - `jitterIdle`: string **required** — A numeric string.
+  - `jitterLoaded`: string **required** — A numeric string.
+  - `latencyIdle`: string **required** — A numeric string.
+  - `latencyLoaded`: string **required** — A numeric string.
+  - `numTests`: integer **required**
   - `rankPower`: number **required**

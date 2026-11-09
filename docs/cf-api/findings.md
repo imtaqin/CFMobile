@@ -61,7 +61,7 @@ operationId: `ListFindings` · query: `cursor`, `direction`, `ignored`, `integra
 
 ## GET /accounts/{account_id}/data-security/posture/findings/{finding_id}
 
-Get a finding type
+Get a posture finding
 
 operationId: `GetFinding`
 
@@ -140,6 +140,7 @@ operationId: `ListFindingInstances` · query: `archived`, `cursor`, `direction`,
   - `id`: string — Unique identifier for the asset.
   - `link`: string — Direct link to the asset.
   - `name`: string **required** — Human-readable name of the asset.
+  - `updated`: string — Timestamp of the asset row version represented by this data.
 - `dlp_contexts`: object[] **required** — DLP context information if this is a content finding.
   [array of]
   - `created`: string **required** — When the DLP context was created.
@@ -194,6 +195,7 @@ operationId: `GetFindingInstance`
   - `id`: string — Unique identifier for the asset.
   - `link`: string — Direct link to the asset.
   - `name`: string **required** — Human-readable name of the asset.
+  - `updated`: string — Timestamp of the asset row version represented by this data.
 - `dlp_contexts`: object[] **required** — DLP context information if this is a content finding.
   [array of]
   - `created`: string **required** — When the DLP context was created.
@@ -253,6 +255,7 @@ operationId: `ArchiveFindingInstance`
   - `id`: string — Unique identifier for the asset.
   - `link`: string — Direct link to the asset.
   - `name`: string **required** — Human-readable name of the asset.
+  - `updated`: string — Timestamp of the asset row version represented by this data.
 - `dlp_contexts`: object[] **required** — DLP context information if this is a content finding.
   [array of]
   - `created`: string **required** — When the DLP context was created.
@@ -312,6 +315,7 @@ operationId: `UnarchiveFindingInstance`
   - `id`: string — Unique identifier for the asset.
   - `link`: string — Direct link to the asset.
   - `name`: string **required** — Human-readable name of the asset.
+  - `updated`: string — Timestamp of the asset row version represented by this data.
 - `dlp_contexts`: object[] **required** — DLP context information if this is a content finding.
   [array of]
   - `created`: string **required** — When the DLP context was created.

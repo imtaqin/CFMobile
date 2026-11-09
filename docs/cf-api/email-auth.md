@@ -33,27 +33,31 @@ operationId: `get_dmarc_reports_status`
     - `content`: string — Record content
     - `id`: string — DNS record ID
     - `name`: string — DNS record name
+    - `resolved`: string[] — For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but not
     - `ttl`: integer — Time to live in seconds
     - `type`: string — Record type
-  - `cname_dkim_records`: object[] — CNAME records for DKIM
+  - `cname_dkim_records`: object[] — CNAME records for DKIM selectors. Each selector is resolved independently; when a selector's CNAME resolves to a DKIM TXT record, the API re
     [array of]
     - `content`: string — Record content
     - `id`: string — DNS record ID
     - `name`: string — DNS record name
+    - `resolved`: string[] — For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but not
     - `ttl`: integer — Time to live in seconds
     - `type`: string — Record type
-  - `cname_dmarc_records`: object[] — CNAME records at _dmarc (problematic)
+  - `cname_dmarc_records`: object[] — CNAME records at _dmarc. When such a CNAME resolves to a DMARC TXT record, the API returns that record's content in the `resolved` field of 
     [array of]
     - `content`: string — Record content
     - `id`: string — DNS record ID
     - `name`: string — DNS record name
+    - `resolved`: string[] — For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but not
     - `ttl`: integer — Time to live in seconds
     - `type`: string — Record type
-  - `cname_spf_records`: object[] — CNAME records for SPF
+  - `cname_spf_records`: object[] — CNAME records at the zone apex. When such a CNAME resolves to an SPF TXT record, the API returns that record's content in the `resolved` fie
     [array of]
     - `content`: string — Record content
     - `id`: string — DNS record ID
     - `name`: string — DNS record name
+    - `resolved`: string[] — For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but not
     - `ttl`: integer — Time to live in seconds
     - `type`: string — Record type
   - `dkim_records`: object[] — DKIM TXT records
@@ -61,6 +65,7 @@ operationId: `get_dmarc_reports_status`
     - `content`: string — Record content
     - `id`: string — DNS record ID
     - `name`: string — DNS record name
+    - `resolved`: string[] — For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but not
     - `ttl`: integer — Time to live in seconds
     - `type`: string — Record type
   - `dmarc_records`: object[] — DMARC TXT records
@@ -68,18 +73,24 @@ operationId: `get_dmarc_reports_status`
     - `content`: string — Record content
     - `id`: string — DNS record ID
     - `name`: string — DNS record name
+    - `resolved`: string[] — For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but not
     - `ttl`: integer — Time to live in seconds
     - `type`: string — Record type
+  - `resolved_dmarc_records`: object[] — DMARC records that a recursive lookup of _dmarc.{zone} returned. The API populates this only when the zone lacks a DMARC TXT record of its o
+    [array of]
+    - `content`: string — The TXT record value. The API joins all character-strings into a single string.
+    - `name`: string — The name the API queried.
   - `spf_records`: object[] — SPF TXT records
     [array of]
     - `content`: string — Record content
     - `id`: string — DNS record ID
     - `name`: string — DNS record name
+    - `resolved`: string[] — For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but not
     - `ttl`: integer — Time to live in seconds
     - `type`: string — Record type
 - `rua_prefix`: string — Prefix for DMARC RUA addresses (32-char hex string)
 - `skip_wizard`: boolean — Whether to skip the setup wizard
-- `status`: string enum: `missing-dmarc-report`, `multiple-dmarc-reports`, `missing-dmarc-rua`, `cname-on-dmarc-record` — DMARC configuration status
+- `status`: string enum: `missing-dmarc-report`, `multiple-dmarc-reports`, `missing-dmarc-rua`, `cname-on-dmarc-record`, `unauthorized-reporting-domain` — DMARC configuration status. The API omits this field when DMARC is correctly configured. If the zone lacks a DMARC TXT record of its own, th
 - `tag`: string — Use `zone_id` instead
 - `zone_id`: string — Zone identifier
 
@@ -119,27 +130,31 @@ operationId: `configure_dmarc_reports`
     - `content`: string — Record content
     - `id`: string — DNS record ID
     - `name`: string — DNS record name
+    - `resolved`: string[] — For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but not
     - `ttl`: integer — Time to live in seconds
     - `type`: string — Record type
-  - `cname_dkim_records`: object[] — CNAME records for DKIM
+  - `cname_dkim_records`: object[] — CNAME records for DKIM selectors. Each selector is resolved independently; when a selector's CNAME resolves to a DKIM TXT record, the API re
     [array of]
     - `content`: string — Record content
     - `id`: string — DNS record ID
     - `name`: string — DNS record name
+    - `resolved`: string[] — For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but not
     - `ttl`: integer — Time to live in seconds
     - `type`: string — Record type
-  - `cname_dmarc_records`: object[] — CNAME records at _dmarc (problematic)
+  - `cname_dmarc_records`: object[] — CNAME records at _dmarc. When such a CNAME resolves to a DMARC TXT record, the API returns that record's content in the `resolved` field of 
     [array of]
     - `content`: string — Record content
     - `id`: string — DNS record ID
     - `name`: string — DNS record name
+    - `resolved`: string[] — For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but not
     - `ttl`: integer — Time to live in seconds
     - `type`: string — Record type
-  - `cname_spf_records`: object[] — CNAME records for SPF
+  - `cname_spf_records`: object[] — CNAME records at the zone apex. When such a CNAME resolves to an SPF TXT record, the API returns that record's content in the `resolved` fie
     [array of]
     - `content`: string — Record content
     - `id`: string — DNS record ID
     - `name`: string — DNS record name
+    - `resolved`: string[] — For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but not
     - `ttl`: integer — Time to live in seconds
     - `type`: string — Record type
   - `dkim_records`: object[] — DKIM TXT records
@@ -147,6 +162,7 @@ operationId: `configure_dmarc_reports`
     - `content`: string — Record content
     - `id`: string — DNS record ID
     - `name`: string — DNS record name
+    - `resolved`: string[] — For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but not
     - `ttl`: integer — Time to live in seconds
     - `type`: string — Record type
   - `dmarc_records`: object[] — DMARC TXT records
@@ -154,18 +170,24 @@ operationId: `configure_dmarc_reports`
     - `content`: string — Record content
     - `id`: string — DNS record ID
     - `name`: string — DNS record name
+    - `resolved`: string[] — For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but not
     - `ttl`: integer — Time to live in seconds
     - `type`: string — Record type
+  - `resolved_dmarc_records`: object[] — DMARC records that a recursive lookup of _dmarc.{zone} returned. The API populates this only when the zone lacks a DMARC TXT record of its o
+    [array of]
+    - `content`: string — The TXT record value. The API joins all character-strings into a single string.
+    - `name`: string — The name the API queried.
   - `spf_records`: object[] — SPF TXT records
     [array of]
     - `content`: string — Record content
     - `id`: string — DNS record ID
     - `name`: string — DNS record name
+    - `resolved`: string[] — For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but not
     - `ttl`: integer — Time to live in seconds
     - `type`: string — Record type
 - `rua_prefix`: string — Prefix for DMARC RUA addresses (32-char hex string)
 - `skip_wizard`: boolean — Whether to skip the setup wizard
-- `status`: string enum: `missing-dmarc-report`, `multiple-dmarc-reports`, `missing-dmarc-rua`, `cname-on-dmarc-record` — DMARC configuration status
+- `status`: string enum: `missing-dmarc-report`, `multiple-dmarc-reports`, `missing-dmarc-rua`, `cname-on-dmarc-record`, `unauthorized-reporting-domain` — DMARC configuration status. The API omits this field when DMARC is correctly configured. If the zone lacks a DMARC TXT record of its own, th
 - `tag`: string — Use `zone_id` instead
 - `zone_id`: string — Zone identifier
 
