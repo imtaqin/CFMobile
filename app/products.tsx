@@ -107,6 +107,7 @@ export default function ProductsScreen() {
         { route: 'access-mtls', icon: 'enhanced-encryption', title: t('settings.access_mtls'), subtitle: t('settings.access_mtls_sub'), feature: 'access' },
         { route: 'gateway-rules', icon: 'rule', title: t('settings.gateway_rules'), subtitle: t('settings.gateway_rules_sub'), feature: 'gateway-rules' },
         { route: 'infra-targets', icon: 'server', title: t('settings.infra_targets'), subtitle: t('settings.infra_targets_sub'), feature: 'infra-targets' },
+        { route: 'devices', icon: 'smartphone', title: t('devices.title'), subtitle: t('devices.subtitle') },
       ],
     },
     {

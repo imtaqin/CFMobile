@@ -2033,5 +2033,29 @@
     "unavailable_title": "Faturalandırma verileri mevcut değil",
     "unavailable_message": "Bu hesap veya API jetonu faturalandırılabilir kullanımı okuyamıyor. Bu bir alfa Cloudflare API'sidir ve sizin için henüz etkinleştirilmemiş olabilir.",
     "note": "Rakamlar Cloudflare'nin faturalandırılabilir kullanım API'sinden (alfa) alınmıştır ve sizin faturanızdan farklı olabilir."
+  },
+  "devices": {
+    "title": "Cihazlar",
+    "subtitle": "WARP'a kayıtlı Zero Trust cihaz",
+    "unavailable_title": "Zero Trust mevcut değil",
+    "unavailable_message": "Bu hesap veya API jetonu kayıtlı cihazları okuyamıyor. Zero Trust'yi etkinleştirin veya cihaz erişimi olan bir jeton kullanın.",
+    "empty_title": "Cihaz yok",
+    "empty_message": "Bu hesaba henüz kayıtlı WARP cihazı yok.",
+    "enrolled": "{{count}} kayıtlı",
+    "last_seen": "{{date}} görüldü",
+    "last_seen_label": "Son görülme",
+    "revoke": "Kayıtları iptal et",
+    "revoke_confirm": "Aktif kayıtları iptal ederek {{name}}'yi WARP'tan çıkarmak mı istiyorsunuz?",
+    "delete": "Cihazı sil",
+    "delete_confirm": "{{name}} bu hesaptan kaldırılsın mı? Bu geri alınamaz.",
+    "type": "Tip",
+    "model": "Modeli",
+    "manufacturer": "Üretici",
+    "os": "İşletim sistemi sürümü",
+    "client": "WARP istemcisi",
+    "serial": "Seri numarası",
+    "mac": "MAC adresi",
+    "user": "Son kullanıcı",
+    "active_registrations": "Aktif kayıtlar"
   }
 }

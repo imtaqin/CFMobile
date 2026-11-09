@@ -2033,5 +2033,29 @@
     "unavailable_title": "Data penagihan tidak tersedia",
     "unavailable_message": "Akun atau token API ini tidak dapat membaca penggunaan yang dapat ditagih. Ini adalah API alfa Cloudflare dan mungkin belum diaktifkan untuk Anda.",
     "note": "Angka berasal dari API penggunaan yang dapat ditagih (alfa) Cloudflare dan mungkin berbeda dari faktur Anda."
+  },
+  "devices": {
+    "title": "Perangkat",
+    "subtitle": "Perangkat Zero Trust yang terdaftar di WARP",
+    "unavailable_title": "Zero Trust tidak tersedia",
+    "unavailable_message": "Akun atau token API ini tidak dapat membaca perangkat yang terdaftar. Aktifkan Zero Trust, atau gunakan token dengan akses perangkat.",
+    "empty_title": "Tidak ada perangkat",
+    "empty_message": "Belum ada perangkat WARP yang terdaftar di akun ini.",
+    "enrolled": "{{count}} terdaftar",
+    "last_seen": "Terlihat {{date}}",
+    "last_seen_label": "Terakhir terlihat",
+    "revoke": "Cabut pendaftaran",
+    "revoke_confirm": "Keluarkan {{name}} dari WARP dengan mencabut registrasi aktifnya?",
+    "delete": "Hapus perangkat",
+    "delete_confirm": "Hapus {{name}} dari akun ini? Hal ini tidak dapat dibatalkan.",
+    "type": "Jenis",
+    "model": "Model",
+    "manufacturer": "Pabrikan",
+    "os": "versi sistem operasi",
+    "client": "klien WARP",
+    "serial": "Nomor seri",
+    "mac": "alamat MAC",
+    "user": "Pengguna terakhir",
+    "active_registrations": "Pendaftaran aktif"
   }
 }

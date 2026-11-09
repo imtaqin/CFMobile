@@ -2033,5 +2033,29 @@
     "unavailable_title": "결제 데이터를 사용할 수 없습니다.",
     "unavailable_message": "이 계정 또는 API 토큰은 청구 가능한 사용량을 읽을 수 없습니다. 이는 알파 Cloudflare API이며 아직 활성화되지 않았을 수 있습니다.",
     "note": "수치는 Cloudflare의 청구 가능 사용량 API(알파)에서 가져온 것이며 청구서와 다를 수 있습니다."
+  },
+  "devices": {
+    "title": "장치",
+    "subtitle": "WARP 등록 Zero Trust 장치",
+    "unavailable_title": "Zero Trust 사용할 수 없음",
+    "unavailable_message": "이 계정 또는 API 토큰은 등록된 장치를 읽을 수 없습니다. Zero Trust을 활성화하거나 장치 액세스가 가능한 토큰을 사용하세요.",
+    "empty_title": "기기 없음",
+    "empty_message": "아직 이 계정에 등록된 WARP 장치가 없습니다.",
+    "enrolled": "{{count}} 등록됨",
+    "last_seen": "본 {{date}}",
+    "last_seen_label": "마지막으로 본",
+    "revoke": "등록 취소",
+    "revoke_confirm": "활성 등록을 취소하여 WARP에서 {{name}}에 서명하시겠습니까?",
+    "delete": "기기 삭제",
+    "delete_confirm": "이 계정에서 {{name}}을 삭제하시겠습니까? 이 작업은 취소할 수 없습니다.",
+    "type": "유형",
+    "model": "모델",
+    "manufacturer": "제조업체",
+    "os": "OS 버전",
+    "client": "워프 클라이언트",
+    "serial": "일련번호",
+    "mac": "MAC 주소",
+    "user": "마지막 사용자",
+    "active_registrations": "활성 등록"
   }
 }

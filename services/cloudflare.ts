@@ -3848,6 +3848,41 @@ export async function deleteGatewayRule(accountId: string, ruleId: string): Prom
   return del(`/accounts/${accountId}/gateway/rules/${ruleId}`);
 }
 
+// ─── Zero Trust Devices ──────────────────────────────────────────────────────
+// WARP-enrolled devices via the current physical-devices API (the old
+// /accounts/{id}/devices list was deprecated in favour of this).
+
+export interface ZeroTrustDevice {
+  id: string;
+  name: string;
+  device_type?: string;
+  model?: string;
+  manufacturer?: string;
+  os_version?: string;
+  serial_number?: string;
+  mac_address?: string;
+  client_version?: string;
+  active_registrations: number;
+  last_seen_at: string;
+  created_at: string;
+  updated_at: string;
+  last_seen_user?: { email?: string; name?: string } | null;
+}
+
+export async function getZeroTrustDevices(accountId: string): Promise<CFResponse<ZeroTrustDevice[]>> {
+  return get(`/accounts/${accountId}/devices/physical-devices`, { per_page: 100 });
+}
+
+/** Revoke every active registration for a device (signs it out of WARP). */
+export async function revokeZeroTrustDevice(accountId: string, deviceId: string): Promise<CFResponse<any>> {
+  return post(`/accounts/${accountId}/devices/physical-devices/${deviceId}/revoke`, {});
+}
+
+/** Delete the device record entirely. */
+export async function deleteZeroTrustDevice(accountId: string, deviceId: string): Promise<CFResponse<any>> {
+  return del(`/accounts/${accountId}/devices/physical-devices/${deviceId}`);
+}
+
 // ─── Access Identity Providers ───────────────────────────────────────────────
 
 export type AccessIdentityProviderType =

@@ -2033,5 +2033,29 @@
     "unavailable_title": "Datos de facturación no disponibles",
     "unavailable_message": "Esta cuenta o token API no puede leer el uso facturable. Es una API alfa Cloudflare y es posible que aún no esté habilitada para usted.",
     "note": "Las cifras provienen de la API de uso facturable (alfa) de Cloudflare y pueden diferir de su factura."
+  },
+  "devices": {
+    "title": "Dispositivos",
+    "subtitle": "Dispositivos Zero Trust inscritos en WARP",
+    "unavailable_title": "Zero Trust no disponible",
+    "unavailable_message": "Esta cuenta o token API no puede leer los dispositivos inscritos. Habilite Zero Trust o use un token con acceso al dispositivo.",
+    "empty_title": "Sin dispositivos",
+    "empty_message": "Aún no hay dispositivos WARP registrados en esta cuenta.",
+    "enrolled": "{{count}} matriculados",
+    "last_seen": "Visto {{date}}",
+    "last_seen_label": "visto por última vez",
+    "revoke": "Revocar registros",
+    "revoke_confirm": "¿Salir {{name}} de WARP revocando sus registros activos?",
+    "delete": "Eliminar dispositivo",
+    "delete_confirm": "¿Eliminar {{name}} de esta cuenta? Esto no se puede deshacer.",
+    "type": "Tipo",
+    "model": "Modelo",
+    "manufacturer": "Fabricante",
+    "os": "Versión del sistema operativo",
+    "client": "cliente WARP",
+    "serial": "Número de serie",
+    "mac": "dirección MAC",
+    "user": "último usuario",
+    "active_registrations": "Registros activos"
   }
 }
