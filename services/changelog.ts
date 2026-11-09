@@ -7,6 +7,14 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '1.11.1',
+    date: '2026-11-09',
+    highlights: [],
+    fixes: [
+      'The in-app Worker editor no longer locks on single-file ES-module Workers (which was every export default Worker)',
+    ],
+  },
+  {
     version: '1.11.0',
     date: '2026-11-08',
     highlights: [
