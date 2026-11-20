@@ -7,6 +7,15 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '1.12.1',
+    date: '2026-11-20',
+    highlights: [],
+    fixes: [
+      'Sign in with Cloudflare now works on newer Android — the browser used to close without signing you in',
+      'Cloudflare Tunnels is reachable again from the product list',
+    ],
+  },
+  {
     version: '1.12.0',
     date: '2026-11-09',
     highlights: [
