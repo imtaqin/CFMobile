@@ -40,8 +40,10 @@ export default function OAuthCallbackScreen() {
       try {
         if (error) throw new Error(error_description || error);
         if (!code || !state) throw new Error(t('auth.oauth_failed'));
-        const { config } = await completeOAuth(code, state);
-        await login(config);
+        // null means the login screen's openAuthSessionAsync result already
+        // redeemed this code — the sign-in is done, just land on the app.
+        const res = await completeOAuth(code, state);
+        if (res) await login(res.config);
         if (router.canDismiss()) router.dismissAll();
         router.replace('/(tabs)');
       } catch (e: any) {
