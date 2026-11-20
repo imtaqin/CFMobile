@@ -1952,7 +1952,8 @@
     "workers_ai_sub": "Kenarda bir model çalıştırın",
     "ai_gateway_sub": "AI çağrılarınızı önbelleğe alın ve günlüğe kaydedin",
     "load_balancers_sub": "Havuzlar, monitörler ve yük devretme",
-    "web_analytics_sub": "Gizlilik öncelikli sayfa analitiği"
+    "web_analytics_sub": "Gizlilik öncelikli sayfa analitiği",
+    "tunnels_sub": "Cloudflared aracılığıyla yerel hizmetleri açığa çıkarın"
   },
   "dns_backup": {
     "title": "DNS yedeği",

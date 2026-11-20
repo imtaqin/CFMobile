@@ -1952,7 +1952,8 @@
     "workers_ai_sub": "Execute um modelo na borda",
     "ai_gateway_sub": "Armazene em cache e registre suas chamadas de IA",
     "load_balancers_sub": "Pools, monitores e failover",
-    "web_analytics_sub": "Análise de privacidade na primeira página"
+    "web_analytics_sub": "Análise de privacidade na primeira página",
+    "tunnels_sub": "Exponha serviços locais por meio do cloudflared"
   },
   "dns_backup": {
     "title": "Cópia de segurança DNS",

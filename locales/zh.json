@@ -1952,7 +1952,8 @@
     "workers_ai_sub": "在边缘运行模型",
     "ai_gateway_sub": "缓存并记录您的 AI 调用",
     "load_balancers_sub": "池、监视器和故障转移",
-    "web_analytics_sub": "隐私第一页分析"
+    "web_analytics_sub": "隐私第一页分析",
+    "tunnels_sub": "通过cloudflared公开本地服务"
   },
   "dns_backup": {
     "title": "DNS 备份",

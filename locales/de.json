@@ -1952,7 +1952,8 @@
     "workers_ai_sub": "Führen Sie ein Modell am Rand aus",
     "ai_gateway_sub": "Speichern und protokollieren Sie Ihre KI-Anrufe",
     "load_balancers_sub": "Pools, Monitore und Failover",
-    "web_analytics_sub": "Datenschutzorientierte Seitenanalyse"
+    "web_analytics_sub": "Datenschutzorientierte Seitenanalyse",
+    "tunnels_sub": "Stellen Sie lokale Dienste über Cloudflared bereit"
   },
   "dns_backup": {
     "title": "DNS-Sicherung",

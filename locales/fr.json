@@ -1952,7 +1952,8 @@
     "workers_ai_sub": "Exécuter un modèle sur le bord",
     "ai_gateway_sub": "Mettez en cache et enregistrez vos appels IA",
     "load_balancers_sub": "Pools, moniteurs et basculement",
-    "web_analytics_sub": "Analyse de la première page axée sur la confidentialité"
+    "web_analytics_sub": "Analyse de la première page axée sur la confidentialité",
+    "tunnels_sub": "Exposez les services locaux via cloudflared"
   },
   "dns_backup": {
     "title": "Sauvegarde DNS",

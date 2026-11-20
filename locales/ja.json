@@ -1952,7 +1952,8 @@
     "workers_ai_sub": "エッジでモデルを実行する",
     "ai_gateway_sub": "AI 通話をキャッシュして記録する",
     "load_balancers_sub": "プール、モニター、フェイルオーバー",
-    "web_analytics_sub": "プライバシーを最優先したページ分析"
+    "web_analytics_sub": "プライバシーを最優先したページ分析",
+    "tunnels_sub": "Cloudflared を通じてローカル サービスを公開する"
   },
   "dns_backup": {
     "title": "DNS バックアップ",

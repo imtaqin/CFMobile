@@ -1952,7 +1952,8 @@
     "workers_ai_sub": "Run a model on the edge",
     "ai_gateway_sub": "Cache and log your AI calls",
     "load_balancers_sub": "Pools, monitors and failover",
-    "web_analytics_sub": "Privacy-first page analytics"
+    "web_analytics_sub": "Privacy-first page analytics",
+    "tunnels_sub": "Expose local services through cloudflared"
   },
   "dns_backup": {
     "title": "DNS backup",
