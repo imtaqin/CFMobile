@@ -1952,7 +1952,8 @@
     "workers_ai_sub": "Chạy một mô hình ở rìa",
     "ai_gateway_sub": "Lưu vào bộ nhớ đệm và ghi nhật ký các cuộc gọi AI của bạn",
     "load_balancers_sub": "Nhóm, màn hình và chuyển đổi dự phòng",
-    "web_analytics_sub": "Phân tích trang đầu tiên về quyền riêng tư"
+    "web_analytics_sub": "Phân tích trang đầu tiên về quyền riêng tư",
+    "tunnels_sub": "Hiển thị các dịch vụ địa phương thông qua cloudflared"
   },
   "dns_backup": {
     "title": "Sao lưu DNS",

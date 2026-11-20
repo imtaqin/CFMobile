@@ -1952,7 +1952,8 @@
     "workers_ai_sub": "Jalankan model di tepinya",
     "ai_gateway_sub": "Cache dan catat panggilan AI Anda",
     "load_balancers_sub": "Kumpulan, monitor, dan failover",
-    "web_analytics_sub": "Analisis halaman yang mengutamakan privasi"
+    "web_analytics_sub": "Analisis halaman yang mengutamakan privasi",
+    "tunnels_sub": "Ekspos layanan lokal melalui cloudflared"
   },
   "dns_backup": {
     "title": "Cadangan DNS",

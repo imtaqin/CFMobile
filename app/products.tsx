@@ -86,6 +86,7 @@ export default function ProductsScreen() {
     {
       title: t('products.group_network'),
       products: [
+        { route: 'tunnels', icon: 'link', title: t('tunnels.title'), subtitle: t('products.tunnels_sub') },
         { route: 'load-balancers', icon: 'network', title: t('lb.title'), subtitle: t('products.load_balancers_sub') },
         { route: 'dns-firewall', icon: 'dns', title: t('dns_fw.title'), subtitle: t('products.dns_firewall_sub'), feature: 'dns-firewall' },
         { route: 'address-maps', icon: 'globe', title: t('addr.title'), subtitle: t('products.address_maps_sub'), feature: 'address-maps' },

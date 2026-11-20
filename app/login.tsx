@@ -9,7 +9,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useTranslation } from 'react-i18next';
 import { useVideoPlayer, VideoView } from 'expo-video';
 import * as WebBrowser from 'expo-web-browser';
-import { beginOAuth, OAUTH_APP_RETURN } from '@/services/oauth';
+import { beginOAuth, completeOAuth, OAUTH_APP_RETURN } from '@/services/oauth';
 import { useAuth } from '@/contexts/auth';
 import { Icon, IconName } from '@/components/ui/icon';
 import { useTheme } from '@/hooks/use-theme';
@@ -33,6 +33,19 @@ const METHODS: { value: AuthMethod; label: string }[] = [
   { value: 'global_key', label: 'Global Key' },
 ];
 
+/** Pull the query params out of a cfmobile://oauth/callback?… redirect URL. */
+function parseCallbackParams(url: string): Record<string, string> {
+  const q = url.includes('?') ? url.slice(url.indexOf('?') + 1) : '';
+  const out: Record<string, string> = {};
+  for (const pair of q.split('&')) {
+    if (!pair) continue;
+    const i = pair.indexOf('=');
+    const key = decodeURIComponent(i < 0 ? pair : pair.slice(0, i));
+    out[key] = i < 0 ? '' : decodeURIComponent(pair.slice(i + 1).replace(/\+/g, ' '));
+  }
+  return out;
+}
+
 export default function LoginScreen() {
   const { t } = useTranslation();
   const { colors } = useTheme();
@@ -51,14 +64,29 @@ export default function LoginScreen() {
   // Token and Global Key sign-in stay available, folded away behind "Advanced".
   const [showAdvanced, setShowAdvanced] = useState(false);
 
-  // Opens Cloudflare's consent page. The redirect lands on app/oauth/callback, which finishes the login.
+  // Opens Cloudflare's consent page and finishes the sign-in from the redirect
+  // that openAuthSessionAsync returns. Newer Android no longer reliably fires
+  // the cfmobile:// deep link (app/oauth/callback) during an auth session, so we
+  // can't rely on that route alone — we complete here from the returned URL, and
+  // completeOAuth dedupes if the deep link does also fire.
   const startOAuth = async () => {
     setOauthLoading(true);
     try {
       const url = await beginOAuth(isAddMode);
-      await WebBrowser.openAuthSessionAsync(url, OAUTH_APP_RETURN);
+      const result = await WebBrowser.openAuthSessionAsync(url, OAUTH_APP_RETURN);
+      if (result.type !== 'success' || !result.url) return; // user dismissed the browser
+      const params = parseCallbackParams(result.url);
+      if (params.error) throw new Error(params.error_description || params.error);
+      if (!params.code || !params.state) throw new Error(t('auth.oauth_failed'));
+      const res = await completeOAuth(params.code, params.state);
+      if (res) {
+        await login(res.config);
+        if (router.canDismiss()) router.dismissAll();
+        router.replace('/(tabs)');
+      }
     } catch (e: any) {
-      Alert.alert(t('common.error'), e?.message ?? t('auth.oauth_failed'));
+      const message = e?.response?.data?.errors?.[0]?.message ?? e?.message ?? t('auth.oauth_failed');
+      Alert.alert(t('common.error'), message);
     } finally {
       setOauthLoading(false);
     }

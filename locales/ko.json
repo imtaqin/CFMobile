@@ -1952,7 +1952,8 @@
     "workers_ai_sub": "에지에서 모델 실행",
     "ai_gateway_sub": "AI 호출을 캐시하고 기록하세요.",
     "load_balancers_sub": "풀, 모니터 및 장애 조치",
-    "web_analytics_sub": "개인 정보 보호 우선 페이지 분석"
+    "web_analytics_sub": "개인 정보 보호 우선 페이지 분석",
+    "tunnels_sub": "cloudflared를 통해 로컬 서비스 노출"
   },
   "dns_backup": {
     "title": "DNS 백업",

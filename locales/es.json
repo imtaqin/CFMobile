@@ -1952,7 +1952,8 @@
     "workers_ai_sub": "Ejecute un modelo en el borde",
     "ai_gateway_sub": "Almacene en caché y registre sus llamadas de IA",
     "load_balancers_sub": "Grupos, monitores y conmutación por error",
-    "web_analytics_sub": "Análisis de la primera página de privacidad"
+    "web_analytics_sub": "Análisis de la primera página de privacidad",
+    "tunnels_sub": "Exponga los servicios locales a través de la nube"
   },
   "dns_backup": {
     "title": "Copia de seguridad DNS",

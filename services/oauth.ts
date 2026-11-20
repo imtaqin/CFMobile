@@ -230,11 +230,20 @@ async function tokenRequest(params: Record<string, string>): Promise<TokenRespon
   return json as TokenResponse;
 }
 
+// The redirect can arrive twice: WebBrowser.openAuthSessionAsync resolves with
+// the result URL, and on some Android versions the cfmobile:// deep link also
+// fires — both would try to redeem the same single-use code. The first call for
+// a given state wins; later ones return null so the caller can no-op.
+const handledStates = new Set<string>();
+
 /**
- * Finish a sign-in from the redirect. Throws when the state does not match the
+ * Finish a sign-in from the redirect. Returns null if this state was already
+ * completed (a duplicate redirect). Throws when the state does not match the
  * one this device started with, so a link crafted by someone else is ignored.
  */
-export async function completeOAuth(code: string, state: string): Promise<{ config: AuthConfig; add: boolean }> {
+export async function completeOAuth(code: string, state: string): Promise<{ config: AuthConfig; add: boolean } | null> {
+  if (handledStates.has(state)) return null;
+  handledStates.add(state);
   const raw = await storage.get(PENDING_KEY);
   await storage.remove(PENDING_KEY);
   const pending = raw ? (JSON.parse(raw) as Pending) : null;
