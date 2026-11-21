@@ -2063,5 +2063,8 @@
     "mac": "MAC address",
     "user": "Last user",
     "active_registrations": "Active registrations"
+  },
+  "ads": {
+    "sponsored": "Sponsored"
   }
 }

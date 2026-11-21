@@ -2063,5 +2063,8 @@
     "mac": "MAC adresi",
     "user": "Son kullanıcı",
     "active_registrations": "Aktif kayıtlar"
+  },
+  "ads": {
+    "sponsored": "sponsorlu"
   }
 }

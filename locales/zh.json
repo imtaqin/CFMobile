@@ -2063,5 +2063,8 @@
     "mac": "MAC地址",
     "user": "最后一个用户",
     "active_registrations": "活跃注册量"
+  },
+  "ads": {
+    "sponsored": "赞助"
   }
 }
