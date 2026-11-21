@@ -37,6 +37,7 @@ export default function ZoneLayout() {
       <Stack.Screen name="observatory" options={{ title: 'Observatory' }} />
       <Stack.Screen name="spectrum" options={{ title: 'Spectrum' }} />
       <Stack.Screen name="web3" options={{ title: 'Web3' }} />
+      <Stack.Screen name="access-apps" options={{ title: 'Access Applications' }} />
       <Stack.Screen name="dns-backup" options={{ headerShown: true }} />
     </Stack>
   );

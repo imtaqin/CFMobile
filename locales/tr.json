@@ -2094,5 +2094,9 @@
     "run_query": "Sorguyu Çalıştır",
     "query_label": "SQL sorgu",
     "run": "Uygulamak"
+  },
+  "zone_access": {
+    "tile": "Access Apps",
+    "no_apps_message": "Cloudflare Access'nin arkasındaki bu bölgedeki bir siteyi koruyun."
   }
 }

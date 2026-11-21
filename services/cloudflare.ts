@@ -3818,6 +3818,8 @@ export interface AccessApplication {
   type?: string;
   session_duration?: string;
   app_launcher_visible?: boolean;
+  allow_iframe?: boolean;
+  skip_interstitial?: boolean;
   allowed_idps?: string[];
   tags?: string[];
   created_at?: string;
@@ -4299,4 +4301,55 @@ export async function updateAccessMtlsHostnameSettings(accountId: string, body: 
   settings: AccessMtlsHostnameSettings[];
 }): Promise<CFResponse<AccessMtlsHostnameSettings[]>> {
   return put(`/accounts/${accountId}/access/certificates/settings`, body);
+}
+
+// ─── Zone Access Applications ────────────────────────────────────────────────
+// Zone-scoped Access apps (/zones/{zone_id}/access/apps) — the separate product
+// from the account-level apps above. Reuses the AccessApplication shape, which
+// the schema shares. `policies`/user_policy_checks are out of scope (need a
+// group-reference picker); the PUT settings variant is omitted as a duplicate
+// of PATCH.
+
+export interface ZoneAccessAppSettings {
+  allow_iframe?: boolean;
+  skip_interstitial?: boolean;
+}
+
+export async function getZoneAccessApplications(zoneId: string): Promise<CFResponse<AccessApplication[]>> {
+  return get(`/zones/${zoneId}/access/apps`);
+}
+
+export async function getZoneAccessApplication(zoneId: string, appId: string): Promise<CFResponse<AccessApplication>> {
+  return get(`/zones/${zoneId}/access/apps/${appId}`);
+}
+
+export async function createZoneAccessApplication(zoneId: string, app: {
+  name: string;
+  domain: string;
+  type: string;
+  session_duration?: string;
+  app_launcher_visible?: boolean;
+}): Promise<CFResponse<AccessApplication>> {
+  return post(`/zones/${zoneId}/access/apps`, app);
+}
+
+export async function updateZoneAccessApplication(zoneId: string, appId: string, app: {
+  name?: string;
+  domain?: string;
+  session_duration?: string;
+  app_launcher_visible?: boolean;
+}): Promise<CFResponse<AccessApplication>> {
+  return put(`/zones/${zoneId}/access/apps/${appId}`, app);
+}
+
+export async function deleteZoneAccessApplication(zoneId: string, appId: string): Promise<CFResponse<{ id: string }>> {
+  return del(`/zones/${zoneId}/access/apps/${appId}`);
+}
+
+export async function revokeZoneAccessApplicationTokens(zoneId: string, appId: string): Promise<CFResponse<Record<string, never>>> {
+  return post(`/zones/${zoneId}/access/apps/${appId}/revoke_tokens`);
+}
+
+export async function updateZoneAccessApplicationSettings(zoneId: string, appId: string, settings: ZoneAccessAppSettings): Promise<CFResponse<ZoneAccessAppSettings>> {
+  return patch(`/zones/${zoneId}/access/apps/${appId}/settings`, settings);
 }

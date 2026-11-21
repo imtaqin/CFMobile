@@ -2094,5 +2094,9 @@
     "run_query": "Run Query",
     "query_label": "SQL query",
     "run": "Execute"
+  },
+  "zone_access": {
+    "tile": "Access Apps",
+    "no_apps_message": "Protect a site in this zone behind Cloudflare Access."
   }
 }

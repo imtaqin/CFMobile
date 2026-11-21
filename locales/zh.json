@@ -2094,5 +2094,9 @@
     "run_query": "运行查询",
     "query_label": "SQL 查询",
     "run": "执行"
+  },
+  "zone_access": {
+    "tile": "Access Apps",
+    "no_apps_message": "保护该区域中 Cloudflare Access 后面的站点。"
   }
 }

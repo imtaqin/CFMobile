@@ -2094,5 +2094,9 @@
     "run_query": "Jalankan Kueri",
     "query_label": "SQL permintaan",
     "run": "Menjalankan"
+  },
+  "zone_access": {
+    "tile": "Access Apps",
+    "no_apps_message": "Lindungi situs di zona ini di belakang Cloudflare Access."
   }
 }

@@ -2094,5 +2094,9 @@
     "run_query": "Запустить запрос",
     "query_label": "SQL запрос",
     "run": "Выполнять"
+  },
+  "zone_access": {
+    "tile": "Access Apps",
+    "no_apps_message": "Защитите сайт в этой зоне за номером Cloudflare Access."
   }
 }

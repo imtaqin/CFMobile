@@ -2094,5 +2094,9 @@
     "run_query": "Abfrage ausführen",
     "query_label": "SQL Abfrage",
     "run": "Ausführen"
+  },
+  "zone_access": {
+    "tile": "Access Apps",
+    "no_apps_message": "Schützen Sie einen Standort in dieser Zone hinter Cloudflare Access."
   }
 }

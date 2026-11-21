@@ -30,7 +30,7 @@ const BRAND_NAMES = [
   'SSL', 'TLS', 'HSTS', 'HTTP', 'HTTPS', 'IPv6', 'CIDR', 'ASN', 'CNAME',
   'WHOIS', 'CAPTCHA', 'Wrangler', 'Page Shield', 'mTLS', 'CSR', 'Origin CA', 'Logpush', 'SQL',
   'Secrets Store', 'AutoRAG', 'AI Search', 'Workers for Platforms',
-  'Zero Trust', 'App Launcher', 'Cloudflare Access', 'Access Applications',
+  'Zero Trust', 'App Launcher', 'Cloudflare Access', 'Access Applications', 'Access Apps',
   'Infrastructure Access Targets', 'IPv4', 'IPv6', 'Gateway Rules', 'AI Chat',
   'Under Attack Mode', 'Global API Key',
   // "Secrets" came back as "Misterios" (es) and "기미" (ko) — a Workers secret

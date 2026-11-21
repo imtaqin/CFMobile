@@ -2094,5 +2094,9 @@
     "run_query": "クエリの実行",
     "query_label": "SQL クエリ",
     "run": "実行する"
+  },
+  "zone_access": {
+    "tile": "Access Apps",
+    "no_apps_message": "Cloudflare Access の背後にあるこのゾーン内のサイトを保護します。"
   }
 }

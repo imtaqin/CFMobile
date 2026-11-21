@@ -2094,5 +2094,9 @@
     "run_query": "쿼리 실행",
     "query_label": "SQL 쿼리",
     "run": "실행하다"
+  },
+  "zone_access": {
+    "tile": "Access Apps",
+    "no_apps_message": "Cloudflare Access 뒤에 있는 이 영역의 사이트를 보호하세요."
   }
 }

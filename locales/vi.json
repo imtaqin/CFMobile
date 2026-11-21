@@ -2094,5 +2094,9 @@
     "run_query": "Chạy truy vấn",
     "query_label": "truy vấn SQL",
     "run": "Thực hiện"
+  },
+  "zone_access": {
+    "tile": "Access Apps",
+    "no_apps_message": "Bảo vệ một địa điểm trong vùng này phía sau Cloudflare Access."
   }
 }
