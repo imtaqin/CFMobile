@@ -2078,5 +2078,21 @@
     "enabled": "Đã bật",
     "delete_title": "Xóa công việc",
     "delete_confirm": "Xóa {{name}}? Nhật ký sẽ ngừng được đẩy đến đích này."
+  },
+  "logexp_acct": {
+    "title": "Đăng nhập Explorer",
+    "subtitle": "Bộ dữ liệu nhật ký cấp tài khoản và SQL truy vấn",
+    "datasets": "Bộ dữ liệu",
+    "no_datasets": "Không có bộ dữ liệu",
+    "no_datasets_message": "Thêm tập dữ liệu để bắt đầu nhập nhật ký cho tài khoản này.",
+    "add_dataset": "Thêm tập dữ liệu",
+    "query": "Truy vấn",
+    "no_query": "Chưa chạy truy vấn nào",
+    "no_query_message": "Chạy truy vấn SQL đối với nhật ký đã nhập của bạn để xem kết quả tại đây.",
+    "no_results": "Không có kết quả",
+    "no_results_message": "Truy vấn đã chạy thành công nhưng không trả về hàng nào.",
+    "run_query": "Chạy truy vấn",
+    "query_label": "truy vấn SQL",
+    "run": "Thực hiện"
   }
 }

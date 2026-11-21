@@ -2078,5 +2078,21 @@
     "enabled": "Enabled",
     "delete_title": "Delete Job",
     "delete_confirm": "Delete {{name}}? Logs will stop being pushed to this destination."
+  },
+  "logexp_acct": {
+    "title": "Log Explorer",
+    "subtitle": "Account-level log datasets and SQL queries",
+    "datasets": "Datasets",
+    "no_datasets": "No Datasets",
+    "no_datasets_message": "Add a dataset to start ingesting logs for this account.",
+    "add_dataset": "Add Dataset",
+    "query": "Query",
+    "no_query": "No Query Run Yet",
+    "no_query_message": "Run a SQL query against your ingested logs to see results here.",
+    "no_results": "No Results",
+    "no_results_message": "The query ran successfully but returned no rows.",
+    "run_query": "Run Query",
+    "query_label": "SQL query",
+    "run": "Execute"
   }
 }

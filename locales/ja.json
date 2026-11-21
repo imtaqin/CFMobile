@@ -2078,5 +2078,21 @@
     "enabled": "有効",
     "delete_title": "ジョブの削除",
     "delete_confirm": "{{name}} を削除しますか?ログはこの宛先にプッシュされなくなります。"
+  },
+  "logexp_acct": {
+    "title": "ログエクスプローラー",
+    "subtitle": "アカウントレベルのログ データセットと SQL クエリ",
+    "datasets": "データセット",
+    "no_datasets": "データセットがありません",
+    "no_datasets_message": "データセットを追加して、このアカウントのログの取り込みを開始します。",
+    "add_dataset": "データセットの追加",
+    "query": "クエリ",
+    "no_query": "まだクエリは実行されていません",
+    "no_query_message": "取り込まれたログに対して SQL クエリを実行すると、結果がここに表示されます。",
+    "no_results": "結果はありません",
+    "no_results_message": "クエリは正常に実行されましたが、行が返されませんでした。",
+    "run_query": "クエリの実行",
+    "query_label": "SQL クエリ",
+    "run": "実行する"
   }
 }

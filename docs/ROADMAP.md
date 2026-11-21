@@ -62,7 +62,7 @@ work because the navigation is already there.
 | 27 | API Tokens | done | 6/8 | User tokens: list, view, enable/disable, roll, delete. Account-owned tokens (separate 8-endpoint product) and new-token creation (needs a permission-group picker) explicitly out of scope for this batch |
 | 28 | Account members & roles | done | 5 | 5/5. Invite, change role, remove |
 | 29 | Logpush | done | 8/24 (zone + account) | Zone- and account-level job list, enable/disable, delete, error status. Job creation (destination URI + credentials + ownership-challenge flow) out of scope for both. |
-| 30 | Log Explorer | done | 5/10 (zone only) | Dataset list/available/create/enable-toggle, SQL query runner. Account-level (separate identical-shaped product) deferred |
+| 30 | Log Explorer | done | 10/10 (zone + account) | Dataset list/available/create/enable-toggle, SQL query runner, for both the zone-scoped and the account-scoped product. Account half added in a follow-up: `app/log-explorer-account.tsx` |
 
 ## Tier 3 — developer-platform products
 
@@ -724,12 +724,12 @@ surface `error_message`. Reuses the identical `LogpushJob` shape. Creation
       `scripts/i18n-translate.js` (`Logpush` already in `BRAND_NAMES`)
 - [x] Service test `__tests__/services/logpush-account.test.ts`
 
-## Batch 30 — Log Explorer, zone-level (done)
+## Batch 30 — Log Explorer, zone-level + account-level (done)
 
 Scoped to `docs/cf-api/log-explorer-datasets.md` and
-`docs/cf-api/log-explorer-queries.md`'s zone paths. Account-level (a separate
-but identically-shaped product) deferred to a follow-up rather than doubling
-scope, same call as batch 29's Logpush split.
+`docs/cf-api/log-explorer-queries.md`. The zone paths shipped first; the
+account-scoped half (a separate but identically-shaped product) was added in a
+follow-up — see "Account-level follow-up" below.
 
 - [x] Types in `services/cloudflare.ts`: `LogExplorerField`,
       `LogExplorerDataset`, `LogExplorerAvailableDataset`. Query results are
@@ -748,6 +748,37 @@ scope, same call as batch 29's Logpush split.
       `zone.log_explorer_desc` across all 12 locales via
       `scripts/i18n-translate.js`. Corruption re-check clean
 - [x] `npx tsc --noEmit` fully clean
+
+### Account-level follow-up (done)
+
+The account-scoped product under `/accounts/{account_id}/logs/explorer/*`,
+same shape as the zone one. Account datasets additionally carry a
+`deletion_protection` flag the zone type omits.
+
+- [x] Types in `services/cloudflare.ts` under a new `// ─── Account Log
+      Explorer ───` banner: `AccountLogExplorerField`,
+      `AccountLogExplorerDataset` (adds `deletion_protection`, optional
+      `filter`/`filter_attack_traffic`), `AccountLogExplorerAvailableDataset`
+- [x] Functions: `getAccountLogExplorerDatasets`,
+      `getAvailableAccountLogExplorerDatasets`,
+      `createAccountLogExplorerDataset`, `updateAccountLogExplorerDataset`
+      (enable/disable), `runAccountLogExplorerQuery`
+- [x] New account-scoped screen `app/log-explorer-account.tsx` (top-level, no
+      `[id]`; account id from `useAuth()`). Mirrors the zone screen: dataset
+      list with enable toggle, add sheet filtered to `object_type === 'account'`
+      datasets not already added, SQL query runner with tap-to-expand JSON
+      rows. Optional fetches wrapped in `Promise.allSettled` so a 403 on the
+      available-datasets list just hides the add picker
+- [x] Route registered in `app/_layout.tsx`
+- [x] Product row added to `app/products.tsx` Insights group
+- [x] Test `__tests__/services/log-explorer-account.test.ts` asserts
+      path + method + body for all five functions
+- [x] Translations: 14 `logexp_acct.*` keys across all 12 locales via
+      `scripts/i18n-translate.js`. The standalone `run` button was reworded
+      from "Run" to "Execute" in English so it stops rendering the physical-run
+      sense (zh 跑步, ja 走る, ko 달리다) and renders execute instead (执行,
+      実行, 실행). Corruption re-check clean
+- [x] `tsc --noEmit` clean, jest green
 
 ---
 

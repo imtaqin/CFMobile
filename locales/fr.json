@@ -2078,5 +2078,21 @@
     "enabled": "Activé",
     "delete_title": "Supprimer le travail",
     "delete_confirm": "Supprimer {{name}} ? Les journaux cesseront d’être poussés vers cette destination."
+  },
+  "logexp_acct": {
+    "title": "Explorateur de journaux",
+    "subtitle": "Ensembles de données de journaux au niveau du compte et requêtes SQL",
+    "datasets": "Ensembles de données",
+    "no_datasets": "Aucun ensemble de données",
+    "no_datasets_message": "Ajoutez un ensemble de données pour commencer à ingérer les journaux de ce compte.",
+    "add_dataset": "Ajouter un ensemble de données",
+    "query": "Requête",
+    "no_query": "Aucune requête n'a encore été exécutée",
+    "no_query_message": "Exécutez une requête SQL sur vos journaux ingérés pour voir les résultats ici.",
+    "no_results": "Aucun résultat",
+    "no_results_message": "La requête s'est exécutée avec succès mais n'a renvoyé aucune ligne.",
+    "run_query": "Exécuter une requête",
+    "query_label": "requête SQL",
+    "run": "Exécuter"
   }
 }

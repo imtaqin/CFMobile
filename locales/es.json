@@ -2078,5 +2078,21 @@
     "enabled": "Activado",
     "delete_title": "Eliminar trabajo",
     "delete_confirm": "¿Eliminar {{name}}? Los registros dejarán de enviarse a este destino."
+  },
+  "logexp_acct": {
+    "title": "Explorador de registros",
+    "subtitle": "Conjuntos de datos de registro a nivel de cuenta y consultas SQL",
+    "datasets": "Conjuntos de datos",
+    "no_datasets": "Sin conjuntos de datos",
+    "no_datasets_message": "Agregue un conjunto de datos para comenzar a ingerir registros para esta cuenta.",
+    "add_dataset": "Agregar conjunto de datos",
+    "query": "Consulta",
+    "no_query": "Aún no se ha ejecutado ninguna consulta",
+    "no_query_message": "Ejecute una consulta SQL en sus registros ingeridos para ver los resultados aquí.",
+    "no_results": "Sin resultados",
+    "no_results_message": "La consulta se ejecutó correctamente pero no devolvió filas.",
+    "run_query": "Ejecutar consulta",
+    "query_label": "SQL consulta",
+    "run": "Ejecutar"
   }
 }

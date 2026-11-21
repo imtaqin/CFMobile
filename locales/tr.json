@@ -2078,5 +2078,21 @@
     "enabled": "Etkinleştirilmiş",
     "delete_title": "İşi Sil",
     "delete_confirm": "{{name}} silinsin mi? Günlüklerin bu hedefe gönderilmesi durdurulacak."
+  },
+  "logexp_acct": {
+    "title": "Günlük Gezgini",
+    "subtitle": "Hesap düzeyinde günlük veri kümeleri ve SQL sorgu",
+    "datasets": "Veri kümeleri",
+    "no_datasets": "Veri Kümesi Yok",
+    "no_datasets_message": "Bu hesaba ilişkin günlükleri almaya başlamak için bir veri kümesi ekleyin.",
+    "add_dataset": "Veri Kümesi Ekle",
+    "query": "Sorgu",
+    "no_query": "Henüz Sorgu Çalıştırması Yok",
+    "no_query_message": "Sonuçları burada görmek için alınan günlüklerinize karşı SQL sorgusunu çalıştırın.",
+    "no_results": "Sonuç Yok",
+    "no_results_message": "Sorgu başarıyla çalıştırıldı ancak satır döndürmedi.",
+    "run_query": "Sorguyu Çalıştır",
+    "query_label": "SQL sorgu",
+    "run": "Uygulamak"
   }
 }

@@ -81,6 +81,7 @@ function AppContent() {
           <Stack.Screen name="monitoring" options={{ animation: 'slide_from_right', headerShown: true }} />
           <Stack.Screen name="audit-logs" options={{ animation: 'slide_from_right', headerShown: true }} />
           <Stack.Screen name="logpush-account" options={{ animation: 'slide_from_right', headerShown: true }} />
+          <Stack.Screen name="log-explorer-account" options={{ animation: 'slide_from_right', headerShown: true }} />
           <Stack.Screen name="history" options={{ animation: 'slide_from_right', headerShown: true }} />
           <Stack.Screen name="security" options={{ animation: 'slide_from_right', headerShown: true }} />
           <Stack.Screen name="shortcuts" options={{ animation: 'slide_from_right', headerShown: true }} />

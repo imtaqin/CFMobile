@@ -117,6 +117,7 @@ export default function ProductsScreen() {
         { route: 'web-analytics', icon: 'chart-line', title: t('wa.title'), subtitle: t('products.web_analytics_sub') },
         { route: 'audit-logs', icon: 'pageview', title: t('settings.audit_logs'), subtitle: t('settings.audit_logs_sub') },
         { route: 'logpush-account', icon: 'cloud-upload', title: t('logpush_acct.title'), subtitle: t('logpush_acct.subtitle') },
+        { route: 'log-explorer-account', icon: 'search', title: t('logexp_acct.title'), subtitle: t('logexp_acct.subtitle') },
         { route: 'notifications', icon: 'bell', title: t('settings.notifications'), subtitle: t('settings.notifications_sub') },
       ],
     },
