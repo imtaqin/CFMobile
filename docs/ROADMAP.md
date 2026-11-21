@@ -61,7 +61,7 @@ work because the navigation is already there.
 | 26 | Origin CA / Custom Certificates | done | 3/4 + 3/6 + 4/5 | Origin CA full CRUD (CSR has no private key — safe to paste). Certificate Packs + mTLS view/delete only — ordering/uploading needs payment or a private key, out of scope |
 | 27 | API Tokens | done | 6/8 | User tokens: list, view, enable/disable, roll, delete. Account-owned tokens (separate 8-endpoint product) and new-token creation (needs a permission-group picker) explicitly out of scope for this batch |
 | 28 | Account members & roles | done | 5 | 5/5. Invite, change role, remove |
-| 29 | Logpush | done | 4/12 (zone only) | Zone-level job list, enable/disable, delete, error status. Job creation (destination URI + credentials + ownership-challenge flow) out of scope. Account-level Logpush (separate 12-endpoint product) deferred |
+| 29 | Logpush | done | 8/24 (zone + account) | Zone- and account-level job list, enable/disable, delete, error status. Job creation (destination URI + credentials + ownership-challenge flow) out of scope for both. |
 | 30 | Log Explorer | done | 5/10 (zone only) | Dataset list/available/create/enable-toggle, SQL query runner. Account-level (separate identical-shaped product) deferred |
 
 ## Tier 3 — developer-platform products
@@ -689,8 +689,8 @@ bucket with credentials embedded — plus an ownership-challenge round trip to
 prove control of that destination; that's a per-provider setup best done once
 via the dashboard or `wrangler`, not a mobile form. Account-level Logpush
 (`docs/cf-api/logpush-jobs-for-an-account.md`, a separate but
-identically-shaped 12-endpoint product) is deferred to its own follow-up
-batch rather than doubling this one's scope.
+identically-shaped product) was originally deferred to its own follow-up
+batch; it has since been implemented (see "account-level" below).
 
 - [x] Types in `services/cloudflare.ts`: `LogpushJob`, `LogpushDataset`
 - [x] Functions: `getLogpushJobs`, `getLogpushJob`, `updateLogpushJob`
@@ -706,6 +706,23 @@ batch rather than doubling this one's scope.
 - [x] `npx tsc --noEmit` fully clean — the `lifecycle.tsx` errors noted in
       batches 21–24 are gone; whoever was working batch 9's re-implementation
       finished it
+
+### Account-level (done)
+
+Same scope as the zone side — list existing jobs, toggle `enabled`, delete,
+surface `error_message`. Reuses the identical `LogpushJob` shape. Creation
+(destination + ownership-challenge flow) stays out, same reasoning as above.
+
+- [x] Functions in `services/cloudflare.ts` under a new `// ─── Account
+      Logpush ───` banner: `getAccountLogpushJobs`, `getAccountLogpushJob`,
+      `updateAccountLogpushJob` (enable/disable only), `deleteAccountLogpushJob`
+- [x] New screen `app/logpush-account.tsx` (account-scoped via `useAuth`,
+      Promise.allSettled fetch so a 403 shows an inline error card rather than
+      failing the screen), route registered in `app/_layout.tsx`
+- [x] Product row added to the Insights group in `app/products.tsx`
+- [x] Translations: 10 `logpush_acct.*` keys across all 12 locales via
+      `scripts/i18n-translate.js` (`Logpush` already in `BRAND_NAMES`)
+- [x] Service test `__tests__/services/logpush-account.test.ts`
 
 ## Batch 30 — Log Explorer, zone-level (done)
 

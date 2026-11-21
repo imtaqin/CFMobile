@@ -2066,5 +2066,17 @@
   },
   "ads": {
     "sponsored": "赞助"
+  },
+  "logpush_acct": {
+    "title": "帐号 Logpush",
+    "subtitle": "账户级日志投递作业",
+    "jobs": "工作机会",
+    "no_jobs": "没有 Logpush 职位",
+    "no_jobs_message": "在 Cloudflare 仪表板或使用 Wrangler 设置的帐户作业将显示在此处。",
+    "untitled_job": "无标题工作",
+    "failing": "失败",
+    "enabled": "启用",
+    "delete_title": "删除作业",
+    "delete_confirm": "删除{{name}}？日志将停止被推送到此目的地。"
   }
 }

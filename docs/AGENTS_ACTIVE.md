@@ -99,5 +99,6 @@ user what to call yourself for this run rather than leaving the column blank.
 
 | 62 | cf-batch-62-skeletons | done | 2026-11-21 00:00 UTC | 2026-11-21 00:30 UTC | none — 76 screen files in app/ (first-load `<Loading />` → layout-mirroring skeletons); components/ui/skeleton.tsx unchanged. No services/cloudflare.ts, locales, or app/_layout.tsx edits. tsc clean, 274 tests pass |
 | 64 | cf-batch-64 | done | 2026-11-21 00:00 UTC | 2026-11-21 00:30 UTC | locales/*.json (`ads.*` namespace), app/(tabs)/zones.tsx (tab screen, not a shared-collision file), components/ui/native-ad.tsx (new). Worktree-isolated. tsc clean. |
+| 29-acct | cf-batch-29-acct | done | 2026-11-21 00:00 UTC | 2026-11-21 00:30 UTC | services/cloudflare.ts (new Account Logpush section appended after zone Logpush), app/logpush-account.tsx (new), app/_layout.tsx (route registration), app/products.tsx (Insights group row), locales/*.json (`logpush_acct.*`, all 12, via scripts/i18n-translate.js), __tests__/services/logpush-account.test.ts (new). Worktree-isolated. tsc clean, test green. "jobs" label matches the already-shipped zone Logpush translation (employment sense in a few locales) for cross-screen consistency rather than diverging |
 
 <!-- Add new rows above this line, oldest first. -->

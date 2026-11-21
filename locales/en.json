@@ -2066,5 +2066,17 @@
   },
   "ads": {
     "sponsored": "Sponsored"
+  },
+  "logpush_acct": {
+    "title": "Account Logpush",
+    "subtitle": "Account-level log delivery jobs",
+    "jobs": "Jobs",
+    "no_jobs": "No Logpush Jobs",
+    "no_jobs_message": "Account jobs set up in the Cloudflare dashboard or with Wrangler will appear here.",
+    "untitled_job": "Untitled job",
+    "failing": "Failing",
+    "enabled": "Enabled",
+    "delete_title": "Delete Job",
+    "delete_confirm": "Delete {{name}}? Logs will stop being pushed to this destination."
   }
 }

@@ -2066,5 +2066,17 @@
   },
   "ads": {
     "sponsored": "Sponsorisé"
+  },
+  "logpush_acct": {
+    "title": "Compte Logpush",
+    "subtitle": "Tâches de livraison de journaux au niveau du compte",
+    "jobs": "Emplois",
+    "no_jobs": "No Logpush Emplois",
+    "no_jobs_message": "Les tâches de compte configurées dans le tableau de bord Cloudflare ou avec Wrangler apparaîtront ici.",
+    "untitled_job": "Travail sans titre",
+    "failing": "Défaut",
+    "enabled": "Activé",
+    "delete_title": "Supprimer le travail",
+    "delete_confirm": "Supprimer {{name}} ? Les journaux cesseront d’être poussés vers cette destination."
   }
 }

@@ -2066,5 +2066,17 @@
   },
   "ads": {
     "sponsored": "후원"
+  },
+  "logpush_acct": {
+    "title": "계정 Logpush",
+    "subtitle": "계정 수준 로그 전달 작업",
+    "jobs": "채용정보",
+    "no_jobs": "아니요 Logpush 채용 정보",
+    "no_jobs_message": "Cloudflare 대시보드 또는 Wrangler에서 설정된 계정 작업이 여기에 표시됩니다.",
+    "untitled_job": "제목 없는 직업",
+    "failing": "실패",
+    "enabled": "활성화됨",
+    "delete_title": "작업 삭제",
+    "delete_confirm": "{{name}}을 삭제하시겠습니까? 로그가 이 대상으로 푸시되지 않습니다."
   }
 }
