@@ -4,7 +4,7 @@ import { Stack } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { Icon } from '@/components/ui/icon';
 import { useTheme } from '@/hooks/use-theme';
-import { Loading } from '@/components/ui/loading';
+import { Skeleton, SkeletonRows } from '@/components/ui/skeleton';
 import { EmptyState } from '@/components/ui/empty-state';
 import { Badge } from '@/components/ui/badge';
 import { ChipRow, Group, ListRow } from '@/components/ui/kit';
@@ -130,7 +130,21 @@ export default function LoadBalancersScreen() {
     </Group>
   );
 
-  if (loading) return <Loading />;
+  if (loading) {
+    return (
+      <>
+        <Stack.Screen options={{ title: t('lb.title') }} />
+        <View style={[styles.container, { backgroundColor: colors.background }]} accessibilityLabel={t('common.loading')}>
+          <View style={[styles.tabs, { flexDirection: 'row', gap: Spacing.sm }]}>
+            {TABS.map((tb) => <Skeleton key={tb} width={92} height={32} radius={16} />)}
+          </View>
+          <View style={styles.list}>
+            <SkeletonRows count={6} />
+          </View>
+        </View>
+      </>
+    );
+  }
 
   const count = (tb: Tab) => (tb === 'balancers' ? lbs.length : tb === 'pools' ? pools.length : monitors.length);
   const refreshControl = (

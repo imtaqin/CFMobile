@@ -6,7 +6,7 @@ import { useLocalSearchParams, router, Stack } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { Icon, IconName } from '@/components/ui/icon';
 import { useTheme } from '@/hooks/use-theme';
-import { Loading } from '@/components/ui/loading';
+import { SkeletonRows, SkeletonStats, SkeletonTiles, SkeletonHeading } from '@/components/ui/skeleton';
 import { Badge } from '@/components/ui/badge';
 import { SectionHeader } from '@/components/ui/section-header';
 import { Group, IconCircle, ListRow, StatCard, ToggleRow } from '@/components/ui/kit';
@@ -141,7 +141,20 @@ export default function ZoneDetailScreen() {
     }
   };
 
-  if (loading || !zone) return <Loading />;
+  if (loading || !zone) {
+    return (
+      <View style={[styles.container, { backgroundColor: colors.background }]} accessibilityLabel={t('common.loading')}>
+        <View style={styles.content}>
+          <SkeletonRows count={1} />
+          <View style={{ marginTop: Spacing.sm }}>
+            <SkeletonStats count={3} />
+          </View>
+          <SkeletonHeading />
+          <SkeletonTiles count={6} />
+        </View>
+      </View>
+    );
+  }
 
   const statusVariant = zone.status === 'active' ? 'success' : zone.status === 'pending' ? 'warning' : 'error';
 

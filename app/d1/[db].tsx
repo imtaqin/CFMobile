@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { Icon } from '@/components/ui/icon';
 import { useTheme } from '@/hooks/use-theme';
 import { Card } from '@/components/ui/card';
-import { Loading } from '@/components/ui/loading';
+import { SkeletonRows } from '@/components/ui/skeleton';
 import { EmptyState } from '@/components/ui/empty-state';
 import { Button } from '@/components/ui/button';
 import { Banner, ChipRow, Field, Group, ListRow } from '@/components/ui/kit';
@@ -110,7 +110,16 @@ export default function D1BrowserScreen() {
     ]);
   };
 
-  if (loading) return <Loading />;
+  if (loading) {
+    return (
+      <>
+        <Stack.Screen options={{ title: name || t('d1.title') }} />
+        <View style={[styles.container, { backgroundColor: colors.background, padding: Spacing.lg }]} accessibilityLabel={t('common.loading')}>
+          <SkeletonRows count={6} />
+        </View>
+      </>
+    );
+  }
 
   const cell = (v: unknown) => {
     if (v === null || v === undefined) return 'NULL';

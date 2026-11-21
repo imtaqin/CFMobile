@@ -3,7 +3,7 @@ import { StyleSheet, Text, ScrollView, RefreshControl, TouchableOpacity, Alert }
 import { router, useLocalSearchParams, Stack } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@/hooks/use-theme';
-import { Loading } from '@/components/ui/loading';
+import { SkeletonRows, SkeletonHeading } from '@/components/ui/skeleton';
 import { SectionHeader } from '@/components/ui/section-header';
 import { Button } from '@/components/ui/button';
 import { Banner, Field, Group, IconCircle, ListRow, ToggleRow } from '@/components/ui/kit';
@@ -123,7 +123,26 @@ export default function AccessAppDetailScreen() {
     ]);
   };
 
-  if (loading) return <Loading />;
+  if (loading) {
+    return (
+      <>
+        <Stack.Screen options={{ title: app?.name ?? t('access_apps.title') }} />
+        <ScrollView
+          scrollEnabled={false}
+          style={[styles.container, { backgroundColor: colors.background }]}
+          contentContainerStyle={styles.content}
+          accessibilityLabel={t('common.loading')}
+        >
+          <SkeletonHeading />
+          <SkeletonRows count={4} avatar={false} />
+          <SkeletonHeading />
+          <SkeletonRows count={2} avatar={false} />
+          <SkeletonHeading />
+          <SkeletonRows count={2} avatar={false} />
+        </ScrollView>
+      </>
+    );
+  }
 
   return (
     <>

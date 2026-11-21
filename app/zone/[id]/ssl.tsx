@@ -1,11 +1,11 @@
 import { useEffect, useState, useCallback } from 'react';
-import { StyleSheet, ScrollView, RefreshControl, Alert } from 'react-native';
+import { StyleSheet, View, ScrollView, RefreshControl, Alert } from 'react-native';
 import { useLocalSearchParams, Stack } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { IconName } from '@/components/ui/icon';
 import { useTheme } from '@/hooks/use-theme';
 import { Badge } from '@/components/ui/badge';
-import { Loading } from '@/components/ui/loading';
+import { SkeletonRows, SkeletonHeading } from '@/components/ui/skeleton';
 import { SectionHeader } from '@/components/ui/section-header';
 import { ChipRow, Group, ListRow, ToggleRow } from '@/components/ui/kit';
 import { Spacing } from '@/constants/theme';
@@ -85,7 +85,23 @@ export default function SSLScreen() {
     }
   };
 
-  if (loading) return <Loading />;
+  if (loading) {
+    return (
+      <>
+        <Stack.Screen options={{ title: t('ssl.title') }} />
+        <View style={[styles.container, { backgroundColor: colors.background }]} accessibilityLabel={t('common.loading')}>
+          <View style={styles.content}>
+            <SkeletonHeading />
+            <SkeletonRows count={4} avatar={false} />
+            <SkeletonHeading />
+            <SkeletonRows count={3} avatar={false} />
+            <SkeletonHeading />
+            <SkeletonRows count={4} avatar={false} />
+          </View>
+        </View>
+      </>
+    );
+  }
 
   return (
     <>

@@ -4,8 +4,8 @@ import { useLocalSearchParams, Stack } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@/hooks/use-theme';
 import { Card } from '@/components/ui/card';
-import { Loading } from '@/components/ui/loading';
 import { EmptyState } from '@/components/ui/empty-state';
+import { Skeleton, SkeletonStats, SkeletonHeading } from '@/components/ui/skeleton';
 import { SectionHeader } from '@/components/ui/section-header';
 import { Banner, ChipRow, StatCard } from '@/components/ui/kit';
 import { LineChart, BarChart } from '@/components/ui/chart';
@@ -72,7 +72,30 @@ export default function AnalyticsScreen() {
 
   useEffect(() => { setLoading(true); fetchAnalytics(); }, [fetchAnalytics]);
 
-  if (loading) return <Loading />;
+  if (loading) {
+    return (
+      <>
+        <Stack.Screen options={{ title: t('analytics.title') }} />
+        <ScrollView
+          style={[styles.container, { backgroundColor: colors.background }]}
+          contentContainerStyle={styles.content}
+          scrollEnabled={false}
+          showsVerticalScrollIndicator={false}
+          accessibilityLabel={t('common.loading')}
+        >
+          <Skeleton width={160} height={32} radius={16} />
+          <SkeletonHeading />
+          <SkeletonStats count={3} />
+          <Skeleton height={180} style={{ marginTop: Spacing.sm, borderRadius: 16 }} />
+          <SkeletonHeading />
+          <SkeletonStats count={2} />
+          <Skeleton height={180} style={{ marginTop: Spacing.sm, borderRadius: 16 }} />
+          <SkeletonHeading />
+          <SkeletonStats count={3} />
+        </ScrollView>
+      </>
+    );
+  }
 
   const totals = data?.totals;
   const hasData = totals && totals.requests.all > 0;

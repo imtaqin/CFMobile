@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/empty-state';
 import { Loading } from '@/components/ui/loading';
+import { SkeletonRows, SkeletonHeading } from '@/components/ui/skeleton';
 import { SectionHeader } from '@/components/ui/section-header';
 import { Banner, Group, ListRow, SearchBar, ToggleRow } from '@/components/ui/kit';
 import { IconName } from '@/components/ui/icon';
@@ -218,7 +219,19 @@ export default function BulkScreen() {
     );
   }
 
-  if (loading) return <Loading message={t('common.loading')} />;
+  if (loading) {
+    return (
+      <>
+        <Stack.Screen options={{ title: t('bulk.title') }} />
+        <View style={{ flex: 1, backgroundColor: colors.background, padding: Spacing.lg }} accessibilityLabel={t('common.loading')}>
+          <SkeletonHeading />
+          <SkeletonRows count={5} />
+          <SkeletonHeading />
+          <SkeletonRows count={6} />
+        </View>
+      </>
+    );
+  }
 
   const okCount = results?.filter((r) => r.ok).length ?? 0;
 

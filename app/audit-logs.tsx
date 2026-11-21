@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useTheme } from '@/hooks/use-theme';
 import { Button } from '@/components/ui/button';
 import { HeaderButton } from '@/components/ui/header-button';
-import { Loading } from '@/components/ui/loading';
+import { SkeletonRows } from '@/components/ui/skeleton';
 import { EmptyState } from '@/components/ui/empty-state';
 import { Chip, ChipRow, Field, ListRow } from '@/components/ui/kit';
 import { Sheet } from '@/components/ui/sheet';
@@ -97,7 +97,16 @@ export default function AuditLogsScreen() {
     </View>
   );
 
-  if (loading && logs.length === 0) return <Loading />;
+  if (loading && logs.length === 0) {
+    return (
+      <>
+        <Stack.Screen options={{ title: t('audit.title') }} />
+        <View style={{ flex: 1, backgroundColor: colors.background, padding: Spacing.lg }} accessibilityLabel={t('common.loading')}>
+          <SkeletonRows count={6} />
+        </View>
+      </>
+    );
+  }
 
   const activeFilters = Object.values(appliedFilters).filter(Boolean) as string[];
 

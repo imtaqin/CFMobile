@@ -6,7 +6,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Icon } from '@/components/ui/icon';
 import { useTheme } from '@/hooks/use-theme';
 import { Card } from '@/components/ui/card';
-import { Loading } from '@/components/ui/loading';
+import { SkeletonRows, SkeletonHeading } from '@/components/ui/skeleton';
 import { EmptyState } from '@/components/ui/empty-state';
 import { SectionHeader } from '@/components/ui/section-header';
 import { Button } from '@/components/ui/button';
@@ -102,7 +102,21 @@ export default function LogExplorerScreen() {
   const enabledDatasetNames = new Set(datasets.map((d) => d.dataset));
   const addable = available.filter((a) => !enabledDatasetNames.has(a.dataset));
 
-  if (loading) return <Loading />;
+  if (loading) {
+    return (
+      <>
+        <Stack.Screen options={{ title: t('log_explorer.title') }} />
+        <View style={[styles.container, { backgroundColor: colors.background }]} accessibilityLabel={t('common.loading')}>
+          <View style={styles.content}>
+            <SkeletonHeading />
+            <SkeletonRows count={3} avatar={false} />
+            <SkeletonHeading />
+            <SkeletonRows count={3} avatar={false} />
+          </View>
+        </View>
+      </>
+    );
+  }
 
   return (
     <>

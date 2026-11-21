@@ -4,7 +4,7 @@ import { router, useLocalSearchParams, Stack } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@/hooks/use-theme';
 import { Card } from '@/components/ui/card';
-import { Loading } from '@/components/ui/loading';
+import { SkeletonRows, SkeletonStats, SkeletonHeading } from '@/components/ui/skeleton';
 import { EmptyState } from '@/components/ui/empty-state';
 import { SectionHeader } from '@/components/ui/section-header';
 import { Button } from '@/components/ui/button';
@@ -100,7 +100,24 @@ export default function AutoRAGInstanceScreen() {
     ]);
   };
 
-  if (loading) return <Loading />;
+  if (loading) {
+    return (
+      <>
+        <Stack.Screen options={{ title: id }} />
+        <ScrollView
+          scrollEnabled={false}
+          style={[styles.container, { backgroundColor: colors.background }]}
+          contentContainerStyle={styles.content}
+          accessibilityLabel={t('common.loading')}
+        >
+          <View style={styles.block}><SkeletonRows count={1} avatar={false} /></View>
+          <View style={styles.block}><SkeletonStats count={2} /></View>
+          <SkeletonHeading />
+          <SkeletonRows count={3} avatar={false} />
+        </ScrollView>
+      </>
+    );
+  }
 
   return (
     <>

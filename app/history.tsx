@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { ChangeDiff } from '@/components/ui/change-diff';
 import { EmptyState } from '@/components/ui/empty-state';
 import { HeaderButton } from '@/components/ui/header-button';
-import { Loading } from '@/components/ui/loading';
+import { SkeletonRows } from '@/components/ui/skeleton';
 import { Banner } from '@/components/ui/kit';
 import { FontSize, Radius, Spacing } from '@/constants/theme';
 import * as api from '@/services/cloudflare';
@@ -99,7 +99,16 @@ export default function HistoryScreen() {
     return `${record?.type ?? ''} ${record?.name ?? ''}`;
   };
 
-  if (entries === null) return <Loading />;
+  if (entries === null) {
+    return (
+      <>
+        <Stack.Screen options={{ title: t('history.title') }} />
+        <View style={{ flex: 1, backgroundColor: colors.background, padding: Spacing.lg }} accessibilityLabel={t('common.loading')}>
+          <SkeletonRows count={5} avatar={false} />
+        </View>
+      </>
+    );
+  }
 
   return (
     <>

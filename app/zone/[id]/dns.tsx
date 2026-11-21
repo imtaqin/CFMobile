@@ -12,7 +12,7 @@ import * as FileSystem from 'expo-file-system/legacy';
 import { addChange, snapshot } from '@/services/change-history';
 import { Icon, IconName } from '@/components/ui/icon';
 import { useTheme } from '@/hooks/use-theme';
-import { Loading } from '@/components/ui/loading';
+import { Skeleton, SkeletonRows } from '@/components/ui/skeleton';
 import { EmptyState } from '@/components/ui/empty-state';
 import { Card } from '@/components/ui/card';
 import { HeaderButton } from '@/components/ui/header-button';
@@ -245,7 +245,26 @@ export default function DNSScreen() {
     </TouchableOpacity>
   );
 
-  if (loading) return <Loading />;
+  if (loading) {
+    return (
+      <>
+        <Stack.Screen options={{ title: t('dns.title') }} />
+        <View style={[styles.container, { backgroundColor: colors.background }]} accessibilityLabel={t('common.loading')}>
+          <View style={{ paddingHorizontal: Spacing.lg, paddingTop: Spacing.md, gap: Spacing.md }}>
+            <Skeleton height={44} radius={Radius.lg} />
+            <View style={{ flexDirection: 'row', gap: Spacing.sm }}>
+              {Array.from({ length: 4 }).map((_, i) => (
+                <Skeleton key={i} width={56} height={30} radius={Radius.lg} />
+              ))}
+            </View>
+          </View>
+          <View style={[styles.list, { marginTop: Spacing.md }]}>
+            <SkeletonRows count={7} />
+          </View>
+        </View>
+      </>
+    );
+  }
 
   const busy = porting || scanning;
 

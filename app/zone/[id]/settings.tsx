@@ -4,7 +4,7 @@ import { useLocalSearchParams, Stack } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { IconName } from '@/components/ui/icon';
 import { useTheme } from '@/hooks/use-theme';
-import { Loading } from '@/components/ui/loading';
+import { SkeletonHeading, SkeletonRows } from '@/components/ui/skeleton';
 import { SectionHeader } from '@/components/ui/section-header';
 import { Banner, ChipRow, Group, ListRow, ToggleRow } from '@/components/ui/kit';
 import { Spacing } from '@/constants/theme';
@@ -138,7 +138,24 @@ export default function ZoneSettingsScreen() {
     }
   };
 
-  if (loading) return <Loading />;
+  if (loading) {
+    return (
+      <>
+        <Stack.Screen options={{ title: t('zone_settings.title') }} />
+        <ScrollView
+          style={[styles.container, { backgroundColor: colors.background }]}
+          contentContainerStyle={styles.content}
+          scrollEnabled={false}
+          accessibilityLabel={t('common.loading')}
+        >
+          <SkeletonHeading />
+          <SkeletonRows count={6} avatar={false} />
+          <SkeletonHeading />
+          <SkeletonRows count={2} avatar={false} />
+        </ScrollView>
+      </>
+    );
+  }
 
   const settingRow = (s: SettingItem) => (
     <ToggleRow
