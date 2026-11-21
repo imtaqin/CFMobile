@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 import { useTheme } from '@/hooks/use-theme';
 import { Button } from '@/components/ui/button';
-import { Loading } from '@/components/ui/loading';
+import { SkeletonRows, SkeletonHeading } from '@/components/ui/skeleton';
 import { SectionHeader } from '@/components/ui/section-header';
 import { ChipRow, Field, FieldLabel, Group, ListRow, ToggleRow } from '@/components/ui/kit';
 import { Sheet } from '@/components/ui/sheet';
@@ -187,7 +187,18 @@ export default function DNSEditScreen() {
     }
   };
 
-  if (fetching) return <Loading />;
+  if (fetching) {
+    return (
+      <>
+        <Stack.Screen options={{ title: isEdit ? t('dns.edit_record') : t('dns.add_record') }} />
+        <View style={[styles.container, { backgroundColor: colors.background, padding: Spacing.lg }]} accessibilityLabel={t('common.loading')}>
+          <SkeletonRows count={1} avatar={false} />
+          <SkeletonHeading />
+          <SkeletonRows count={4} avatar={false} />
+        </View>
+      </>
+    );
+  }
 
   const showProxyToggle = ['A', 'AAAA', 'CNAME'].includes(type);
   const showPriority = ['MX', 'SRV'].includes(type);

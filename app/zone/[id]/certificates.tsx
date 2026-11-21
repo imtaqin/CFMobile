@@ -6,7 +6,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Icon } from '@/components/ui/icon';
 import { useTheme } from '@/hooks/use-theme';
 import { Badge } from '@/components/ui/badge';
-import { Loading } from '@/components/ui/loading';
+import { SkeletonRows, SkeletonHeading } from '@/components/ui/skeleton';
 import { EmptyState } from '@/components/ui/empty-state';
 import { SectionHeader } from '@/components/ui/section-header';
 import { Button } from '@/components/ui/button';
@@ -141,7 +141,21 @@ export default function CertificatesScreen() {
     ]);
   };
 
-  if (loading) return <Loading />;
+  if (loading) {
+    return (
+      <>
+        <Stack.Screen options={{ title: t('certificates.title') }} />
+        <View style={[styles.container, { backgroundColor: colors.background }]} accessibilityLabel={t('common.loading')}>
+          <View style={styles.content}>
+            <SkeletonHeading />
+            <SkeletonRows count={3} />
+            <SkeletonHeading />
+            <SkeletonRows count={3} />
+          </View>
+        </View>
+      </>
+    );
+  }
 
   const trashButton = (onPress: () => void, label: string) => (
     <TouchableOpacity onPress={onPress} hitSlop={10} accessibilityRole="button" accessibilityLabel={label}>

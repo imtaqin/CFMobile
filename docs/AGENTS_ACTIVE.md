@@ -97,4 +97,6 @@ user what to call yourself for this run rather than leaving the column blank.
 
 | 50+51 | cf-batch-50-51 | done | 2026-10-14 13:01 UTC | 2026-10-14 13:12 UTC | services/cloudflare.ts (appended Access Identity Providers + Access Service Tokens + Access mTLS Authentication sections at end; removed the old read-only AccessIdP/AccessToken stubs that only app/access.tsx used), app/access-idps.tsx + app/access-service-tokens.tsx + app/access-mtls.tsx (new), app/access.tsx (deleted, superseded) and its route, app/_layout.tsx (3 routes next to access-apps), app/(tabs)/settings.tsx (3 menu rows). Locales NOT touched: English sources in C:gtmpeatagent-access_idps.json, agent-access_tokens.json, agent-access_mtls.json, agent-settings.json await translation by the other session. Old getAccessApps/deleteAccessApp and access.* locale keys left in place, now unused. tsc clean |
 
+| 62 | cf-batch-62-skeletons | done | 2026-11-21 00:00 UTC | 2026-11-21 00:30 UTC | none — 76 screen files in app/ (first-load `<Loading />` → layout-mirroring skeletons); components/ui/skeleton.tsx unchanged. No services/cloudflare.ts, locales, or app/_layout.tsx edits. tsc clean, 274 tests pass |
+
 <!-- Add new rows above this line, oldest first. -->

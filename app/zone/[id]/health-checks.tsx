@@ -9,7 +9,7 @@ import { Icon } from '@/components/ui/icon';
 import { useTheme } from '@/hooks/use-theme';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Loading } from '@/components/ui/loading';
+import { SkeletonRows } from '@/components/ui/skeleton';
 import { EmptyState } from '@/components/ui/empty-state';
 import { Button } from '@/components/ui/button';
 import { Banner, ChipRow, Fab, Field, FieldLabel } from '@/components/ui/kit';
@@ -115,7 +115,18 @@ export default function HealthChecksScreen() {
     }
   };
 
-  if (loading) return <Loading />;
+  if (loading) {
+    return (
+      <>
+        <Stack.Screen options={{ title: t('health_checks.title') }} />
+        <View style={[styles.container, { backgroundColor: colors.background }]} accessibilityLabel={t('common.loading')}>
+          <View style={styles.content}>
+            <SkeletonRows count={6} />
+          </View>
+        </View>
+      </>
+    );
+  }
 
   return (
     <>

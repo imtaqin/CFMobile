@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Icon } from '@/components/ui/icon';
 import { useTheme } from '@/hooks/use-theme';
 import { Card } from '@/components/ui/card';
-import { Loading } from '@/components/ui/loading';
+import { SkeletonRows, SkeletonHeading } from '@/components/ui/skeleton';
 import { EmptyState } from '@/components/ui/empty-state';
 import { SectionHeader } from '@/components/ui/section-header';
 import { Badge } from '@/components/ui/badge';
@@ -54,7 +54,25 @@ export default function TunnelDetailScreen() {
     Alert.alert(t('common.success'), t('tunnels.token_copied'));
   };
 
-  if (loading) return <Loading />;
+  if (loading) {
+    return (
+      <>
+        <Stack.Screen options={{ title: tunnel?.name ?? tunnelId }} />
+        <ScrollView
+          scrollEnabled={false}
+          style={[styles.container, { backgroundColor: colors.background }]}
+          contentContainerStyle={styles.content}
+          accessibilityLabel={t('common.loading')}
+        >
+          <SkeletonRows count={3} />
+          <SkeletonHeading />
+          <SkeletonRows count={2} />
+          <SkeletonHeading />
+          <SkeletonRows count={2} />
+        </ScrollView>
+      </>
+    );
+  }
 
   const isActive = tunnel?.status === 'healthy' || (tunnel?.conns_active ?? 0) > 0;
   const ingress = config?.config?.ingress ?? [];

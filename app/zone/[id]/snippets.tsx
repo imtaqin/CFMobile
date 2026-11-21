@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Icon } from '@/components/ui/icon';
 import { useTheme } from '@/hooks/use-theme';
-import { Loading } from '@/components/ui/loading';
+import { SkeletonHeading, SkeletonRows } from '@/components/ui/skeleton';
 import { EmptyState } from '@/components/ui/empty-state';
 import { SectionHeader } from '@/components/ui/section-header';
 import { Button } from '@/components/ui/button';
@@ -128,7 +128,24 @@ export default function SnippetsScreen() {
     }
   };
 
-  if (loading) return <Loading />;
+  if (loading) {
+    return (
+      <>
+        <Stack.Screen options={{ title: t('snippets.title') }} />
+        <ScrollView
+          style={[styles.container, { backgroundColor: colors.background }]}
+          contentContainerStyle={styles.content}
+          scrollEnabled={false}
+          accessibilityLabel={t('common.loading')}
+        >
+          <SkeletonHeading />
+          <SkeletonRows count={2} />
+          <SkeletonHeading />
+          <SkeletonRows count={4} />
+        </ScrollView>
+      </>
+    );
+  }
 
   // Rules route to an existing snippet, so there is nothing to add without one.
   const canAddRule = snippets.length > 0;

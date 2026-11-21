@@ -7,7 +7,7 @@ import { Icon } from '@/components/ui/icon';
 import { useTheme, ThemeColors } from '@/hooks/use-theme';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Loading } from '@/components/ui/loading';
+import { Skeleton, SkeletonRows, SkeletonStats } from '@/components/ui/skeleton';
 import { EmptyState } from '@/components/ui/empty-state';
 import { Sheet } from '@/components/ui/sheet';
 import { LineChart } from '@/components/ui/chart';
@@ -238,7 +238,20 @@ export default function ObservatoryScreen() {
     );
   };
 
-  if (loading) return <Loading />;
+  if (loading) {
+    return (
+      <>
+        <Stack.Screen options={{ title: t('obs.title') }} />
+        <View style={{ flex: 1, backgroundColor: colors.background, padding: Spacing.lg }} accessibilityLabel={t('common.loading')}>
+          <SkeletonStats count={3} />
+          <Skeleton height={160} style={{ marginTop: Spacing.md, borderRadius: 16 }} />
+          <View style={{ marginTop: Spacing.md }}>
+            <SkeletonRows count={4} />
+          </View>
+        </View>
+      </>
+    );
+  }
 
   const latest = open?.tests?.[0];
   const openReport = report(latest, device);

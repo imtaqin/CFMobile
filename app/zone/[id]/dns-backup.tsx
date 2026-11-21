@@ -8,7 +8,7 @@ import * as Sharing from 'expo-sharing';
 import { Button } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/empty-state';
 import { HeaderButton } from '@/components/ui/header-button';
-import { Loading } from '@/components/ui/loading';
+import { SkeletonRows } from '@/components/ui/skeleton';
 import { SectionHeader } from '@/components/ui/section-header';
 import { Sheet } from '@/components/ui/sheet';
 import { Banner, Group, ListRow, StatCard, ToggleRow } from '@/components/ui/kit';
@@ -181,7 +181,16 @@ export default function DnsBackupScreen() {
     );
   }
 
-  if (loading) return <Loading message={t('common.loading')} />;
+  if (loading) {
+    return (
+      <>
+        <Stack.Screen options={{ title: t('dns_backup.title') }} />
+        <View style={{ flex: 1, backgroundColor: colors.background, padding: Spacing.lg }} accessibilityLabel={t('common.loading')}>
+          <SkeletonRows count={6} />
+        </View>
+      </>
+    );
+  }
 
   const stamp = (iso: string) => new Date(iso).toLocaleString();
 

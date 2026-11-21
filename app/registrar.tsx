@@ -4,7 +4,7 @@ import { Stack } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@/hooks/use-theme';
 import { Badge } from '@/components/ui/badge';
-import { Loading } from '@/components/ui/loading';
+import { SkeletonRows } from '@/components/ui/skeleton';
 import { EmptyState } from '@/components/ui/empty-state';
 import { Banner, Group, ListRow, ToggleRow } from '@/components/ui/kit';
 import { useAuth } from '@/contexts/auth';
@@ -57,7 +57,16 @@ export default function RegistrarScreen() {
     }
   };
 
-  if (loading) return <Loading />;
+  if (loading) {
+    return (
+      <>
+        <Stack.Screen options={{ title: t('registrar.title') }} />
+        <View style={[styles.container, styles.content, { backgroundColor: colors.background }]} accessibilityLabel={t('common.loading')}>
+          <SkeletonRows count={6} />
+        </View>
+      </>
+    );
+  }
 
   return (
     <>

@@ -4,7 +4,7 @@ import { useLocalSearchParams, Stack } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { Icon } from '@/components/ui/icon';
 import { useTheme } from '@/hooks/use-theme';
-import { Loading } from '@/components/ui/loading';
+import { SkeletonHeading, SkeletonRows } from '@/components/ui/skeleton';
 import { EmptyState } from '@/components/ui/empty-state';
 import { SectionHeader } from '@/components/ui/section-header';
 import { Banner, Group, ListRow, ToggleRow, ValueRow } from '@/components/ui/kit';
@@ -77,7 +77,24 @@ export default function ZarazScreen() {
     ]);
   };
 
-  if (loading) return <Loading />;
+  if (loading) {
+    return (
+      <>
+        <Stack.Screen options={{ title: t('zaraz.title') }} />
+        <ScrollView
+          style={[styles.container, { backgroundColor: colors.background }]}
+          contentContainerStyle={styles.content}
+          scrollEnabled={false}
+          accessibilityLabel={t('common.loading')}
+        >
+          <SkeletonHeading />
+          <SkeletonRows count={3} avatar={false} />
+          <SkeletonHeading />
+          <SkeletonRows count={3} avatar={false} />
+        </ScrollView>
+      </>
+    );
+  }
 
   return (
     <>

@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Icon, IconName } from '@/components/ui/icon';
 import { useTheme } from '@/hooks/use-theme';
 import { Button } from '@/components/ui/button';
-import { Loading } from '@/components/ui/loading';
+import { SkeletonRows, SkeletonHeading } from '@/components/ui/skeleton';
 import { EmptyState } from '@/components/ui/empty-state';
 import { SectionHeader } from '@/components/ui/section-header';
 import { Group, IconCircle, ListRow, ToggleRow } from '@/components/ui/kit';
@@ -97,7 +97,20 @@ export default function MonitoringScreen() {
     }
   };
 
-  if (loading || !config) return <Loading />;
+  if (loading || !config) {
+    return (
+      <>
+        <Stack.Screen options={{ title: t('monitor.title') }} />
+        <View style={[styles.container, styles.content, { backgroundColor: colors.background }]} accessibilityLabel={t('common.loading')}>
+          <SkeletonRows count={1} />
+          <SkeletonHeading />
+          <SkeletonRows count={4} />
+          <SkeletonHeading />
+          <SkeletonRows count={3} />
+        </View>
+      </>
+    );
+  }
 
   const alertIcon = (kind: MonitorAlert['kind']): IconName =>
     kind === 'down' ? 'error-circle' : kind === 'ssl' ? 'lock' : kind === 'threats' ? 'shield'

@@ -6,7 +6,7 @@ import { Icon } from '@/components/ui/icon';
 import { useTheme } from '@/hooks/use-theme';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Loading } from '@/components/ui/loading';
+import { SkeletonHeading, SkeletonRows } from '@/components/ui/skeleton';
 import { EmptyState } from '@/components/ui/empty-state';
 import { SectionHeader } from '@/components/ui/section-header';
 import { Button } from '@/components/ui/button';
@@ -170,7 +170,24 @@ export default function ZoneLifecycleScreen() {
     );
   };
 
-  if (loading) return <Loading />;
+  if (loading) {
+    return (
+      <>
+        <Stack.Screen options={{ title: t('zone_lifecycle.title') }} />
+        <ScrollView
+          style={[styles.container, { backgroundColor: colors.background }]}
+          contentContainerStyle={styles.content}
+          scrollEnabled={false}
+          accessibilityLabel={t('common.loading')}
+        >
+          <SkeletonHeading />
+          <SkeletonRows count={1} avatar={false} />
+          <SkeletonHeading />
+          <SkeletonRows count={2} avatar={false} />
+        </ScrollView>
+      </>
+    );
+  }
 
   const held = !!zoneHold?.hold;
   const selectedMark = <Icon name="check-circle" size={20} color={colors.primary} />;

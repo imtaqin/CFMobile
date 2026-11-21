@@ -11,7 +11,7 @@ import { Icon, IconName } from '@/components/ui/icon';
 import { useTheme } from '@/hooks/use-theme';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Loading } from '@/components/ui/loading';
+import { Skeleton, SkeletonRows, SkeletonHeading } from '@/components/ui/skeleton';
 import { EmptyState } from '@/components/ui/empty-state';
 import { SectionHeader } from '@/components/ui/section-header';
 import { Button } from '@/components/ui/button';
@@ -312,7 +312,22 @@ export default function EmailRoutingScreen() {
   const toggleCaDest = (email: string) =>
     setCaDests((prev) => (prev.includes(email) ? prev.filter((d) => d !== email) : [...prev, email]));
 
-  if (loading) return <Loading />;
+  if (loading) {
+    return (
+      <>
+        <Stack.Screen options={{ title: t('email.title') }} />
+        <View style={[styles.container, { backgroundColor: colors.background }]} accessibilityLabel={t('common.loading')}>
+          <View style={styles.content}>
+            <Skeleton height={76} radius={Radius.lg} />
+            <SkeletonHeading />
+            <SkeletonRows count={3} />
+            <SkeletonHeading />
+            <SkeletonRows count={3} />
+          </View>
+        </View>
+      </>
+    );
+  }
 
   const ruleLabel = (r: EmailRoutingRule) => r.matchers[0]?.value ?? r.name;
   const actionLabel = (a?: EmailAction) => {

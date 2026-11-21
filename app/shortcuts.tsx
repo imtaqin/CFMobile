@@ -7,7 +7,7 @@ import { requestPinWidget } from 'react-native-android-widget';
 import { useTheme } from '@/hooks/use-theme';
 import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
-import { Loading } from '@/components/ui/loading';
+import { SkeletonRows } from '@/components/ui/skeleton';
 import { SectionHeader } from '@/components/ui/section-header';
 import { Banner, Group, ListRow, SearchBar } from '@/components/ui/kit';
 import { FontSize, Spacing } from '@/constants/theme';
@@ -84,7 +84,7 @@ export default function ShortcutsScreen() {
       {!!error && <Banner message={error} />}
       <SearchBar value={search} onChangeText={setSearch} placeholder={t('shortcuts.search')} style={styles.search} />
       {zones === null ? (
-        <Loading />
+        <SkeletonRows count={6} />
       ) : (
         <Group>
           {zones.map((z) => (

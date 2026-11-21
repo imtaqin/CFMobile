@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Icon } from '@/components/ui/icon';
 import { useTheme } from '@/hooks/use-theme';
-import { Loading } from '@/components/ui/loading';
+import { Skeleton, SkeletonRows } from '@/components/ui/skeleton';
 import { EmptyState } from '@/components/ui/empty-state';
 import { Button } from '@/components/ui/button';
 import { Sheet } from '@/components/ui/sheet';
@@ -127,7 +127,17 @@ export default function KVBrowserScreen() {
     ]);
   };
 
-  if (loading) return <Loading />;
+  if (loading) {
+    return (
+      <>
+        <Stack.Screen options={{ title: name || t('kv.title') }} />
+        <View style={[styles.container, { backgroundColor: colors.background, padding: Spacing.lg }]} accessibilityLabel={t('common.loading')}>
+          <Skeleton width="100%" height={40} style={{ marginBottom: Spacing.md }} />
+          <SkeletonRows count={6} />
+        </View>
+      </>
+    );
+  }
 
   const filtered = search
     ? keys.filter((k) => k.name.toLowerCase().includes(search.toLowerCase()))

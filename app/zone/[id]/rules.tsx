@@ -6,8 +6,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Icon } from '@/components/ui/icon';
 import { useTheme } from '@/hooks/use-theme';
 import { Badge } from '@/components/ui/badge';
-import { Loading } from '@/components/ui/loading';
 import { EmptyState } from '@/components/ui/empty-state';
+import { Skeleton, SkeletonRows } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { Banner, ChipRow, Fab, Field, FieldLabel, Group, ToggleRow } from '@/components/ui/kit';
 import { Sheet } from '@/components/ui/sheet';
@@ -251,7 +251,21 @@ export default function RulesScreen() {
 
   const rules = getRulesForTab();
 
-  if (loading) return <Loading />;
+  if (loading) {
+    return (
+      <>
+        <Stack.Screen options={{ title: t('rules.title') }} />
+        <View style={[styles.container, { backgroundColor: colors.background }]} accessibilityLabel={t('common.loading')}>
+          <View style={styles.tabs}>
+            <Skeleton width={220} height={32} radius={16} />
+          </View>
+          <View style={styles.list}>
+            <SkeletonRows count={6} avatar={false} />
+          </View>
+        </View>
+      </>
+    );
+  }
 
   const renderRule = ({ item }: { item: TransformRule }) => (
     <TouchableOpacity

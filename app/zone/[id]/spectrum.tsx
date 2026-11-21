@@ -1,10 +1,10 @@
 import { useEffect, useState, useCallback } from 'react';
-import { StyleSheet, FlatList, RefreshControl, TouchableOpacity, Alert } from 'react-native';
+import { StyleSheet, View, FlatList, RefreshControl, TouchableOpacity, Alert } from 'react-native';
 import { useLocalSearchParams, Stack } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { Icon } from '@/components/ui/icon';
 import { useTheme } from '@/hooks/use-theme';
-import { Loading } from '@/components/ui/loading';
+import { SkeletonRows } from '@/components/ui/skeleton';
 import { EmptyState } from '@/components/ui/empty-state';
 import { Group, ListRow } from '@/components/ui/kit';
 import { useAuth } from '@/contexts/auth';
@@ -79,7 +79,16 @@ export default function SpectrumScreen() {
     );
   }
 
-  if (loading) return <Loading />;
+  if (loading) {
+    return (
+      <>
+        <Stack.Screen options={{ title: t('spectrum.title') }} />
+        <View style={[styles.list, { flex: 1, backgroundColor: colors.background }]} accessibilityLabel={t('common.loading')}>
+          <SkeletonRows count={6} />
+        </View>
+      </>
+    );
+  }
 
   return (
     <>

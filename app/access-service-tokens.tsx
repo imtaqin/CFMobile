@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as Clipboard from 'expo-clipboard';
 import { useTheme } from '@/hooks/use-theme';
-import { Loading } from '@/components/ui/loading';
+import { SkeletonRows, SkeletonHeading } from '@/components/ui/skeleton';
 import { EmptyState } from '@/components/ui/empty-state';
 import { SectionHeader } from '@/components/ui/section-header';
 import { Badge } from '@/components/ui/badge';
@@ -181,7 +181,17 @@ export default function AccessServiceTokensScreen() {
     );
   }
 
-  if (loading) return <Loading />;
+  if (loading) {
+    return (
+      <>
+        <Stack.Screen options={{ title: t('access_tokens.title') }} />
+        <View style={{ flex: 1, backgroundColor: colors.background, padding: Spacing.lg }} accessibilityLabel={t('common.loading')}>
+          <SkeletonHeading />
+          <SkeletonRows count={6} />
+        </View>
+      </>
+    );
+  }
 
   return (
     <>

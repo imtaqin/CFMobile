@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Icon } from '@/components/ui/icon';
 import { useTheme } from '@/hooks/use-theme';
 import { Badge } from '@/components/ui/badge';
-import { Loading } from '@/components/ui/loading';
+import { SkeletonRows, SkeletonHeading } from '@/components/ui/skeleton';
 import { EmptyState } from '@/components/ui/empty-state';
 import { SectionHeader } from '@/components/ui/section-header';
 import { Banner, Group, ListRow, ToggleRow } from '@/components/ui/kit';
@@ -69,7 +69,19 @@ export default function LogpushScreen() {
     ]);
   };
 
-  if (loading) return <Loading />;
+  if (loading) {
+    return (
+      <>
+        <Stack.Screen options={{ title: t('logpush.title') }} />
+        <View style={[styles.container, { backgroundColor: colors.background }]} accessibilityLabel={t('common.loading')}>
+          <View style={styles.content}>
+            <SkeletonHeading />
+            <SkeletonRows count={5} />
+          </View>
+        </View>
+      </>
+    );
+  }
 
   return (
     <>

@@ -5,12 +5,12 @@ import { useTranslation } from 'react-i18next';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '@/hooks/use-theme';
 import { Card } from '@/components/ui/card';
-import { Loading } from '@/components/ui/loading';
+import { Skeleton, SkeletonRows, SkeletonHeading } from '@/components/ui/skeleton';
 import { EmptyState } from '@/components/ui/empty-state';
 import { SectionHeader } from '@/components/ui/section-header';
 import { Group, ListRow } from '@/components/ui/kit';
 import { useAuth } from '@/contexts/auth';
-import { Spacing, FontSize } from '@/constants/theme';
+import { Spacing, FontSize, Radius } from '@/constants/theme';
 import * as api from '@/services/cloudflare';
 import { BillableUsageRow } from '@/services/cloudflare';
 
@@ -75,7 +75,22 @@ export default function BillingScreen() {
     }, new Map<string, ServiceCost>()).values()
   ).sort((a, b) => b.cost - a.cost);
 
-  if (loading) return <Loading />;
+  if (loading) {
+    return (
+      <>
+        <Stack.Screen options={{ title: t('billing.title') }} />
+        <View style={{ flex: 1, backgroundColor: colors.background, padding: Spacing.lg }} accessibilityLabel={t('common.loading')}>
+          <View style={[styles.summary, { backgroundColor: colors.surface, borderColor: colors.borderLight, borderWidth: 1, borderRadius: Radius.lg }]}>
+            <Skeleton width={90} height={11} />
+            <Skeleton width={150} height={30} />
+            <Skeleton width={120} height={11} />
+          </View>
+          <SkeletonHeading />
+          <SkeletonRows count={5} />
+        </View>
+      </>
+    );
+  }
 
   return (
     <ScrollView

@@ -9,7 +9,7 @@ import * as FileSystem from 'expo-file-system/legacy';
 import { Icon } from '@/components/ui/icon';
 import { useTheme } from '@/hooks/use-theme';
 import { Card } from '@/components/ui/card';
-import { Loading } from '@/components/ui/loading';
+import { SkeletonRows } from '@/components/ui/skeleton';
 import { EmptyState } from '@/components/ui/empty-state';
 import { SectionHeader } from '@/components/ui/section-header';
 import { HeaderButton } from '@/components/ui/header-button';
@@ -204,7 +204,16 @@ export default function R2BrowserScreen() {
     </Card>
   );
 
-  if (loading) return <Loading />;
+  if (loading) {
+    return (
+      <>
+        <Stack.Screen options={{ title: bucket }} />
+        <View style={[styles.container, { backgroundColor: colors.background, padding: Spacing.lg }]} accessibilityLabel={t('common.loading')}>
+          <SkeletonRows count={6} />
+        </View>
+      </>
+    );
+  }
 
   return (
     <>

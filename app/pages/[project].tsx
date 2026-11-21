@@ -7,7 +7,7 @@ import { Icon } from '@/components/ui/icon';
 import { useTheme } from '@/hooks/use-theme';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Loading } from '@/components/ui/loading';
+import { SkeletonRows, SkeletonHeading } from '@/components/ui/skeleton';
 import { EmptyState } from '@/components/ui/empty-state';
 import { SectionHeader } from '@/components/ui/section-header';
 import { Button } from '@/components/ui/button';
@@ -154,7 +154,19 @@ export default function PagesProjectScreen() {
     ]);
   };
 
-  if (loading) return <Loading />;
+  if (loading) {
+    return (
+      <>
+        <Stack.Screen options={{ title: project }} />
+        <View style={[styles.container, { backgroundColor: colors.background, padding: Spacing.lg }]} accessibilityLabel={t('common.loading')}>
+          <SkeletonHeading />
+          <SkeletonRows count={4} />
+          <SkeletonHeading />
+          <SkeletonRows count={2} />
+        </View>
+      </>
+    );
+  }
 
   return (
     <>
