@@ -7,6 +7,17 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '1.13.0',
+    date: '2026-11-21',
+    highlights: [
+      'Account-wide Logpush and Log Explorer, next to the existing per-zone views',
+      'Manage Cloudflare Access applications per zone, not only account-wide',
+    ],
+    fixes: [
+      'Smoother loading: screens now show their layout while data loads instead of a blank spinner',
+    ],
+  },
+  {
     version: '1.12.1',
     date: '2026-11-20',
     highlights: [],
