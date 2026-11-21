@@ -10,7 +10,13 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { SkeletonRows } from '@/components/ui/skeleton';
 import { EmptyState } from '@/components/ui/empty-state';
+import { NativeAdCard } from '@/components/ui/native-ad';
 import { Spacing, FontSize, Radius } from '@/constants/theme';
+
+// Slot the sponsored card in after the first few rows, but only once the list
+// is long enough that it does not dominate the screen. NativeAdCard self-hides
+// for premium users, so no extra gate is needed here.
+const AD_SLOT_INDEX = 2;
 import * as api from '@/services/cloudflare';
 import { Zone } from '@/services/types';
 
@@ -66,7 +72,10 @@ export default function ZonesScreen() {
 
   const renderZone = ({ item, index }: { item: Zone; index: number }) => {
     const statusColor = item.status === 'active' ? colors.success : item.status === 'pending' ? colors.warning : colors.error;
+    const showAd = index === AD_SLOT_INDEX && zones.length > AD_SLOT_INDEX + 1;
     return (
+      <>
+      {showAd && <NativeAdCard />}
       <TouchableOpacity
         activeOpacity={0.7}
         onPress={() => router.push(`/zone/${item.id}`)}
@@ -106,6 +115,7 @@ export default function ZonesScreen() {
           <Icon name="chevron-right" size={18} color={colors.textTertiary} />
         </View>
       </TouchableOpacity>
+      </>
     );
   };
 

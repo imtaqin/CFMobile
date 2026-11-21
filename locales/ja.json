@@ -2063,5 +2063,8 @@
     "mac": "MACアドレス",
     "user": "最後のユーザー",
     "active_registrations": "アクティブな登録"
+  },
+  "ads": {
+    "sponsored": "スポンサー付き"
   }
 }

@@ -2063,5 +2063,8 @@
     "mac": "Địa chỉ MAC",
     "user": "Người dùng cuối cùng",
     "active_registrations": "Đăng ký hoạt động"
+  },
+  "ads": {
+    "sponsored": "Được tài trợ"
   }
 }

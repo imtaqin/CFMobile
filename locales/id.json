@@ -2063,5 +2063,8 @@
     "mac": "alamat MAC",
     "user": "Pengguna terakhir",
     "active_registrations": "Pendaftaran aktif"
+  },
+  "ads": {
+    "sponsored": "Disponsori"
   }
 }

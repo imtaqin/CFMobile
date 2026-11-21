@@ -2063,5 +2063,8 @@
     "mac": "dirección MAC",
     "user": "último usuario",
     "active_registrations": "Registros activos"
+  },
+  "ads": {
+    "sponsored": "Patrocinado"
   }
 }
