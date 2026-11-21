@@ -2063,5 +2063,17 @@
     "mac": "alamat MAC",
     "user": "Pengguna terakhir",
     "active_registrations": "Pendaftaran aktif"
+  },
+  "logpush_acct": {
+    "title": "Akun Logpush",
+    "subtitle": "Pekerjaan pengiriman log tingkat akun",
+    "jobs": "Pekerjaan",
+    "no_jobs": "No Logpush Pekerjaan",
+    "no_jobs_message": "Pekerjaan akun yang diatur di dasbor Cloudflare atau dengan Wrangler akan muncul di sini.",
+    "untitled_job": "Pekerjaan tanpa judul",
+    "failing": "Kegagalan",
+    "enabled": "Diaktifkan",
+    "delete_title": "Hapus Pekerjaan",
+    "delete_confirm": "Hapus {{name}}? Log akan berhenti dikirim ke tujuan ini."
   }
 }

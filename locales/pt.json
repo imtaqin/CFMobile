@@ -2063,5 +2063,17 @@
     "mac": "Endereço MAC",
     "user": "Último usuário",
     "active_registrations": "Inscrições ativas"
+  },
+  "logpush_acct": {
+    "title": "Conta Logpush",
+    "subtitle": "Jobs de entrega de log no nível da conta",
+    "jobs": "Empregos",
+    "no_jobs": "Não há empregos Logpush",
+    "no_jobs_message": "Os trabalhos de conta configurados no painel Cloudflare ou com Wrangler aparecerão aqui.",
+    "untitled_job": "Trabalho sem título",
+    "failing": "Falhando",
+    "enabled": "Habilitado",
+    "delete_title": "Excluir trabalho",
+    "delete_confirm": "Excluir {{name}}? Os logs deixarão de ser enviados para este destino."
   }
 }

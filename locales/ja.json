@@ -2063,5 +2063,17 @@
     "mac": "MACアドレス",
     "user": "最後のユーザー",
     "active_registrations": "アクティブな登録"
+  },
+  "logpush_acct": {
+    "title": "アカウント Logpush",
+    "subtitle": "アカウントレベルのログ配信ジョブ",
+    "jobs": "求人",
+    "no_jobs": "いいえ Logpush 求人",
+    "no_jobs_message": "Cloudflare ダッシュボードまたは Wrangler で設定されたアカウント ジョブがここに表示されます。",
+    "untitled_job": "無題の仕事",
+    "failing": "失敗しました",
+    "enabled": "有効",
+    "delete_title": "ジョブの削除",
+    "delete_confirm": "{{name}} を削除しますか?ログはこの宛先にプッシュされなくなります。"
   }
 }

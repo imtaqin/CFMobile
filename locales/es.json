@@ -2063,5 +2063,17 @@
     "mac": "dirección MAC",
     "user": "último usuario",
     "active_registrations": "Registros activos"
+  },
+  "logpush_acct": {
+    "title": "Cuenta Logpush",
+    "subtitle": "Trabajos de entrega de registros a nivel de cuenta",
+    "jobs": "Empleos",
+    "no_jobs": "No Logpush Empleos",
+    "no_jobs_message": "Los trabajos de cuenta configurados en el panel Cloudflare o con Wrangler aparecerán aquí.",
+    "untitled_job": "Trabajo sin título",
+    "failing": "Defecto",
+    "enabled": "Activado",
+    "delete_title": "Eliminar trabajo",
+    "delete_confirm": "¿Eliminar {{name}}? Los registros dejarán de enviarse a este destino."
   }
 }

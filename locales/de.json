@@ -2063,5 +2063,17 @@
     "mac": "MAC-Adresse",
     "user": "Letzter Benutzer",
     "active_registrations": "Aktive Anmeldungen"
+  },
+  "logpush_acct": {
+    "title": "Konto Logpush",
+    "subtitle": "Protokollzustellungsaufträge auf Kontoebene",
+    "jobs": "Jobs",
+    "no_jobs": "Nr. Logpush Jobs",
+    "no_jobs_message": "Hier werden Kontoaufträge angezeigt, die im Dashboard Cloudflare oder mit Wrangler eingerichtet wurden.",
+    "untitled_job": "Unbenannter Job",
+    "failing": "Fehlgeschlagen",
+    "enabled": "Ermöglicht",
+    "delete_title": "Auftrag löschen",
+    "delete_confirm": "{{name}} löschen? Protokolle werden nicht mehr an dieses Ziel übertragen."
   }
 }

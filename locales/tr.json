@@ -2063,5 +2063,17 @@
     "mac": "MAC adresi",
     "user": "Son kullanıcı",
     "active_registrations": "Aktif kayıtlar"
+  },
+  "logpush_acct": {
+    "title": "Hesap Logpush",
+    "subtitle": "Hesap düzeyinde günlük teslimi işleri",
+    "jobs": "İşler",
+    "no_jobs": "Hayır Logpush İş İlanları",
+    "no_jobs_message": "Cloudflare kontrol panelinde veya Wrangler ile ayarlanan hesap işleri burada görünecektir.",
+    "untitled_job": "Başlıksız iş",
+    "failing": "Başarısız",
+    "enabled": "Etkinleştirilmiş",
+    "delete_title": "İşi Sil",
+    "delete_confirm": "{{name}} silinsin mi? Günlüklerin bu hedefe gönderilmesi durdurulacak."
   }
 }

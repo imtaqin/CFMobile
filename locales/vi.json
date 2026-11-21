@@ -2063,5 +2063,17 @@
     "mac": "Địa chỉ MAC",
     "user": "Người dùng cuối cùng",
     "active_registrations": "Đăng ký hoạt động"
+  },
+  "logpush_acct": {
+    "title": "Tài khoản Logpush",
+    "subtitle": "Công việc phân phối nhật ký cấp tài khoản",
+    "jobs": "Việc làm",
+    "no_jobs": "Số Logpush Việc làm",
+    "no_jobs_message": "Công việc tài khoản được thiết lập trong bảng điều khiển Cloudflare hoặc với Wrangler sẽ xuất hiện tại đây.",
+    "untitled_job": "Công việc không có tiêu đề",
+    "failing": "Thất bại",
+    "enabled": "Đã bật",
+    "delete_title": "Xóa công việc",
+    "delete_confirm": "Xóa {{name}}? Nhật ký sẽ ngừng được đẩy đến đích này."
   }
 }

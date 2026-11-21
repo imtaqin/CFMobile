@@ -2822,6 +2822,32 @@ export async function deleteLogpushJob(zoneId: string, jobId: number): Promise<C
   return del(`/zones/${zoneId}/logpush/jobs/${jobId}`);
 }
 
+// ─── Account Logpush ──────────────────────────────────────────────────────────
+//
+// The account-scoped twin of the zone Logpush product above (same `/logpush/jobs`
+// shape, under `/accounts/{account_id}` instead of `/zones/{zone_id}`). Scope
+// matches the zone batch: list existing jobs, toggle `enabled`, delete, and
+// surface `error_message`. Creation stays out — it needs `destination_conf`
+// (a bucket URI with embedded credentials) plus the ownership-challenge round
+// trip, a per-provider setup best done once via the dashboard or `wrangler`.
+// The job payload is identical to the zone one, so this reuses `LogpushJob`.
+
+export async function getAccountLogpushJobs(accountId: string): Promise<CFResponse<LogpushJob[]>> {
+  return get(`/accounts/${accountId}/logpush/jobs`);
+}
+
+export async function getAccountLogpushJob(accountId: string, jobId: number): Promise<CFResponse<LogpushJob>> {
+  return get(`/accounts/${accountId}/logpush/jobs/${jobId}`);
+}
+
+export async function updateAccountLogpushJob(accountId: string, jobId: number, update: { enabled?: boolean }): Promise<CFResponse<LogpushJob>> {
+  return put(`/accounts/${accountId}/logpush/jobs/${jobId}`, update);
+}
+
+export async function deleteAccountLogpushJob(accountId: string, jobId: number): Promise<CFResponse<{ id: number }>> {
+  return del(`/accounts/${accountId}/logpush/jobs/${jobId}`);
+}
+
 // ─── Web Analytics ───────────────────────────────────────────────────────────
 
 export interface WebAnalyticsSite {
