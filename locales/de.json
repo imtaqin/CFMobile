@@ -2063,5 +2063,21 @@
     "mac": "MAC-Adresse",
     "user": "Letzter Benutzer",
     "active_registrations": "Aktive Anmeldungen"
+  },
+  "logexp_acct": {
+    "title": "Protokoll-Explorer",
+    "subtitle": "Protokolldatensätze auf Kontoebene und SQL Abfragen",
+    "datasets": "Datensätze",
+    "no_datasets": "Keine Datensätze",
+    "no_datasets_message": "Fügen Sie einen Datensatz hinzu, um mit der Protokollaufnahme für dieses Konto zu beginnen.",
+    "add_dataset": "Datensatz hinzufügen",
+    "query": "Abfrage",
+    "no_query": "Noch keine Abfrage ausgeführt",
+    "no_query_message": "Führen Sie eine SQL-Abfrage für Ihre aufgenommenen Protokolle aus, um die Ergebnisse hier anzuzeigen.",
+    "no_results": "Keine Ergebnisse",
+    "no_results_message": "Die Abfrage wurde erfolgreich ausgeführt, gab jedoch keine Zeilen zurück.",
+    "run_query": "Abfrage ausführen",
+    "query_label": "SQL Abfrage",
+    "run": "Ausführen"
   }
 }

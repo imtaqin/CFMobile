@@ -97,4 +97,6 @@ user what to call yourself for this run rather than leaving the column blank.
 
 | 50+51 | cf-batch-50-51 | done | 2026-10-14 13:01 UTC | 2026-10-14 13:12 UTC | services/cloudflare.ts (appended Access Identity Providers + Access Service Tokens + Access mTLS Authentication sections at end; removed the old read-only AccessIdP/AccessToken stubs that only app/access.tsx used), app/access-idps.tsx + app/access-service-tokens.tsx + app/access-mtls.tsx (new), app/access.tsx (deleted, superseded) and its route, app/_layout.tsx (3 routes next to access-apps), app/(tabs)/settings.tsx (3 menu rows). Locales NOT touched: English sources in C:gtmpeatagent-access_idps.json, agent-access_tokens.json, agent-access_mtls.json, agent-settings.json await translation by the other session. Old getAccessApps/deleteAccessApp and access.* locale keys left in place, now unused. tsc clean |
 
+| 30 | cf-logexp-acct | done | 2026-11-21 00:00 UTC | 2026-11-21 00:40 UTC | services/cloudflare.ts (new Account Log Explorer section before Observatory), app/log-explorer-account.tsx (new), app/_layout.tsx (route), app/products.tsx (Insights row), __tests__/services/log-explorer-account.test.ts (new), locales/*.json `logexp_acct.*` (all 12) — ran in an isolated worktree. Account half of batch 30 (zone half already shipped) |
+
 <!-- Add new rows above this line, oldest first. -->

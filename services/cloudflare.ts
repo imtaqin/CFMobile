@@ -2917,6 +2917,61 @@ export async function runLogExplorerQuery(zoneId: string, query: string): Promis
   return get(`/zones/${zoneId}/logs/explorer/query/sql`, { query });
 }
 
+// ─── Account Log Explorer ─────────────────────────────────────────────────────
+//
+// The account-scoped half of the Log Explorer product (zone-scoped functions
+// are in the section above). Same shape as the zone product but keyed by
+// account id. Datasets carry a `deletion_protection` flag the zone type above
+// omits; account query results, like the zone ones, are `object[]` with no
+// fixed shape in the schema (arbitrary log rows per dataset) — typed loosely.
+
+export interface AccountLogExplorerField {
+  name: string;
+  enabled: boolean;
+}
+
+export interface AccountLogExplorerDataset {
+  dataset_id: string;
+  dataset: string;
+  object_id: string;
+  object_type: 'account' | 'zone';
+  enabled: boolean;
+  deletion_protection: boolean;
+  created_at: string;
+  updated_at: string;
+  fields?: AccountLogExplorerField[];
+  filter?: string;
+  filter_attack_traffic?: boolean;
+}
+
+export interface AccountLogExplorerAvailableDataset {
+  dataset: string;
+  object_type: 'account' | 'zone';
+  timestamp_field: string;
+  schema: { type?: string; properties?: Record<string, unknown>; required?: string[] };
+}
+
+export async function getAccountLogExplorerDatasets(accountId: string): Promise<CFResponse<AccountLogExplorerDataset[]>> {
+  return get(`/accounts/${accountId}/logs/explorer/datasets`);
+}
+
+export async function getAvailableAccountLogExplorerDatasets(accountId: string): Promise<CFResponse<AccountLogExplorerAvailableDataset[]>> {
+  return get(`/accounts/${accountId}/logs/explorer/datasets/available`);
+}
+
+export async function createAccountLogExplorerDataset(accountId: string, dataset: string): Promise<CFResponse<AccountLogExplorerDataset>> {
+  return post(`/accounts/${accountId}/logs/explorer/datasets`, { dataset });
+}
+
+export async function updateAccountLogExplorerDataset(accountId: string, datasetId: string, enabled: boolean): Promise<CFResponse<AccountLogExplorerDataset>> {
+  return put(`/accounts/${accountId}/logs/explorer/datasets/${datasetId}`, { enabled });
+}
+
+/** SQL-like query language over the ingested log data. */
+export async function runAccountLogExplorerQuery(accountId: string, query: string): Promise<CFResponse<Record<string, unknown>[]>> {
+  return get(`/accounts/${accountId}/logs/explorer/query/sql`, { query });
+}
+
 // ─── Observatory ─────────────────────────────────────────────────────────────
 
 /** Paths take the tested URL as one path segment, so it is always encoded. */

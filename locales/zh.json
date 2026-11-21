@@ -2063,5 +2063,21 @@
     "mac": "MAC地址",
     "user": "最后一个用户",
     "active_registrations": "活跃注册量"
+  },
+  "logexp_acct": {
+    "title": "日志浏览器",
+    "subtitle": "账户级日志数据集和SQL查询",
+    "datasets": "数据集",
+    "no_datasets": "没有数据集",
+    "no_datasets_message": "添加数据集以开始提取该帐户的日志。",
+    "add_dataset": "添加数据集",
+    "query": "询问",
+    "no_query": "尚未运行查询",
+    "no_query_message": "针对您提取的日志运行 SQL 查询以在此处查看结果。",
+    "no_results": "没有结果",
+    "no_results_message": "查询成功运行，但没有返回任何行。",
+    "run_query": "运行查询",
+    "query_label": "SQL 查询",
+    "run": "执行"
   }
 }

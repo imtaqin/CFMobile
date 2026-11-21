@@ -2063,5 +2063,21 @@
     "mac": "alamat MAC",
     "user": "Pengguna terakhir",
     "active_registrations": "Pendaftaran aktif"
+  },
+  "logexp_acct": {
+    "title": "Penjelajah Log",
+    "subtitle": "Kumpulan data log tingkat akun dan SQL kueri",
+    "datasets": "Kumpulan data",
+    "no_datasets": "Tidak Ada Kumpulan Data",
+    "no_datasets_message": "Tambahkan kumpulan data untuk mulai menyerap log untuk akun ini.",
+    "add_dataset": "Tambahkan Kumpulan Data",
+    "query": "Pertanyaan",
+    "no_query": "Belum Ada Kueri yang Dijalankan",
+    "no_query_message": "Jalankan kueri SQL terhadap log yang Anda serap untuk melihat hasilnya di sini.",
+    "no_results": "Tidak Ada Hasil",
+    "no_results_message": "Kueri berhasil dijalankan tetapi tidak menghasilkan baris apa pun.",
+    "run_query": "Jalankan Kueri",
+    "query_label": "SQL permintaan",
+    "run": "Menjalankan"
   }
 }

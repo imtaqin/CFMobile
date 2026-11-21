@@ -2063,5 +2063,21 @@
     "mac": "Endereço MAC",
     "user": "Último usuário",
     "active_registrations": "Inscrições ativas"
+  },
+  "logexp_acct": {
+    "title": "Explorador de registros",
+    "subtitle": "Conjuntos de dados de registro em nível de conta e consultas SQL",
+    "datasets": "Conjuntos de dados",
+    "no_datasets": "Nenhum conjunto de dados",
+    "no_datasets_message": "Adicione um conjunto de dados para começar a consumir logs desta conta.",
+    "add_dataset": "Adicionar conjunto de dados",
+    "query": "Consulta",
+    "no_query": "Nenhuma consulta foi executada ainda",
+    "no_query_message": "Execute uma consulta SQL nos logs ingeridos para ver os resultados aqui.",
+    "no_results": "Sem resultados",
+    "no_results_message": "A consulta foi executada com êxito, mas não retornou nenhuma linha.",
+    "run_query": "Executar consulta",
+    "query_label": "consulta SQL",
+    "run": "Executar"
   }
 }
