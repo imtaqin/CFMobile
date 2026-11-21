@@ -2063,5 +2063,9 @@
     "mac": "MAC地址",
     "user": "最后一个用户",
     "active_registrations": "活跃注册量"
+  },
+  "zone_access": {
+    "tile": "Access Apps",
+    "no_apps_message": "保护该区域中 Cloudflare Access 后面的站点。"
   }
 }

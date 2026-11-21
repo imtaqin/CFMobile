@@ -2063,5 +2063,9 @@
     "mac": "MAC adresi",
     "user": "Son kullanıcı",
     "active_registrations": "Aktif kayıtlar"
+  },
+  "zone_access": {
+    "tile": "Access Apps",
+    "no_apps_message": "Cloudflare Access'nin arkasındaki bu bölgedeki bir siteyi koruyun."
   }
 }

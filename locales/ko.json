@@ -2063,5 +2063,9 @@
     "mac": "MAC 주소",
     "user": "마지막 사용자",
     "active_registrations": "활성 등록"
+  },
+  "zone_access": {
+    "tile": "Access Apps",
+    "no_apps_message": "Cloudflare Access 뒤에 있는 이 영역의 사이트를 보호하세요."
   }
 }

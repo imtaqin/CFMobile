@@ -2063,5 +2063,9 @@
     "mac": "alamat MAC",
     "user": "Pengguna terakhir",
     "active_registrations": "Pendaftaran aktif"
+  },
+  "zone_access": {
+    "tile": "Access Apps",
+    "no_apps_message": "Lindungi situs di zona ini di belakang Cloudflare Access."
   }
 }

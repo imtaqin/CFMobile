@@ -2063,5 +2063,9 @@
     "mac": "MACアドレス",
     "user": "最後のユーザー",
     "active_registrations": "アクティブな登録"
+  },
+  "zone_access": {
+    "tile": "Access Apps",
+    "no_apps_message": "Cloudflare Access の背後にあるこのゾーン内のサイトを保護します。"
   }
 }

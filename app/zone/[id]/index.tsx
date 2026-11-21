@@ -189,6 +189,7 @@ export default function ZoneDetailScreen() {
       tiles: [
         tile(true, 'shield', t('zone.page_shield'), 'page-shield'),
         tile(true, 'key', t('zone.certificates'), 'certificates'),
+        tile(true, 'fingerprint', t('zone_access.tile'), 'access-apps'),
       ],
     },
     {

@@ -2063,5 +2063,9 @@
     "mac": "MAC-адрес",
     "user": "Последний пользователь",
     "active_registrations": "Активные регистрации"
+  },
+  "zone_access": {
+    "tile": "Access Apps",
+    "no_apps_message": "Защитите сайт в этой зоне за номером Cloudflare Access."
   }
 }

@@ -2063,5 +2063,9 @@
     "mac": "Địa chỉ MAC",
     "user": "Người dùng cuối cùng",
     "active_registrations": "Đăng ký hoạt động"
+  },
+  "zone_access": {
+    "tile": "Access Apps",
+    "no_apps_message": "Bảo vệ một địa điểm trong vùng này phía sau Cloudflare Access."
   }
 }

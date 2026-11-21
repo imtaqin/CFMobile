@@ -2063,5 +2063,9 @@
     "mac": "Adresse MAC",
     "user": "Dernier utilisateur",
     "active_registrations": "Inscriptions actives"
+  },
+  "zone_access": {
+    "tile": "Access Apps",
+    "no_apps_message": "Protégez un site dans cette zone derrière le Cloudflare Access."
   }
 }
